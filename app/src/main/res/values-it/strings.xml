@@ -15,6 +15,7 @@
     <string name="white">Chiaro</string>
     <string name="change_default_launcher">Cambia il launcher  predefinito</string>
     <string name="privacy">Privacy</string>
+    <string name="privacy_policy"><u>privacy policy</u></string>
     <string name="share">Condividi</string>
     <string name="share_now">Condividi</string>
     <string name="rate">Valuta</string>
@@ -29,10 +30,10 @@
     <string name="left">Sinistra</string>
     <string name="right">Destra</string>
     <string name="center">Centrato</string>
-    <string name="home_layout_alignment">Allineamento orizzontale app in home screen</string>
-    <string name="clock_alignment">Allineamento orizzontale orario</string>
-    <string name="icons_alignment">Allineamento orizzontale icone</string>
-    <string name="vertical_alignment">Allineamento verticale app</string>
+    <string name="home_layout_alignment">Allinea orizzontalmente le app</string>
+    <string name="clock_alignment">Allinea orizzontalmente orario</string>
+    <string name="icons_alignment">Allinea orizzontalmente le icone</string>
+    <string name="vertical_alignment">Allinea verticalmente le app</string>
     <string name="up">Su</string>
     <string name="down">Giù</string>
     <string name="swipe_left_app">Scorri verso sinistra</string>
@@ -142,14 +143,13 @@
     <string name="alignment_changed">Allineamento cambiato ✅</string>
     <string name="home_screen">Schermata principale</string>
     <string name="hey">Ciao</string>
-    <string name="more_features">Altre funzionalità…</string>
     <string name="new_year_wish">A un anno migliore di tutti i precedenti. Buon anno nuovo!</string>
     <string name="new_year_wish_1">" Non importa come sia andato gennaio. Hai ancora il resto dell'anno per fare meglio che mai."</string>
     <string name="cheers">Saluti!</string>
     <string name="notification_bar">Barra delle notifiche</string>
 
     <!-- Shortcut icons -->
-    <string name="shortcut_icons">Icone scorciatoia</string>
+    <string name="shortcut_icons">Attiva le icone</string>
     <string name="change_app">Cambia app</string>
     <string name="change_icon">Cambia icona</string>
     <string name="reset_to_default">Ripristina predefinito</string>
@@ -158,6 +158,7 @@
 
     <!-- Home widget -->
     <string name="widget">Widget</string>
+    <string name="widget_choose">Scegli widget</string>
     <string name="none">Nessuno</string>
     <string name="active">Attivo</string>
     <string name="widget_added">Widget aggiunto</string>
@@ -165,4 +166,5 @@
     <string name="long_press_to_remove_widget">Tieni premuto per rimuovere il widget</string>
     <string name="no_widgets_available">Nessun widget disponibile</string>
     <string name="widget_bind_failed">Impossibile aggiungere il widget</string>
+    <string name="widget_requires_default_launcher">Imposta BetterLauncher come launcher predefinito per aggiungere i widget</string>
 </resources><!-- Italian -->

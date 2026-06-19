@@ -4,12 +4,12 @@ import android.app.Activity
 import android.app.admin.DevicePolicyManager
 import android.appwidget.AppWidgetHost
 import android.appwidget.AppWidgetManager
-import android.appwidget.AppWidgetProviderInfo
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.os.Process
 import android.provider.Settings
 import android.view.Gravity
@@ -35,7 +35,6 @@ import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentSettingsBinding
 import app.olauncher.helper.animateAlpha
 import app.olauncher.helper.appUsagePermissionGranted
-import app.olauncher.helper.dpToPx
 import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.isAccessServiceEnabled
 import app.olauncher.helper.isDarkThemeOn
@@ -73,7 +72,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private lateinit var appWidgetHost: AppWidgetHost
     private var pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
 
-    private val bindWidgetLauncher =
+    // Standard system widget picker (ACTION_APPWIDGET_PICK). The OS handles
+    // selection + binding and returns the bound id; we just run configure if needed.
+    private val pickWidgetLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK && pendingWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID)
                 afterWidgetBound(pendingWidgetId)
@@ -81,7 +82,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
                 if (pendingWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID)
                     appWidgetHost.deleteAppWidgetId(pendingWidgetId)
                 pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
-                requireContext().showToast(getString(R.string.widget_bind_failed))
             }
         }
 
@@ -92,6 +92,21 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             else if (pendingWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID)
                 appWidgetHost.deleteAppWidgetId(pendingWidgetId)
             pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+        }
+
+    // Official binding-permission dialog (ACTION_APPWIDGET_BIND). Used as a fallback
+    // when the OEM system widget picker is missing/broken and we bind a provider
+    // ourselves. The dialog is the sanctioned way to grant a third-party launcher the
+    // bind permission, so it does not crash OEM Settings the way a raw bind does.
+    private val bindWidgetLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK && pendingWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID)
+                afterWidgetBound(pendingWidgetId)
+            else {
+                if (pendingWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID)
+                    appWidgetHost.deleteAppWidgetId(pendingWidgetId)
+                pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+            }
         }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -150,7 +165,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
         when (view.id) {
             R.id.olauncherHiddenApps -> showHiddenApps()
-            R.id.moreFeatures -> viewModel.showDialog.postValue(Constants.Dialog.PRO_MESSAGE)
             R.id.screenTimeOnOff -> viewModel.showDialog.postValue(Constants.Dialog.DIGITAL_WELLBEING)
             R.id.appInfo -> openAppInfo(requireContext(), Process.myUserHandle(), BuildConfig.APPLICATION_ID)
             R.id.setLauncher -> viewModel.resetLauncherLiveData.call()
@@ -161,9 +175,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.homeAppsNum -> binding.appsNumSelectLayout.visibility = View.VISIBLE
             R.id.dailyWallpaperUrl -> requireContext().openUrl(prefs.dailyWallpaperUrl)
             R.id.dailyWallpaper -> toggleDailyWallpaperUpdate()
-            R.id.alignHomeLeft -> viewModel.updateHomeAlignment(Gravity.START)
-            R.id.alignHomeCenter -> viewModel.updateHomeAlignment(Gravity.CENTER)
-            R.id.alignHomeRight -> viewModel.updateHomeAlignment(Gravity.END)
+            R.id.alignHomeLeft -> updateHomeHorizontalAlignment(Gravity.START)
+            R.id.alignHomeCenter -> updateHomeHorizontalAlignment(Gravity.CENTER)
+            R.id.alignHomeRight -> updateHomeHorizontalAlignment(Gravity.END)
             R.id.alignVertUp -> updateVerticalAlignment(Gravity.TOP)
             R.id.alignVertDown -> updateVerticalAlignment(Gravity.BOTTOM)
             R.id.alignClockLeft -> updateClockAlignment(Gravity.START)
@@ -186,7 +200,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.closeAccessibility -> toggleAccessibilityVisibility(false)
             R.id.notWorking -> requireContext().openUrl(Constants.URL_DOUBLE_TAP)
             R.id.shortcutIcons -> toggleShortcutIcons()
-            R.id.widget -> startWidgetPick()
+            R.id.widgetEnabled -> toggleWidget()
+            R.id.widgetChooseRow -> startWidgetPick()
 
             R.id.tvGestures -> binding.flSwipeDown.visibility = View.VISIBLE
 
@@ -237,7 +252,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.swipeLeftApp -> toggleSwipeLeft()
             R.id.swipeRightApp -> toggleSwipeRight()
             R.id.toggleLock -> startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-            R.id.widget -> removeWidget()
+            R.id.widgetChooseRow -> removeWidget()
         }
         return true
     }
@@ -248,7 +263,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.appInfo.setOnClickListener(this)
         binding.setLauncher.setOnClickListener(this)
         binding.aboutOlauncher.setOnClickListener(this)
-        binding.moreFeatures.setOnClickListener(this)
         binding.autoShowKeyboard.setOnClickListener(this)
         binding.toggleLock.setOnClickListener(this)
         // Home button for recents feature disabled
@@ -287,8 +301,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.closeAccessibility.setOnClickListener(this)
         binding.notWorking.setOnClickListener(this)
         binding.shortcutIcons.setOnClickListener(this)
-        binding.widget.setOnClickListener(this)
-        binding.widget.setOnLongClickListener(this)
+        binding.widgetEnabled.setOnClickListener(this)
+        binding.widgetChooseRow.setOnClickListener(this)
+        binding.widgetChooseRow.setOnLongClickListener(this)
 
         binding.share.setOnClickListener(this)
         binding.rate.setOnClickListener(this)
@@ -614,6 +629,27 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         highlightHorizontal(prefs.shortcutIconsAlignment, binding.alignIconsLeft, binding.alignIconsCenter, binding.alignIconsRight)
         val verticalSelected = if (prefs.homeVerticalAlignment == Gravity.TOP) binding.alignVertUp else binding.alignVertDown
         highlightSegment(verticalSelected, binding.alignVertUp, binding.alignVertDown)
+        applyAlignmentExclusion()
+    }
+
+    // Apps and shortcut icons must not share the same horizontal position: in each
+    // segmented control we disable the button that matches the other control's
+    // current position (but never the control's own current selection).
+    private fun applyAlignmentExclusion() {
+        applyExclusion(prefs.homeAlignment, prefs.shortcutIconsAlignment, binding.alignHomeLeft, binding.alignHomeCenter, binding.alignHomeRight)
+        applyExclusion(prefs.shortcutIconsAlignment, prefs.homeAlignment, binding.alignIconsLeft, binding.alignIconsCenter, binding.alignIconsRight)
+    }
+
+    private fun applyExclusion(own: Int, other: Int, left: ImageView, center: ImageView, right: ImageView) {
+        setSegmentEnabled(left, !(other == Gravity.START && own != Gravity.START))
+        setSegmentEnabled(center, !(other == Gravity.CENTER && own != Gravity.CENTER))
+        setSegmentEnabled(right, !(other == Gravity.END && own != Gravity.END))
+    }
+
+    private fun setSegmentEnabled(view: ImageView, enabled: Boolean) {
+        view.isEnabled = enabled
+        view.isClickable = enabled
+        view.alpha = if (enabled) 1f else 0.25f
     }
 
     private fun highlightHorizontal(gravity: Int, left: ImageView, center: ImageView, right: ImageView) {
@@ -645,7 +681,15 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         viewModel.updateHomeAlignment(prefs.homeAlignment)
     }
 
+    private fun updateHomeHorizontalAlignment(gravity: Int) {
+        // Apps can't occupy the same horizontal position as the shortcut icons.
+        if (gravity == prefs.shortcutIconsAlignment) return
+        viewModel.updateHomeAlignment(gravity)
+    }
+
     private fun updateIconsAlignment(gravity: Int) {
+        // Shortcut icons can't occupy the same horizontal position as the apps.
+        if (gravity == prefs.homeAlignment) return
         prefs.shortcutIconsAlignment = gravity
         viewModel.updateHomeAlignment(prefs.homeAlignment)
     }
@@ -743,61 +787,94 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun populateWidget() {
+        val enabled = prefs.widgetEnabled
+        binding.widgetEnabled.isChecked = enabled
+        binding.widgetChooseRow.visibility = if (enabled) View.VISIBLE else View.GONE
         binding.widget.text = getString(if (prefs.widgetId != -1) R.string.active else R.string.none)
     }
 
+    private fun toggleWidget() {
+        prefs.widgetEnabled = !prefs.widgetEnabled
+        // Turning the feature off clears any widget currently on the home screen.
+        if (!prefs.widgetEnabled && prefs.widgetId != -1) removeWidget()
+        populateWidget()
+    }
+
     private fun startWidgetPick() {
-        val providers = fittingWidgetProviders()
+        // Hosting a home-screen widget requires being the active default launcher.
+        // On aggressive OEM skins (notably Xiaomi MIUI/HyperOS) firing the system
+        // widget picker while we are NOT the default home app makes the OS try to
+        // reassign the home role mid-flow, which is what triggers the "choose default
+        // app" prompt and can crash the OEM Settings app. On stock/AOSP Android the
+        // picker just works, which is why the bug only shows up on some devices.
+        // So: make sure we're the default launcher before going any further.
+        if (!isOlauncherDefault(requireContext())) {
+            requireContext().showToast(getString(R.string.widget_requires_default_launcher), Toast.LENGTH_LONG)
+            viewModel.resetLauncherLiveData.call()
+            return
+        }
+
+        val appWidgetId = appWidgetHost.allocateAppWidgetId()
+        pendingWidgetId = appWidgetId
+
+        val pickIntent = Intent(AppWidgetManager.ACTION_APPWIDGET_PICK).apply {
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            // Some OEM pickers crash on a missing custom-widget/shortcut list; pass empty ones.
+            putParcelableArrayListExtra(AppWidgetManager.EXTRA_CUSTOM_INFO, ArrayList<Parcelable>())
+            putParcelableArrayListExtra(AppWidgetManager.EXTRA_CUSTOM_EXTRAS, ArrayList<Parcelable>())
+        }
+
+        // Prefer the native system picker when the device actually provides one;
+        // otherwise fall back to our own provider list + official bind flow.
+        if (pickIntent.resolveActivity(requireContext().packageManager) != null) {
+            try {
+                pickWidgetLauncher.launch(pickIntent)
+            } catch (e: Exception) {
+                showWidgetProviderPicker(appWidgetId)
+            }
+        } else {
+            showWidgetProviderPicker(appWidgetId)
+        }
+    }
+
+    // Self-hosted widget chooser used when the OEM system picker is unavailable.
+    // Lists every installed widget provider and binds the chosen one via the
+    // official permission flow (bindAppWidgetIdIfAllowed → ACTION_APPWIDGET_BIND).
+    private fun showWidgetProviderPicker(appWidgetId: Int) {
+        val providers = appWidgetManager.installedProviders
         if (providers.isEmpty()) {
+            appWidgetHost.deleteAppWidgetId(appWidgetId)
+            pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
             requireContext().showToast(getString(R.string.no_widgets_available))
             return
         }
         val pm = requireContext().packageManager
-        val density = resources.displayMetrics.density
-        val labels = providers.map {
-            val w = (it.minWidth / density).toInt().coerceAtLeast(1)
-            val h = (it.minHeight / density).toInt().coerceAtLeast(1)
-            "${it.loadLabel(pm)}  ·  ${w}×${h} dp"
-        }.toTypedArray()
+        val labels = providers.map { it.loadLabel(pm) }.toTypedArray()
         AlertDialog.Builder(requireContext())
-            .setTitle(R.string.widget)
-            .setItems(labels) { _, which -> beginAddWidget(providers[which]) }
-            .setNegativeButton(R.string.close, null)
+            .setTitle(R.string.widget_choose)
+            .setItems(labels) { _, which -> bindWidget(appWidgetId, providers[which].provider) }
+            .setOnCancelListener {
+                appWidgetHost.deleteAppWidgetId(appWidgetId)
+                pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+            }
             .show()
     }
 
-    // Installed widget providers that fit the free space on the home screen
-    private fun fittingWidgetProviders(): List<AppWidgetProviderInfo> {
-        val dm = resources.displayMetrics
-        val maxWidth = dm.widthPixels - 48.dpToPx()
-        val maxHeight = (dm.heightPixels * 0.55f).toInt()
-        val pm = requireContext().packageManager
-        val all = try {
-            appWidgetManager.installedProviders
-        } catch (e: Exception) {
-            emptyList()
-        }
-        val fitting = all.filter { it.minWidth in 1..maxWidth && it.minHeight in 1..maxHeight }
-        // Fall back to all providers if nothing fits, so the user is never stuck
-        return (fitting.ifEmpty { all }).sortedBy { it.loadLabel(pm).toString().lowercase() }
-    }
-
-    private fun beginAddWidget(info: AppWidgetProviderInfo) {
-        val appWidgetId = appWidgetHost.allocateAppWidgetId()
-        pendingWidgetId = appWidgetId
-        val bound = try {
-            appWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId, info.provider)
+    private fun bindWidget(appWidgetId: Int, provider: ComponentName) {
+        val allowed = try {
+            appWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId, provider)
         } catch (e: Exception) {
             false
         }
-        if (bound) {
+        if (allowed) {
             afterWidgetBound(appWidgetId)
         } else {
-            // Not allowed yet → ask the user to grant binding for this widget
+            // Not allowed yet: ask the system for the bind permission through the
+            // official dialog. This is the flow OEMs expect and it won't crash Settings.
             try {
                 val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_BIND).apply {
                     putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_PROVIDER, info.provider)
+                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_PROVIDER, provider)
                 }
                 bindWidgetLauncher.launch(intent)
             } catch (e: Exception) {

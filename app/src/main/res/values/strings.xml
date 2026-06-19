@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">BetterLauncher</string>
     <string name="layout_positioning">Layout &amp; positioning</string>
-    <string name="website" translatable="false">Website</string>
+    <string name="website" translatable="false"><u>pierspad.com</u></string>
+    <string name="privacy_policy"><u>privacy policy</u></string>
     <string name="github" translatable="false">Github</string>
     <string name="lock_layout_description" translatable="false">lock layout description to be used a unique id to lock screen</string>
     <!-- Home button for recents feature disabled -->
@@ -169,7 +170,6 @@
     <string name="alignment_changed">Alignment changed ✅</string>
     <string name="home_screen">Home screen</string>
     <string name="hey">Hey</string>
-    <string name="more_features">More features…</string>
     <string name="new_year_wish">Here\'s to a year better than any before. Happy new year!</string>
     <string name="new_year_wish_1">It doesn\'t matter how January went. You still have the rest of the year to do better than ever.</string>
     <string name="cheers">Cheers!</string>
@@ -177,7 +177,7 @@
     <string name="private_space">Private space</string>
 
     <!-- Shortcut icons -->
-    <string name="shortcut_icons">Shortcut icons</string>
+    <string name="shortcut_icons">Favorite apps</string>
     <string name="change_app">Change app</string>
     <string name="change_icon">Change icon</string>
     <string name="reset_to_default">Reset to default</string>
@@ -186,6 +186,7 @@
 
     <!-- Home widget -->
     <string name="widget">Widget</string>
+    <string name="widget_choose">Choose widget</string>
     <string name="none">None</string>
     <string name="active">Active</string>
     <string name="widget_added">Widget added</string>
@@ -193,4 +194,5 @@
     <string name="long_press_to_remove_widget">Long press to remove the widget</string>
     <string name="no_widgets_available">No widgets available</string>
     <string name="widget_bind_failed">Could not add widget</string>
+    <string name="widget_requires_default_launcher">Set BetterLauncher as your default launcher to add widgets</string>
 </resources>

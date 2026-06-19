@@ -93,23 +93,6 @@
                     android:gravity="center"
                     android:text="@string/about_olauncher" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_marginVertical="6dp"
-                    android:background="@drawable/divider_light" />
-
-                <TextView
-                    android:id="@+id/moreFeatures"
-                    style="@style/TextSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/more_features" />
-
             </LinearLayout>
 
             <!-- ============ Home screen card ============ -->
@@ -443,21 +426,57 @@
                     android:layout_marginVertical="4dp"
                     android:background="@drawable/divider_light" />
 
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:animateLayoutChanges="true">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="80dp"
                         android:paddingVertical="8dp"
                         android:text="@string/widget"
+                        android:textColor="?attr/primaryColor" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/widgetEnabled"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="?attr/primaryColor"
+                        app:trackTint="?attr/primaryColorTrans50" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/widgetChooseRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
+                        android:layout_marginStart="8dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/widget_choose"
                         android:textColor="?attr/primaryColor" />
 
                     <TextView
@@ -465,11 +484,10 @@
                         style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
                         android:layout_marginEnd="4dp"
                         android:padding="8dp"
                         android:text="@string/none" />
-                </FrameLayout>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -493,7 +511,7 @@
                     android:layout_marginBottom="12dp"
                     android:text="@string/layout_positioning" />
 
-                <!-- Horizontal app alignment -->
+                <!-- Horizontal time alignment -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -509,7 +527,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="12dp"
                         android:paddingVertical="8dp"
-                        android:text="@string/home_layout_alignment"
+                        android:text="@string/clock_alignment"
                         android:textColor="?attr/primaryColor" />
 
                     <LinearLayout
@@ -520,7 +538,7 @@
                         android:padding="2dp">
 
                         <ImageView
-                            android:id="@+id/alignHomeLeft"
+                            android:id="@+id/alignClockLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="7dp"
@@ -528,7 +546,7 @@
                             android:contentDescription="@string/left" />
 
                         <ImageView
-                            android:id="@+id/alignHomeCenter"
+                            android:id="@+id/alignClockCenter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="7dp"
@@ -536,7 +554,7 @@
                             android:contentDescription="@string/center" />
 
                         <ImageView
-                            android:id="@+id/alignHomeRight"
+                            android:id="@+id/alignClockRight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="7dp"
@@ -603,7 +621,7 @@
                     android:layout_marginVertical="6dp"
                     android:background="@drawable/divider_light" />
 
-                <!-- Horizontal time alignment -->
+                <!-- Horizontal app alignment -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -619,7 +637,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="12dp"
                         android:paddingVertical="8dp"
-                        android:text="@string/clock_alignment"
+                        android:text="@string/home_layout_alignment"
                         android:textColor="?attr/primaryColor" />
 
                     <LinearLayout
@@ -630,7 +648,7 @@
                         android:padding="2dp">
 
                         <ImageView
-                            android:id="@+id/alignClockLeft"
+                            android:id="@+id/alignHomeLeft"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="7dp"
@@ -638,7 +656,7 @@
                             android:contentDescription="@string/left" />
 
                         <ImageView
-                            android:id="@+id/alignClockCenter"
+                            android:id="@+id/alignHomeCenter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="7dp"
@@ -646,7 +664,7 @@
                             android:contentDescription="@string/center" />
 
                         <ImageView
-                            android:id="@+id/alignClockRight"
+                            android:id="@+id/alignHomeRight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="7dp"
@@ -1234,34 +1252,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="4dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/website"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="14dp"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_sc_globe"
-                    android:contentDescription="@string/website" />
-
-                <ImageView
-                    android:id="@+id/privacy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="14dp"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_shield"
-                    android:contentDescription="@string/privacy" />
 
                 <ImageView
                     android:id="@+id/share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="14dp"
-                    android:padding="6dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/circle_shade_color_glass"
+                    android:padding="12dp"
                     android:src="@drawable/ic_share_minimal"
                     android:contentDescription="@string/share" />
 
@@ -1269,8 +1270,9 @@
                     android:id="@+id/rate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="14dp"
-                    android:padding="6dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/circle_shade_color_glass"
+                    android:padding="12dp"
                     android:src="@drawable/ic_sc_star"
                     android:contentDescription="@string/rate" />
 
@@ -1278,10 +1280,45 @@
                     android:id="@+id/github"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="14dp"
-                    android:padding="6dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/circle_shade_color_glass"
+                    android:padding="12dp"
                     android:src="@drawable/ic_github"
                     android:contentDescription="@string/github" />
+            </LinearLayout>
+
+            <!-- ============ Footer (text links) ============ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/website"
+                    style="@style/TextSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="6dp"
+                    android:background="@drawable/rounded_rect_shade_color_glass"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="8dp"
+                    android:text="@string/website"
+                    android:textColor="?attr/primaryColor" />
+
+                <TextView
+                    android:id="@+id/privacy"
+                    style="@style/TextSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="6dp"
+                    android:background="@drawable/rounded_rect_shade_color_glass"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="8dp"
+                    android:text="@string/privacy_policy"
+                    android:textColor="?attr/primaryColor" />
             </LinearLayout>
 
         </LinearLayout>
