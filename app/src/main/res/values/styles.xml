@@ -91,4 +91,11 @@
         <item name="android:textColor">@drawable/text_colors_light</item>
     </style>
 
+    <style name="TextSectionTitle" parent="TextLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/primaryColor</item>
+        <item name="android:letterSpacing">0.01</item>
+    </style>
+
 </resources>

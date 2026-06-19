@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainActivityLayout"
     android:layout_width="match_parent"
@@ -29,25 +30,26 @@
             android:orientation="vertical"
             android:paddingVertical="64dp">
 
+            <!-- ============ BetterLauncher card ============ -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:background="@drawable/rounded_rect_shade_color"
+                android:background="@drawable/rounded_rect_shade_color_glass"
                 android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="16dp">
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="18dp">
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp">
+                    android:layout_marginBottom="12dp">
 
                     <TextView
                         android:id="@+id/olauncherHiddenApps"
-                        style="@style/TextLarge"
+                        style="@style/TextSectionTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -68,9 +70,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/set_as_default_launcher" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="6dp"
+                    android:background="@drawable/divider_light" />
 
                 <TextView
                     android:id="@+id/aboutOlauncher"
@@ -78,11 +87,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:drawablePadding="8dp"
                     android:gravity="center"
                     android:text="@string/about_olauncher" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="6dp"
+                    android:background="@drawable/divider_light" />
 
                 <TextView
                     android:id="@+id/moreFeatures"
@@ -90,39 +106,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/more_features" />
 
             </LinearLayout>
 
+            <!-- ============ Home screen card ============ -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/rounded_rect_shade_color"
+                android:background="@drawable/rounded_rect_shade_color_glass"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="16dp"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="18dp"
                 tools:visibility="visible">
 
                 <TextView
-                    style="@style/TextLarge"
+                    style="@style/TextSectionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:text="@string/home_screen"
-                    android:textColor="?attr/primaryColor" />
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/home_screen" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="8dp"
                     android:animateLayoutChanges="true"
                     android:clipChildren="false"
                     android:clipToPadding="false">
@@ -256,10 +272,17 @@
 
                 </FrameLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="8dp"
                     android:animateLayoutChanges="true">
 
                     <TextView
@@ -336,183 +359,19 @@
 
                 </FrameLayout>
 
-                <FrameLayout
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:animateLayoutChanges="true"
-                    android:clipChildren="false"
-                    android:clipToPadding="false">
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
 
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/home_layout_alignment"
-                        android:textColor="?attr/primaryColor" />
-
-                    <TextView
-                        android:id="@+id/alignment"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/left" />
-
-                    <!-- alignment layout-->
-                    <HorizontalScrollView
-                        android:id="@+id/alignmentSelectLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:animateLayoutChanges="true"
-                        android:background="@drawable/rounded_primary_gradient"
-                        android:elevation="8dp"
-                        android:fadingEdgeLength="8dp"
-                        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
-                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="2dp"
-                        android:requiresFadingEdge="horizontal"
-                        android:visibility="gone"
-                        tools:ignore="UnusedAttribute">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:orientation="horizontal">
-
-                            <Space
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1" />
-
-                            <TextView
-                                android:id="@+id/alignmentLeft"
-                                style="@style/TextSmallBold"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="16dp"
-                                android:gravity="center"
-                                android:paddingVertical="6dp"
-                                android:text="@string/left" />
-
-                            <TextView
-                                android:id="@+id/alignmentCenter"
-                                style="@style/TextSmallBold"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
-                                android:layout_marginEnd="16dp"
-                                android:gravity="center"
-                                android:paddingVertical="6dp"
-                                android:text="@string/center" />
-
-                            <TextView
-                                android:id="@+id/alignmentRight"
-                                style="@style/TextSmallBold"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:paddingVertical="6dp"
-                                android:text="@string/right" />
-
-                        </LinearLayout>
-                    </HorizontalScrollView>
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:animateLayoutChanges="true">
-
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="80dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/vertical_alignment"
-                        android:textColor="?attr/primaryColor" />
-
-                    <TextView
-                        android:id="@+id/verticalAlignment"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        tools:text="@string/down" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:animateLayoutChanges="true">
-
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="80dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/clock_alignment"
-                        android:textColor="?attr/primaryColor" />
-
-                    <TextView
-                        android:id="@+id/clockAlignment"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        tools:text="@string/left" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:animateLayoutChanges="true">
-
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="80dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/icons_alignment"
-                        android:textColor="?attr/primaryColor" />
-
-                    <TextView
-                        android:id="@+id/iconsAlignment"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        tools:text="@string/right" />
-                </FrameLayout>
-
+                <!-- Screen time -->
                 <FrameLayout
                     android:id="@+id/screenTimeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="8dp"
                     android:animateLayoutChanges="true"
                     android:clipChildren="false"
                     android:clipToPadding="false">
@@ -538,37 +397,56 @@
 
                 </FrameLayout>
 
-                <FrameLayout
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Shortcut icons (switch) -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:animateLayoutChanges="true">
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="80dp"
                         android:paddingVertical="8dp"
                         android:text="@string/shortcut_icons"
                         android:textColor="?attr/primaryColor" />
 
-                    <TextView
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/shortcutIcons"
-                        style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
                         android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/on" />
-                </FrameLayout>
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="?attr/primaryColor"
+                        app:trackTint="?attr/primaryColorTrans50" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="4dp"
                     android:animateLayoutChanges="true">
 
@@ -595,112 +473,395 @@
 
             </LinearLayout>
 
+            <!-- ============ Layout & positioning card ============ -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/rounded_rect_shade_color"
-                android:clipChildren="false"
-                android:clipToPadding="false"
+                android:background="@drawable/rounded_rect_shade_color_glass"
                 android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="16dp"
-                tools:visibility="visible">
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="18dp">
 
                 <TextView
-                    style="@style/TextLarge"
+                    style="@style/TextSectionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:text="@string/appearance"
-                    android:textColor="?attr/primaryColor" />
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/layout_positioning" />
 
-                <FrameLayout
+                <!-- Horizontal app alignment -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:animateLayoutChanges="true">
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         style="@style/TextSmall"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/home_layout_alignment"
+                        android:textColor="?attr/primaryColor" />
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/segmented_track"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <ImageView
+                            android:id="@+id/alignHomeLeft"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_left"
+                            android:contentDescription="@string/left" />
+
+                        <ImageView
+                            android:id="@+id/alignHomeCenter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_center"
+                            android:contentDescription="@string/center" />
+
+                        <ImageView
+                            android:id="@+id/alignHomeRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_right"
+                            android:contentDescription="@string/right" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="6dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Vertical app alignment -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="80dp"
+                        android:layout_marginEnd="12dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/vertical_alignment"
+                        android:textColor="?attr/primaryColor" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/segmented_track"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <ImageView
+                            android:id="@+id/alignVertUp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_up"
+                            android:contentDescription="@string/up" />
+
+                        <ImageView
+                            android:id="@+id/alignVertDown"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_down"
+                            android:contentDescription="@string/down" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="6dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Horizontal time alignment -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/clock_alignment"
+                        android:textColor="?attr/primaryColor" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/segmented_track"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <ImageView
+                            android:id="@+id/alignClockLeft"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_left"
+                            android:contentDescription="@string/left" />
+
+                        <ImageView
+                            android:id="@+id/alignClockCenter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_center"
+                            android:contentDescription="@string/center" />
+
+                        <ImageView
+                            android:id="@+id/alignClockRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_right"
+                            android:contentDescription="@string/right" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="6dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Horizontal icons alignment -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/icons_alignment"
+                        android:textColor="?attr/primaryColor" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/segmented_track"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <ImageView
+                            android:id="@+id/alignIconsLeft"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_left"
+                            android:contentDescription="@string/left" />
+
+                        <ImageView
+                            android:id="@+id/alignIconsCenter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_center"
+                            android:contentDescription="@string/center" />
+
+                        <ImageView
+                            android:id="@+id/alignIconsRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_right"
+                            android:contentDescription="@string/right" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ============ Appearance card ============ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rounded_rect_shade_color_glass"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="18dp"
+                tools:visibility="visible">
+
+                <TextView
+                    style="@style/TextSectionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/appearance" />
+
+                <!-- Auto show keyboard (switch) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
+                        android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
                         android:text="@string/auto_show_keyboard"
                         android:textColor="?attr/primaryColor" />
 
-                    <TextView
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/autoShowKeyboard"
-                        style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
                         android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/on" />
-                </FrameLayout>
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="?attr/primaryColor"
+                        app:trackTint="?attr/primaryColorTrans50" />
+                </LinearLayout>
 
-                <FrameLayout
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Daily wallpaper (switch) -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:animateLayoutChanges="true">
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/dailyWallpaperUrl"
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
                         android:text="@string/daily_wallpaper_update" />
 
-                    <TextView
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/dailyWallpaper"
-                        style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
                         android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/off" />
-                </FrameLayout>
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="?attr/primaryColor"
+                        app:trackTint="?attr/primaryColorTrans50" />
+                </LinearLayout>
 
-                <FrameLayout
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Notification bar (switch) -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:animateLayoutChanges="true">
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
                         android:text="@string/notification_bar"
                         android:textColor="?attr/primaryColor" />
 
-                    <TextView
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/statusBar"
-                        style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
                         android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/off" />
-                </FrameLayout>
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="?attr/primaryColor"
+                        app:trackTint="?attr/primaryColorTrans50" />
+                </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Theme mode (tri-state selector) -->
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="6dp"
                     android:animateLayoutChanges="true">
 
                     <TextView
@@ -777,10 +938,17 @@
 
                 </FrameLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="6dp"
                     android:layout_marginBottom="4dp"
                     android:animateLayoutChanges="true"
                     android:clipChildren="false"
@@ -831,7 +999,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:paddingVertical="8dp"
-                            android:text="\u2212" />
+                            android:text="−" />
 
                         <TextView
                             android:id="@+id/textSizeCurrent"
@@ -859,32 +1027,32 @@
 
             </LinearLayout>
 
+            <!-- ============ Gestures card ============ -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="12dp"
                 android:animateLayoutChanges="true"
-                android:background="@drawable/rounded_rect_shade_color"
+                android:background="@drawable/rounded_rect_shade_color_glass"
                 android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="16dp">
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="18dp">
 
                 <TextView
                     android:id="@+id/tvGestures"
-                    style="@style/TextLarge"
+                    style="@style/TextSectionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:text="@string/gestures"
-                    android:textColor="?attr/primaryColor" />
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/gestures" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="6dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -910,10 +1078,17 @@
                         android:padding="8dp" />
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="6dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -943,7 +1118,7 @@
                     android:id="@+id/flSwipeDown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="6dp"
                     android:animateLayoutChanges="true"
                     android:orientation="horizontal"
                     android:visibility="gone">
@@ -1014,127 +1189,100 @@
 
                 </FrameLayout>
 
-                <FrameLayout
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Double tap to lock (switch) -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp"
-                    android:visibility="visible">
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
                         android:paddingVertical="8dp"
                         android:text="@string/double_tap_to_lock_screen"
                         android:textColor="?attr/primaryColor" />
 
-                    <TextView
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/toggleLock"
-                        style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:padding="10dp"
-                        android:text="@string/off" />
-                </FrameLayout>
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="?attr/primaryColor"
+                        app:trackTint="?attr/primaryColorTrans50" />
+                </LinearLayout>
 
-                <!-- Home button for recents feature disabled
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp"
-                    android:visibility="visible">
-
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="80dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/home_button_show_recents"
-                        android:textColor="?attr/primaryColor" />
-
-                    <TextView
-                        android:id="@+id/homeButtonRecents"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:padding="10dp"
-                        android:text="@string/off" />
-                </FrameLayout>
-                -->
             </LinearLayout>
 
+            <!-- ============ Footer (icon row) ============ -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/website"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="14dp"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_sc_globe"
+                    android:contentDescription="@string/website" />
+
+                <ImageView
                     android:id="@+id/privacy"
-                    style="@style/TextSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:padding="10dp"
-                    android:text="@string/privacy" />
+                    android:layout_marginHorizontal="14dp"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_shield"
+                    android:contentDescription="@string/privacy" />
 
-                <TextView
+                <ImageView
                     android:id="@+id/share"
-                    style="@style/TextSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:padding="10dp"
-                    android:text="@string/share" />
+                    android:layout_marginHorizontal="14dp"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_share_minimal"
+                    android:contentDescription="@string/share" />
 
-                <TextView
+                <ImageView
                     android:id="@+id/rate"
-                    style="@style/TextSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:padding="10dp"
-                    android:text="@string/rate" />
+                    android:layout_marginHorizontal="14dp"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_sc_star"
+                    android:contentDescription="@string/rate" />
 
-                <TextView
+                <ImageView
                     android:id="@+id/github"
-                    style="@style/TextSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:padding="10dp"
-                    android:text="@string/github" />
-
-                <TextView
-                    android:id="@+id/twitter"
-                    style="@style/TextSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:padding="10dp"
-                    android:text="@string/x_twitter" />
+                    android:layout_marginHorizontal="14dp"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_github"
+                    android:contentDescription="@string/github" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/footer"
-                style="@style/TextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:letterSpacing="0.03"
-                android:padding="12dp"
-                android:text="@string/new_app_note_safe" />
 
         </LinearLayout>
 

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">BetterLauncher</string>
+    <string name="layout_positioning">Layout &amp; positioning</string>
+    <string name="website" translatable="false">Website</string>
     <string name="github" translatable="false">Github</string>
     <string name="lock_layout_description" translatable="false">lock layout description to be used a unique id to lock screen</string>
     <!-- Home button for recents feature disabled -->

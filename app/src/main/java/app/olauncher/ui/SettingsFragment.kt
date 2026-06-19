@@ -17,6 +17,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -59,8 +60,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
-    private val showPentastic = System.currentTimeMillis() % 2 == 0L
-    private var showInstagram = false
 
     private val enableAdminLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -133,13 +132,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateShortcutIconsSetting()
         populateWidget()
         populateActionHints()
-        showInstagram = requireContext().isCountryIn()
-        if (showInstagram) binding.twitter.text = getString(R.string.instagram)
         initClickListeners()
         initObservers()
-
-        if (showPentastic)
-            binding.footer.text = getText(R.string.new_app_minimal_todo_lists)
     }
 
     override fun onClick(view: View) {
@@ -153,7 +147,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
                 applyTextSizeScale()
             }
         }
-        binding.alignmentSelectLayout.visibility = View.GONE
 
         when (view.id) {
             R.id.olauncherHiddenApps -> showHiddenApps()
@@ -168,13 +161,17 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.homeAppsNum -> binding.appsNumSelectLayout.visibility = View.VISIBLE
             R.id.dailyWallpaperUrl -> requireContext().openUrl(prefs.dailyWallpaperUrl)
             R.id.dailyWallpaper -> toggleDailyWallpaperUpdate()
-            R.id.alignment -> binding.alignmentSelectLayout.visibility = View.VISIBLE
-            R.id.alignmentLeft -> viewModel.updateHomeAlignment(Gravity.START)
-            R.id.alignmentCenter -> viewModel.updateHomeAlignment(Gravity.CENTER)
-            R.id.alignmentRight -> viewModel.updateHomeAlignment(Gravity.END)
-            R.id.verticalAlignment -> showVerticalAlignmentDialog()
-            R.id.clockAlignment -> showClockAlignmentDialog()
-            R.id.iconsAlignment -> showIconsAlignmentDialog()
+            R.id.alignHomeLeft -> viewModel.updateHomeAlignment(Gravity.START)
+            R.id.alignHomeCenter -> viewModel.updateHomeAlignment(Gravity.CENTER)
+            R.id.alignHomeRight -> viewModel.updateHomeAlignment(Gravity.END)
+            R.id.alignVertUp -> updateVerticalAlignment(Gravity.TOP)
+            R.id.alignVertDown -> updateVerticalAlignment(Gravity.BOTTOM)
+            R.id.alignClockLeft -> updateClockAlignment(Gravity.START)
+            R.id.alignClockCenter -> updateClockAlignment(Gravity.CENTER)
+            R.id.alignClockRight -> updateClockAlignment(Gravity.END)
+            R.id.alignIconsLeft -> updateIconsAlignment(Gravity.START)
+            R.id.alignIconsCenter -> updateIconsAlignment(Gravity.CENTER)
+            R.id.alignIconsRight -> updateIconsAlignment(Gravity.END)
             R.id.statusBar -> toggleStatusBar()
             R.id.dateTime -> binding.dateTimeSelectLayout.visibility = View.VISIBLE
             R.id.dateTimeOn -> toggleDateTime(Constants.DateTime.ON)
@@ -223,27 +220,14 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
                 requireActivity().rateApp()
             }
 
-            R.id.twitter -> requireContext().openUrl(
-                if (showInstagram) Constants.URL_INSTA_TANUJ else Constants.URL_TWITTER_TANUJ
-            )
+            R.id.website -> requireContext().openUrl(Constants.URL_PIERSPAD)
             R.id.github -> requireContext().openUrl(Constants.URL_OLAUNCHER_GITHUB)
             R.id.privacy -> requireContext().openUrl(Constants.URL_OLAUNCHER_PRIVACY)
-            R.id.footer -> {
-                requireContext().openUrl(
-                    if (showPentastic) Constants.URL_PENTASTIC else Constants.URL_NTS
-                )
-            }
         }
     }
 
     override fun onLongClick(view: View): Boolean {
         when (view.id) {
-            R.id.alignment -> {
-                prefs.appLabelAlignment = prefs.homeAlignment
-                findNavController().navigate(R.id.action_settingsFragment_to_appListFragment)
-                requireContext().showToast(getString(R.string.alignment_changed))
-            }
-
             R.id.dailyWallpaper -> removeWallpaper()
             R.id.appThemeText -> {
                 binding.appThemeSelectLayout.visibility = View.VISIBLE
@@ -273,13 +257,17 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.screenTimeOnOff.setOnClickListener(this)
         binding.dailyWallpaperUrl.setOnClickListener(this)
         binding.dailyWallpaper.setOnClickListener(this)
-        binding.alignment.setOnClickListener(this)
-        binding.alignmentLeft.setOnClickListener(this)
-        binding.alignmentCenter.setOnClickListener(this)
-        binding.alignmentRight.setOnClickListener(this)
-        binding.verticalAlignment.setOnClickListener(this)
-        binding.clockAlignment.setOnClickListener(this)
-        binding.iconsAlignment.setOnClickListener(this)
+        binding.alignHomeLeft.setOnClickListener(this)
+        binding.alignHomeCenter.setOnClickListener(this)
+        binding.alignHomeRight.setOnClickListener(this)
+        binding.alignVertUp.setOnClickListener(this)
+        binding.alignVertDown.setOnClickListener(this)
+        binding.alignClockLeft.setOnClickListener(this)
+        binding.alignClockCenter.setOnClickListener(this)
+        binding.alignClockRight.setOnClickListener(this)
+        binding.alignIconsLeft.setOnClickListener(this)
+        binding.alignIconsCenter.setOnClickListener(this)
+        binding.alignIconsRight.setOnClickListener(this)
         binding.statusBar.setOnClickListener(this)
         binding.dateTime.setOnClickListener(this)
         binding.dateTimeOn.setOnClickListener(this)
@@ -304,10 +292,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
         binding.share.setOnClickListener(this)
         binding.rate.setOnClickListener(this)
-        binding.twitter.setOnClickListener(this)
+        binding.website.setOnClickListener(this)
         binding.github.setOnClickListener(this)
         binding.privacy.setOnClickListener(this)
-        binding.footer.setOnClickListener(this)
 
         binding.maxApps0.setOnClickListener(this)
         binding.maxApps1.setOnClickListener(this)
@@ -323,7 +310,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.textSizePlus.setOnClickListener(this)
 
         binding.dailyWallpaper.setOnLongClickListener(this)
-        binding.alignment.setOnLongClickListener(this)
         binding.appThemeText.setOnLongClickListener(this)
         binding.swipeLeftApp.setOnLongClickListener(this)
         binding.swipeRightApp.setOnLongClickListener(this)
@@ -377,13 +363,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun populateStatusBar() {
-        if (prefs.showStatusBar) {
-            showStatusBar()
-            binding.statusBar.text = getString(R.string.on)
-        } else {
-            hideStatusBar()
-            binding.statusBar.text = getString(R.string.off)
-        }
+        if (prefs.showStatusBar) showStatusBar() else hideStatusBar()
+        binding.statusBar.isChecked = prefs.showStatusBar
     }
 
     private fun toggleDateTime(selected: Int) {
@@ -462,6 +443,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             if (!prefs.lockModeOn && !isAccessServiceEnabled(requireContext())) {
                 toggleAccessibilityVisibility(true)
+                populateLockSettings()
                 return
             }
             prefs.lockModeOn = !prefs.lockModeOn
@@ -509,6 +491,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private fun toggleDailyWallpaperUpdate() {
         if (prefs.dailyWallpaper.not() && prefs.appTheme == AppCompatDelegate.MODE_NIGHT_YES && viewModel.isOlauncherDefault.value == false) {
             requireContext().showToast(R.string.set_as_default_launcher_first)
+            populateWallpaperText()
             return
         }
         prefs.dailyWallpaper = !prefs.dailyWallpaper
@@ -561,6 +544,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         if (prefs.autoShowKeyboard && prefs.keyboardMessageShown.not()) {
             viewModel.showDialog.postValue(Constants.Dialog.KEYBOARD)
             prefs.keyboardMessageShown = true
+            populateKeyboardText()
         } else {
             prefs.autoShowKeyboard = !prefs.autoShowKeyboard
             populateKeyboardText()
@@ -617,67 +601,53 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun populateKeyboardText() {
-        if (prefs.autoShowKeyboard) binding.autoShowKeyboard.text = getString(R.string.on)
-        else binding.autoShowKeyboard.text = getString(R.string.off)
+        binding.autoShowKeyboard.isChecked = prefs.autoShowKeyboard
     }
 
     private fun populateWallpaperText() {
-        if (prefs.dailyWallpaper) binding.dailyWallpaper.text = getString(R.string.on)
-        else binding.dailyWallpaper.text = getString(R.string.off)
+        binding.dailyWallpaper.isChecked = prefs.dailyWallpaper
     }
 
     private fun populateAlignment() {
-        binding.alignment.text = horizontalAlignmentText(prefs.homeAlignment)
-        binding.clockAlignment.text = horizontalAlignmentText(prefs.clockAlignment)
-        binding.iconsAlignment.text = horizontalAlignmentText(prefs.shortcutIconsAlignment)
-        binding.verticalAlignment.text = verticalAlignmentText(prefs.homeVerticalAlignment)
+        highlightHorizontal(prefs.homeAlignment, binding.alignHomeLeft, binding.alignHomeCenter, binding.alignHomeRight)
+        highlightHorizontal(prefs.clockAlignment, binding.alignClockLeft, binding.alignClockCenter, binding.alignClockRight)
+        highlightHorizontal(prefs.shortcutIconsAlignment, binding.alignIconsLeft, binding.alignIconsCenter, binding.alignIconsRight)
+        val verticalSelected = if (prefs.homeVerticalAlignment == Gravity.TOP) binding.alignVertUp else binding.alignVertDown
+        highlightSegment(verticalSelected, binding.alignVertUp, binding.alignVertDown)
     }
 
-    private fun horizontalAlignmentText(gravity: Int): String = getString(
-        when (gravity) {
-            Gravity.CENTER -> R.string.center
-            Gravity.END -> R.string.right
-            else -> R.string.left
+    private fun highlightHorizontal(gravity: Int, left: ImageView, center: ImageView, right: ImageView) {
+        val selected = when (gravity) {
+            Gravity.CENTER -> center
+            Gravity.END -> right
+            else -> left
         }
-    )
-
-    private fun verticalAlignmentText(gravity: Int): String = getString(
-        when (gravity) {
-            Gravity.TOP -> R.string.up
-            Gravity.CENTER_VERTICAL -> R.string.center
-            else -> R.string.down
-        }
-    )
-
-    private fun showHorizontalAlignmentDialog(titleRes: Int, onPick: (Int) -> Unit) {
-        val labels = arrayOf(getString(R.string.left), getString(R.string.center), getString(R.string.right))
-        val values = intArrayOf(Gravity.START, Gravity.CENTER, Gravity.END)
-        AlertDialog.Builder(requireContext())
-            .setTitle(titleRes)
-            .setItems(labels) { _, which -> onPick(values[which]) }
-            .show()
+        highlightSegment(selected, left, center, right)
     }
 
-    private fun showClockAlignmentDialog() = showHorizontalAlignmentDialog(R.string.clock_alignment) {
-        prefs.clockAlignment = it
+    private fun highlightSegment(selected: ImageView, vararg all: ImageView) {
+        val active = requireContext().getColorFromAttr(R.attr.primaryColor)
+        val inactive = requireContext().getColorFromAttr(R.attr.primaryColorTrans50)
+        for (segment in all) {
+            val isSelected = segment === selected
+            segment.setColorFilter(if (isSelected) active else inactive)
+            segment.setBackgroundResource(if (isSelected) R.drawable.segmented_thumb else 0)
+        }
+    }
+
+    private fun updateVerticalAlignment(gravity: Int) {
+        prefs.homeVerticalAlignment = gravity
         viewModel.updateHomeAlignment(prefs.homeAlignment)
     }
 
-    private fun showIconsAlignmentDialog() = showHorizontalAlignmentDialog(R.string.icons_alignment) {
-        prefs.shortcutIconsAlignment = it
+    private fun updateClockAlignment(gravity: Int) {
+        prefs.clockAlignment = gravity
         viewModel.updateHomeAlignment(prefs.homeAlignment)
     }
 
-    private fun showVerticalAlignmentDialog() {
-        val labels = arrayOf(getString(R.string.up), getString(R.string.center), getString(R.string.down))
-        val values = intArrayOf(Gravity.TOP, Gravity.CENTER_VERTICAL, Gravity.BOTTOM)
-        AlertDialog.Builder(requireContext())
-            .setTitle(R.string.vertical_alignment)
-            .setItems(labels) { _, which ->
-                prefs.homeVerticalAlignment = values[which]
-                viewModel.updateHomeAlignment(prefs.homeAlignment)
-            }
-            .show()
+    private fun updateIconsAlignment(gravity: Int) {
+        prefs.shortcutIconsAlignment = gravity
+        viewModel.updateHomeAlignment(prefs.homeAlignment)
     }
 
     // Home button for recents feature disabled
@@ -698,17 +668,10 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     // }
 
     private fun populateLockSettings() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            binding.toggleLock.text = getString(
-                if (prefs.lockModeOn && isAccessServiceEnabled(requireContext())) R.string.on
-                else R.string.off
-            )
-        } else {
-            binding.toggleLock.text = getString(
-                if (prefs.lockModeOn) R.string.on
-                else R.string.off
-            )
-        }
+        binding.toggleLock.isChecked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+            prefs.lockModeOn && isAccessServiceEnabled(requireContext())
+        else
+            prefs.lockModeOn
     }
 
     private fun populateSwipeDownAction() {
@@ -758,9 +721,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private fun populateActionHints() {
         if (prefs.aboutClicked.not())
             binding.aboutOlauncher.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_info, 0)
-        if (viewModel.isOlauncherDefault.value != true) return
-        if (prefs.rateClicked.not() && prefs.toShowHintCounter > Constants.HINT_RATE_US && prefs.toShowHintCounter < Constants.HINT_RATE_US + 100)
-            binding.rate.setCompoundDrawablesWithIntrinsicBounds(0, android.R.drawable.arrow_down_float, 0, 0)
     }
 
     private fun populateProMessage() {
@@ -779,7 +739,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun populateShortcutIconsSetting() {
-        binding.shortcutIcons.text = getString(if (prefs.shortcutIconsEnabled) R.string.on else R.string.off)
+        binding.shortcutIcons.isChecked = prefs.shortcutIconsEnabled
     }
 
     private fun populateWidget() {
