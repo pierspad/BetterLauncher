@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Blue track when the switch is ON, neutral grey when OFF -->
+    <item android:color="#663B82F6" android:state_checked="true" />
+    <item android:color="#619E9E9E" />
+</selector>

@@ -118,142 +118,49 @@
                     android:layout_marginBottom="12dp"
                     android:text="@string/home_screen" />
 
-                <FrameLayout
+                <!-- Apps on home screen (slider 1..6) -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:animateLayoutChanges="true"
-                    android:clipChildren="false"
-                    android:clipToPadding="false">
+                    android:orientation="vertical">
 
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/apps_on_home_screen"
-                        android:textColor="?attr/primaryColor" />
-
-                    <TextView
-                        android:id="@+id/homeAppsNum"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:paddingVertical="8dp"
-                        android:paddingStart="24dp"
-                        android:paddingEnd="8dp"
-                        tools:text="@string/_8" />
-
-                    <!-- Home apps numbers layout-->
                     <LinearLayout
-                        android:id="@+id/appsNumSelectLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:animateLayoutChanges="true"
-                        android:background="@drawable/rounded_primary_gradient"
-                        android:elevation="8dp"
-                        android:orientation="horizontal"
-                        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
-                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
-                        android:visibility="gone"
-                        tools:ignore="UnusedAttribute">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/maxApps0"
                             style="@style/TextSmall"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            android:layout_marginStart="8dp"
                             android:paddingVertical="8dp"
-                            android:text="@string/_0" />
+                            android:text="@string/apps_on_home_screen"
+                            android:textColor="?attr/primaryColor" />
 
                         <TextView
-                            android:id="@+id/maxApps1"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
+                            android:id="@+id/homeAppsNum"
+                            style="@style/TextSmallBold"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
+                            android:layout_marginEnd="8dp"
                             android:paddingVertical="8dp"
-                            android:text="@string/_1" />
-
-                        <TextView
-                            android:id="@+id/maxApps2"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_2" />
-
-                        <TextView
-                            android:id="@+id/maxApps3"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_3" />
-
-                        <TextView
-                            android:id="@+id/maxApps4"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_4" />
-
-                        <TextView
-                            android:id="@+id/maxApps5"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_5" />
-
-                        <TextView
-                            android:id="@+id/maxApps6"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_6" />
-
-                        <TextView
-                            android:id="@+id/maxApps7"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_7" />
-
-                        <TextView
-                            android:id="@+id/maxApps8"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_8" />
-
+                            tools:text="6" />
                     </LinearLayout>
 
-                </FrameLayout>
+                    <SeekBar
+                        android:id="@+id/appsNumSeekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:max="5"
+                        android:progressBackgroundTint="#619E9E9E"
+                        android:progressTint="#3B82F6"
+                        android:thumbTint="#3B82F6" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -262,85 +169,71 @@
                     android:layout_marginVertical="4dp"
                     android:background="@drawable/divider_light" />
 
-                <FrameLayout
+                <!-- Show date & time (switch) -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:animateLayoutChanges="true">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         style="@style/TextSmall"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
                         android:text="@string/show_date_time"
                         android:textColor="?attr/primaryColor" />
 
-                    <TextView
-                        android:id="@+id/dateTime"
-                        style="@style/TextSmallBold"
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/dateTimeSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
                         android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/on" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
+                </LinearLayout>
 
-                    <!-- date time layout-->
-                    <LinearLayout
-                        android:id="@+id/dateTimeSelectLayout"
-                        android:layout_width="match_parent"
+                <!-- Date only sub-toggle (visible only when date & time is on) -->
+                <LinearLayout
+                    android:id="@+id/dateOnlyRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        style="@style/TextSmall"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:animateLayoutChanges="true"
-                        android:background="@drawable/rounded_primary_gradient"
-                        android:elevation="8dp"
-                        android:orientation="horizontal"
-                        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
-                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="2dp"
-                        android:visibility="gone"
-                        tools:ignore="UnusedAttribute">
+                        android:layout_weight="1"
+                        android:layout_marginStart="24dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/date_only"
+                        android:textColor="?attr/primaryColor" />
 
-                        <Space
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/dateTimeOn"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="24dp"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/on" />
-
-                        <TextView
-                            android:id="@+id/dateTimeOff"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="24dp"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/off" />
-
-                        <TextView
-                            android:id="@+id/dateOnly"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/date_only" />
-
-                    </LinearLayout>
-
-                </FrameLayout>
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/dateOnlySwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -349,36 +242,38 @@
                     android:layout_marginVertical="4dp"
                     android:background="@drawable/divider_light" />
 
-                <!-- Screen time -->
-                <FrameLayout
+                <!-- Screen time (switch) -->
+                <LinearLayout
                     android:id="@+id/screenTimeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:animateLayoutChanges="true"
-                    android:clipChildren="false"
-                    android:clipToPadding="false">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         style="@style/TextSmall"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
                         android:text="@string/screen_time"
                         android:textColor="?attr/primaryColor" />
 
-                    <TextView
-                        android:id="@+id/screenTimeOnOff"
-                        style="@style/TextSmallBold"
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/screenTimeSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
                         android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/off" />
-
-                </FrameLayout>
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -415,8 +310,8 @@
                         android:text=""
                         android:textOff=""
                         android:textOn=""
-                        app:thumbTint="?attr/primaryColor"
-                        app:trackTint="?attr/primaryColorTrans50" />
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
                 </LinearLayout>
 
                 <View
@@ -453,8 +348,8 @@
                         android:text=""
                         android:textOff=""
                         android:textOn=""
-                        app:thumbTint="?attr/primaryColor"
-                        app:trackTint="?attr/primaryColorTrans50" />
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -786,8 +681,8 @@
                         android:text=""
                         android:textOff=""
                         android:textOn=""
-                        app:thumbTint="?attr/primaryColor"
-                        app:trackTint="?attr/primaryColorTrans50" />
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
                 </LinearLayout>
 
                 <View
@@ -825,8 +720,8 @@
                         android:text=""
                         android:textOff=""
                         android:textOn=""
-                        app:thumbTint="?attr/primaryColor"
-                        app:trackTint="?attr/primaryColorTrans50" />
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
                 </LinearLayout>
 
                 <View
@@ -864,8 +759,8 @@
                         android:text=""
                         android:textOff=""
                         android:textOn=""
-                        app:thumbTint="?attr/primaryColor"
-                        app:trackTint="?attr/primaryColorTrans50" />
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
                 </LinearLayout>
 
                 <View
@@ -963,85 +858,50 @@
                     android:layout_marginVertical="4dp"
                     android:background="@drawable/divider_light" />
 
-                <FrameLayout
+                <!-- Text size (slider 0.8..1.5) -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="4dp"
-                    android:animateLayoutChanges="true"
-                    android:clipChildren="false"
-                    android:clipToPadding="false">
+                    android:orientation="vertical">
 
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/text_size"
-                        android:textColor="?attr/primaryColor" />
-
-                    <TextView
-                        android:id="@+id/textSizeValue"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:paddingVertical="8dp"
-                        android:paddingStart="24dp"
-                        android:paddingEnd="8dp"
-                        tools:text="1.0" />
-
-                    <!-- Text size +/- controls -->
                     <LinearLayout
-                        android:id="@+id/textSizesLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:animateLayoutChanges="true"
-                        android:background="@drawable/rounded_primary_gradient"
-                        android:elevation="8dp"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
-                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
-                        android:visibility="gone"
-                        tools:ignore="UnusedAttribute"
-                        tools:visibility="gone">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textSizeMinus"
-                            style="@style/TextSmallBold"
+                            style="@style/TextSmall"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            android:layout_marginStart="8dp"
                             android:paddingVertical="8dp"
-                            android:text="−" />
+                            android:text="@string/text_size"
+                            android:textColor="?attr/primaryColor" />
 
                         <TextView
-                            android:id="@+id/textSizeCurrent"
+                            android:id="@+id/textSizeValue"
                             style="@style/TextSmallBold"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
+                            android:layout_marginEnd="8dp"
                             android:paddingVertical="8dp"
                             tools:text="1.0" />
-
-                        <TextView
-                            android:id="@+id/textSizePlus"
-                            style="@style/TextSmallBold"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="+" />
-
                     </LinearLayout>
 
-                </FrameLayout>
+                    <SeekBar
+                        android:id="@+id/textSizeSeekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:max="7"
+                        android:progressBackgroundTint="#619E9E9E"
+                        android:progressTint="#3B82F6"
+                        android:thumbTint="#3B82F6" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -1241,8 +1101,8 @@
                         android:text=""
                         android:textOff=""
                         android:textOn=""
-                        app:thumbTint="?attr/primaryColor"
-                        app:trackTint="?attr/primaryColorTrans50" />
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
                 </LinearLayout>
 
             </LinearLayout>

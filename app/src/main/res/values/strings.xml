@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">BetterLauncher</string>
     <string name="layout_positioning">Layout &amp; positioning</string>
-    <string name="website" translatable="false"><u>pierspad.com</u></string>
-    <string name="privacy_policy"><u>privacy policy</u></string>
+    <string name="website" translatable="false">pierspad.com</string>
+    <string name="privacy_policy">Privacy Policy</string>
     <string name="github" translatable="false">Github</string>
     <string name="lock_layout_description" translatable="false">lock layout description to be used a unique id to lock screen</string>
     <!-- Home button for recents feature disabled -->
@@ -57,7 +57,7 @@
     <string name="right">Right</string>
     <string name="center">Center</string>
     <string name="home_layout_alignment">Horizontal app alignment</string>
-    <string name="clock_alignment">Horizontal time alignment</string>
+    <string name="clock_alignment">Horizontal clock alignment</string>
     <string name="icons_alignment">Horizontal icons alignment</string>
     <string name="vertical_alignment">Vertical app alignment</string>
     <string name="up">Up</string>

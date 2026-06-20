@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Solid blue thumb when ON, grey when OFF -->
+    <item android:color="#3B82F6" android:state_checked="true" />
+    <item android:color="#BDBDBD" />
+</selector>
