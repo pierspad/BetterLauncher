@@ -24,7 +24,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
@@ -41,7 +40,6 @@ import app.olauncher.databinding.FragmentHomeBinding
 import app.olauncher.helper.appUsagePermissionGranted
 import app.olauncher.helper.dpToPx
 import app.olauncher.helper.expandNotificationDrawer
-import app.olauncher.helper.getChangedAppTheme
 import app.olauncher.helper.getUserHandleFromString
 import app.olauncher.helper.isPackageInstalled
 import app.olauncher.helper.openAlarmApp
@@ -52,7 +50,6 @@ import app.olauncher.helper.openDialerApp
 import app.olauncher.helper.openGalleryApp
 import app.olauncher.helper.openMessagingApp
 import app.olauncher.helper.openSearch
-import app.olauncher.helper.setPlainWallpaperByTheme
 import app.olauncher.helper.showToast
 import app.olauncher.listener.OnSwipeTouchListener
 import app.olauncher.listener.ViewSwipeTouchListener
@@ -218,10 +215,6 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         }
         viewModel.isOlauncherDefault.observe(viewLifecycleOwner, Observer {
             if (it != true) {
-                if (prefs.dailyWallpaper && prefs.appTheme == AppCompatDelegate.MODE_NIGHT_YES) {
-                    prefs.dailyWallpaper = false
-                    viewModel.cancelWallpaperWorker()
-                }
                 setHomeAlignment()
             }
             if (binding.firstRunTips.isVisible) return@Observer
@@ -361,6 +354,11 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         binding.tvScreenTime.setPadding(10.dpToPx())
     }
 
+    private fun homeAppViews(): List<TextView> = listOf(
+        binding.homeApp1, binding.homeApp2, binding.homeApp3, binding.homeApp4,
+        binding.homeApp5, binding.homeApp6, binding.homeApp7, binding.homeApp8
+    )
+
     private fun populateHomeScreen(appCountUpdated: Boolean) {
         if (appCountUpdated) hideHomeApps()
         populateDateTime()
@@ -370,62 +368,78 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             populateScreenTime()
 
         val homeAppsNum = prefs.homeAppsNum
-        if (homeAppsNum == 0) return
-
-        binding.homeApp1.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp1, prefs.appName1, prefs.appPackage1, prefs.appUser1, prefs.isShortcut1, prefs.shortcutId1)) {
-            prefs.appName1 = ""
-            prefs.appPackage1 = ""
+        val views = homeAppViews()
+        for (location in 1..views.size) {
+            if (location > homeAppsNum) break
+            val textView = views[location - 1]
+            textView.visibility = View.VISIBLE
+            if (!bindHomeSlot(textView, location)) {
+                prefs.setAppName(location, "")
+                prefs.setAppPackage(location, "")
+            }
         }
-        if (homeAppsNum == 1) return
+    }
 
-        binding.homeApp2.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp2, prefs.appName2, prefs.appPackage2, prefs.appUser2, prefs.isShortcut2, prefs.shortcutId2)) {
-            prefs.appName2 = ""
-            prefs.appPackage2 = ""
+    // Binds a single home slot, which may be a folder, a pinned shortcut or a plain app.
+    // Returns false when the slot's target no longer exists (caller clears the slot).
+    private fun bindHomeSlot(textView: TextView, location: Int): Boolean {
+        if (prefs.getIsFolder(location)) {
+            val folder = prefs.getFolder(prefs.getFolderIdAt(location))
+            if (folder != null) {
+                textView.text = folder.name
+                return true
+            }
+            // The folder was deleted elsewhere: free the slot.
+            prefs.clearHomeSlot(location)
+            textView.text = ""
+            return false
         }
-        if (homeAppsNum == 2) return
+        return setHomeAppText(
+            textView,
+            prefs.getAppName(location),
+            prefs.getAppPackage(location),
+            prefs.getAppUser(location),
+            prefs.getIsShortcut(location),
+            prefs.getShortcutId(location)
+        )
+    }
 
-        binding.homeApp3.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp3, prefs.appName3, prefs.appPackage3, prefs.appUser3, prefs.isShortcut3, prefs.shortcutId3)) {
-            prefs.appName3 = ""
-            prefs.appPackage3 = ""
-        }
-        if (homeAppsNum == 3) return
+    // Opens a folder placed on a home slot as a simple picker of its (installed) apps.
+    private fun openHomeFolder(location: Int) {
+        val folder = prefs.getFolder(prefs.getFolderIdAt(location)) ?: return
+        val ctx = requireContext()
+        val launcherApps = ctx.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
 
-        binding.homeApp4.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp4, prefs.appName4, prefs.appPackage4, prefs.appUser4, prefs.isShortcut4, prefs.shortcutId4)) {
-            prefs.appName4 = ""
-            prefs.appPackage4 = ""
-        }
-        if (homeAppsNum == 4) return
+        data class Member(val label: String, val pkg: String, val userString: String)
 
-        binding.homeApp5.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp5, prefs.appName5, prefs.appPackage5, prefs.appUser5, prefs.isShortcut5, prefs.shortcutId5)) {
-            prefs.appName5 = ""
-            prefs.appPackage5 = ""
+        val members = folder.apps.mapNotNull { key ->
+            val sep = key.lastIndexOf('|')
+            if (sep <= 0) return@mapNotNull null
+            val pkg = key.substring(0, sep)
+            val userString = key.substring(sep + 1)
+            if (!isPackageInstalled(ctx, pkg, userString)) return@mapNotNull null
+            val user = getUserHandleFromString(ctx, userString)
+            val resolved = try {
+                launcherApps.getActivityList(pkg, user).firstOrNull()?.label?.toString()
+            } catch (e: Exception) {
+                null
+            }
+            val label = prefs.getAppRenameLabel(pkg).ifEmpty { resolved ?: pkg }
+            Member(label, pkg, userString)
         }
-        if (homeAppsNum == 5) return
 
-        binding.homeApp6.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp6, prefs.appName6, prefs.appPackage6, prefs.appUser6, prefs.isShortcut6, prefs.shortcutId6)) {
-            prefs.appName6 = ""
-            prefs.appPackage6 = ""
+        if (members.isEmpty()) {
+            ctx.showToast(getString(R.string.folder_is_empty))
+            return
         }
-        if (homeAppsNum == 6) return
-
-        binding.homeApp7.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp7, prefs.appName7, prefs.appPackage7, prefs.appUser7, prefs.isShortcut7, prefs.shortcutId7)) {
-            prefs.appName7 = ""
-            prefs.appPackage7 = ""
-        }
-        if (homeAppsNum == 7) return
-
-        binding.homeApp8.visibility = View.VISIBLE
-        if (!setHomeAppText(binding.homeApp8, prefs.appName8, prefs.appPackage8, prefs.appUser8, prefs.isShortcut8, prefs.shortcutId8)) {
-            prefs.appName8 = ""
-            prefs.appPackage8 = ""
-        }
+        val labels = members.map { it.label }.toTypedArray()
+        AlertDialog.Builder(ctx)
+            .setTitle(folder.name)
+            .setItems(labels) { _, which ->
+                val member = members[which]
+                launchApp(member.label, member.pkg, null, member.userString)
+            }
+            .show()
     }
 
     private fun setHomeAppText(
@@ -546,6 +560,10 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     private fun homeAppClicked(location: Int) {
+        if (prefs.getIsFolder(location)) {
+            openHomeFolder(location)
+            return
+        }
         launchAppOrShortcut(
             appName = prefs.getAppName(location),
             packageName = prefs.getAppPackage(location),
@@ -644,17 +662,6 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                 systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_FULLSCREEN
             }
         }
-    }
-
-    private fun changeAppTheme() {
-        if (prefs.dailyWallpaper.not()) return
-        val changedAppTheme = getChangedAppTheme(requireContext(), prefs.appTheme)
-        prefs.appTheme = changedAppTheme
-        if (prefs.dailyWallpaper) {
-            setPlainWallpaperByTheme(requireContext(), changedAppTheme)
-            viewModel.setWallpaperWorker()
-        }
-        requireActivity().recreate()
     }
 
     private fun openScreenTimeDigitalWellbeing() {
@@ -796,10 +803,16 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         binding.shortcutIconsLayout.isVisible = enabled
         applyAppsPaddingForIcons()
         if (!enabled) return
+        val count = prefs.homeShortcutIconsNum.coerceIn(1, Constants.SHORTCUT_COUNT)
         shortcutIconViews().forEachIndexed { slot, imageView ->
-            val iconIndex = prefs.getShortcutIconIndex(slot)
-                .coerceIn(0, Constants.SHORTCUT_ICONS.size - 1)
-            imageView.setImageResource(Constants.SHORTCUT_ICONS[iconIndex])
+            if (slot < count) {
+                imageView.isVisible = true
+                val iconIndex = prefs.getShortcutIconIndex(slot)
+                    .coerceIn(0, Constants.SHORTCUT_ICONS.size - 1)
+                imageView.setImageResource(Constants.SHORTCUT_ICONS[iconIndex])
+            } else {
+                imageView.isVisible = false
+            }
         }
     }
 

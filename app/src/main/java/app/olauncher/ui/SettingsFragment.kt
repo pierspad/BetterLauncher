@@ -38,14 +38,11 @@ import app.olauncher.helper.animateAlpha
 import app.olauncher.helper.appUsagePermissionGranted
 import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.isAccessServiceEnabled
-import app.olauncher.helper.isDarkThemeOn
-import app.olauncher.helper.isEinkDisplay
 import app.olauncher.helper.isCountryIn
 import app.olauncher.helper.isOlauncherDefault
 import app.olauncher.helper.openAppInfo
 import app.olauncher.helper.openUrl
 import app.olauncher.helper.rateApp
-import app.olauncher.helper.setPlainWallpaper
 import app.olauncher.helper.shareApp
 import app.olauncher.helper.showToast
 import app.olauncher.listener.DeviceAdmin
@@ -65,6 +62,40 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             if (result.resultCode == Activity.RESULT_OK) {
                 prefs.lockModeOn = true
                 if (_binding != null) populateLockSettings()
+            }
+        }
+
+    // Backup: let the user pick where to save the settings JSON (Storage Access Framework).
+    private val createBackupLauncher =
+        registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
+            if (uri == null) return@registerForActivityResult
+            try {
+                requireContext().contentResolver.openOutputStream(uri)?.use { out ->
+                    out.write(prefs.exportToJson().toByteArray())
+                }
+                requireContext().showToast(getString(R.string.backup_saved))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                requireContext().showToast(getString(R.string.backup_failed))
+            }
+        }
+
+    // Restore: pick a previously exported JSON and apply it.
+    private val openRestoreLauncher =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            if (uri == null) return@registerForActivityResult
+            try {
+                val json = requireContext().contentResolver.openInputStream(uri)
+                    ?.use { it.readBytes().decodeToString() }
+                if (json != null && prefs.importFromJson(json)) {
+                    requireContext().showToast(getString(R.string.restore_done))
+                    restartLauncher()
+                } else {
+                    requireContext().showToast(getString(R.string.restore_failed))
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                requireContext().showToast(getString(R.string.restore_failed))
             }
         }
 
@@ -155,7 +186,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateLockSettings()
         // Home button for recents feature disabled
         // populateHomeButtonRecents()
-        populateWallpaperText()
         populateAppThemeText()
         populateTextSize()
         populateAlignment()
@@ -176,6 +206,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
         when (view.id) {
             R.id.olauncherHiddenApps -> showHiddenApps()
+            R.id.lockApps -> showLockApps()
+            R.id.backupSettings -> createBackupLauncher.launch("betterlauncher-backup.json")
+            R.id.restoreSettings -> openRestoreLauncher.launch(arrayOf("*/*"))
             R.id.screenTimeSwitch -> {
                 viewModel.showDialog.postValue(Constants.Dialog.DIGITAL_WELLBEING)
                 populateScreenTimeOnOff()
@@ -186,8 +219,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             // Home button for recents feature disabled
             // R.id.homeButtonRecents -> toggleHomeButtonRecents()
             R.id.autoShowKeyboard -> toggleKeyboardText()
-            R.id.dailyWallpaperUrl -> requireContext().openUrl(prefs.dailyWallpaperUrl)
-            R.id.dailyWallpaper -> toggleDailyWallpaperUpdate()
             R.id.alignHomeLeft -> updateHomeHorizontalAlignment(Gravity.START)
             R.id.alignHomeCenter -> updateHomeHorizontalAlignment(Gravity.CENTER)
             R.id.alignHomeRight -> updateHomeHorizontalAlignment(Gravity.END)
@@ -240,7 +271,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     override fun onLongClick(view: View): Boolean {
         when (view.id) {
-            R.id.dailyWallpaper -> removeWallpaper()
             R.id.appThemeText -> {
                 binding.appThemeSelectLayout.visibility = View.VISIBLE
                 binding.themeSystem.visibility = View.VISIBLE
@@ -256,6 +286,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     private fun initClickListeners() {
         binding.olauncherHiddenApps.setOnClickListener(this)
+        binding.lockApps.setOnClickListener(this)
+        binding.backupSettings.setOnClickListener(this)
+        binding.restoreSettings.setOnClickListener(this)
         binding.scrollLayout.setOnClickListener(this)
         binding.appInfo.setOnClickListener(this)
         binding.setLauncher.setOnClickListener(this)
@@ -265,8 +298,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         // Home button for recents feature disabled
         // binding.homeButtonRecents.setOnClickListener(this)
         binding.screenTimeSwitch.setOnClickListener(this)
-        binding.dailyWallpaperUrl.setOnClickListener(this)
-        binding.dailyWallpaper.setOnClickListener(this)
         binding.alignHomeLeft.setOnClickListener(this)
         binding.alignHomeCenter.setOnClickListener(this)
         binding.alignHomeRight.setOnClickListener(this)
@@ -306,7 +337,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
         setupSliders()
 
-        binding.dailyWallpaper.setOnLongClickListener(this)
         binding.appThemeText.setOnLongClickListener(this)
         binding.swipeLeftApp.setOnLongClickListener(this)
         binding.swipeRightApp.setOnLongClickListener(this)
@@ -423,6 +453,20 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         )
     }
 
+    private fun showLockApps() {
+        viewModel.getAppList()
+        findNavController().navigate(
+            R.id.action_settingsFragment_to_appListFragment,
+            bundleOf(Constants.Key.FLAG to Constants.FLAG_LOCKED_APPS)
+        )
+    }
+
+    // Re-apply theme and rebuild the UI after a settings restore.
+    private fun restartLauncher() {
+        AppCompatDelegate.setDefaultNightMode(prefs.appTheme)
+        requireActivity().recreate()
+    }
+
     private fun checkAdminPermission() {
         val isAdmin: Boolean = deviceManager.isAdminActive(componentName)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P)
@@ -481,45 +525,16 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         }
     }
 
-    private fun removeWallpaper() {
-        if (requireContext().isEinkDisplay()) {
-            prefs.appTheme = AppCompatDelegate.MODE_NIGHT_NO
-            setPlainWallpaper(requireContext(), android.R.color.white)
-        } else {
-            prefs.appTheme = AppCompatDelegate.MODE_NIGHT_YES
-            setPlainWallpaper(requireContext(), android.R.color.black)
-        }
-        if (!prefs.dailyWallpaper) return
-        prefs.dailyWallpaper = false
-        populateWallpaperText()
-        viewModel.cancelWallpaperWorker()
-    }
-
-    private fun toggleDailyWallpaperUpdate() {
-        if (prefs.dailyWallpaper.not() && prefs.appTheme == AppCompatDelegate.MODE_NIGHT_YES && viewModel.isOlauncherDefault.value == false) {
-            requireContext().showToast(R.string.set_as_default_launcher_first)
-            populateWallpaperText()
-            return
-        }
-        prefs.dailyWallpaper = !prefs.dailyWallpaper
-        populateWallpaperText()
-        if (prefs.dailyWallpaper) {
-            viewModel.setWallpaperWorker()
-            showWallpaperToasts()
-        } else viewModel.cancelWallpaperWorker()
-    }
-
-    private fun showWallpaperToasts() {
-        if (isOlauncherDefault(requireContext()))
-            requireContext().showToast(getString(R.string.your_wallpaper_will_update_shortly))
-        else
-            requireContext().showToast(getString(R.string.olauncher_is_not_default_launcher), Toast.LENGTH_LONG)
-    }
-
     private fun updateHomeAppsNum(num: Int) {
         binding.homeAppsNum.text = num.toString()
         prefs.homeAppsNum = num
         viewModel.refreshHome(true)
+    }
+
+    private fun updateHomeIconsNum(num: Int) {
+        binding.homeIconsNum.text = num.toString()
+        prefs.homeShortcutIconsNum = num
+        viewModel.refreshHome(false)
     }
 
     // ---- Sliders: apps-on-home (1..6) and text size (0.8..1.5) ----
@@ -540,6 +555,24 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 updateHomeAppsNum(seekBar.progress + APPS_NUM_MIN)
+            }
+        })
+
+        // Favorite icons count: progress 0..(MAX-MIN) maps to MIN..MAX shortcut icons.
+        val iconsNum = prefs.homeShortcutIconsNum.coerceIn(ICONS_NUM_MIN, ICONS_NUM_MAX)
+        if (iconsNum != prefs.homeShortcutIconsNum) prefs.homeShortcutIconsNum = iconsNum
+        binding.iconsNumSeekBar.max = ICONS_NUM_MAX - ICONS_NUM_MIN
+        binding.iconsNumSeekBar.progress = iconsNum - ICONS_NUM_MIN
+        binding.homeIconsNum.text = iconsNum.toString()
+        binding.iconsNumSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                binding.homeIconsNum.text = (progress + ICONS_NUM_MIN).toString()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                updateHomeIconsNum(seekBar.progress + ICONS_NUM_MIN)
             }
         })
 
@@ -591,23 +624,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     private fun setAppTheme(theme: Int) {
         if (AppCompatDelegate.getDefaultNightMode() == theme) return
-        if (prefs.dailyWallpaper) {
-            setPlainWallpaper(theme)
-            viewModel.setWallpaperWorker()
-        }
         requireActivity().recreate()
-    }
-
-    private fun setPlainWallpaper(appTheme: Int) {
-        when (appTheme) {
-            AppCompatDelegate.MODE_NIGHT_YES -> setPlainWallpaper(requireContext(), android.R.color.black)
-            AppCompatDelegate.MODE_NIGHT_NO -> setPlainWallpaper(requireContext(), android.R.color.white)
-            else -> {
-                if (requireContext().isDarkThemeOn())
-                    setPlainWallpaper(requireContext(), android.R.color.black)
-                else setPlainWallpaper(requireContext(), android.R.color.white)
-            }
-        }
     }
 
     private fun populateAppThemeText(appTheme: Int = prefs.appTheme) {
@@ -630,10 +647,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     private fun populateKeyboardText() {
         binding.autoShowKeyboard.isChecked = prefs.autoShowKeyboard
-    }
-
-    private fun populateWallpaperText() {
-        binding.dailyWallpaper.isChecked = prefs.dailyWallpaper
     }
 
     private fun populateAlignment() {
@@ -969,6 +982,10 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         // Apps-on-home slider bounds.
         private const val APPS_NUM_MIN = 1
         private const val APPS_NUM_MAX = 6
+
+        // Favorite-icons slider bounds (matches the 6 shortcut slots).
+        private const val ICONS_NUM_MIN = 1
+        private const val ICONS_NUM_MAX = Constants.SHORTCUT_COUNT
 
         // Text-size slider: 0.8..1.5 in steps of 0.1 (8 stops => max progress 7).
         private const val TEXT_SIZE_MIN = 0.8f

@@ -167,4 +167,34 @@
     <string name="no_widgets_available">Nessun widget disponibile</string>
     <string name="widget_bind_failed">Impossibile aggiungere il widget</string>
     <string name="widget_requires_default_launcher">Imposta BetterLauncher come launcher predefinito per aggiungere i widget</string>
+
+    <!-- Cartelle / gruppi -->
+    <string name="home_icons_count">Icone app preferite</string>
+    <string name="group">Gruppo</string>
+    <string name="add_to_group">Aggiungi al gruppo</string>
+    <string name="new_folder">Nuovo gruppo…</string>
+    <string name="folder_name">Nome gruppo</string>
+    <string name="create">Crea</string>
+    <string name="rename_folder">Rinomina gruppo</string>
+    <string name="delete_folder">Elimina gruppo</string>
+    <string name="add_to_home">Aggiungi a Home</string>
+    <string name="choose_home_position">Scegli posizione in Home</string>
+    <string name="folder_deleted">Gruppo eliminato</string>
+    <string name="folder_is_empty">Questo gruppo è vuoto</string>
+    <string name="manage_group">Gestisci gruppo</string>
+
+    <!-- App locking -->
+    <string name="set_up_screen_lock_for_app_lock">Imposta un blocco schermo (PIN, sequenza o password) nelle impostazioni del dispositivo per bloccare le app.</string>
+    <string name="unlock_app">Sblocca app</string>
+    <string name="lock_apps">Blocca app</string>
+    <string name="app_locked_toast">App bloccata</string>
+    <string name="app_unlocked_toast">App sbloccata</string>
+
+    <!-- Backup & Restore -->
+    <string name="backup_saved">Backup salvato con successo</string>
+    <string name="backup_failed">Backup fallito</string>
+    <string name="restore_done">Impostazioni ripristinate con successo</string>
+    <string name="restore_failed">Ripristino fallito</string>
+    <string name="backup_settings">Backup impostazioni</string>
+    <string name="restore_settings">Ripristina impostazioni</string>
 </resources><!-- Italian -->

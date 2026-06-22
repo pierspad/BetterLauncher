@@ -51,6 +51,9 @@ dependencies {
     implementation libs.appcompat
     implementation libs.recyclerview
 
+    // Biometric / device-credential app lock
+    implementation libs.biometric
+
     // Android lifecycle
     implementation libs.lifecycle.extensions
     implementation libs.lifecycle.viewmodel.ktx

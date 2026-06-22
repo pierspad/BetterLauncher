@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
+import org.json.JSONArray
+import org.json.JSONObject
 
 class Prefs(context: Context) {
     private val PREFS_FILENAME = "app.olauncher"
@@ -16,10 +18,10 @@ class Prefs(context: Context) {
     private val USER_STATE = "USER_STATE"
     private val LOCK_MODE = "LOCK_MODE"
     private val HOME_APPS_NUM = "HOME_APPS_NUM"
+    private val HOME_SHORTCUT_ICONS_NUM = "HOME_SHORTCUT_ICONS_NUM"
+    private val FOLDERS = "FOLDERS"
     private val AUTO_SHOW_KEYBOARD = "AUTO_SHOW_KEYBOARD"
     private val KEYBOARD_MESSAGE = "KEYBOARD_MESSAGE"
-    private val DAILY_WALLPAPER = "DAILY_WALLPAPER"
-    private val DAILY_WALLPAPER_URL = "DAILY_WALLPAPER_URL"
     private val HOME_ALIGNMENT = "HOME_ALIGNMENT"
     private val HOME_BOTTOM_ALIGNMENT = "HOME_BOTTOM_ALIGNMENT"
     private val CLOCK_ALIGNMENT = "CLOCK_ALIGNMENT"
@@ -32,11 +34,11 @@ class Prefs(context: Context) {
     private val SWIPE_RIGHT_ENABLED = "SWIPE_RIGHT_ENABLED"
     private val HIDDEN_APPS = "HIDDEN_APPS"
     private val HIDDEN_APPS_UPDATED = "HIDDEN_APPS_UPDATED"
+    private val LOCKED_APPS = "LOCKED_APPS"
     private val SHOW_HINT_COUNTER = "SHOW_HINT_COUNTER"
     private val APP_THEME = "APP_THEME"
     private val ABOUT_CLICKED = "ABOUT_CLICKED"
     private val RATE_CLICKED = "RATE_CLICKED"
-    private val WALLPAPER_MSG_SHOWN = "WALLPAPER_MSG_SHOWN"
     private val SHARE_SHOWN_TIME = "SHARE_SHOWN_TIME"
     private val SWIPE_DOWN_ACTION = "SWIPE_DOWN_ACTION"
     private val TEXT_SIZE_SCALE = "TEXT_SIZE_SCALE"
@@ -123,6 +125,63 @@ class Prefs(context: Context) {
 
     private val prefs: SharedPreferences = context.getSharedPreferences(PREFS_FILENAME, 0)
 
+    // ---- Backup / Restore ----
+    // Serializes every stored preference (with its type) to a JSON string.
+    fun exportToJson(): String {
+        val root = JSONObject()
+        for ((key, value) in prefs.all) {
+            val entry = JSONObject()
+            when (value) {
+                is Boolean -> entry.put("t", "b").put("v", value)
+                is Int -> entry.put("t", "i").put("v", value)
+                is Long -> entry.put("t", "l").put("v", value)
+                is Float -> entry.put("t", "f").put("v", value.toDouble())
+                is String -> entry.put("t", "s").put("v", value)
+                is Set<*> -> {
+                    val arr = JSONArray()
+                    value.forEach { arr.put(it.toString()) }
+                    entry.put("t", "set").put("v", arr)
+                }
+                else -> continue
+            }
+            root.put(key, entry)
+        }
+        return root.toString(2)
+    }
+
+    // Replaces all current preferences with the ones from a previously exported JSON.
+    // Returns true on success.
+    fun importFromJson(json: String): Boolean {
+        return try {
+            val root = JSONObject(json)
+            val editor = prefs.edit()
+            editor.clear()
+            val keys = root.keys()
+            while (keys.hasNext()) {
+                val key = keys.next()
+                val entry = root.getJSONObject(key)
+                when (entry.getString("t")) {
+                    "b" -> editor.putBoolean(key, entry.getBoolean("v"))
+                    "i" -> editor.putInt(key, entry.getInt("v"))
+                    "l" -> editor.putLong(key, entry.getLong("v"))
+                    "f" -> editor.putFloat(key, entry.getDouble("v").toFloat())
+                    "s" -> editor.putString(key, entry.getString("v"))
+                    "set" -> {
+                        val arr = entry.getJSONArray("v")
+                        val set = mutableSetOf<String>()
+                        for (i in 0 until arr.length()) set.add(arr.getString(i))
+                        editor.putStringSet(key, set)
+                    }
+                }
+            }
+            editor.apply()
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
     var firstOpen: Boolean
         get() = prefs.getBoolean(FIRST_OPEN, true)
         set(value) = prefs.edit { putBoolean(FIRST_OPEN, value).apply() }
@@ -155,17 +214,14 @@ class Prefs(context: Context) {
         get() = prefs.getBoolean(KEYBOARD_MESSAGE, false)
         set(value) = prefs.edit { putBoolean(KEYBOARD_MESSAGE, value).apply() }
 
-    var dailyWallpaper: Boolean
-        get() = prefs.getBoolean(DAILY_WALLPAPER, false)
-        set(value) = prefs.edit { putBoolean(DAILY_WALLPAPER, value).apply() }
-
-    var dailyWallpaperUrl: String
-        get() = prefs.getString(DAILY_WALLPAPER_URL, "").toString()
-        set(value) = prefs.edit { putString(DAILY_WALLPAPER_URL, value).apply() }
-
     var homeAppsNum: Int
         get() = prefs.getInt(HOME_APPS_NUM, 5)
         set(value) = prefs.edit { putInt(HOME_APPS_NUM, value).apply() }
+
+    // Number of home-screen shortcut icons (right column) shown, 1..SHORTCUT_COUNT.
+    var homeShortcutIconsNum: Int
+        get() = prefs.getInt(HOME_SHORTCUT_ICONS_NUM, Constants.SHORTCUT_COUNT)
+        set(value) = prefs.edit { putInt(HOME_SHORTCUT_ICONS_NUM, value).apply() }
 
     var homeAlignment: Int
         get() = prefs.getInt(HOME_ALIGNMENT, Gravity.START)
@@ -250,6 +306,13 @@ class Prefs(context: Context) {
         get() = prefs.getBoolean(HIDDEN_APPS_UPDATED, false)
         set(value) = prefs.edit { putBoolean(HIDDEN_APPS_UPDATED, value).apply() }
 
+    // Apps protected behind biometric / device-credential. Keys are "package|user".
+    var lockedApps: MutableSet<String>
+        get() = prefs.getStringSet(LOCKED_APPS, mutableSetOf()) as MutableSet<String>
+        set(value) = prefs.edit { putStringSet(LOCKED_APPS, value).apply() }
+
+    fun isAppLocked(key: String): Boolean = lockedApps.contains(key)
+
     var toShowHintCounter: Int
         get() = prefs.getInt(SHOW_HINT_COUNTER, 1)
         set(value) = prefs.edit { putInt(SHOW_HINT_COUNTER, value).apply() }
@@ -261,10 +324,6 @@ class Prefs(context: Context) {
     var rateClicked: Boolean
         get() = prefs.getBoolean(RATE_CLICKED, false)
         set(value) = prefs.edit { putBoolean(RATE_CLICKED, value).apply() }
-
-    var wallpaperMsgShown: Boolean
-        get() = prefs.getBoolean(WALLPAPER_MSG_SHOWN, false)
-        set(value) = prefs.edit { putBoolean(WALLPAPER_MSG_SHOWN, value).apply() }
 
     var shareShownTime: Long
         get() = prefs.getLong(SHARE_SHOWN_TIME, 0L)
@@ -709,4 +768,130 @@ class Prefs(context: Context) {
     fun getAppRenameLabel(appPackage: String): String = prefs.getString(appPackage, "").toString()
 
     fun setAppRenameLabel(appPackage: String, renameLabel: String) = prefs.edit { putString(appPackage, renameLabel) }
+
+    // ---- Folders (app groups) ----
+
+    var folders: MutableList<Folder>
+        get() = Folder.listFromJson(prefs.getString(FOLDERS, ""))
+        set(value) = prefs.edit { putString(FOLDERS, Folder.listToJson(value)).apply() }
+
+    fun getFolder(id: String): Folder? = folders.firstOrNull { it.id == id }
+
+    // Inserts the folder or replaces the existing one with the same id.
+    fun upsertFolder(folder: Folder) {
+        val list = folders
+        val idx = list.indexOfFirst { it.id == folder.id }
+        if (idx >= 0) list[idx] = folder else list.add(folder)
+        folders = list
+    }
+
+    fun deleteFolder(id: String) {
+        folders = folders.filterNot { it.id == id }.toMutableList()
+        // Free any home slot that pointed at the deleted folder.
+        for (i in 1..8) if (getIsFolder(i) && getFolderIdAt(i) == id) clearHomeSlot(i)
+    }
+
+    // Toggles an app's membership in a folder and persists the change.
+    fun toggleAppInFolder(folderId: String, appKey: String) {
+        val list = folders
+        val folder = list.firstOrNull { it.id == folderId } ?: return
+        if (!folder.apps.remove(appKey)) folder.apps.add(appKey)
+        folders = list
+    }
+
+    // ---- Home-slot folders ----
+    // A home slot can hold a folder instead of an app/shortcut. We reuse the slot's
+    // name field for the display label and flag it with IS_FOLDER_/FOLDER_ID_.
+
+    fun getIsFolder(location: Int): Boolean = prefs.getBoolean("IS_FOLDER_$location", false)
+
+    fun getFolderIdAt(location: Int): String = prefs.getString("FOLDER_ID_$location", "").toString()
+
+    fun setFolderAt(location: Int, isFolder: Boolean, folderId: String) = prefs.edit {
+        putBoolean("IS_FOLDER_$location", isFolder)
+        putString("FOLDER_ID_$location", folderId)
+    }
+
+    fun assignFolderToHome(location: Int, folder: Folder) {
+        setAppName(location, folder.name)
+        setAppPackage(location, "")
+        setAppUser(location, android.os.Process.myUserHandle().toString())
+        setAppActivityClassName(location, "")
+        setIsShortcut(location, false)
+        setShortcutId(location, "")
+        setFolderAt(location, true, folder.id)
+    }
+
+    fun clearHomeSlot(location: Int) {
+        setAppName(location, "")
+        setAppPackage(location, "")
+        setFolderAt(location, false, "")
+    }
+
+    // ---- Generic per-slot setters (the getters already exist as getAppName(i) etc.) ----
+
+    fun setAppName(location: Int, value: String) {
+        when (location) {
+            1 -> appName1 = value
+            2 -> appName2 = value
+            3 -> appName3 = value
+            4 -> appName4 = value
+            5 -> appName5 = value
+            6 -> appName6 = value
+            7 -> appName7 = value
+            8 -> appName8 = value
+        }
+    }
+
+    fun setAppPackage(location: Int, value: String) {
+        when (location) {
+            1 -> appPackage1 = value
+            2 -> appPackage2 = value
+            3 -> appPackage3 = value
+            4 -> appPackage4 = value
+            5 -> appPackage5 = value
+            6 -> appPackage6 = value
+            7 -> appPackage7 = value
+            8 -> appPackage8 = value
+        }
+    }
+
+    fun setAppUser(location: Int, value: String) {
+        when (location) {
+            1 -> appUser1 = value
+            2 -> appUser2 = value
+            3 -> appUser3 = value
+            4 -> appUser4 = value
+            5 -> appUser5 = value
+            6 -> appUser6 = value
+            7 -> appUser7 = value
+            8 -> appUser8 = value
+        }
+    }
+
+    fun setIsShortcut(location: Int, value: Boolean) {
+        when (location) {
+            1 -> isShortcut1 = value
+            2 -> isShortcut2 = value
+            3 -> isShortcut3 = value
+            4 -> isShortcut4 = value
+            5 -> isShortcut5 = value
+            6 -> isShortcut6 = value
+            7 -> isShortcut7 = value
+            8 -> isShortcut8 = value
+        }
+    }
+
+    fun setShortcutId(location: Int, value: String) {
+        when (location) {
+            1 -> shortcutId1 = value
+            2 -> shortcutId2 = value
+            3 -> shortcutId3 = value
+            4 -> shortcutId4 = value
+            5 -> shortcutId5 = value
+            6 -> shortcutId6 = value
+            7 -> shortcutId7 = value
+            8 -> shortcutId8 = value
+        }
+    }
 }

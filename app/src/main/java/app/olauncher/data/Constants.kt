@@ -11,9 +11,6 @@ object Constants {
 
     object Dialog {
         const val ABOUT = "ABOUT"
-        const val WALLPAPER = "WALLPAPER"
-        const val REVIEW = "REVIEW"
-        const val RATE = "RATE"
         const val SHARE = "SHARE"
         const val HIDDEN = "HIDDEN"
         const val KEYBOARD = "KEYBOARD"
@@ -23,9 +20,6 @@ object Constants {
 
     object UserState {
         const val START = "START"
-        const val WALLPAPER = "WALLPAPER"
-        const val REVIEW = "REVIEW"
-        const val RATE = "RATE"
         const val SHARE = "SHARE"
     }
 
@@ -60,8 +54,6 @@ object Constants {
         "com.miui.clock", //Xiaomi Clock
     )
 
-    const val WALL_TYPE_LIGHT = "light"
-    const val WALL_TYPE_DARK = "dark"
 
 //    const val THEME_MODE_DARK = 0
 //    const val THEME_MODE_LIGHT = 1
@@ -69,6 +61,7 @@ object Constants {
 
     const val FLAG_LAUNCH_APP = 100
     const val FLAG_HIDDEN_APPS = 101
+    const val FLAG_LOCKED_APPS = 102
 
     const val FLAG_SET_HOME_APP_1 = 1
     const val FLAG_SET_HOME_APP_2 = 2
@@ -147,8 +140,6 @@ object Constants {
     // AppWidget host id for the single home-screen widget
     const val WIDGET_HOST_ID = 4242
 
-    const val HINT_RATE_US = 15
-
     const val LONG_PRESS_DELAY_MS = 500L
     const val ONE_DAY_IN_MILLIS = 86400000L
     const val ONE_HOUR_IN_MILLIS = 3600000L
@@ -166,11 +157,8 @@ object Constants {
     const val URL_PLAY_STORE_DEV = "https://play.google.com/store/apps/dev?id=7198807840081074933"
     const val URL_TWITTER_TANUJ = "https://x.com/tanujnotes"
     const val URL_INSTA_TANUJ = "https://instagram.com/tanuj_notes"
-    const val URL_WALLPAPERS = "https://gist.githubusercontent.com/tanujnotes/85e2d0343ace71e76615ac346fbff82b/raw"
     const val URL_NTS = "https://play.google.com/store/apps/details?id=com.makenotetoself"
     const val URL_PENTASTIC = "https://play.google.com/store/apps/details?id=app.pentastic"
-    const val URL_DEFAULT_DARK_WALLPAPER = "https://images.unsplash.com/photo-1512551980832-13df02babc9e"
-    const val URL_DEFAULT_LIGHT_WALLPAPER = "https://images.unsplash.com/photo-1515549832467-8783363e19b6"
     const val URL_DUCK_SEARCH = "https://duck.co/?q="
     const val URL_DIGITAL_WELLBEING_LEARN_MORE = "https://tanujnotes.substack.com/p/digital-wellbeing-app-on-android?utm_source=olauncher"
 
@@ -178,5 +166,4 @@ object Constants {
     const val DIGITAL_WELLBEING_ACTIVITY = "com.google.android.apps.wellbeing.settings.TopLevelSettingsActivity"
     const val DIGITAL_WELLBEING_SAMSUNG_PACKAGE_NAME = "com.samsung.android.forest"
     const val DIGITAL_WELLBEING_SAMSUNG_ACTIVITY = "com.samsung.android.forest.launcher.LauncherActivity"
-    const val WALLPAPER_WORKER_NAME = "WALLPAPER_WORKER_NAME"
 }

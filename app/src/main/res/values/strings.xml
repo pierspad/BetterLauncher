@@ -195,4 +195,34 @@
     <string name="no_widgets_available">No widgets available</string>
     <string name="widget_bind_failed">Could not add widget</string>
     <string name="widget_requires_default_launcher">Set BetterLauncher as your default launcher to add widgets</string>
+
+    <!-- Folders / groups -->
+    <string name="home_icons_count">Favorite app icons</string>
+    <string name="group">Group</string>
+    <string name="add_to_group">Add to group</string>
+    <string name="new_folder">New group…</string>
+    <string name="folder_name">Group name</string>
+    <string name="create">Create</string>
+    <string name="rename_folder">Rename group</string>
+    <string name="delete_folder">Delete group</string>
+    <string name="add_to_home">Add to home</string>
+    <string name="choose_home_position">Choose home position</string>
+    <string name="folder_deleted">Group deleted</string>
+    <string name="folder_is_empty">This group is empty</string>
+    <string name="manage_group">Manage group</string>
+
+    <!-- App locking -->
+    <string name="set_up_screen_lock_for_app_lock">Please set up a screen lock (PIN, pattern or password) in your device settings to lock apps.</string>
+    <string name="unlock_app">Unlock app</string>
+    <string name="lock_apps">Lock apps</string>
+    <string name="app_locked_toast">App locked</string>
+    <string name="app_unlocked_toast">App unlocked</string>
+
+    <!-- Backup & Restore -->
+    <string name="backup_saved">Backup saved successfully</string>
+    <string name="backup_failed">Backup failed</string>
+    <string name="restore_done">Settings restored successfully</string>
+    <string name="restore_failed">Restore failed</string>
+    <string name="backup_settings">Backup settings</string>
+    <string name="restore_settings">Restore settings</string>
 </resources>

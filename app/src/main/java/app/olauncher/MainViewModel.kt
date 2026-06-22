@@ -11,17 +11,10 @@ import android.os.UserManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.work.BackoffPolicy
-import androidx.work.Constraints
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import app.olauncher.data.AppModel
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.helper.SingleLiveEvent
-import app.olauncher.helper.WallpaperWorker
 import app.olauncher.helper.formattedTimeSpent
 import app.olauncher.helper.getAppsList
 import app.olauncher.helper.getPrivateSpaceApps
@@ -34,7 +27,6 @@ import app.olauncher.helper.showToast
 import app.olauncher.helper.usageStats.EventLogWrapper
 import kotlinx.coroutines.launch
 import java.util.Calendar
-import java.util.concurrent.TimeUnit
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -62,6 +54,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val showDialog = SingleLiveEvent<String>()
     val checkForMessages = SingleLiveEvent<Unit?>()
     val resetLauncherLiveData = SingleLiveEvent<Unit?>()
+
+    // A locked app was selected: the Activity must authenticate before launching it.
+    val launchAppWithAuth = SingleLiveEvent<AppModel.App>()
     // Home button for recents feature disabled
     // val showRecentApps = SingleLiveEvent<Unit?>()
 
@@ -72,7 +67,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 when (appModel) {
                     is AppModel.PinnedShortcut -> launchShortcut(appModel)
                     is AppModel.App ->
-                        launchApp(appModel.appPackage, appModel.activityClassName, appModel.user)
+                        if (isAppLocked(appModel)) launchAppWithAuth.postValue(appModel)
+                        else launchApp(appModel.appPackage, appModel.activityClassName, appModel.user)
 
                     else -> {}
                 }
@@ -80,8 +76,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
             Constants.FLAG_HIDDEN_APPS -> {
                 if (appModel is AppModel.App) {
-                    launchApp(appModel.appPackage, appModel.activityClassName, appModel.user)
+                    if (isAppLocked(appModel)) launchAppWithAuth.postValue(appModel)
+                    else launchApp(appModel.appPackage, appModel.activityClassName, appModel.user)
                 }
+            }
+
+            Constants.FLAG_LOCKED_APPS -> {
+                if (appModel is AppModel.App) toggleAppLock(appModel)
             }
 
             Constants.FLAG_SET_HOME_APP_1 -> saveHomeApp(appModel, 1)
@@ -135,6 +136,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private fun saveHomeApp(appModel: AppModel, position: Int) {
         when (appModel) {
             is AppModel.PrivateSpaceHeader -> return
+            is AppModel.FolderHeader -> return
             is AppModel.App -> {
                 when (position) {
                     1 -> {
@@ -287,12 +289,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
         }
+        // Assigning a real app/shortcut to a slot overrides any folder previously there.
+        prefs.setFolderAt(position, false, "")
         refreshHome(false)
     }
 
     private fun saveSwipeApp(appModel: AppModel, isLeft: Boolean) {
         when (appModel) {
             is AppModel.PrivateSpaceHeader -> return
+            is AppModel.FolderHeader -> return
             is AppModel.App -> {
                 if (isLeft) {
                     prefs.appNameSwipeLeft = appModel.appLabel
@@ -372,6 +377,34 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         updateSwipeApps.postValue(Unit)
     }
 
+    // ---- App lock ----
+    private fun appKey(appModel: AppModel): String =
+        appModel.appPackage + "|" + appModel.user.toString()
+
+    fun isAppLocked(appModel: AppModel): Boolean =
+        appModel is AppModel.App && prefs.isAppLocked(appKey(appModel))
+
+    // Toggles the locked state of an app and returns the new state (true = locked).
+    fun toggleAppLock(appModel: AppModel): Boolean {
+        val key = appKey(appModel)
+        val newSet = prefs.lockedApps.toMutableSet()
+        val nowLocked: Boolean
+        if (newSet.contains(key)) {
+            newSet.remove(key)
+            nowLocked = false
+        } else {
+            newSet.add(key)
+            nowLocked = true
+        }
+        prefs.lockedApps = newSet
+        return nowLocked
+    }
+
+    // Called by the Activity after a successful unlock.
+    fun launchAppDirectly(appModel: AppModel.App) {
+        launchApp(appModel.appPackage, appModel.activityClassName, appModel.user)
+    }
+
     private fun launchApp(packageName: String, activityClassName: String?, userHandle: UserHandle) {
         val launcher = appContext.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
         val activityInfo = launcher.getActivityList(packageName, userHandle)
@@ -425,28 +458,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         isOlauncherDefault.value = isOlauncherDefault(appContext)
     }
 
-    fun setWallpaperWorker() {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-        val uploadWorkRequest = PeriodicWorkRequestBuilder<WallpaperWorker>(4, TimeUnit.HOURS)
-            .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.HOURS)
-            .setConstraints(constraints)
-            .build()
-        WorkManager
-            .getInstance(appContext)
-            .enqueueUniquePeriodicWork(
-                Constants.WALLPAPER_WORKER_NAME,
-                ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
-                uploadWorkRequest
-            )
-    }
-
-    fun cancelWallpaperWorker() {
-        WorkManager.getInstance(appContext).cancelUniqueWork(Constants.WALLPAPER_WORKER_NAME)
-        prefs.dailyWallpaperUrl = ""
-        prefs.dailyWallpaper = false
-    }
 
     fun updateHomeAlignment(gravity: Int) {
         prefs.homeAlignment = gravity
