@@ -104,10 +104,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private lateinit var appWidgetHost: AppWidgetHost
     private var pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
 
-    // The id of the widget is read back from the result Intent (EXTRA_APPWIDGET_ID),
-    // not just the in-memory pendingWidgetId: launching the system picker can stop and
-    // recreate this fragment, wiping the field, which is exactly why picking a widget
-    // previously "did nothing". We fall back to pendingWidgetId only if the Intent has none.
     private fun resultWidgetId(result: androidx.activity.result.ActivityResult): Int {
         val fromData = result.data?.getIntExtra(
             AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID
@@ -115,8 +111,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         return if (fromData != AppWidgetManager.INVALID_APPWIDGET_ID) fromData else pendingWidgetId
     }
 
-    // Standard system widget picker (ACTION_APPWIDGET_PICK). The OS handles
-    // selection + binding and returns the bound id; we just run configure if needed.
     private val pickWidgetLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val id = resultWidgetId(result)
@@ -143,10 +137,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             }
         }
 
-    // Official binding-permission dialog (ACTION_APPWIDGET_BIND). Used as a fallback
-    // when the OEM system widget picker is missing/broken and we bind a provider
-    // ourselves. The dialog is the sanctioned way to grant a third-party launcher the
-    // bind permission, so it does not crash OEM Settings the way a raw bind does.
     private val bindWidgetLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val id = resultWidgetId(result)
@@ -842,8 +832,22 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         val appWidgetId = appWidgetHost.allocateAppWidgetId()
         pendingWidgetId = appWidgetId
         prefs.pendingWidgetId = appWidgetId
-        Log.d(WIDGET_TAG, "startWidgetPick: allocated id=$appWidgetId, showing in-process provider list")
-        showWidgetProviderPicker(appWidgetId)
+        Log.d(WIDGET_TAG, "startWidgetPick: allocated id=$appWidgetId")
+
+        val pickIntent = Intent(AppWidgetManager.ACTION_APPWIDGET_PICK).apply {
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            putParcelableArrayListExtra(AppWidgetManager.EXTRA_CUSTOM_INFO, ArrayList<Parcelable>())
+            putParcelableArrayListExtra(AppWidgetManager.EXTRA_CUSTOM_EXTRAS, ArrayList<Parcelable>())
+        }
+        if (pickIntent.resolveActivity(requireContext().packageManager) != null) {
+            try {
+                pickWidgetLauncher.launch(pickIntent)
+            } catch (e: Exception) {
+                showWidgetProviderPicker(appWidgetId)
+            }
+        } else {
+            showWidgetProviderPicker(appWidgetId)
+        }
     }
 
     // Self-hosted widget chooser used when the OEM system picker is unavailable.
@@ -915,13 +919,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun setWidget(appWidgetId: Int) {
-        // Defensive gate — the single most important fix. Never persist an id that is
-        // not actually bound to a live provider. Some flows (an OEM system picker that
-        // returns RESULT_OK without truly binding, or a configure activity that finishes
-        // OK on an unbound id) can reach here with a "dead" id. getAppWidgetInfo() returns
-        // non-null only for a really-bound id, so it is our source of truth. If we saved a
-        // dead id, HomeFragment.renderWidget() would read it back, hit info == null, wipe
-        // it, and show nothing — exactly the "I select a widget but nothing is placed" bug.
         if (appWidgetManager.getAppWidgetInfo(appWidgetId) == null) {
             Log.w(WIDGET_TAG, "setWidget: id=$appWidgetId is NOT bound -> aborting, not persisting")
             try { appWidgetHost.deleteAppWidgetId(appWidgetId) } catch (_: Exception) {}
@@ -980,7 +977,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     companion object {
-        // Shared logcat tag for the whole widget flow. Filter with: adb logcat -s BLWidget
         private const val WIDGET_TAG = "BLWidget"
         private const val KEY_PENDING_WIDGET_ID = "pending_widget_id"
 
@@ -988,7 +984,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         private const val APPS_NUM_MIN = 1
         private const val APPS_NUM_MAX = 6
 
-        // Favorite-icons slider bounds (matches the 6 shortcut slots).
         private const val ICONS_NUM_MIN = 1
         private const val ICONS_NUM_MAX = Constants.SHORTCUT_COUNT
 

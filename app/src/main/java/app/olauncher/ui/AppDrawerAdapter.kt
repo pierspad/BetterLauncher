@@ -140,11 +140,7 @@ class AppDrawerAdapter(
     }
 
     /**
-     * Filters synchronously on the main thread (the list is at most a few hundred entries,
-     * so this is sub-millisecond) and re-renders. Doing this on the main thread — instead of
-     * the old background [android.widget.Filter] — removes the data race between the worker
-     * thread reading [appsList] and the UI thread rebuilding it, which is what made the drawer
-     * occasionally show no results for a valid query.
+     * Filters the app list based on [query] and submits the filtered results.
      */
     fun applyFilter(query: CharSequence) {
         val q = query.toString()
@@ -203,7 +199,7 @@ class AppDrawerAdapter(
         user = myUserHandle,
     )
 
-    // Used for the hidden/lock/pick flows: a flat list with no folder sections.
+    // Sets app list for flat-list views (hidden/locked apps, pickers)
     fun setAppList(appsList: MutableList<AppModel>) {
         appsList.add(paddingApp())
         this.appsList = appsList
@@ -211,7 +207,7 @@ class AppDrawerAdapter(
         applyFilter(lastQuery)
     }
 
-    // Used for the main launch drawer: the same flat list plus folder sections on top.
+    // Sets app list and folders for the main launcher drawer
     fun setAppList(appsList: MutableList<AppModel>, folders: List<Folder>) {
         appsList.add(paddingApp())
         this.appsList = appsList
@@ -219,9 +215,7 @@ class AppDrawerAdapter(
         applyFilter(lastQuery)
     }
 
-    // Resolves each folder's member keys ("package|user") against the live app list and
-    // emits [FolderHeader, member, member, …]. Unresolved/uninstalled members are skipped,
-    // and folders that end up empty are omitted entirely.
+    // Groups apps under their respective folder headers
     private fun buildFolderSections(folders: List<Folder>, apps: List<AppModel>): List<AppModel> {
         if (folders.isEmpty()) return emptyList()
         val byKey = HashMap<String, AppModel.App>(apps.size)

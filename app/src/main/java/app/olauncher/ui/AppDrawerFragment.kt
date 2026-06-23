@@ -307,13 +307,11 @@ class AppDrawerFragment : Fragment() {
             }
         }
 
-        // Folder sections only make sense in the main launch drawer, not while picking.
+        // Only show folders in the main launcher drawer
         if (flag == Constants.FLAG_LAUNCH_APP)
             adapter.setAppList(combined, prefs.folders)
         else
             adapter.setAppList(combined)
-        // setAppList re-applies the current query synchronously, so there is no longer a
-        // separate (and racy) re-filter call here.
     }
 
     private fun initClickListeners() {

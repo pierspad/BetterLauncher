@@ -978,8 +978,6 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         }
         val info = manager.getAppWidgetInfo(id)
         if (info == null) {
-            // No live provider for this id: either the hosting app was uninstalled, or a
-            // never-actually-bound id slipped into prefs. Clear it so we stop trying.
             Log.w(WIDGET_TAG, "renderWidget: id=$id has no provider info -> clearing")
             container.removeAllViews()
             container.isVisible = false
@@ -988,41 +986,23 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         }
         try {
             container.removeAllViews()
-            // The host outlives this fragment's view, so inflate the widget's RemoteViews
-            // with the application context.
             val appContext = requireContext().applicationContext
             val hostView = host.createView(appContext, id, info)
 
             val density = resources.displayMetrics.density
-            // IMPORTANT: AppWidgetProviderInfo.minWidth / minHeight are already in PIXELS —
-            // the framework resolves the provider's dp values against the display density
-            // when it loads the info. The previous code called .dpToPx() on minHeight,
-            // multiplying by the density a *second* time (a 1x1 widget became ~3x too tall),
-            // and then handed those same pixels to updateAppWidgetOptions(), which expects
-            // dp. So both the View height and the size advertised to the provider were wrong.
-            // We keep px for the layout and convert to dp only for the provider APIs.
             val minHeightPx = info.minHeight.coerceAtLeast(MIN_WIDGET_HEIGHT_DP.dpToPx())
 
-            // Pin an explicit height so the host view can't collapse to 0px before the
-            // provider has delivered its first RemoteViews frame.
             hostView.layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT,
                 minHeightPx
-            )
+            ).apply { gravity = Gravity.CENTER_HORIZONTAL }
             container.addView(hostView)
             container.isVisible = true
 
-            // Usable width = screen width minus the home column's 24dp padding on each side.
             val widthPx = (resources.displayMetrics.widthPixels - 48.dpToPx()).coerceAtLeast(0)
             val widthDp = (widthPx / density).toInt()
             val heightDp = (minHeightPx / density).toInt()
 
-            // Push the real size (in dp) to the provider. Many widgets render a blank /
-            // zero-height frame until they are told their size, which looks exactly like
-            // "nothing got placed". updateAppWidgetSize() both stores the OPTION_* extras
-            // and notifies the provider, so it replaces the manual options bundle.
-            // NB: it mutates the Bundle you hand it (putInt internally), so pass a fresh
-            // mutable one — Bundle.EMPTY is read-only and would throw here.
             hostView.updateAppWidgetSize(Bundle(), widthDp, heightDp, widthDp, heightDp)
             Log.d(WIDGET_TAG, "renderWidget: drew id=$id provider=${info.provider} ${widthDp}x${heightDp}dp")
         } catch (e: Exception) {
@@ -1038,12 +1018,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     companion object {
-        // Same logcat tag as SettingsFragment so the whole flow reads as one stream:
-        // adb logcat -s BLWidget
         private const val WIDGET_TAG = "BLWidget"
-
-        // Minimum height (dp) for a hosted widget, so a provider that reports a tiny
-        // minHeight still gets a usable, tappable slot on the home screen.
         private const val MIN_WIDGET_HEIGHT_DP = 72
     }
 }

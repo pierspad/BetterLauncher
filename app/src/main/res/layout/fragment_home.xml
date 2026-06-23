@@ -83,15 +83,6 @@
         android:paddingTop="112dp"
         android:paddingBottom="48dp">
 
-        <!-- Home widget: below the clock, above the apps -->
-        <FrameLayout
-            android:id="@+id/widgetContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone"
-            tools:visibility="gone" />
-
         <TextView
             android:id="@+id/homeApp1"
             style="@style/TextLarge"
@@ -181,6 +172,16 @@
             tools:visibility="visible" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/widgetContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="160dp"
+        android:visibility="gone"
+        tools:visibility="gone" />
 
     <!-- Right-side shortcut icons column -->
     <LinearLayout
