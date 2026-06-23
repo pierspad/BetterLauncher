@@ -42,7 +42,8 @@
         <item name="primaryShadeColor">@color/blackInverseTrans10</item>
         <item name="primaryShadeDarkColor">@color/blackInverseTrans25</item>
         <item name="dialogShadeColor">@color/blackInverseTrans50</item>
-
+        <item name="cardBackgroundColor">#E6F0F0F0</item>
+        <item name="cardStrokeColor">#1A000000</item>
     </style>
 
     <style name="WindowAnimationTransition">

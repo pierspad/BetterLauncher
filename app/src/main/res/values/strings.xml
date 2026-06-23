@@ -218,11 +218,17 @@
     <string name="app_locked_toast">App locked</string>
     <string name="app_unlocked_toast">App unlocked</string>
 
-    <!-- Backup & Restore -->
-    <string name="backup_saved">Backup saved successfully</string>
-    <string name="backup_failed">Backup failed</string>
-    <string name="restore_done">Settings restored successfully</string>
-    <string name="restore_failed">Restore failed</string>
-    <string name="backup_settings">Backup settings</string>
-    <string name="restore_settings">Restore settings</string>
+    <!-- Export, Import & Reset -->
+    <string name="backup_saved">Settings exported successfully</string>
+    <string name="backup_failed">Export failed</string>
+    <string name="restore_done">Settings imported successfully</string>
+    <string name="restore_failed">Import failed</string>
+    <string name="backup_settings">Export settings</string>
+    <string name="restore_settings">Import settings</string>
+    <string name="reset_settings">Reset settings</string>
+    <string name="reset_settings_title">Reset settings</string>
+    <string name="reset_settings_confirm">Are you sure you want to reset all settings to defaults?</string>
+    <string name="reset">Reset</string>
+    <string name="reset_done">Settings reset successfully</string>
+    <string name="hidden_apps_instructions">To hide an app, long-press its name in the app drawer and select \'Hide\'. To restore a hidden app, open this screen, long-press the app, and select \'Show\'.</string>
 </resources>

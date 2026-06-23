@@ -41,28 +41,42 @@
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="18dp">
 
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/olauncherHiddenApps"
+                        android:id="@+id/settingsHeaderTitle"
                         style="@style/TextSectionTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/app_name" />
+                </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/appInfo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|center_vertical"
-                        android:padding="4dp"
-                        android:src="@drawable/ic_info" />
-                </FrameLayout>
+                <TextView
+                    android:id="@+id/olauncherHiddenApps"
+                    style="@style/TextSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/ic_hide"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/hidden_apps" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="6dp"
+                    android:background="@drawable/divider_light" />
 
                 <TextView
                     android:id="@+id/setLauncher"
@@ -72,6 +86,9 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/ic_sc_grid"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
                     android:text="@string/set_as_default_launcher" />
 
                 <View
@@ -89,6 +106,9 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/ic_shield"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
                     android:text="@string/lock_apps" />
 
                 <View
@@ -106,6 +126,9 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/ic_sc_upload"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
                     android:text="@string/backup_settings" />
 
                 <View
@@ -123,7 +146,30 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/ic_sc_download"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
                     android:text="@string/restore_settings" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="6dp"
+                    android:background="@drawable/divider_light" />
+
+                <TextView
+                    android:id="@+id/resetSettings"
+                    style="@style/TextSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/ic_delete"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/reset_settings" />
 
                 <View
                     android:layout_width="match_parent"
@@ -140,8 +186,9 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:drawablePadding="8dp"
-                    android:gravity="center"
+                    android:drawableStart="@drawable/ic_info"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
                     android:text="@string/about_olauncher" />
 
             </LinearLayout>

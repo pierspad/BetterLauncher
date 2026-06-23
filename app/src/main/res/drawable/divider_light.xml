@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <!-- Very subtle divider line with low opacity for visual separation -->
-    <solid android:color="#1AFFFFFF" />
+    <solid android:color="?attr/cardStrokeColor" />
 </shape>

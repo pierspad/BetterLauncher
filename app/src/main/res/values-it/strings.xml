@@ -190,11 +190,17 @@
     <string name="app_locked_toast">App bloccata</string>
     <string name="app_unlocked_toast">App sbloccata</string>
 
-    <!-- Backup & Restore -->
-    <string name="backup_saved">Backup salvato con successo</string>
-    <string name="backup_failed">Backup fallito</string>
-    <string name="restore_done">Impostazioni ripristinate con successo</string>
-    <string name="restore_failed">Ripristino fallito</string>
-    <string name="backup_settings">Backup impostazioni</string>
-    <string name="restore_settings">Ripristina impostazioni</string>
+    <!-- Esportazione, Importazione & Ripristino -->
+    <string name="backup_saved">Impostazioni esportate con successo</string>
+    <string name="backup_failed">Esportazione fallita</string>
+    <string name="restore_done">Impostazioni importate con successo</string>
+    <string name="restore_failed">Importazione fallita</string>
+    <string name="backup_settings">Esporta impostazioni</string>
+    <string name="restore_settings">Importa impostazioni</string>
+    <string name="reset_settings">Ripristina impostazioni</string>
+    <string name="reset_settings_title">Ripristina impostazioni</string>
+    <string name="reset_settings_confirm">Sei sicuro di voler ripristinare tutte le impostazioni ai valori di default?</string>
+    <string name="reset">Ripristina</string>
+    <string name="reset_done">Impostazioni ripristinate con successo</string>
+    <string name="hidden_apps_instructions">Per nascondere un\'app, tieni premuto il suo nome nel drawer delle app e seleziona \'Nascondi\'. Per ripristinare un\'app nascosta, apri questa schermata, tieni premuta l\'app e seleziona \'Mostra\'.</string>
 </resources><!-- Italian -->

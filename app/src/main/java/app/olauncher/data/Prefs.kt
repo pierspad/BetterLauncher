@@ -182,6 +182,10 @@ class Prefs(context: Context) {
         }
     }
 
+    fun resetToDefaults() {
+        prefs.edit().clear().apply()
+    }
+
     var firstOpen: Boolean
         get() = prefs.getBoolean(FIRST_OPEN, true)
         set(value) = prefs.edit { putBoolean(FIRST_OPEN, value).apply() }

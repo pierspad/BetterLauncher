@@ -195,7 +195,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateSwipeDownAction()
         populateShortcutIconsSetting()
         populateWidget()
-        populateActionHints()
         initClickListeners()
         initObservers()
     }
@@ -209,11 +208,11 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.lockApps -> showLockApps()
             R.id.backupSettings -> createBackupLauncher.launch("betterlauncher-backup.json")
             R.id.restoreSettings -> openRestoreLauncher.launch(arrayOf("*/*"))
+            R.id.resetSettings -> resetSettingsToDefault()
             R.id.screenTimeSwitch -> {
                 viewModel.showDialog.postValue(Constants.Dialog.DIGITAL_WELLBEING)
                 populateScreenTimeOnOff()
             }
-            R.id.appInfo -> openAppInfo(requireContext(), Process.myUserHandle(), BuildConfig.APPLICATION_ID)
             R.id.setLauncher -> viewModel.resetLauncherLiveData.call()
             R.id.toggleLock -> toggleLockMode()
             // Home button for recents feature disabled
@@ -289,8 +288,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.lockApps.setOnClickListener(this)
         binding.backupSettings.setOnClickListener(this)
         binding.restoreSettings.setOnClickListener(this)
+        binding.resetSettings.setOnClickListener(this)
         binding.scrollLayout.setOnClickListener(this)
-        binding.appInfo.setOnClickListener(this)
         binding.setLauncher.setOnClickListener(this)
         binding.aboutOlauncher.setOnClickListener(this)
         binding.autoShowKeyboard.setOnClickListener(this)
@@ -443,7 +442,11 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     private fun showHiddenApps() {
         if (prefs.hiddenApps.isEmpty()) {
-            requireContext().showToast(getString(R.string.no_hidden_apps))
+            AlertDialog.Builder(requireContext())
+                .setTitle(R.string.hidden_apps)
+                .setMessage(R.string.hidden_apps_instructions)
+                .setPositiveButton(android.R.string.ok, null)
+                .show()
             return
         }
         viewModel.getHiddenApps()
@@ -451,6 +454,19 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.action_settingsFragment_to_appListFragment,
             bundleOf(Constants.Key.FLAG to Constants.FLAG_HIDDEN_APPS)
         )
+    }
+
+    private fun resetSettingsToDefault() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.reset_settings_title)
+            .setMessage(R.string.reset_settings_confirm)
+            .setPositiveButton(R.string.reset) { _, _ ->
+                prefs.resetToDefaults()
+                requireContext().showToast(getString(R.string.reset_done))
+                restartLauncher()
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
     private fun showLockApps() {
@@ -786,11 +802,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.action_settingsFragment_to_appListFragment,
             bundleOf(Constants.Key.FLAG to flag)
         )
-    }
-
-    private fun populateActionHints() {
-        if (prefs.aboutClicked.not())
-            binding.aboutOlauncher.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_info, 0)
     }
 
     private fun populateProMessage() {

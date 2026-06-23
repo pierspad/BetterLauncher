@@ -91,6 +91,25 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         initSwipeTouchListener()
         initClickListeners()
         initShortcutIcons()
+
+        // Sync shortcut icon row heights with corresponding home app row heights
+        homeAppViews().forEachIndexed { index, textView ->
+            textView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+                if (prefs.shortcutIconsEnabled) {
+                    val count = prefs.homeShortcutIconsNum.coerceIn(1, Constants.SHORTCUT_COUNT)
+                    val appCount = prefs.homeAppsNum
+                    if (index < minOf(count, appCount)) {
+                        val iconViews = shortcutIconViews()
+                        val imageView = iconViews[index]
+                        val lp = imageView.layoutParams
+                        if (lp.height != textView.height) {
+                            lp.height = textView.height
+                            imageView.layoutParams = lp
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -804,12 +823,34 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         applyAppsPaddingForIcons()
         if (!enabled) return
         val count = prefs.homeShortcutIconsNum.coerceIn(1, Constants.SHORTCUT_COUNT)
+        val appCount = prefs.homeAppsNum
+        val minCount = minOf(count, appCount)
+        val appViews = homeAppViews()
         shortcutIconViews().forEachIndexed { slot, imageView ->
             if (slot < count) {
                 imageView.isVisible = true
                 val iconIndex = prefs.getShortcutIconIndex(slot)
                     .coerceIn(0, Constants.SHORTCUT_ICONS.size - 1)
                 imageView.setImageResource(Constants.SHORTCUT_ICONS[iconIndex])
+                
+                // Keep icon height in sync with the corresponding app's height if both exist,
+                // otherwise reset to default 48dp.
+                val lp = imageView.layoutParams
+                if (slot < minCount) {
+                    val textView = appViews[slot]
+                    if (textView.height > 0) {
+                        if (lp.height != textView.height) {
+                            lp.height = textView.height
+                            imageView.layoutParams = lp
+                        }
+                    }
+                } else {
+                    val defaultHeight = 48.dpToPx()
+                    if (lp.height != defaultHeight) {
+                        lp.height = defaultHeight
+                        imageView.layoutParams = lp
+                    }
+                }
             } else {
                 imageView.isVisible = false
             }
@@ -912,7 +953,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         val manager = appWidgetManager
         val host = appWidgetHost
         val id = prefs.widgetId
-        if (manager == null || host == null || id == -1) {
+        if (manager == null || host == null || id == -1 || !prefs.widgetEnabled) {
             container.removeAllViews()
             container.isVisible = false
             return
@@ -928,13 +969,21 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         try {
             container.removeAllViews()
             val hostView = host.createView(requireContext().applicationContext, id, info)
+            
+            // Set explicit layout params to prevent the view from collapsing to 0 height
+            val widgetHeight = info.minHeight.coerceAtLeast(80).dpToPx()
+            hostView.layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                widgetHeight
+            )
+            
             container.addView(hostView)
             container.isVisible = true
 
             val density = resources.displayMetrics.density
             val widthPx = (resources.displayMetrics.widthPixels - 48.dpToPx()).coerceAtLeast(0)
             val widthDp = (widthPx / density).toInt()
-            val heightDp = (info.minHeight / density).toInt().coerceAtLeast(80)
+            val heightDp = info.minHeight.coerceAtLeast(80)
             val options = android.os.Bundle().apply {
                 putInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, widthDp)
                 putInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH, widthDp)

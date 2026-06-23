@@ -11,4 +11,6 @@
     <attr name="primaryShadeColor" format="color" />
     <attr name="dialogShadeColor" format="color" />
     <attr name="primaryShadeDarkColor" format="color" />
+    <attr name="cardBackgroundColor" format="color" />
+    <attr name="cardStrokeColor" format="color" />
 </resources>
