@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.os.Process
 import android.provider.Settings
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -119,6 +120,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private val pickWidgetLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val id = resultWidgetId(result)
+            Log.d(WIDGET_TAG, "pick result: code=${result.resultCode} id=$id")
             if (result.resultCode == Activity.RESULT_OK && id != AppWidgetManager.INVALID_APPWIDGET_ID)
                 afterWidgetBound(id)
             else {
@@ -131,6 +133,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private val configureWidgetLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val id = resultWidgetId(result)
+            Log.d(WIDGET_TAG, "configure result: code=${result.resultCode} id=$id")
             if (result.resultCode == Activity.RESULT_OK && id != AppWidgetManager.INVALID_APPWIDGET_ID)
                 setWidget(id)
             else {
@@ -147,6 +150,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private val bindWidgetLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val id = resultWidgetId(result)
+            Log.d(WIDGET_TAG, "bind-permission result: code=${result.resultCode} id=$id")
             if (result.resultCode == Activity.RESULT_OK && id != AppWidgetManager.INVALID_APPWIDGET_ID)
                 afterWidgetBound(id)
             else {
@@ -180,7 +184,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         appWidgetHost = AppWidgetHost(requireContext().applicationContext, Constants.WIDGET_HOST_ID)
 
         binding.homeAppsNum.text = prefs.homeAppsNum.toString()
-        populateProMessage()
         populateKeyboardText()
         populateScreenTimeOnOff()
         populateLockSettings()
@@ -804,13 +807,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         )
     }
 
-    private fun populateProMessage() {
-        if (prefs.proMessageShown.not() && prefs.userState == Constants.UserState.SHARE) {
-            prefs.proMessageShown = true
-            viewModel.showDialog.postValue(Constants.Dialog.PRO_MESSAGE)
-        }
-    }
-
     private fun toggleShortcutIcons() {
         prefs.shortcutIconsEnabled = !prefs.shortcutIconsEnabled
         populateShortcutIconsSetting()
@@ -838,40 +834,16 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun startWidgetPick() {
-        // Hosting a home-screen widget requires being the active default launcher.
-        // On aggressive OEM skins (notably Xiaomi MIUI/HyperOS) firing the system
-        // widget picker while we are NOT the default home app makes the OS try to
-        // reassign the home role mid-flow, which is what triggers the "choose default
-        // app" prompt and can crash the OEM Settings app. On stock/AOSP Android the
-        // picker just works, which is why the bug only shows up on some devices.
-        // So: make sure we're the default launcher before going any further.
         if (!isOlauncherDefault(requireContext())) {
             requireContext().showToast(getString(R.string.widget_requires_default_launcher), Toast.LENGTH_LONG)
             viewModel.resetLauncherLiveData.call()
             return
         }
-
         val appWidgetId = appWidgetHost.allocateAppWidgetId()
         pendingWidgetId = appWidgetId
-
-        val pickIntent = Intent(AppWidgetManager.ACTION_APPWIDGET_PICK).apply {
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            // Some OEM pickers crash on a missing custom-widget/shortcut list; pass empty ones.
-            putParcelableArrayListExtra(AppWidgetManager.EXTRA_CUSTOM_INFO, ArrayList<Parcelable>())
-            putParcelableArrayListExtra(AppWidgetManager.EXTRA_CUSTOM_EXTRAS, ArrayList<Parcelable>())
-        }
-
-        // Prefer the native system picker when the device actually provides one;
-        // otherwise fall back to our own provider list + official bind flow.
-        if (pickIntent.resolveActivity(requireContext().packageManager) != null) {
-            try {
-                pickWidgetLauncher.launch(pickIntent)
-            } catch (e: Exception) {
-                showWidgetProviderPicker(appWidgetId)
-            }
-        } else {
-            showWidgetProviderPicker(appWidgetId)
-        }
+        prefs.pendingWidgetId = appWidgetId
+        Log.d(WIDGET_TAG, "startWidgetPick: allocated id=$appWidgetId, showing in-process provider list")
+        showWidgetProviderPicker(appWidgetId)
     }
 
     // Self-hosted widget chooser used when the OEM system picker is unavailable.
@@ -893,6 +865,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             .setOnCancelListener {
                 appWidgetHost.deleteAppWidgetId(appWidgetId)
                 pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+                prefs.pendingWidgetId = -1
             }
             .show()
     }
@@ -903,6 +876,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         } catch (e: Exception) {
             false
         }
+        Log.d(WIDGET_TAG, "bindWidget: provider=$provider allowed=$allowed")
         if (allowed) {
             afterWidgetBound(appWidgetId)
         } else {
@@ -924,6 +898,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     private fun afterWidgetBound(appWidgetId: Int) {
         val info = appWidgetManager.getAppWidgetInfo(appWidgetId)
+        Log.d(WIDGET_TAG, "afterWidgetBound: id=$appWidgetId bound=${info != null} configure=${info?.configure}")
         if (info?.configure != null) {
             try {
                 val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE).apply {
@@ -940,6 +915,22 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun setWidget(appWidgetId: Int) {
+        // Defensive gate — the single most important fix. Never persist an id that is
+        // not actually bound to a live provider. Some flows (an OEM system picker that
+        // returns RESULT_OK without truly binding, or a configure activity that finishes
+        // OK on an unbound id) can reach here with a "dead" id. getAppWidgetInfo() returns
+        // non-null only for a really-bound id, so it is our source of truth. If we saved a
+        // dead id, HomeFragment.renderWidget() would read it back, hit info == null, wipe
+        // it, and show nothing — exactly the "I select a widget but nothing is placed" bug.
+        if (appWidgetManager.getAppWidgetInfo(appWidgetId) == null) {
+            Log.w(WIDGET_TAG, "setWidget: id=$appWidgetId is NOT bound -> aborting, not persisting")
+            try { appWidgetHost.deleteAppWidgetId(appWidgetId) } catch (_: Exception) {}
+            pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+            prefs.pendingWidgetId = -1
+            requireContext().showToast(getString(R.string.widget_bind_failed))
+            return
+        }
+        Log.d(WIDGET_TAG, "setWidget: persisting bound id=$appWidgetId")
         val old = prefs.widgetId
         if (old != -1 && old != appWidgetId) {
             try {
@@ -950,6 +941,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         }
         prefs.widgetId = appWidgetId
         pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+        prefs.pendingWidgetId = -1
         populateWidget()
         viewModel.refreshHome(false)
         requireContext().showToast(getString(R.string.widget_added))
@@ -988,6 +980,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     companion object {
+        // Shared logcat tag for the whole widget flow. Filter with: adb logcat -s BLWidget
+        private const val WIDGET_TAG = "BLWidget"
         private const val KEY_PENDING_WIDGET_ID = "pending_widget_id"
 
         // Apps-on-home slider bounds.

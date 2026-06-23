@@ -652,10 +652,15 @@ class Prefs(context: Context) {
     // Home-screen widget (single)
     private val WIDGET_ID = "WIDGET_ID"
     private val WIDGET_ENABLED = "WIDGET_ENABLED"
+    private val PENDING_WIDGET_ID = "PENDING_WIDGET_ID"
 
     var widgetId: Int
         get() = prefs.getInt(WIDGET_ID, -1)
         set(value) = prefs.edit { putInt(WIDGET_ID, value) }
+
+    var pendingWidgetId: Int
+        get() = prefs.getInt(PENDING_WIDGET_ID, -1)
+        set(value) = prefs.edit { putInt(PENDING_WIDGET_ID, value) }
 
     var widgetEnabled: Boolean
         get() = prefs.getBoolean(WIDGET_ENABLED, false)
