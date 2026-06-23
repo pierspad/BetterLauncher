@@ -1,19 +1,17 @@
-![Olauncher](https://repository-images.githubusercontent.com/278638069/db0acb80-661b-11eb-803e-926cae5dccb4)
-
-
 # BetterLauncher
 
 Hard fork of [Olauncher](https://github.com/tanujnotes/olauncher) featuring additional customizations, a polished UI/UX, and a clean, popup-free experience.
 
 ### Comparison with Olauncher
 
-#### BetterLauncher (Home Screen & Settings)
+#### BetterLauncher
 ![BetterLauncher](BetterLauncher.png)
 
-#### Olauncher (Original Home Screen & Settings)
+#### Olauncher 
 ![Olauncher](Olauncher.png)
 
 ---
+## Other Features
 
 ### Home Screen Widget Support
 You can easily select and place any standard system widget directly on your home screen.

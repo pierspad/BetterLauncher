@@ -56,7 +56,7 @@ Protect sensitive applications using your device's native lock credentials.
     alt="Get it on Play Store"
     height="80">](https://play.google.com/store/apps/details?id=app.olauncher)
 
-### Install using [F-Droid](https://f-droid.org/packages/app.olauncher), [Play Store](https://play.google.com/store/apps/details?id=app.olauncher) or the [latest APK](https://github.com/tanujnotes/Olauncher/releases/).
+### Install using [F-Droid](https://f-droid.org/packages/app.olauncher), [Play Store](https://play.google.com/store/apps/details?id=app.olauncher) or the [latest APK](https://github.com/pierspad/BetterLauncher/releases/).
 
 
 
