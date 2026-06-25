@@ -1,5 +1,6 @@
 package app.olauncher.ui
 
+import android.animation.ObjectAnimator
 import android.app.admin.DevicePolicyManager
 import android.appwidget.AppWidgetHost
 import android.appwidget.AppWidgetManager
@@ -16,6 +17,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
+import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.activity.OnBackPressedCallback
 import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.FrameLayout
@@ -70,6 +73,13 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    // ---- Reorder mode ----
+    private var reorderMode = false
+    private var appsReorder: ReorderController? = null
+    private var iconsReorder: ReorderController? = null
+    private val wiggleAnimators = HashMap<View, ObjectAnimator>()
+    private var reorderBackCallback: OnBackPressedCallback? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -92,6 +102,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         initSwipeTouchListener()
         initClickListeners()
         initShortcutIcons()
+        initReorder()
 
         // Sync shortcut icon row heights with corresponding home app row heights
         homeAppViews().forEachIndexed { index, textView ->
@@ -130,6 +141,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
 
     override fun onPause() {
         super.onPause()
+        if (reorderMode) exitReorderMode(announce = false)
         try {
             appWidgetHost?.stopListening()
         } catch (e: Exception) {
@@ -138,6 +150,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     override fun onClick(view: View) {
+        if (reorderMode) return
         when (view.id) {
             R.id.lock -> {}
             // Home button for recents feature disabled
@@ -183,6 +196,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     override fun onLongClick(view: View): Boolean {
+        if (reorderMode) return true
         when (view.id) {
             R.id.homeApp1 -> showAppList(Constants.FLAG_SET_HOME_APP_1, prefs.appName1.isNotEmpty(), true)
             R.id.homeApp2 -> showAppList(Constants.FLAG_SET_HOME_APP_2, prefs.appName2.isNotEmpty(), true)
@@ -249,6 +263,9 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         }
         viewModel.screenTimeValue.observe(viewLifecycleOwner) {
             it?.let { binding.tvScreenTime.text = it }
+        }
+        viewModel.enterReorderMode.observe(viewLifecycleOwner) {
+            enterReorderMode()
         }
         // Home button for recents feature disabled
         // viewModel.showRecentApps.observe(viewLifecycleOwner) {
@@ -725,26 +742,31 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     private fun getSwipeGestureListener(context: Context): View.OnTouchListener {
         return object : OnSwipeTouchListener(context) {
             override fun onSwipeLeft() {
+                if (reorderMode) return
                 super.onSwipeLeft()
                 openSwipeLeftApp()
             }
 
             override fun onSwipeRight() {
+                if (reorderMode) return
                 super.onSwipeRight()
                 openSwipeRightApp()
             }
 
             override fun onSwipeUp() {
+                if (reorderMode) return
                 super.onSwipeUp()
                 showAppList(Constants.FLAG_LAUNCH_APP)
             }
 
             override fun onSwipeDown() {
+                if (reorderMode) return
                 super.onSwipeDown()
                 swipeDownAction()
             }
 
             override fun onLongClick() {
+                if (reorderMode) return
                 super.onLongClick()
                 try {
                     findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
@@ -755,6 +777,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             }
 
             override fun onDoubleClick() {
+                if (reorderMode) return
                 super.onDoubleClick()
                 if (!prefs.lockModeOn) return
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
@@ -764,6 +787,11 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             }
 
             override fun onClick() {
+                // A tap on empty space is the easy way out of reorder mode.
+                if (reorderMode) {
+                    exitReorderMode()
+                    return
+                }
                 super.onClick()
                 viewModel.checkForMessages.call()
             }
@@ -818,6 +846,144 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                 true
             }
         }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // Reorder mode: drag home apps and shortcut icons up/down to reorder them, with a subtle wiggle
+    // that signals the home screen is in an editing state (à la classic launcher "jiggle" mode).
+    // ---------------------------------------------------------------------------------------------
+
+    private fun initReorder() {
+        appsReorder = ReorderController(
+            rows = homeAppViews(),
+            onCommit = ::commitAppsOrder,
+            onLift = ::liftRow,
+            onDrop = ::dropRow,
+        )
+        iconsReorder = ReorderController(
+            rows = shortcutIconViews(),
+            onCommit = ::commitIconsOrder,
+            onLift = ::liftRow,
+            onDrop = ::dropRow,
+        )
+        binding.reorderDone.setOnClickListener { exitReorderMode() }
+
+        reorderBackCallback = object : OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() = exitReorderMode()
+        }.also { requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, it) }
+    }
+
+    private fun enterReorderMode() {
+        if (reorderMode || _binding == null) return
+        reorderMode = true
+        binding.firstRunTips.visibility = View.GONE
+        binding.setDefaultLauncher.visibility = View.GONE
+        binding.reorderDone.visibility = View.VISIBLE
+        reorderBackCallback?.isEnabled = true
+        requireContext().showToast(getString(R.string.reorder_mode_hint), Toast.LENGTH_LONG)
+        binding.mainLayout.post { startReorderInteractions() }
+    }
+
+    private fun exitReorderMode(announce: Boolean = true) {
+        if (!reorderMode) return
+        reorderMode = false
+        reorderBackCallback?.isEnabled = false
+        appsReorder?.disable()
+        iconsReorder?.disable()
+        clearWiggle()
+        (homeAppViews() + shortcutIconViews()).forEach(::resetTransforms)
+        _binding?.reorderDone?.visibility = View.GONE
+        // The controllers replaced the row touch listeners; restore the normal interactions.
+        initSwipeTouchListener()
+        initShortcutIcons()
+        if (announce) requireContext().showToast(getString(R.string.reorder_completed))
+    }
+
+    // (Re)arms wiggle + drag handling. Posted after layout so row tops/heights are valid.
+    private fun startReorderInteractions() {
+        if (!reorderMode || _binding == null) return
+        applyWiggle()
+        appsReorder?.enable()
+        iconsReorder?.enable()
+    }
+
+    private fun refreshAndKeepReorder() {
+        populateHomeScreen(false)
+        if (reorderMode) binding.mainLayout.post { startReorderInteractions() }
+    }
+
+    // newOrder[destination] = source visible index. Slot N maps to home location N+1.
+    private fun commitAppsOrder(newOrder: List<Int>) {
+        val snapshot = newOrder.indices.map { prefs.readHomeSlot(it + 1) }
+        newOrder.forEachIndexed { dest, src -> prefs.writeHomeSlot(dest + 1, snapshot[src]) }
+        refreshAndKeepReorder()
+    }
+
+    // newOrder[destination] = source visible index. Visible index maps 1:1 to icon slot.
+    private fun commitIconsOrder(newOrder: List<Int>) {
+        val snapshot = newOrder.indices.map { prefs.readIconSlot(it) }
+        newOrder.forEachIndexed { dest, src -> prefs.writeIconSlot(dest, snapshot[src]) }
+        refreshAndKeepReorder()
+    }
+
+    private fun liftRow(view: View) {
+        stopWiggle(view)
+        view.animate().scaleX(1.08f).scaleY(1.08f).alpha(0.95f).setDuration(120).start()
+    }
+
+    private fun dropRow(view: View) {
+        view.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(120).start()
+        if (reorderMode) startWiggleFor(view)
+    }
+
+    private fun resetTransforms(view: View) {
+        view.animate().cancel()
+        view.rotation = 0f
+        view.translationY = 0f
+        view.translationZ = 0f
+        view.scaleX = 1f
+        view.scaleY = 1f
+        view.alpha = 1f
+    }
+
+    private fun applyWiggle() {
+        clearWiggle()
+        // Text labels are wide, so a tiny angle already reads as a wiggle. Icons are small,
+        // so the same angle would be invisible — they need a much wider, faster rotation to
+        // clearly signal "you're editing, a tap won't open the app".
+        homeAppViews().filter { it.isVisible }.forEach { startWiggle(it, WIGGLE_DEGREES_TEXT, WIGGLE_DURATION_TEXT) }
+        shortcutIconViews().filter { it.isVisible }.forEach { startWiggle(it, WIGGLE_DEGREES_ICON, WIGGLE_DURATION_ICON) }
+    }
+
+    // Restarts the wiggle for a single view with the amplitude/speed proper to its type.
+    private fun startWiggleFor(view: View) {
+        val isIcon = shortcutIconViews().contains(view)
+        if (isIcon) startWiggle(view, WIGGLE_DEGREES_ICON, WIGGLE_DURATION_ICON)
+        else startWiggle(view, WIGGLE_DEGREES_TEXT, WIGGLE_DURATION_TEXT)
+    }
+
+    private fun startWiggle(view: View, degrees: Float, duration: Long) {
+        if (wiggleAnimators.containsKey(view)) return
+        val anim = ObjectAnimator.ofFloat(view, View.ROTATION, -degrees, degrees).apply {
+            this.duration = duration
+            repeatMode = ObjectAnimator.REVERSE
+            repeatCount = ObjectAnimator.INFINITE
+            startDelay = (0..120).random().toLong() // desync rows so the wiggle looks organic
+            interpolator = AccelerateDecelerateInterpolator()
+        }
+        wiggleAnimators[view] = anim
+        anim.start()
+    }
+
+    private fun stopWiggle(view: View) {
+        wiggleAnimators.remove(view)?.cancel()
+        view.rotation = 0f
+    }
+
+    private fun clearWiggle() {
+        wiggleAnimators.values.forEach { it.cancel() }
+        wiggleAnimators.clear()
+        (homeAppViews() + shortcutIconViews()).forEach { it.rotation = 0f }
     }
 
     private fun populateShortcutIcons() {
@@ -897,6 +1063,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     private fun launchShortcutSlot(slot: Int) {
+        if (reorderMode) return
         val packageName = prefs.getShortcutTargetPackage(slot)
         if (packageName.isNotEmpty()) {
             launchApp(
@@ -927,6 +1094,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     private fun showShortcutOptionsDialog(slot: Int) {
+        if (reorderMode) return
         val items = arrayOf(
             getString(R.string.change_app),
             getString(R.string.change_icon),
@@ -1052,11 +1220,21 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
 
     override fun onDestroyView() {
         super.onDestroyView()
+        clearWiggle()
+        reorderMode = false
+        appsReorder = null
+        iconsReorder = null
         _binding = null
     }
 
     companion object {
         private const val WIDGET_TAG = "BLWidget"
         private const val MIN_WIDGET_HEIGHT_DP = 72
+
+        // Wiggle amplitude/speed: subtle for wide text labels, pronounced for small icons.
+        private const val WIGGLE_DEGREES_TEXT = 1.4f
+        private const val WIGGLE_DURATION_TEXT = 130L
+        private const val WIGGLE_DEGREES_ICON = 7f
+        private const val WIGGLE_DURATION_ICON = 110L
     }
 }

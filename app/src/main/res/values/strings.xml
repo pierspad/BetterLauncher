@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">BetterLauncher</string>
     <string name="layout_positioning">Layout &amp; positioning</string>
+    <string name="reorder_items">Reorder items &amp; icons</string>
+    <string name="reorder_mode_hint">Hold and drag up or down to reorder. Tap ✓ when done.</string>
+    <string name="reorder_done">✓ Done</string>
+    <string name="reorder_completed">Order saved ✅</string>
     <string name="website" translatable="false">pierspad.com</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="github" translatable="false">Github</string>

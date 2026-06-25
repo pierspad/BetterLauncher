@@ -222,6 +222,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.alignIconsLeft -> updateIconsAlignment(Gravity.START)
             R.id.alignIconsCenter -> updateIconsAlignment(Gravity.CENTER)
             R.id.alignIconsRight -> updateIconsAlignment(Gravity.END)
+            R.id.reorderItems -> startReorderMode()
             R.id.statusBar -> toggleStatusBar()
             R.id.dateTimeSwitch -> toggleDateTimeEnabled()
             R.id.dateOnlySwitch -> toggleDateOnly()
@@ -301,6 +302,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.alignIconsLeft.setOnClickListener(this)
         binding.alignIconsCenter.setOnClickListener(this)
         binding.alignIconsRight.setOnClickListener(this)
+        binding.reorderItems.setOnClickListener(this)
         binding.statusBar.setOnClickListener(this)
         binding.dateTimeSwitch.setOnClickListener(this)
         binding.dateOnlySwitch.setOnClickListener(this)
@@ -719,6 +721,13 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         // Apps can't occupy the same horizontal position as the shortcut icons.
         if (gravity == prefs.shortcutIconsAlignment) return
         viewModel.updateHomeAlignment(gravity)
+    }
+
+    // Asks the Home screen to enter reorder mode, then returns there. The event is
+    // buffered by SingleLiveEvent and delivered once HomeFragment is active again.
+    private fun startReorderMode() {
+        viewModel.enterReorderMode.call()
+        findNavController().popBackStack(R.id.mainFragment, false)
     }
 
     private fun updateIconsAlignment(gravity: Int) {
