@@ -903,4 +903,64 @@ class Prefs(context: Context) {
             8 -> shortcutId8 = value
         }
     }
+
+    // ---- Reorder support ----
+    // Reads/writes a whole home slot (app, shortcut or folder) atomically. Used to
+    // permute slots when the user reorders the home screen, without losing any field.
+
+    fun readHomeSlot(location: Int): HomeSlotData = HomeSlotData(
+        name = getAppName(location),
+        pkg = getAppPackage(location),
+        cls = getAppActivityClassName(location),
+        user = getAppUser(location),
+        isShortcut = getIsShortcut(location),
+        shortcutId = getShortcutId(location),
+        isFolder = getIsFolder(location),
+        folderId = getFolderIdAt(location),
+    )
+
+    fun writeHomeSlot(location: Int, data: HomeSlotData) {
+        setAppName(location, data.name)
+        setAppPackage(location, data.pkg)
+        setAppActivityClassName(location, data.cls)
+        setAppUser(location, data.user)
+        setIsShortcut(location, data.isShortcut)
+        setShortcutId(location, data.shortcutId)
+        setFolderAt(location, data.isFolder, data.folderId)
+    }
+
+    fun readIconSlot(slot: Int): IconSlotData = IconSlotData(
+        iconIndex = getShortcutIconIndex(slot),
+        pkg = getShortcutTargetPackage(slot),
+        cls = getShortcutTargetClassName(slot),
+        user = getShortcutTargetUser(slot),
+        label = getShortcutTargetLabel(slot),
+    )
+
+    fun writeIconSlot(slot: Int, data: IconSlotData) {
+        setShortcutIconIndex(slot, data.iconIndex)
+        if (data.pkg.isEmpty()) clearShortcutTarget(slot)
+        else setShortcutTarget(slot, data.pkg, data.cls, data.user, data.label)
+    }
 }
+
+/** Snapshot of everything stored for a single home slot (1..8). */
+data class HomeSlotData(
+    val name: String,
+    val pkg: String,
+    val cls: String,
+    val user: String,
+    val isShortcut: Boolean,
+    val shortcutId: String,
+    val isFolder: Boolean,
+    val folderId: String,
+)
+
+/** Snapshot of everything stored for a single shortcut-icon slot (0..7). */
+data class IconSlotData(
+    val iconIndex: Int,
+    val pkg: String,
+    val cls: String,
+    val user: String,
+    val label: String,
+)

@@ -54,6 +54,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val showDialog = SingleLiveEvent<String>()
     val checkForMessages = SingleLiveEvent<Unit?>()
     val resetLauncherLiveData = SingleLiveEvent<Unit?>()
+    // Fired from Settings to ask the Home screen to enter drag-to-reorder mode.
+    val enterReorderMode = SingleLiveEvent<Unit?>()
 
     // A locked app was selected: the Activity must authenticate before launching it.
     val launchAppWithAuth = SingleLiveEvent<AppModel.App>()

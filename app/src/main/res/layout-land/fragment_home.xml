@@ -73,6 +73,25 @@
         tools:text="2h 11m"
         tools:visibility="visible" />
 
+    <!-- Reorder mode: tap to finish -->
+    <TextView
+        android:id="@+id/reorderDone"
+        style="@style/TextMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/bg_reorder_done"
+        android:elevation="8dp"
+        android:paddingHorizontal="26dp"
+        android:paddingVertical="11dp"
+        android:shadowColor="@android:color/transparent"
+        android:text="@string/reorder_done"
+        android:textColor="?attr/primaryInverseColor"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
     <!-- Home apps-->
     <LinearLayout
         android:id="@+id/homeAppsLayout"
