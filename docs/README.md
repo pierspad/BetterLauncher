@@ -43,7 +43,7 @@ Protect sensitive applications using your device's native lock credentials.
 
 
 
-### Install using [F-Droid](https://f-droid.org/packages/app.olauncher), [Play Store](https://play.google.com/store/apps/details?id=app.olauncher) or the [latest APK](https://github.com/pierspad/BetterLauncher/releases/).
+### Install using [F-Droid](https://f-droid.org/packages/app.betterlauncher), [Play Store](https://play.google.com/store/apps/details?id=app.betterlauncher) or the [latest APK](https://github.com/pierspad/BetterLauncher/releases/).
 
 
 ## List of changes

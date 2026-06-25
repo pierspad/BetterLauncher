@@ -337,7 +337,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     private fun initObservers() {
         if (prefs.firstSettingsOpen) {
-            viewModel.showDialog.postValue(Constants.Dialog.ABOUT)
             prefs.firstSettingsOpen = false
         }
         viewModel.isOlauncherDefault.observe(viewLifecycleOwner) {
@@ -982,7 +981,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
         // Apps-on-home slider bounds.
         private const val APPS_NUM_MIN = 1
-        private const val APPS_NUM_MAX = 6
+        private const val APPS_NUM_MAX = 8
 
         private const val ICONS_NUM_MIN = 1
         private const val ICONS_NUM_MAX = Constants.SHORTCUT_COUNT

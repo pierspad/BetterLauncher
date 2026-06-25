@@ -106,6 +106,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             Constants.FLAG_SET_SHORTCUT_ICON_4 -> saveShortcutIconApp(appModel, 3)
             Constants.FLAG_SET_SHORTCUT_ICON_5 -> saveShortcutIconApp(appModel, 4)
             Constants.FLAG_SET_SHORTCUT_ICON_6 -> saveShortcutIconApp(appModel, 5)
+            Constants.FLAG_SET_SHORTCUT_ICON_7 -> saveShortcutIconApp(appModel, 6)
+            Constants.FLAG_SET_SHORTCUT_ICON_8 -> saveShortcutIconApp(appModel, 7)
         }
     }
 
