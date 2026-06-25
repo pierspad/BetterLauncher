@@ -835,7 +835,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                 val iconIndex = prefs.getShortcutIconIndex(slot)
                     .coerceIn(0, Constants.SHORTCUT_ICONS.size - 1)
                 imageView.setImageResource(Constants.SHORTCUT_ICONS[iconIndex])
-                
+
                 // Keep icon height in sync with the corresponding app's height if both exist,
                 // otherwise reset to default 48dp.
                 val lp = imageView.layoutParams
@@ -857,6 +857,42 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             } else {
                 imageView.isVisible = false
             }
+        }
+        positionWidget()
+    }
+
+    /**
+     * Positions the widget container just above the taller of the apps block or the
+     * shortcut-icons column, with a small gap for visual breathing room.
+     * Must be called after layout has been measured; uses post{} to defer safely.
+     */
+    private fun positionWidget() {
+        val b = _binding ?: return
+        if (!b.widgetContainer.isVisible) return
+        b.mainLayout.post {
+            val binding = _binding ?: return@post
+            val parentHeight = binding.mainLayout.height
+            if (parentHeight == 0) return@post
+
+            // shortcutIconsLayout is a direct child of mainLayout → .top is already in parent coords
+            val iconsTop = if (binding.shortcutIconsLayout.isVisible)
+                binding.shortcutIconsLayout.top
+            else
+                parentHeight
+
+            // homeAppsLayout fills the parent (top == 0), so firstVisibleApp.top is in parent coords
+            val appsTop = homeAppViews().firstOrNull { it.isVisible }?.top ?: parentHeight
+
+            // Whichever block starts higher on screen (smaller y) drives the widget bottom
+            val blockTop = minOf(iconsTop, appsTop)
+            val gapPx = 12.dpToPx()
+
+            // With gravity=bottom: view.bottom = parentHeight - bottomMargin
+            // We want: view.bottom = blockTop - gapPx
+            // → bottomMargin = parentHeight - blockTop + gapPx
+            val lp = binding.widgetContainer.layoutParams as FrameLayout.LayoutParams
+            lp.bottomMargin = (parentHeight - blockTop + gapPx).coerceAtLeast(0)
+            binding.widgetContainer.layoutParams = lp
         }
     }
 
@@ -999,6 +1035,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             ).apply { gravity = Gravity.CENTER_HORIZONTAL }
             container.addView(hostView)
             container.isVisible = true
+            positionWidget()
 
             val widthPx = (resources.displayMetrics.widthPixels - 48.dpToPx()).coerceAtLeast(0)
             val widthDp = (widthPx / density).toInt()
