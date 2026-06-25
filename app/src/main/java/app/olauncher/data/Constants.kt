@@ -85,12 +85,14 @@ object Constants {
     const val FLAG_SET_SHORTCUT_ICON_4 = 34
     const val FLAG_SET_SHORTCUT_ICON_5 = 35
     const val FLAG_SET_SHORTCUT_ICON_6 = 36
+    const val FLAG_SET_SHORTCUT_ICON_7 = 37
+    const val FLAG_SET_SHORTCUT_ICON_8 = 38
 
     const val REQUEST_CODE_ENABLE_ADMIN = 666
     const val REQUEST_CODE_LAUNCHER_SELECTOR = 678
 
     // Home-screen shortcut icons (right side column)
-    const val SHORTCUT_COUNT = 6
+    const val SHORTCUT_COUNT = 8
 
     // Default action of each shortcut slot when no custom app is set
     const val SHORTCUT_ACTION_BROWSER = 0
@@ -100,8 +102,8 @@ object Constants {
     const val SHORTCUT_ACTION_DIALER = 4
     const val SHORTCUT_ACTION_SETTINGS = 5
 
-    // Default glyph (index into SHORTCUT_ICONS) for each of the 6 slots
-    val SHORTCUT_DEFAULT_ICONS = intArrayOf(0, 2, 3, 4, 5, 6)
+    // Default glyph (index into SHORTCUT_ICONS) for each of the 8 slots
+    val SHORTCUT_DEFAULT_ICONS = intArrayOf(0, 2, 3, 4, 5, 6, 7, 8)
 
     // The selectable icon set (~20). Stored as index in prefs (resource ids can change between builds).
     val SHORTCUT_ICONS = intArrayOf(

@@ -216,7 +216,6 @@ class AppDrawerFragment : Fragment() {
                 if (prefs.firstHide) {
                     binding.search.hideKeyboard()
                     prefs.firstHide = false
-                    viewModel.showDialog.postValue(Constants.Dialog.HIDDEN)
                     findNavController().navigate(R.id.action_appListFragment_to_settingsFragment2)
                 }
                 viewModel.getAppList()
@@ -260,9 +259,21 @@ class AppDrawerFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addOnScrollListener(getRecyclerViewOnScrollListener())
         binding.recyclerView.itemAnimator = null
-        if (requireContext().isEinkDisplay().not())
-            binding.recyclerView.layoutAnimation =
-                AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_anim_from_bottom)
+        // Play the entrance animation once, *after* the first real list is committed.
+        // A persistent recyclerView.layoutAnimation is evaluated against the still-empty
+        // list while ListAdapter.submitList() diffs on a background thread, and the rows
+        // could end up stuck at the animation's start alpha (0) → an all-black drawer until
+        // a relayout (lock/unlock or reopen). Triggering it from the commit callback keeps
+        // the animation but guarantees the rows are always visible. E-ink keeps no animation.
+        if (requireContext().isEinkDisplay().not()) {
+            adapter.onFirstNonEmptyCommit = {
+                _binding?.recyclerView?.let { rv ->
+                    rv.layoutAnimation =
+                        AnimationUtils.loadLayoutAnimation(rv.context, R.anim.layout_anim_from_bottom)
+                    rv.scheduleLayoutAnimation()
+                }
+            }
+        }
     }
 
     private fun initObservers() {

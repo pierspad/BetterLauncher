@@ -16,6 +16,9 @@ class MyAccessibilityService : AccessibilityService() {
 
     override fun onServiceConnected() {
         Prefs(applicationContext).lockModeOn = true
+        val info = serviceInfo
+        info.packageNames = arrayOf(packageName)
+        serviceInfo = info
         super.onServiceConnected()
     }
 

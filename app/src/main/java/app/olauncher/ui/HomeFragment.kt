@@ -806,7 +806,8 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
 
     private fun shortcutIconViews(): List<ImageView> = listOf(
         binding.ivShortcut1, binding.ivShortcut2, binding.ivShortcut3,
-        binding.ivShortcut4, binding.ivShortcut5, binding.ivShortcut6
+        binding.ivShortcut4, binding.ivShortcut5, binding.ivShortcut6,
+        binding.ivShortcut7, binding.ivShortcut8
     )
 
     private fun initShortcutIcons() {

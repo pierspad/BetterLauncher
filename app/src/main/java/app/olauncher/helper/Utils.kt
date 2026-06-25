@@ -62,8 +62,8 @@ suspend fun getAppsList(
         val appList: MutableList<AppModel> = mutableListOf()
 
         try {
-            if (!Prefs(context).hiddenAppsUpdated) upgradeHiddenApps(Prefs(context))
-            val hiddenApps = Prefs(context).hiddenApps
+            if (!prefs.hiddenAppsUpdated) upgradeHiddenApps(prefs)
+            val hiddenApps = prefs.hiddenApps
 
             val userManager = context.getSystemService(Context.USER_SERVICE) as UserManager
             val launcherApps =

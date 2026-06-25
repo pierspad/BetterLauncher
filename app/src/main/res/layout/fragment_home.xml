@@ -179,7 +179,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="100dp"
         android:visibility="gone"
         tools:visibility="gone" />
 
@@ -255,6 +255,26 @@
             android:padding="12dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_sc_settings" />
+
+        <ImageView
+            android:id="@+id/ivShortcut7"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:importantForAccessibility="no"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_sc_mail" />
+
+        <ImageView
+            android:id="@+id/ivShortcut8"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:importantForAccessibility="no"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_sc_music" />
 
     </LinearLayout>
 

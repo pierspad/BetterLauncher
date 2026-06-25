@@ -9,7 +9,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class Prefs(context: Context) {
-    private val PREFS_FILENAME = "app.olauncher"
+    private val PREFS_FILENAME = "com.pierspad.betterlauncher"
 
     private val FIRST_OPEN = "FIRST_OPEN"
     private val FIRST_OPEN_TIME = "FIRST_OPEN_TIME"
@@ -219,12 +219,12 @@ class Prefs(context: Context) {
         set(value) = prefs.edit { putBoolean(KEYBOARD_MESSAGE, value).apply() }
 
     var homeAppsNum: Int
-        get() = prefs.getInt(HOME_APPS_NUM, 5)
+        get() = prefs.getInt(HOME_APPS_NUM, 6)
         set(value) = prefs.edit { putInt(HOME_APPS_NUM, value).apply() }
 
     // Number of home-screen shortcut icons (right column) shown, 1..SHORTCUT_COUNT.
     var homeShortcutIconsNum: Int
-        get() = prefs.getInt(HOME_SHORTCUT_ICONS_NUM, Constants.SHORTCUT_COUNT)
+        get() = prefs.getInt(HOME_SHORTCUT_ICONS_NUM, 6)
         set(value) = prefs.edit { putInt(HOME_SHORTCUT_ICONS_NUM, value).apply() }
 
     var homeAlignment: Int

@@ -70,6 +70,14 @@ class AppDrawerAdapter(
     private var isBangSearch = false
     var allowAutoLaunch = true
 
+    // Invoked once, after the first non-empty list is actually committed. The host uses it
+    // to play the drawer entrance animation against real rows. Driving the animation from
+    // here — instead of a persistent RecyclerView.layoutAnimation that evaluates while
+    // submitList() is still diffing on a background thread — avoids the race that could
+    // leave rows stuck at the animation's start alpha (0), i.e. an all-black drawer.
+    var onFirstNonEmptyCommit: (() -> Unit)? = null
+    private var firstNonEmptyCommitDone = false
+
     // The query is re-applied synchronously every time the underlying data changes,
     // so a query typed before the app list finished loading can never get stuck on an
     // empty result. See [applyFilter].
@@ -162,7 +170,13 @@ class AppDrawerAdapter(
         }
 
         appFilteredList = result
-        submitList(result) { autoLaunch() }
+        submitList(result) {
+            autoLaunch()
+            if (!firstNonEmptyCommitDone && result.isNotEmpty()) {
+                firstNonEmptyCommitDone = true
+                onFirstNonEmptyCommit?.invoke()
+            }
+        }
     }
 
     private fun autoLaunch() {
@@ -294,7 +308,10 @@ class AppDrawerAdapter(
             appTitle.text = buildString {
                 append(appModel.appLabel)
                 if (appModel.isNew) append(" ✦")
-                if (flag == Constants.FLAG_LOCKED_APPS && isAppLocked(appModel)) append("  🔒")
+                // U+1F512 PADLOCK + U+FE0E (text-presentation selector): forces the
+                // monochrome glyph, so the lock inherits the row's text colour (white)
+                // instead of the multicolour emoji — same effect the ✦ above already relies on.
+                if (flag == Constants.FLAG_LOCKED_APPS && isAppLocked(appModel)) append("  🔒︎")
             }
             appTitle.gravity = appLabelGravity
             otherProfileIndicator.isVisible = appModel.user != myUserHandle
