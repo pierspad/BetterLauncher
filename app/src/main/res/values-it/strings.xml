@@ -206,5 +206,27 @@
     <string name="reset_settings_confirm">Sei sicuro di voler ripristinare tutte le impostazioni ai valori di default?</string>
     <string name="reset">Ripristina</string>
     <string name="reset_done">Impostazioni ripristinate con successo</string>
+
+    <!-- Pannello backup e ripristino -->
+    <string name="backup_restore">Backup e ripristino</string>
+
+    <!-- Font -->
+    <string name="font">Font</string>
+    <string name="font_system_default">Predefinito di sistema</string>
+    <string name="font_sans_serif">Sans Serif</string>
+    <string name="font_sans_serif_light">Sans Serif Light</string>
+    <string name="font_sans_serif_medium">Sans Serif Medium</string>
+    <string name="font_sans_serif_condensed">Condensato</string>
+    <string name="font_serif">Serif</string>
+    <string name="font_monospace">Monospace</string>
+    <string name="font_custom">Personalizzato…</string>
+    <string name="font_import_failed">Impossibile caricare il font selezionato</string>
+    <string name="font_imported">Font personalizzato applicato</string>
+
+    <!-- Opacità sfondo -->
+    <string name="background_opacity">Opacità sfondo</string>
+    <string name="opacity_home">Opacità home</string>
+    <string name="opacity_drawer">Opacità menù app</string>
+
     <string name="hidden_apps_instructions">Per nascondere un\'app, tieni premuto il suo nome nel drawer delle app e seleziona \'Nascondi\'. Per ripristinare un\'app nascosta, apri questa schermata, tieni premuta l\'app e seleziona \'Mostra\'.</string>
 </resources><!-- Italian -->

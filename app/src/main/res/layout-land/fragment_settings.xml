@@ -117,66 +117,6 @@
                     android:background="@drawable/divider_light" />
 
                 <TextView
-                    android:id="@+id/backupSettings"
-                    style="@style/TextSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_sc_upload"
-                    android:drawablePadding="12dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/backup_settings" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_marginVertical="6dp"
-                    android:background="@drawable/divider_light" />
-
-                <TextView
-                    android:id="@+id/restoreSettings"
-                    style="@style/TextSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_sc_download"
-                    android:drawablePadding="12dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/restore_settings" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_marginVertical="6dp"
-                    android:background="@drawable/divider_light" />
-
-                <TextView
-                    android:id="@+id/resetSettings"
-                    style="@style/TextSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_delete"
-                    android:drawablePadding="12dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/reset_settings" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_marginVertical="6dp"
-                    android:background="@drawable/divider_light" />
-
-                <TextView
                     android:id="@+id/aboutOlauncher"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
@@ -899,86 +839,53 @@
                     android:layout_marginVertical="4dp"
                     android:background="@drawable/divider_light" />
 
-                <!-- Theme mode (tri-state selector) -->
-                <FrameLayout
+                <!-- Theme mode: sun ⟷ moon slider (light / dark) -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:animateLayoutChanges="true">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         style="@style/TextSmall"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
                         android:text="@string/theme_mode"
                         android:textColor="?attr/primaryColor" />
 
-                    <TextView
-                        android:id="@+id/appThemeText"
-                        style="@style/TextSmallBold"
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="6dp"
+                        android:contentDescription="@string/light"
+                        android:src="@drawable/ic_sun"
+                        app:tint="?attr/primaryColor" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/themeSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="6dp"
                         android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/dark" />
-
-                    <!-- theme color select layout-->
-                    <LinearLayout
-                        android:id="@+id/appThemeSelectLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:animateLayoutChanges="true"
-                        android:background="@drawable/rounded_primary_gradient"
-                        android:elevation="8dp"
-                        android:orientation="horizontal"
-                        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
-                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="2dp"
-                        android:visibility="gone"
-                        tools:ignore="UnusedAttribute">
-
-                        <Space
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/themeSystem"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="24dp"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/system_default"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/themeLight"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="24dp"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/light" />
-
-                        <TextView
-                            android:id="@+id/themeDark"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/dark" />
-
-                    </LinearLayout>
-
-                </FrameLayout>
+                        android:contentDescription="@string/dark"
+                        android:src="@drawable/ic_moon"
+                        app:tint="?attr/primaryColor" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -1031,6 +938,132 @@
                         android:progressTint="#3B82F6"
                         android:thumbTint="#3B82F6" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Font (opens a picker dialog) -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <TextView
+                        style="@style/TextSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/font"
+                        android:textColor="?attr/primaryColor" />
+
+                    <TextView
+                        android:id="@+id/fontText"
+                        style="@style/TextSmallBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|bottom"
+                        android:layout_marginEnd="4dp"
+                        android:padding="8dp"
+                        tools:text="@string/font_system_default" />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Background opacity: two independent sliders (home + drawer) -->
+                <TextView
+                    style="@style/TextSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="6dp"
+                    android:paddingVertical="8dp"
+                    android:text="@string/background_opacity"
+                    android:textColor="?attr/primaryColor" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextSmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/opacity_home"
+                        android:textColor="?attr/primaryColor" />
+
+                    <TextView
+                        android:id="@+id/homeOpacityValue"
+                        style="@style/TextSmallBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:paddingVertical="8dp"
+                        tools:text="40%" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/homeOpacitySeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="6dp"
+                    android:max="20"
+                    android:progressBackgroundTint="#619E9E9E"
+                    android:progressTint="#3B82F6"
+                    android:thumbTint="#3B82F6" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextSmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/opacity_drawer"
+                        android:textColor="?attr/primaryColor" />
+
+                    <TextView
+                        android:id="@+id/drawerOpacityValue"
+                        style="@style/TextSmallBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:paddingVertical="8dp"
+                        tools:text="40%" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/drawerOpacitySeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="6dp"
+                    android:layout_marginBottom="4dp"
+                    android:max="20"
+                    android:progressBackgroundTint="#619E9E9E"
+                    android:progressTint="#3B82F6"
+                    android:thumbTint="#3B82F6" />
 
             </LinearLayout>
 
@@ -1233,6 +1266,81 @@
                         app:thumbTint="@color/switch_thumb"
                         app:trackTint="@color/switch_track" />
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ============ Backup & restore card ============ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rounded_rect_shade_color_glass"
+                android:orientation="vertical"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="18dp">
+
+                <TextView
+                    style="@style/TextSectionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/backup_restore" />
+
+                <TextView
+                    android:id="@+id/backupSettings"
+                    style="@style/TextSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/ic_sc_upload"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/backup_settings" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="6dp"
+                    android:background="@drawable/divider_light" />
+
+                <TextView
+                    android:id="@+id/restoreSettings"
+                    style="@style/TextSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/ic_sc_download"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/restore_settings" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="6dp"
+                    android:background="@drawable/divider_light" />
+
+                <TextView
+                    android:id="@+id/resetSettings"
+                    style="@style/TextSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/ic_delete"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/reset_settings" />
 
             </LinearLayout>
 

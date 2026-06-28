@@ -15,6 +15,8 @@ import app.olauncher.data.AppModel
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.helper.SingleLiveEvent
+import app.olauncher.helper.appListFromCacheJson
+import app.olauncher.helper.appListToCacheJson
 import app.olauncher.helper.formattedTimeSpent
 import app.olauncher.helper.getAppsList
 import app.olauncher.helper.getPrivateSpaceApps
@@ -25,7 +27,9 @@ import app.olauncher.helper.isPackageInstalled
 import app.olauncher.helper.isPrivateSpaceLocked
 import app.olauncher.helper.showToast
 import app.olauncher.helper.usageStats.EventLogWrapper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 
@@ -59,6 +63,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     // A locked app was selected: the Activity must authenticate before launching it.
     val launchAppWithAuth = SingleLiveEvent<AppModel.App>()
+
+    init {
+        // Seed the drawer from the last persisted snapshot so it renders instantly on
+        // cold start; getAppList() then refreshes it from PackageManager in the
+        // background. Parsing a few hundred JSON rows here is negligible.
+        val cached = appListFromCacheJson(appContext, prefs.appListCache)
+        if (cached.isNotEmpty()) appList.value = cached
+    }
     // Home button for recents feature disabled
     // val showRecentApps = SingleLiveEvent<Unit?>()
 
@@ -447,6 +459,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val apps = getAppsList(appContext, prefs, includeRegularApps = true, includeHiddenApps)
             appList.value = apps
+            // Persist the drawer snapshot for the next cold start. Skip the hidden-apps
+            // variant (used by the app picker) so the cache stays the real drawer list.
+            if (!includeHiddenApps)
+                withContext(Dispatchers.IO) { prefs.appListCache = appListToCacheJson(apps) }
         }
         getPrivateSpaceAppList()
     }

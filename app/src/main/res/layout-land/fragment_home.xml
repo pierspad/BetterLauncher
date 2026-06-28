@@ -8,6 +8,13 @@
     android:orientation="vertical"
     tools:context=".ui.HomeFragment">
 
+    <!-- Optional opacity scrim between the wallpaper and the UI (toggle in Settings). -->
+    <View
+        android:id="@+id/homeOpacityScrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" />
+
     <!-- Placeholder layout for locking screen-->
     <FrameLayout
         android:id="@+id/lock"

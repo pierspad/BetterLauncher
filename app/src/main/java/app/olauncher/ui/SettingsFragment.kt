@@ -7,19 +7,24 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.os.Process
 import android.provider.Settings
 import android.util.Log
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.SeekBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -35,8 +40,10 @@ import app.olauncher.R
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentSettingsBinding
+import app.olauncher.helper.FontHelper
 import app.olauncher.helper.animateAlpha
 import app.olauncher.helper.appUsagePermissionGranted
+import app.olauncher.helper.dpToPx
 import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.isAccessServiceEnabled
 import app.olauncher.helper.isCountryIn
@@ -97,6 +104,21 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             } catch (e: Exception) {
                 e.printStackTrace()
                 requireContext().showToast(getString(R.string.restore_failed))
+            }
+        }
+
+    // Custom font: let the user pick a .ttf/.otf, copy it into private storage and apply.
+    private val pickFontLauncher =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            if (uri == null) return@registerForActivityResult
+            val path = FontHelper.importCustomFont(requireContext(), uri)
+            if (path != null) {
+                prefs.customFontPath = path
+                prefs.fontFamily = FontHelper.CUSTOM_PREFIX + path.substringAfterLast('/')
+                requireContext().showToast(getString(R.string.font_imported))
+                applyFont()
+            } else {
+                requireContext().showToast(getString(R.string.font_import_failed))
             }
         }
 
@@ -179,7 +201,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateLockSettings()
         // Home button for recents feature disabled
         // populateHomeButtonRecents()
-        populateAppThemeText()
+        populateThemeSwitch()
+        populateFont()
         populateTextSize()
         populateAlignment()
         populateStatusBar()
@@ -193,7 +216,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     override fun onClick(view: View) {
-        binding.appThemeSelectLayout.visibility = View.GONE
         binding.swipeDownSelectLayout.visibility = View.GONE
 
         when (view.id) {
@@ -226,10 +248,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.statusBar -> toggleStatusBar()
             R.id.dateTimeSwitch -> toggleDateTimeEnabled()
             R.id.dateOnlySwitch -> toggleDateOnly()
-            R.id.appThemeText -> binding.appThemeSelectLayout.visibility = View.VISIBLE
-            R.id.themeLight -> updateTheme(AppCompatDelegate.MODE_NIGHT_NO)
-            R.id.themeDark -> updateTheme(AppCompatDelegate.MODE_NIGHT_YES)
-            R.id.themeSystem -> updateTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            R.id.fontText -> showFontDialog()
+            R.id.themeSwitch -> toggleThemeSwitch()
             R.id.actionAccessibility -> openAccessibilityService()
             R.id.closeAccessibility -> toggleAccessibilityVisibility(false)
             R.id.notWorking -> requireContext().openUrl(Constants.URL_DOUBLE_TAP)
@@ -264,11 +284,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     override fun onLongClick(view: View): Boolean {
         when (view.id) {
-            R.id.appThemeText -> {
-                binding.appThemeSelectLayout.visibility = View.VISIBLE
-                binding.themeSystem.visibility = View.VISIBLE
-            }
-
             R.id.swipeLeftApp -> toggleSwipeLeft()
             R.id.swipeRightApp -> toggleSwipeRight()
             R.id.toggleLock -> startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
@@ -311,10 +326,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.swipeDownAction.setOnClickListener(this)
         binding.search.setOnClickListener(this)
         binding.notifications.setOnClickListener(this)
-        binding.appThemeText.setOnClickListener(this)
-        binding.themeLight.setOnClickListener(this)
-        binding.themeDark.setOnClickListener(this)
-        binding.themeSystem.setOnClickListener(this)
+        binding.fontText.setOnClickListener(this)
+        binding.themeSwitch.setOnClickListener(this)
         binding.actionAccessibility.setOnClickListener(this)
         binding.closeAccessibility.setOnClickListener(this)
         binding.notWorking.setOnClickListener(this)
@@ -331,7 +344,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
         setupSliders()
 
-        binding.appThemeText.setOnLongClickListener(this)
         binding.swipeLeftApp.setOnLongClickListener(this)
         binding.swipeRightApp.setOnLongClickListener(this)
         binding.toggleLock.setOnLongClickListener(this)
@@ -600,7 +612,46 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
                 applyTextSizeScale(progressToScale(seekBar.progress))
             }
         })
+
+        setupOpacitySliders()
     }
+
+    // Opacity sliders: progress runs 0..OPACITY_STEPS (20) in steps of 5%, so each
+    // tick is 5% (progress*5 = percentage, progress/steps = 0f..1f scrim alpha).
+    private fun setupOpacitySliders() {
+        binding.homeOpacitySeekBar.max = OPACITY_STEPS
+        binding.homeOpacitySeekBar.progress = opacityToProgress(prefs.opacityHome)
+        binding.homeOpacityValue.text = "${binding.homeOpacitySeekBar.progress * OPACITY_STEP_PERCENT}%"
+        binding.homeOpacitySeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                binding.homeOpacityValue.text = "${progress * OPACITY_STEP_PERCENT}%"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                prefs.opacityHome = seekBar.progress.toFloat() / OPACITY_STEPS
+            }
+        })
+
+        binding.drawerOpacitySeekBar.max = OPACITY_STEPS
+        binding.drawerOpacitySeekBar.progress = opacityToProgress(prefs.opacityDrawer)
+        binding.drawerOpacityValue.text = "${binding.drawerOpacitySeekBar.progress * OPACITY_STEP_PERCENT}%"
+        binding.drawerOpacitySeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                binding.drawerOpacityValue.text = "${progress * OPACITY_STEP_PERCENT}%"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                prefs.opacityDrawer = seekBar.progress.toFloat() / OPACITY_STEPS
+            }
+        })
+    }
+
+    private fun opacityToProgress(value: Float): Int =
+        Math.round(value.coerceIn(0f, 1f) * OPACITY_STEPS)
 
     private fun progressToScale(progress: Int): Float =
         TEXT_SIZE_MIN + progress * TEXT_SIZE_STEP
@@ -628,7 +679,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private fun updateTheme(appTheme: Int) {
         if (AppCompatDelegate.getDefaultNightMode() == appTheme) return
         prefs.appTheme = appTheme
-        populateAppThemeText(appTheme)
         setAppTheme(appTheme)
     }
 
@@ -637,17 +687,127 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         requireActivity().recreate()
     }
 
-    private fun populateAppThemeText(appTheme: Int = prefs.appTheme) {
-        when (appTheme) {
-            AppCompatDelegate.MODE_NIGHT_YES -> binding.appThemeText.text = getString(R.string.dark)
-            AppCompatDelegate.MODE_NIGHT_NO -> binding.appThemeText.text = getString(R.string.light)
-            else -> binding.appThemeText.text = getString(R.string.system_default)
+    // Light/dark slider: checked = dark (moon side), unchecked = light (sun side).
+    private fun isDarkModeActive(): Boolean {
+        return when (prefs.appTheme) {
+            AppCompatDelegate.MODE_NIGHT_YES -> true
+            AppCompatDelegate.MODE_NIGHT_NO -> false
+            else -> (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
+                    Configuration.UI_MODE_NIGHT_YES
         }
+    }
+
+    private fun populateThemeSwitch() {
+        binding.themeSwitch.isChecked = isDarkModeActive()
+    }
+
+    private fun toggleThemeSwitch() {
+        updateTheme(
+            if (binding.themeSwitch.isChecked) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
     }
 
     private fun populateTextSize() {
         binding.textSizeValue.text = String.format("%.1f", prefs.textSizeScale)
     }
+
+    // ---- Font ----
+    // Predefined options map to built-in Android font families (no bundled files, no
+    // licensing concerns). The last item lets the user import a custom .ttf/.otf.
+    private data class FontOption(val labelRes: Int, val family: String)
+
+    private val fontOptions = listOf(
+        FontOption(R.string.font_system_default, ""),
+        FontOption(R.string.font_sans_serif, "sans-serif"),
+        FontOption(R.string.font_sans_serif_light, "sans-serif-light"),
+        FontOption(R.string.font_sans_serif_medium, "sans-serif-medium"),
+        FontOption(R.string.font_sans_serif_condensed, "sans-serif-condensed"),
+        FontOption(R.string.font_serif, "serif"),
+        FontOption(R.string.font_monospace, "monospace"),
+    )
+
+    private fun populateFont() {
+        val current = prefs.fontFamily
+        binding.fontText.text = when {
+            current.startsWith(FontHelper.CUSTOM_PREFIX) ->
+                current.removePrefix(FontHelper.CUSTOM_PREFIX)
+
+            else -> getString(
+                fontOptions.firstOrNull { it.family == current }?.labelRes
+                    ?: R.string.font_system_default
+            )
+        }
+    }
+
+    // Modern picker: a glass card listing each font rendered in its own typeface, with
+    // the current selection highlighted. The last row imports a custom .ttf/.otf.
+    private fun showFontDialog() {
+        val ctx = requireContext()
+        val view = layoutInflater.inflate(R.layout.dialog_font_picker, null)
+        val list = view.findViewById<LinearLayout>(R.id.fontPickerList)
+        val dialog = AlertDialog.Builder(ctx).setView(view).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val current = prefs.fontFamily
+        val padV = 14.dpToPx()
+        val padH = 10.dpToPx()
+        val rippleBg = TypedValue().also {
+            ctx.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
+        }.resourceId
+
+        fun addRow(label: String, preview: Typeface, selected: Boolean, onClick: () -> Unit) {
+            val row = TextView(ctx).apply {
+                text = label
+                textSize = 18f
+                setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
+                typeface = if (selected) Typeface.create(preview, Typeface.BOLD) else preview
+                gravity = Gravity.CENTER_VERTICAL
+                setPadding(padH, padV, padH, padV)
+                setBackgroundResource(if (selected) R.drawable.rounded_rect_shade_color_glass else rippleBg)
+                setOnClickListener { onClick() }
+            }
+            list.addView(
+                row,
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply { topMargin = 2.dpToPx() }
+            )
+        }
+
+        for (opt in fontOptions) {
+            val preview = if (opt.family.isBlank()) Typeface.DEFAULT
+            else Typeface.create(opt.family, Typeface.NORMAL)
+            addRow(getString(opt.labelRes), preview, current == opt.family) {
+                prefs.fontFamily = opt.family
+                applyFont()
+                dialog.dismiss()
+            }
+        }
+
+        val isCustom = current.startsWith(FontHelper.CUSTOM_PREFIX)
+        val customPreview = if (isCustom)
+            runCatching { Typeface.createFromFile(prefs.customFontPath) }.getOrNull() ?: Typeface.DEFAULT
+        else Typeface.DEFAULT
+        val customLabel = if (isCustom) current.removePrefix(FontHelper.CUSTOM_PREFIX)
+        else getString(R.string.font_custom)
+        addRow(customLabel, customPreview, isCustom) {
+            // OpenDocument with a broad filter; many providers report fonts as
+            // octet-stream, so we validate after copying instead.
+            dialog.dismiss()
+            pickFontLauncher.launch(arrayOf("*/*"))
+        }
+
+        dialog.show()
+    }
+
+    private fun applyFont() {
+        populateFont()
+        FontHelper.reload(requireContext())
+        requireActivity().recreate()
+    }
+
 
     private fun populateScreenTimeOnOff() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -1000,5 +1160,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         private const val TEXT_SIZE_MAX = 1.5f
         private const val TEXT_SIZE_STEP = 0.1f
         private const val TEXT_SIZE_STEPS = 7
+
+        // Opacity sliders: 20 steps of 5% each (0%..100%).
+        private const val OPACITY_STEPS = 20
+        private const val OPACITY_STEP_PERCENT = 5
     }
 }

@@ -42,6 +42,10 @@ class Prefs(context: Context) {
     private val SHARE_SHOWN_TIME = "SHARE_SHOWN_TIME"
     private val SWIPE_DOWN_ACTION = "SWIPE_DOWN_ACTION"
     private val TEXT_SIZE_SCALE = "TEXT_SIZE_SCALE"
+    private val FONT_FAMILY = "FONT_FAMILY"
+    private val CUSTOM_FONT_PATH = "CUSTOM_FONT_PATH"
+    private val OPACITY_HOME = "OPACITY_HOME"
+    private val OPACITY_DRAWER = "OPACITY_DRAWER"
     private val PRO_MESSAGE_SHOWN = "PRO_MESSAGE_SHOWN"
     private val HIDE_SET_DEFAULT_LAUNCHER = "HIDE_SET_DEFAULT_LAUNCHER"
     private val SCREEN_TIME_LAST_UPDATED = "SCREEN_TIME_LAST_UPDATED"
@@ -276,6 +280,27 @@ class Prefs(context: Context) {
     var textSizeScale: Float
         get() = prefs.getFloat(TEXT_SIZE_SCALE, 1.0f)
         set(value) = prefs.edit { putFloat(TEXT_SIZE_SCALE, value).apply() }
+
+    // Selected font. Empty string = system default. A value starting with "custom:"
+    // means a user-imported font file whose absolute path is in [customFontPath];
+    // any other value is a built-in Android font family name (e.g. "serif").
+    var fontFamily: String
+        get() = prefs.getString(FONT_FAMILY, "").toString()
+        set(value) = prefs.edit { putString(FONT_FAMILY, value).apply() }
+
+    var customFontPath: String
+        get() = prefs.getString(CUSTOM_FONT_PATH, "").toString()
+        set(value) = prefs.edit { putString(CUSTOM_FONT_PATH, value).apply() }
+
+    // Scrim intensity (0f..1f) for the home screen and the app drawer respectively.
+    // A value of 0 means no scrim. (Replaces the former master on/off toggle.)
+    var opacityHome: Float
+        get() = prefs.getFloat(OPACITY_HOME, 0.4f)
+        set(value) = prefs.edit { putFloat(OPACITY_HOME, value).apply() }
+
+    var opacityDrawer: Float
+        get() = prefs.getFloat(OPACITY_DRAWER, 0.4f)
+        set(value) = prefs.edit { putFloat(OPACITY_DRAWER, value).apply() }
 
     var proMessageShown: Boolean
         get() = prefs.getBoolean(PRO_MESSAGE_SHOWN, false)
@@ -665,6 +690,15 @@ class Prefs(context: Context) {
     var widgetEnabled: Boolean
         get() = prefs.getBoolean(WIDGET_ENABLED, false)
         set(value) = prefs.edit { putBoolean(WIDGET_ENABLED, value) }
+
+    // ---- App drawer cache ----
+    // A JSON snapshot of the last computed regular-app list, used to show the drawer
+    // instantly on cold start while a fresh list is loaded from PackageManager.
+    private val APP_LIST_CACHE = "APP_LIST_CACHE"
+
+    var appListCache: String
+        get() = prefs.getString(APP_LIST_CACHE, "").toString()
+        set(value) = prefs.edit { putString(APP_LIST_CACHE, value).apply() }
 
     fun getAppName(location: Int): String {
         return when (location) {
