@@ -6,6 +6,7 @@ import android.app.SearchManager
 import android.app.role.RoleManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.res.Configuration
 import android.content.Intent
 import android.content.pm.LauncherApps
 import android.content.pm.PackageManager
@@ -199,4 +200,14 @@ fun Long.hasBeenMinutes(minutes: Int): Boolean =
 
 fun Int.dpToPx(): Int {
     return (this * Resources.getSystem().displayMetrics.density).toInt()
+}
+
+// Background-opacity scrim colour. It darkens (black) in dark mode and lightens
+// (white) in light mode, so the scrim always increases contrast with the theme's
+// text colour. [alpha] is 0..255. Uses the *applied* config (AppCompat overrides it).
+fun Context.scrimColor(alpha: Int): Int {
+    val night = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
+            Configuration.UI_MODE_NIGHT_YES
+    val channel = if (night) 0 else 255
+    return android.graphics.Color.argb(alpha.coerceIn(0, 255), channel, channel, channel)
 }

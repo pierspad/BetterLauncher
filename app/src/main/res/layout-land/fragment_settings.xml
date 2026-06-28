@@ -117,6 +117,26 @@
                     android:background="@drawable/divider_light" />
 
                 <TextView
+                    android:id="@+id/limitApps"
+                    style="@style/TextSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/ic_hourglass"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/limit_apps" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="6dp"
+                    android:background="@drawable/divider_light" />
+
+                <TextView
                     android:id="@+id/aboutOlauncher"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
@@ -865,6 +885,8 @@
                         android:src="@drawable/ic_sun"
                         app:tint="?attr/primaryColor" />
 
+                    <!-- A mode picker, not an on/off switch: keep thumb + track the same
+                         solid white in both states so it never reads as "enabling" something. -->
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/themeSwitch"
                         android:layout_width="wrap_content"
@@ -874,14 +896,14 @@
                         android:text=""
                         android:textOff=""
                         android:textOn=""
-                        app:thumbTint="@color/switch_thumb"
-                        app:trackTint="@color/switch_track" />
+                        app:thumbTint="#FFFFFF"
+                        app:trackTint="#80FFFFFF" />
 
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginStart="6dp"
-                        android:layout_marginEnd="4dp"
+                        android:layout_marginEnd="20dp"
                         android:contentDescription="@string/dark"
                         android:src="@drawable/ic_moon"
                         app:tint="?attr/primaryColor" />
@@ -990,6 +1012,44 @@
                     android:text="@string/background_opacity"
                     android:textColor="?attr/primaryColor" />
 
+                <!-- Live preview: wallpaper + scrim updated as the sliders move -->
+                <FrameLayout
+                    android:id="@+id/opacityPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:layout_marginHorizontal="6dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/rounded_preview"
+                    android:clipToOutline="true">
+
+                    <ImageView
+                        android:id="@+id/opacityPreviewWallpaper"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@null"
+                        android:scaleType="centerCrop" />
+
+                    <View
+                        android:id="@+id/opacityPreviewScrim"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/opacityPreviewLabel"
+                        style="@style/TextSmallBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:shadowColor="#000000"
+                        android:shadowDx="0"
+                        android:shadowDy="0"
+                        android:shadowRadius="6"
+                        android:textColor="#FFFFFF"
+                        tools:text="Home · 40%" />
+                </FrameLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1066,6 +1126,9 @@
                     android:thumbTint="#3B82F6" />
 
             </LinearLayout>
+
+            <!-- Drawer search toggles (Android settings / contacts) now live in the drawer
+                 itself, behind the tune button at the top-right. -->
 
             <!-- ============ Gestures card ============ -->
             <LinearLayout

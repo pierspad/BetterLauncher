@@ -1,8 +1,10 @@
 package app.olauncher.ui
 
+import android.Manifest
 import android.os.Build
 import android.os.Bundle
 import android.os.Process
+import androidx.activity.result.contract.ActivityResultContracts
 import android.text.Spannable
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +29,8 @@ import app.olauncher.data.Constants
 import app.olauncher.data.Folder
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentAppDrawerBinding
+import app.olauncher.helper.AndroidSettingsCatalog
+import app.olauncher.helper.ContactsHelper
 import app.olauncher.helper.deletePinnedShortcut
 import app.olauncher.helper.dpToPx
 import app.olauncher.helper.hideKeyboard
@@ -35,6 +39,7 @@ import app.olauncher.helper.isSystemApp
 import app.olauncher.helper.openAppInfo
 import app.olauncher.helper.openSearch
 import app.olauncher.helper.openUrl
+import app.olauncher.helper.scrimColor
 import app.olauncher.helper.showKeyboard
 import app.olauncher.helper.showToast
 import app.olauncher.helper.uninstall
@@ -48,6 +53,13 @@ class AppDrawerFragment : Fragment() {
 
     private var flag = Constants.FLAG_LAUNCH_APP
     private var canRename = false
+    private var settingTiles: List<AppModel> = emptyList()
+    private var contactItems: List<AppModel> = emptyList()
+
+    private val requestContactsPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) viewModel.loadDrawerContacts()
+        }
     private var currentAppList: List<AppModel>? = null
     private var currentPrivateSpaceApps: List<AppModel>? = null
     private var currentPrivateSpaceLocked: Boolean = true
@@ -79,6 +91,72 @@ class AppDrawerFragment : Fragment() {
         initAdapter()
         initObservers()
         initClickListeners()
+        setupDrawerSearchSources()
+    }
+
+    // Settings tiles + contacts are surfaced only in the main drawer, and only while
+    // a query is typed (the adapter hides them otherwise). Each category is opt-in and now
+    // toggled from the drawer itself (the gear/tune button) rather than from Settings.
+    private fun setupDrawerSearchSources() {
+        if (flag != Constants.FLAG_LAUNCH_APP) return
+        binding.searchOptions.visibility = View.VISIBLE
+        binding.searchOptions.setOnClickListener { showSearchOptionsMenu() }
+        refreshSettingTiles()
+        refreshContacts()
+    }
+
+    private fun refreshSettingTiles() {
+        settingTiles = if (prefs.searchSettingsEnabled)
+            AndroidSettingsCatalog.tiles(requireContext())
+        else
+            emptyList()
+        updateSearchSources()
+    }
+
+    // Loads contacts when enabled (requesting permission if needed) and clears them otherwise.
+    private fun refreshContacts() {
+        if (prefs.searchContactsEnabled) {
+            if (ContactsHelper.hasPermission(requireContext()))
+                viewModel.loadDrawerContacts()
+            else
+                requestContactsPermission.launch(Manifest.permission.READ_CONTACTS)
+        } else {
+            contactItems = emptyList()
+            updateSearchSources()
+        }
+    }
+
+    private fun showSearchOptionsMenu() {
+        val popup = android.widget.PopupMenu(requireContext(), binding.searchOptions)
+        val settingsItem = popup.menu.add(0, 1, 0, R.string.search_settings_category).apply {
+            isCheckable = true
+            isChecked = prefs.searchSettingsEnabled
+        }
+        val contactsItem = popup.menu.add(0, 2, 1, R.string.search_contacts_category).apply {
+            isCheckable = true
+            isChecked = prefs.searchContactsEnabled
+        }
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                1 -> {
+                    prefs.searchSettingsEnabled = !prefs.searchSettingsEnabled
+                    settingsItem.isChecked = prefs.searchSettingsEnabled
+                    refreshSettingTiles()
+                }
+
+                2 -> {
+                    prefs.searchContactsEnabled = !prefs.searchContactsEnabled
+                    contactsItem.isChecked = prefs.searchContactsEnabled
+                    refreshContacts()
+                }
+            }
+            true
+        }
+        popup.show()
+    }
+
+    private fun updateSearchSources() {
+        adapter.setSearchSources(settingTiles + contactItems)
     }
 
     private fun initViews() {
@@ -87,6 +165,8 @@ class AppDrawerFragment : Fragment() {
             binding.search.queryHint = getString(R.string.hidden_apps)
         else if (flag == Constants.FLAG_LOCKED_APPS)
             binding.search.queryHint = getString(R.string.lock_apps)
+        else if (flag == Constants.FLAG_LIMITED_APPS)
+            binding.search.queryHint = getString(R.string.limit_apps)
         else if (flag in Constants.FLAG_SET_HOME_APP_1..Constants.FLAG_SET_CALENDAR_APP
             || flag in Constants.FLAG_SET_SHORTCUT_ICON_1..Constants.FLAG_SET_SHORTCUT_ICON_6)
             binding.search.queryHint = "Please select an app"
@@ -102,7 +182,7 @@ class AppDrawerFragment : Fragment() {
     // (not View.alpha) and the scrim stays VISIBLE for consistent, flicker-free rendering.
     private fun applyOpacityScrim() {
         val alpha = (prefs.opacityDrawer.coerceIn(0f, 1f) * 255).toInt()
-        binding.drawerOpacityScrim.setBackgroundColor(android.graphics.Color.argb(alpha, 0, 0, 0))
+        binding.drawerOpacityScrim.setBackgroundColor(requireContext().scrimColor(alpha))
     }
 
     private fun initSearch() {
@@ -150,12 +230,27 @@ class AppDrawerFragment : Fragment() {
             flag,
             prefs.appLabelAlignment,
             isAppLocked = { viewModel.isAppLocked(it) },
+            isAppLimited = { viewModel.isAppLimited(it) },
             appClickListener = { appModel ->
-                if (flag == Constants.FLAG_LOCKED_APPS) {
+                if (appModel is AppModel.SettingTile) {
+                    AndroidSettingsCatalog.launchSettingTile(requireContext(), appModel)
+                    findNavController().popBackStack(R.id.mainFragment, false)
+                } else if (appModel is AppModel.Contact) {
+                    ContactsHelper.openContact(requireContext(), appModel)
+                    findNavController().popBackStack(R.id.mainFragment, false)
+                } else if (flag == Constants.FLAG_LOCKED_APPS) {
                     if (appModel is AppModel.App) {
                         val nowLocked = viewModel.toggleAppLock(appModel)
                         requireContext().showToast(
                             getString(if (nowLocked) R.string.app_locked_toast else R.string.app_unlocked_toast)
+                        )
+                        adapter.notifyDataSetChanged()
+                    }
+                } else if (flag == Constants.FLAG_LIMITED_APPS) {
+                    if (appModel is AppModel.App) {
+                        val nowLimited = viewModel.toggleAppLimit(appModel)
+                        requireContext().showToast(
+                            getString(if (nowLimited) R.string.app_limited_toast else R.string.app_unlimited_toast)
                         )
                         adapter.notifyDataSetChanged()
                     }
@@ -179,6 +274,8 @@ class AppDrawerFragment : Fragment() {
                 when (appModel) {
                     is AppModel.PrivateSpaceHeader -> {}
                     is AppModel.FolderHeader -> {}
+                    is AppModel.SettingTile -> {}
+                    is AppModel.Contact -> {}
                     is AppModel.PinnedShortcut ->
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                             requireContext().deletePinnedShortcut(
@@ -246,7 +343,11 @@ class AppDrawerFragment : Fragment() {
             privateSpaceSettingsListener = {
                 viewModel.openPrivateSpaceSettings()
                 findNavController().popBackStack(R.id.mainFragment, false)
-            }
+            },
+            usageProvider = { model ->
+                if (model.appPackage.isEmpty()) 0
+                else prefs.getUsageCount(model.appPackage + "|" + model.user.toString())
+            },
         )
 
         linearLayoutManager = object : LinearLayoutManager(requireContext()) {
@@ -299,6 +400,10 @@ class AppDrawerFragment : Fragment() {
                 updateCombinedAppList()
             }
             if (flag == Constants.FLAG_LAUNCH_APP) {
+                viewModel.drawerContacts.observe(viewLifecycleOwner) {
+                    contactItems = it ?: emptyList()
+                    updateSearchSources()
+                }
                 viewModel.privateSpaceAvailable.observe(viewLifecycleOwner) {
                     currentPrivateSpaceAvailable = it
                     updateCombinedAppList()
