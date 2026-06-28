@@ -20,15 +20,16 @@ import app.olauncher.data.Folder
 import app.olauncher.databinding.AdapterAppDrawerBinding
 import app.olauncher.databinding.AdapterFolderHeaderBinding
 import app.olauncher.databinding.AdapterPrivateSpaceHeaderBinding
+import app.olauncher.helper.FuzzySearch
 import app.olauncher.helper.hideKeyboard
 import app.olauncher.helper.isSystemApp
 import app.olauncher.helper.showKeyboard
-import java.text.Normalizer
 
 class AppDrawerAdapter(
     private var flag: Int,
     private val appLabelGravity: Int,
     private val isAppLocked: (AppModel) -> Boolean = { false },
+    private val isAppLimited: (AppModel) -> Boolean = { false },
     private val appClickListener: (AppModel) -> Unit,
     private val appInfoListener: (AppModel) -> Unit,
     private val appDeleteListener: (AppModel) -> Unit,
@@ -38,6 +39,8 @@ class AppDrawerAdapter(
     private val folderManageListener: (String) -> Unit = {},
     private val privateSpaceToggleListener: () -> Unit = {},
     private val privateSpaceSettingsListener: () -> Unit = {},
+    // Per-item launch count, used to rank search results by frequency of use.
+    private val usageProvider: (AppModel) -> Int = { 0 },
 ) : ListAdapter<AppModel, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -57,6 +60,12 @@ class AppDrawerAdapter(
 
                 oldItem is AppModel.FolderHeader && newItem is AppModel.FolderHeader ->
                     oldItem.folderId == newItem.folderId
+
+                oldItem is AppModel.SettingTile && newItem is AppModel.SettingTile ->
+                    oldItem.intentAction == newItem.intentAction
+
+                oldItem is AppModel.Contact && newItem is AppModel.Contact ->
+                    oldItem.lookupUri == newItem.lookupUri
 
                 else -> false
             }
@@ -83,8 +92,6 @@ class AppDrawerAdapter(
     // empty result. See [applyFilter].
     private var lastQuery: String = ""
 
-    private val diacriticsRegex = Regex("\\p{InCombiningDiacriticalMarks}+")
-    private val separatorsRegex = Regex("[-_+,.`'\\s\\p{Z}]")
     private val myUserHandle = android.os.Process.myUserHandle()
 
     // appsList   : flat, searchable list of every app (+ a trailing padding row).
@@ -93,6 +100,14 @@ class AppDrawerAdapter(
     var appsList: MutableList<AppModel> = mutableListOf()
     private var folderSections: List<AppModel> = emptyList()
     var appFilteredList: MutableList<AppModel> = mutableListOf()
+
+    // Extra items (settings tiles, contacts) shown only while a query is active.
+    private var searchOnly: List<AppModel> = emptyList()
+
+    fun setSearchSources(items: List<AppModel>) {
+        searchOnly = items
+        applyFilter(lastQuery)
+    }
 
     override fun getItemViewType(position: Int): Int {
         return when (appFilteredList.getOrNull(position)) {
@@ -134,6 +149,7 @@ class AppDrawerAdapter(
                     myUserHandle,
                     appModel,
                     isAppLocked,
+                    isAppLimited,
                     appClickListener,
                     appDeleteListener,
                     appInfoListener,
@@ -162,11 +178,29 @@ class AppDrawerAdapter(
                 addAll(appsList)
             }
         } else {
-            appsList.filter {
-                it !is AppModel.PrivateSpaceHeader &&
-                    it !is AppModel.FolderHeader &&
-                    appLabelMatches(it.appLabel, q)
-            }.toMutableList()
+            // Apps use the loose fuzzy matcher (subsequence ok). The secondary sources
+            // (settings tiles, contacts) use the strict matcher so a loose subsequence like
+            // "pint" can't drag in "Opzioni sviluppatore". Then rank by match quality,
+            // then usage, then name.
+            val scored = ArrayList<Pair<AppModel, Int>>(appsList.size + searchOnly.size)
+            for (item in appsList) {
+                if (item is AppModel.PrivateSpaceHeader || item is AppModel.FolderHeader) continue
+                val s = FuzzySearch.score(item.appLabel, q)
+                if (s >= 0) scored.add(item to s)
+            }
+            for (item in searchOnly) {
+                val s = FuzzySearch.scoreStrict(item.appLabel, q)
+                if (s >= 0) scored.add(item to s)
+            }
+
+            scored.asSequence()
+                .sortedWith(
+                    compareByDescending<Pair<AppModel, Int>> { it.second }
+                        .thenByDescending { usageProvider(it.first) }
+                        .thenBy { it.first.appLabel.lowercase() }
+                )
+                .map { it.first }
+                .toMutableList()
         }
 
         appFilteredList = result
@@ -192,17 +226,6 @@ class AppDrawerAdapter(
             e.printStackTrace()
         }
     }
-
-    private fun appLabelMatches(appLabel: String, charSearch: String): Boolean {
-        if (appLabel.contains(charSearch.trim(), true)) return true
-        val query = charSearch.normalizeForSearch()
-        return query.isNotEmpty() && appLabel.normalizeForSearch().contains(query, true)
-    }
-
-    private fun CharSequence.normalizeForSearch(): String =
-        Normalizer.normalize(this, Normalizer.Form.NFD)
-            .replace(diacriticsRegex, "")
-            .replace(separatorsRegex, "")
 
     private fun paddingApp(): AppModel.App = AppModel.App(
         appLabel = "",
@@ -293,6 +316,7 @@ class AppDrawerAdapter(
             myUserHandle: UserHandle,
             appModel: AppModel,
             isAppLocked: (AppModel) -> Boolean,
+            isAppLimited: (AppModel) -> Boolean,
             clickListener: (AppModel) -> Unit,
             appDeleteListener: (AppModel) -> Unit,
             appInfoListener: (AppModel) -> Unit,
@@ -312,6 +336,9 @@ class AppDrawerAdapter(
                 // monochrome glyph, so the lock inherits the row's text colour (white)
                 // instead of the multicolour emoji — same effect the ✦ above already relies on.
                 if (flag == Constants.FLAG_LOCKED_APPS && isAppLocked(appModel)) append("  🔒︎")
+                // U+23F3 HOURGLASS + U+FE0E text-presentation selector: monochrome glyph,
+                // so the marker inherits the row colour like the lock above.
+                if (flag == Constants.FLAG_LIMITED_APPS && isAppLimited(appModel)) append("  ⏳︎")
             }
             appTitle.gravity = appLabelGravity
             otherProfileIndicator.isVisible = appModel.user != myUserHandle
@@ -319,8 +346,9 @@ class AppDrawerAdapter(
             appTitle.setOnClickListener { clickListener(appModel) }
 
             appTitle.setOnLongClickListener {
-                // In lock-selection mode a tap toggles the lock; no hide/rename/delete menu.
-                if (flag == Constants.FLAG_LOCKED_APPS) return@setOnLongClickListener true
+                // In lock/limit selection mode a tap toggles the state; no hide/rename/delete menu.
+                if (flag == Constants.FLAG_LOCKED_APPS || flag == Constants.FLAG_LIMITED_APPS)
+                    return@setOnLongClickListener true
                 if (appModel.appPackage.isNotEmpty()) {
                     appDelete.alpha = when (
                         appModel is AppModel.PinnedShortcut || !root.context.isSystemApp(appModel.appPackage, appModel.user)

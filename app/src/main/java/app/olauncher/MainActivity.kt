@@ -54,6 +54,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
     private var timerJob: Job? = null
+    private var cooldownJob: Job? = null
+    private var cooldownDialog: androidx.appcompat.app.AlertDialog? = null
     private var isResumed = false
     private var profileReceiver: BroadcastReceiver? = null
 
@@ -84,6 +86,14 @@ class MainActivity : AppCompatActivity() {
 
         navController = this.findNavController(R.id.nav_host_fragment)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
+        // A settings-initiated recreate (theme/font/text size) drops to the home via
+        // onStop→backToHomeScreen; reopen Settings so the user stays where they were.
+        if (prefs.reopenSettingsAfterRestart) {
+            prefs.reopenSettingsAfterRestart = false
+            if (navController.currentDestination?.id == R.id.mainFragment)
+                navController.navigate(R.id.action_mainFragment_to_settingsFragment)
+        }
 
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -189,6 +199,9 @@ class MainActivity : AppCompatActivity() {
         viewModel.launchAppWithAuth.observe(this) { appModel ->
             appModel?.let { authenticateAndLaunch(it) }
         }
+        viewModel.cooldownBlocked.observe(this) { block ->
+            block?.let { showCooldownDialog(it) }
+        }
         viewModel.showDialog.observe(this) {
             when (it) {
                 Constants.Dialog.ABOUT -> {
@@ -208,6 +221,59 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    // Soft-limit cooldown: a non-dismissable-by-tap dialog with a live mm:ss countdown.
+    // Trying again before it expires already escalated the timer in the ViewModel, so we
+    // just keep showing the latest target; the coroutine refreshes the text each second.
+    private fun showCooldownDialog(block: MainViewModel.CooldownBlock) {
+        cooldownJob?.cancel()
+        cooldownDialog?.dismiss()
+
+        val label = resolveAppLabel(block.packageName, block.user)
+        val messageView = android.widget.TextView(this).apply {
+            val pad = (24 * resources.displayMetrics.density).toInt()
+            setPadding(pad, pad, pad, pad / 2)
+            textSize = 16f
+        }
+
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle(getString(R.string.app_limit_cooldown_title, label))
+            .setView(messageView)
+            .setPositiveButton(R.string.okay, null)
+            .create()
+        cooldownDialog = dialog
+        dialog.setOnDismissListener { cooldownJob?.cancel() }
+        dialog.show()
+
+        cooldownJob = lifecycleScope.launch {
+            while (true) {
+                val remaining = block.untilMillis - System.currentTimeMillis()
+                if (remaining <= 0) {
+                    messageView.text = getString(R.string.app_limit_cooldown_over)
+                    break
+                }
+                val totalSec = (remaining + 999) / 1000
+                val mm = totalSec / 60
+                val ss = totalSec % 60
+                messageView.text = getString(
+                    R.string.app_limit_cooldown_message,
+                    String.format("%02d:%02d", mm, ss)
+                )
+                delay(500)
+            }
+        }
+    }
+
+    private fun resolveAppLabel(packageName: String, user: android.os.UserHandle): String {
+        return try {
+            val launcherApps =
+                getSystemService(Context.LAUNCHER_APPS_SERVICE) as android.content.pm.LauncherApps
+            launcherApps.getActivityList(packageName, user).firstOrNull()?.label?.toString()
+                ?: packageName
+        } catch (e: Exception) {
+            packageName
         }
     }
 

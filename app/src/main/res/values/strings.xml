@@ -222,6 +222,14 @@
     <string name="app_locked_toast">App locked</string>
     <string name="app_unlocked_toast">App unlocked</string>
 
+    <!-- Soft "use it less" app limit -->
+    <string name="limit_apps">Use less (cooldown)</string>
+    <string name="app_limited_toast">Cooldown enabled</string>
+    <string name="app_unlimited_toast">Cooldown removed</string>
+    <string name="app_limit_cooldown_title">%1$s · slow down</string>
+    <string name="app_limit_cooldown_message">You opened this recently. Try again in %1$s.</string>
+    <string name="app_limit_cooldown_over">You can open it now.</string>
+
     <!-- Export, Import & Reset -->
     <string name="backup_saved">Settings exported successfully</string>
     <string name="backup_failed">Export failed</string>
@@ -255,6 +263,33 @@
     <string name="background_opacity">Background opacity</string>
     <string name="opacity_home">Home opacity</string>
     <string name="opacity_drawer">App drawer opacity</string>
+
+    <!-- Drawer search -->
+    <string name="search_drawer_title">Drawer search</string>
+    <string name="search_settings_category">Search Android settings</string>
+    <string name="search_contacts_category">Search contacts</string>
+    <string name="search_contacts_permission_needed">Contacts permission is required</string>
+
+    <!-- Settings shortcuts (searchable from the drawer) -->
+    <string name="settings">Settings</string>
+    <string name="setting_wifi">Wi-Fi</string>
+    <string name="setting_bluetooth">Bluetooth</string>
+    <string name="setting_airplane">Airplane mode</string>
+    <string name="setting_data">Network &amp; internet</string>
+    <string name="setting_nfc">NFC</string>
+    <string name="setting_display">Display</string>
+    <string name="setting_sound">Sound</string>
+    <string name="setting_battery">Battery</string>
+    <string name="setting_apps">Apps</string>
+    <string name="setting_storage">Storage</string>
+    <string name="setting_location">Location</string>
+    <string name="setting_security">Security</string>
+    <string name="setting_privacy">Privacy</string>
+    <string name="setting_accessibility">Accessibility</string>
+    <string name="setting_language">Languages &amp; input</string>
+    <string name="setting_datetime">Date &amp; time</string>
+    <string name="setting_developer">Developer options</string>
+    <string name="setting_about">About phone</string>
 
     <string name="hidden_apps_instructions">To hide an app, long-press its name in the app drawer and select \'Hide\'. To restore a hidden app, open this screen, long-press the app, and select \'Show\'.</string>
 </resources>

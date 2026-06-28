@@ -35,6 +35,10 @@ class Prefs(context: Context) {
     private val HIDDEN_APPS = "HIDDEN_APPS"
     private val HIDDEN_APPS_UPDATED = "HIDDEN_APPS_UPDATED"
     private val LOCKED_APPS = "LOCKED_APPS"
+    private val LIMITED_APPS = "LIMITED_APPS"
+    private val APP_LIMIT_ENABLED = "APP_LIMIT_ENABLED"
+    private val APP_LIMIT_LADDER = "APP_LIMIT_LADDER"
+    private val APP_LIMIT_WINDOW = "APP_LIMIT_WINDOW"
     private val SHOW_HINT_COUNTER = "SHOW_HINT_COUNTER"
     private val APP_THEME = "APP_THEME"
     private val ABOUT_CLICKED = "ABOUT_CLICKED"
@@ -226,7 +230,8 @@ class Prefs(context: Context) {
         get() = prefs.getInt(HOME_APPS_NUM, 6)
         set(value) = prefs.edit { putInt(HOME_APPS_NUM, value).apply() }
 
-    // Number of home-screen shortcut icons (right column) shown, 1..SHORTCUT_COUNT.
+    // Number of home-screen shortcut icons (right column) shown, 0..SHORTCUT_COUNT.
+    // 0 means the icons column is hidden entirely.
     var homeShortcutIconsNum: Int
         get() = prefs.getInt(HOME_SHORTCUT_ICONS_NUM, 6)
         set(value) = prefs.edit { putInt(HOME_SHORTCUT_ICONS_NUM, value).apply() }
@@ -318,6 +323,13 @@ class Prefs(context: Context) {
         get() = prefs.getLong(LAUNCHER_RESTART_TIMESTAMP, 0L)
         set(value) = prefs.edit { putLong(LAUNCHER_RESTART_TIMESTAMP, value).apply() }
 
+    // Set right before a settings-initiated recreate (theme/font/text size) so the
+    // launcher reopens the Settings screen instead of dropping back to the home.
+    private val REOPEN_SETTINGS = "REOPEN_SETTINGS"
+    var reopenSettingsAfterRestart: Boolean
+        get() = prefs.getBoolean(REOPEN_SETTINGS, false)
+        set(value) = prefs.edit { putBoolean(REOPEN_SETTINGS, value).apply() }
+
     var shownOnDayOfYear: Int
         get() = prefs.getInt(SHOWN_ON_DAY_OF_YEAR, 0)
         set(value) = prefs.edit { putInt(SHOWN_ON_DAY_OF_YEAR, value).apply() }
@@ -341,6 +353,51 @@ class Prefs(context: Context) {
         set(value) = prefs.edit { putStringSet(LOCKED_APPS, value).apply() }
 
     fun isAppLocked(key: String): Boolean = lockedApps.contains(key)
+
+    // ---- Soft app limit ("use it less"): progressive cooldown, no password ----
+    // Apps under the soft limit. Keys are "package|user", same scheme as lockedApps.
+    var limitedApps: MutableSet<String>
+        get() = prefs.getStringSet(LIMITED_APPS, mutableSetOf()) as MutableSet<String>
+        set(value) = prefs.edit { putStringSet(LIMITED_APPS, value).apply() }
+
+    fun isAppLimited(key: String): Boolean = limitedApps.contains(key)
+
+    // Master switch. When off, limited apps open freely (selection is preserved).
+    var appLimitEnabled: Boolean
+        get() = prefs.getBoolean(APP_LIMIT_ENABLED, true)
+        set(value) = prefs.edit { putBoolean(APP_LIMIT_ENABLED, value).apply() }
+
+    // Escalation ladder in minutes, comma-separated. The Nth re-open during an active
+    // cooldown jumps to the Nth entry; the last entry is the cap. Fully parametric.
+    var appLimitLadderMinutes: String
+        get() = prefs.getString(APP_LIMIT_LADDER, "1,5,10,15,30,60") ?: "1,5,10,15,30,60"
+        set(value) = prefs.edit { putString(APP_LIMIT_LADDER, value).apply() }
+
+    // "Recently opened" window (minutes): re-opening a limited app within this window
+    // after a clean launch triggers the first cooldown. 0 disables the grace window.
+    var appLimitRecentWindowMin: Int
+        get() = prefs.getInt(APP_LIMIT_WINDOW, 10)
+        set(value) = prefs.edit { putInt(APP_LIMIT_WINDOW, value).apply() }
+
+    // Per-app cooldown state. Stored under per-key suffixes to avoid a serialized blob.
+    fun limitLastOpen(key: String): Long = prefs.getLong("LIMIT_LAST_OPEN_$key", 0L)
+    fun setLimitLastOpen(key: String, value: Long) =
+        prefs.edit { putLong("LIMIT_LAST_OPEN_$key", value).apply() }
+
+    fun limitLevel(key: String): Int = prefs.getInt("LIMIT_LEVEL_$key", 0)
+    fun setLimitLevel(key: String, value: Int) =
+        prefs.edit { putInt("LIMIT_LEVEL_$key", value).apply() }
+
+    fun limitUntil(key: String): Long = prefs.getLong("LIMIT_UNTIL_$key", 0L)
+    fun setLimitUntil(key: String, value: Long) =
+        prefs.edit { putLong("LIMIT_UNTIL_$key", value).apply() }
+
+    fun clearLimitState(key: String) = prefs.edit {
+        remove("LIMIT_LAST_OPEN_$key")
+        remove("LIMIT_LEVEL_$key")
+        remove("LIMIT_UNTIL_$key")
+        apply()
+    }
 
     var toShowHintCounter: Int
         get() = prefs.getInt(SHOW_HINT_COUNTER, 1)
@@ -638,12 +695,11 @@ class Prefs(context: Context) {
         get() = prefs.getBoolean(IS_SHORTCUT_SWIPE_RIGHT, false)
         set(value) = prefs.edit { putBoolean(IS_SHORTCUT_SWIPE_RIGHT, value) }
 
-    // Home-screen shortcut icons (right side column)
-    private val SHORTCUT_ICONS_ENABLED = "SHORTCUT_ICONS_ENABLED"
-
-    var shortcutIconsEnabled: Boolean
-        get() = prefs.getBoolean(SHORTCUT_ICONS_ENABLED, true)
-        set(value) = prefs.edit { putBoolean(SHORTCUT_ICONS_ENABLED, value) }
+    // Home-screen shortcut icons (right side column).
+    // The feature no longer has a dedicated on/off switch: it is simply "on" whenever
+    // the user keeps at least one icon slot (see [homeShortcutIconsNum], slider 0..N).
+    val shortcutIconsEnabled: Boolean
+        get() = homeShortcutIconsNum > 0
 
     fun getShortcutIconIndex(slot: Int): Int =
         prefs.getInt("SHORTCUT_ICON_INDEX_$slot", Constants.SHORTCUT_DEFAULT_ICONS[slot])
@@ -699,6 +755,24 @@ class Prefs(context: Context) {
     var appListCache: String
         get() = prefs.getString(APP_LIST_CACHE, "").toString()
         set(value) = prefs.edit { putString(APP_LIST_CACHE, value).apply() }
+
+    // ---- Drawer search ----
+    private val SEARCH_SETTINGS_ENABLED = "SEARCH_SETTINGS_ENABLED"
+    private val SEARCH_CONTACTS_ENABLED = "SEARCH_CONTACTS_ENABLED"
+
+    var searchSettingsEnabled: Boolean
+        get() = prefs.getBoolean(SEARCH_SETTINGS_ENABLED, true)
+        set(value) = prefs.edit { putBoolean(SEARCH_SETTINGS_ENABLED, value).apply() }
+
+    var searchContactsEnabled: Boolean
+        get() = prefs.getBoolean(SEARCH_CONTACTS_ENABLED, false)
+        set(value) = prefs.edit { putBoolean(SEARCH_CONTACTS_ENABLED, value).apply() }
+
+    // Per-app launch counter used to rank search results by frequency of use.
+    fun getUsageCount(key: String): Int = prefs.getInt("USAGE_$key", 0)
+
+    fun incrementUsage(key: String) =
+        prefs.edit { putInt("USAGE_$key", getUsageCount(key) + 1).apply() }
 
     fun getAppName(location: Int): String {
         return when (location) {

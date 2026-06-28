@@ -38,6 +38,28 @@ sealed class AppModel : Comparable<AppModel> {
         override val isNew: Boolean = false
     }
 
+    // A shortcut to an Android system Settings screen, surfaced only while searching.
+    data class SettingTile(
+        override val appLabel: String,
+        val intentAction: String,
+        override val user: UserHandle = android.os.Process.myUserHandle(),
+    ) : AppModel() {
+        override val key: CollationKey? = null
+        override val appPackage: String = ""
+        override val isNew: Boolean = false
+    }
+
+    // A device contact, surfaced only while searching. [lookupUri] opens the contact card.
+    data class Contact(
+        override val appLabel: String,
+        val lookupUri: String,
+        override val user: UserHandle = android.os.Process.myUserHandle(),
+    ) : AppModel() {
+        override val key: CollationKey? = null
+        override val appPackage: String = ""
+        override val isNew: Boolean = false
+    }
+
     // Section title for a user-defined folder, shown above the folder's apps in the drawer.
     data class FolderHeader(
         val folderId: String,

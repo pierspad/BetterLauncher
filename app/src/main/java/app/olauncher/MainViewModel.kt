@@ -14,6 +14,8 @@ import androidx.lifecycle.viewModelScope
 import app.olauncher.data.AppModel
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
+import app.olauncher.helper.AppLimiter
+import app.olauncher.helper.ContactsHelper
 import app.olauncher.helper.SingleLiveEvent
 import app.olauncher.helper.appListFromCacheJson
 import app.olauncher.helper.appListToCacheJson
@@ -48,6 +50,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val homeAppAlignment = MutableLiveData<Int>()
     val screenTimeValue = MutableLiveData<String>()
 
+    // Device contacts for the drawer search (loaded only when the category is enabled).
+    val drawerContacts = MutableLiveData<List<AppModel>>()
+
     val privateSpaceApps = MutableLiveData<List<AppModel>?>()
     val privateSpaceLocked = MutableLiveData<Boolean>()
     val privateSpaceAvailable = MutableLiveData<Boolean>()
@@ -63,6 +68,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     // A locked app was selected: the Activity must authenticate before launching it.
     val launchAppWithAuth = SingleLiveEvent<AppModel.App>()
+
+    // A soft-limited app is in cooldown: the Activity shows a countdown instead of launching.
+    val cooldownBlocked = SingleLiveEvent<CooldownBlock>()
+
+    data class CooldownBlock(
+        val packageName: String,
+        val user: UserHandle,
+        val untilMillis: Long,
+    )
 
     init {
         // Seed the drawer from the last persisted snapshot so it renders instantly on
@@ -97,6 +111,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
             Constants.FLAG_LOCKED_APPS -> {
                 if (appModel is AppModel.App) toggleAppLock(appModel)
+            }
+
+            Constants.FLAG_LIMITED_APPS -> {
+                if (appModel is AppModel.App) toggleAppLimit(appModel)
             }
 
             Constants.FLAG_SET_HOME_APP_1 -> saveHomeApp(appModel, 1)
@@ -153,6 +171,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         when (appModel) {
             is AppModel.PrivateSpaceHeader -> return
             is AppModel.FolderHeader -> return
+            is AppModel.SettingTile -> return
+            is AppModel.Contact -> return
             is AppModel.App -> {
                 when (position) {
                     1 -> {
@@ -314,6 +334,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         when (appModel) {
             is AppModel.PrivateSpaceHeader -> return
             is AppModel.FolderHeader -> return
+            is AppModel.SettingTile -> return
+            is AppModel.Contact -> return
             is AppModel.App -> {
                 if (isLeft) {
                     prefs.appNameSwipeLeft = appModel.appLabel
@@ -416,12 +438,51 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return nowLocked
     }
 
+    fun isAppLimited(appModel: AppModel): Boolean =
+        appModel is AppModel.App && prefs.isAppLimited(appKey(appModel))
+
+    // Toggles the soft-limit state of an app and returns the new state (true = limited).
+    // Clearing the limit also wipes any pending cooldown so the app opens freely again.
+    fun toggleAppLimit(appModel: AppModel): Boolean {
+        val key = appKey(appModel)
+        val newSet = prefs.limitedApps.toMutableSet()
+        val nowLimited: Boolean
+        if (newSet.contains(key)) {
+            newSet.remove(key)
+            prefs.clearLimitState(key)
+            nowLimited = false
+        } else {
+            newSet.add(key)
+            nowLimited = true
+        }
+        prefs.limitedApps = newSet
+        return nowLimited
+    }
+
     // Called by the Activity after a successful unlock.
     fun launchAppDirectly(appModel: AppModel.App) {
         launchApp(appModel.appPackage, appModel.activityClassName, appModel.user)
     }
 
     private fun launchApp(packageName: String, activityClassName: String?, userHandle: UserHandle) {
+        val key = "$packageName|$userHandle"
+
+        // Soft "use it less" limit: gate the launch behind a progressive cooldown.
+        // Evaluated at the single launch chokepoint so it covers home, drawer, swipe
+        // and post-auth launches alike.
+        if (prefs.isAppLimited(key)) {
+            when (val decision = AppLimiter.evaluate(prefs, key, System.currentTimeMillis())) {
+                is AppLimiter.Decision.Block -> {
+                    cooldownBlocked.postValue(CooldownBlock(packageName, userHandle, decision.untilMillis))
+                    return
+                }
+
+                AppLimiter.Decision.Allow -> Unit // proceed
+            }
+        }
+
+        // Track launches to rank drawer search results by frequency of use.
+        prefs.incrementUsage(key)
         val launcher = appContext.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
         val activityInfo = launcher.getActivityList(packageName, userHandle)
 
@@ -465,6 +526,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 withContext(Dispatchers.IO) { prefs.appListCache = appListToCacheJson(apps) }
         }
         getPrivateSpaceAppList()
+    }
+
+    fun loadDrawerContacts() {
+        viewModelScope.launch {
+            drawerContacts.value = ContactsHelper.loadContacts(appContext)
+        }
     }
 
     fun getHiddenApps() {

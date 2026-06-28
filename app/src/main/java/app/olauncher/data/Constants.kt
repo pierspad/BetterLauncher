@@ -62,6 +62,7 @@ object Constants {
     const val FLAG_LAUNCH_APP = 100
     const val FLAG_HIDDEN_APPS = 101
     const val FLAG_LOCKED_APPS = 102
+    const val FLAG_LIMITED_APPS = 103
 
     const val FLAG_SET_HOME_APP_1 = 1
     const val FLAG_SET_HOME_APP_2 = 2

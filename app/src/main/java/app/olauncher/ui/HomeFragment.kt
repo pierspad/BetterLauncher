@@ -43,6 +43,7 @@ import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentHomeBinding
 import app.olauncher.helper.appUsagePermissionGranted
 import app.olauncher.helper.dpToPx
+import app.olauncher.helper.scrimColor
 import app.olauncher.helper.expandNotificationDrawer
 import app.olauncher.helper.getUserHandleFromString
 import app.olauncher.helper.isPackageInstalled
@@ -145,7 +146,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     // LayoutTransition never animates it to full opacity (which caused a black flash).
     private fun applyOpacityScrim() {
         val alpha = (prefs.opacityHome.coerceIn(0f, 1f) * 255).toInt()
-        binding.homeOpacityScrim.setBackgroundColor(android.graphics.Color.argb(alpha, 0, 0, 0))
+        binding.homeOpacityScrim.setBackgroundColor(requireContext().scrimColor(alpha))
     }
 
     override fun onPause() {

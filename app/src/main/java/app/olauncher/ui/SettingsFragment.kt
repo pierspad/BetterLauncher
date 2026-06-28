@@ -1,5 +1,6 @@
 package app.olauncher.ui
 
+import android.Manifest
 import android.app.Activity
 import android.app.admin.DevicePolicyManager
 import android.appwidget.AppWidgetHost
@@ -40,6 +41,7 @@ import app.olauncher.R
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentSettingsBinding
+import app.olauncher.helper.ContactsHelper
 import app.olauncher.helper.FontHelper
 import app.olauncher.helper.animateAlpha
 import app.olauncher.helper.appUsagePermissionGranted
@@ -51,6 +53,7 @@ import app.olauncher.helper.isOlauncherDefault
 import app.olauncher.helper.openAppInfo
 import app.olauncher.helper.openUrl
 import app.olauncher.helper.rateApp
+import app.olauncher.helper.scrimColor
 import app.olauncher.helper.shareApp
 import app.olauncher.helper.showToast
 import app.olauncher.listener.DeviceAdmin
@@ -64,6 +67,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
+
+    private var fontDialog: AlertDialog? = null
 
     private val enableAdminLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -209,7 +214,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateDateTime()
         populateSwipeApps()
         populateSwipeDownAction()
-        populateShortcutIconsSetting()
         populateWidget()
         initClickListeners()
         initObservers()
@@ -221,6 +225,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         when (view.id) {
             R.id.olauncherHiddenApps -> showHiddenApps()
             R.id.lockApps -> showLockApps()
+            R.id.limitApps -> showLimitApps()
             R.id.backupSettings -> createBackupLauncher.launch("betterlauncher-backup.json")
             R.id.restoreSettings -> openRestoreLauncher.launch(arrayOf("*/*"))
             R.id.resetSettings -> resetSettingsToDefault()
@@ -253,7 +258,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.actionAccessibility -> openAccessibilityService()
             R.id.closeAccessibility -> toggleAccessibilityVisibility(false)
             R.id.notWorking -> requireContext().openUrl(Constants.URL_DOUBLE_TAP)
-            R.id.shortcutIcons -> toggleShortcutIcons()
             R.id.widgetEnabled -> toggleWidget()
             R.id.widgetChooseRow -> startWidgetPick()
 
@@ -295,6 +299,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private fun initClickListeners() {
         binding.olauncherHiddenApps.setOnClickListener(this)
         binding.lockApps.setOnClickListener(this)
+        binding.limitApps.setOnClickListener(this)
         binding.backupSettings.setOnClickListener(this)
         binding.restoreSettings.setOnClickListener(this)
         binding.resetSettings.setOnClickListener(this)
@@ -331,7 +336,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.actionAccessibility.setOnClickListener(this)
         binding.closeAccessibility.setOnClickListener(this)
         binding.notWorking.setOnClickListener(this)
-        binding.shortcutIcons.setOnClickListener(this)
         binding.widgetEnabled.setOnClickListener(this)
         binding.widgetChooseRow.setOnClickListener(this)
         binding.widgetChooseRow.setOnLongClickListener(this)
@@ -483,6 +487,14 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         )
     }
 
+    private fun showLimitApps() {
+        viewModel.getAppList()
+        findNavController().navigate(
+            R.id.action_settingsFragment_to_appListFragment,
+            bundleOf(Constants.Key.FLAG to Constants.FLAG_LIMITED_APPS)
+        )
+    }
+
     // Re-apply theme and rebuild the UI after a settings restore.
     private fun restartLauncher() {
         AppCompatDelegate.setDefaultNightMode(prefs.appTheme)
@@ -548,16 +560,47 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun updateHomeAppsNum(num: Int) {
-        binding.homeAppsNum.text = num.toString()
+        val wasEnabled = prefs.homeAppsNum > 0
         prefs.homeAppsNum = num
+        binding.homeAppsNum.text = num.toString()
+
+        // Re-enabling the apps column while it would collide with the icons column:
+        // move the apps to the first free horizontal slot so the two never overlap.
+        if (!wasEnabled && num > 0 && prefs.shortcutIconsEnabled &&
+            prefs.homeAlignment == prefs.shortcutIconsAlignment
+        ) {
+            prefs.homeAlignment = firstFreeAlignment(prefs.shortcutIconsAlignment)
+        }
+
+        populateAlignment()
+        viewModel.updateHomeAlignment(prefs.homeAlignment)
         viewModel.refreshHome(true)
     }
 
     private fun updateHomeIconsNum(num: Int) {
-        binding.homeIconsNum.text = num.toString()
+        val wasEnabled = prefs.shortcutIconsEnabled
         prefs.homeShortcutIconsNum = num
+        binding.homeIconsNum.text = num.toString()
+
+        // Re-enabling the icons column while it would collide with the apps column:
+        // park the icons in the first free horizontal slot.
+        if (!wasEnabled && num > 0 && prefs.homeAppsNum > 0 &&
+            prefs.shortcutIconsAlignment == prefs.homeAlignment
+        ) {
+            prefs.shortcutIconsAlignment = firstFreeAlignment(prefs.homeAlignment)
+        }
+
+        populateAlignment()
+        viewModel.updateHomeAlignment(prefs.homeAlignment)
         viewModel.refreshHome(false)
+
+        if (!wasEnabled && num > 0)
+            requireContext().showToast(getString(R.string.long_press_shortcut_icon_hint), Toast.LENGTH_LONG)
     }
+
+    // First horizontal slot (start → center → end) that is not the one already taken.
+    private fun firstFreeAlignment(taken: Int): Int =
+        listOf(Gravity.START, Gravity.CENTER, Gravity.END).first { it != taken }
 
     // ---- Sliders: apps-on-home (1..6) and text size (0.8..1.5) ----
 
@@ -619,15 +662,20 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     // Opacity sliders: progress runs 0..OPACITY_STEPS (20) in steps of 5%, so each
     // tick is 5% (progress*5 = percentage, progress/steps = 0f..1f scrim alpha).
     private fun setupOpacitySliders() {
+        loadOpacityPreviewWallpaper()
+
         binding.homeOpacitySeekBar.max = OPACITY_STEPS
         binding.homeOpacitySeekBar.progress = opacityToProgress(prefs.opacityHome)
         binding.homeOpacityValue.text = "${binding.homeOpacitySeekBar.progress * OPACITY_STEP_PERCENT}%"
         binding.homeOpacitySeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 binding.homeOpacityValue.text = "${progress * OPACITY_STEP_PERCENT}%"
+                updateOpacityPreview(progress, getString(R.string.opacity_home))
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                updateOpacityPreview(seekBar.progress, getString(R.string.opacity_home))
+            }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 prefs.opacityHome = seekBar.progress.toFloat() / OPACITY_STEPS
@@ -640,14 +688,49 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.drawerOpacitySeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 binding.drawerOpacityValue.text = "${progress * OPACITY_STEP_PERCENT}%"
+                updateOpacityPreview(progress, getString(R.string.opacity_drawer))
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                updateOpacityPreview(seekBar.progress, getString(R.string.opacity_drawer))
+            }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 prefs.opacityDrawer = seekBar.progress.toFloat() / OPACITY_STEPS
             }
         })
+
+        // Initial preview reflects the home slider.
+        updateOpacityPreview(binding.homeOpacitySeekBar.progress, getString(R.string.opacity_home))
+    }
+
+    // Mirrors the real home/drawer effect: same wallpaper, same theme-aware scrim
+    // (darken in dark mode, lighten in light mode) at the chosen intensity.
+    private fun updateOpacityPreview(progress: Int, label: String) {
+        val alpha = (progress.toFloat() / OPACITY_STEPS * 255).toInt()
+        binding.opacityPreviewScrim.setBackgroundColor(requireContext().scrimColor(alpha))
+        binding.opacityPreviewLabel.setTextColor(requireContext().getColorFromAttr(R.attr.primaryColor))
+        binding.opacityPreviewLabel.text = "$label · ${progress * OPACITY_STEP_PERCENT}%"
+    }
+
+    // The preview box is meant to be a "hole" punched through the settings panel onto the
+    // real wallpaper, so that 0% opacity renders as the bare wallpaper (no panel tint).
+    // getDrawable() can return null / throw on newer Android, so we fall back through the
+    // cheaper cached variants, and if the wallpaper truly can't be read we paint a neutral
+    // dark fill instead of letting the panel's grey glass bleed through the transparent box.
+    private fun loadOpacityPreviewWallpaper() {
+        val wm = android.app.WallpaperManager.getInstance(requireContext())
+        val wallpaper = runCatching { wm.peekFastDrawable() }.getOrNull()
+            ?: runCatching { wm.fastDrawable }.getOrNull()
+            ?: runCatching { wm.drawable }.getOrNull()
+
+        if (wallpaper != null) {
+            binding.opacityPreviewWallpaper.setImageDrawable(wallpaper)
+            binding.opacityPreviewWallpaper.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+        } else {
+            binding.opacityPreviewWallpaper.setImageDrawable(null)
+            binding.opacityPreviewWallpaper.setBackgroundColor(0xFF101010.toInt())
+        }
     }
 
     private fun opacityToProgress(value: Float): Int =
@@ -662,6 +745,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private fun applyTextSizeScale(scale: Float) {
         if (prefs.textSizeScale == scale) return
         prefs.textSizeScale = scale
+        prefs.reopenSettingsAfterRestart = true
         requireActivity().recreate()
     }
 
@@ -677,14 +761,12 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun updateTheme(appTheme: Int) {
-        if (AppCompatDelegate.getDefaultNightMode() == appTheme) return
+        if (prefs.appTheme == appTheme) return
         prefs.appTheme = appTheme
-        setAppTheme(appTheme)
-    }
-
-    private fun setAppTheme(theme: Int) {
-        if (AppCompatDelegate.getDefaultNightMode() == theme) return
-        requireActivity().recreate()
+        prefs.reopenSettingsAfterRestart = true
+        // setDefaultNightMode applies the change and recreates the activity once,
+        // re-inflating all views (and re-tinting icons) with the new theme.
+        AppCompatDelegate.setDefaultNightMode(appTheme)
     }
 
     // Light/dark slider: checked = dark (moon side), unchecked = light (sun side).
@@ -748,6 +830,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         val list = view.findViewById<LinearLayout>(R.id.fontPickerList)
         val dialog = AlertDialog.Builder(ctx).setView(view).create()
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        fontDialog = dialog
 
         val current = prefs.fontFamily
         val padV = 14.dpToPx()
@@ -805,6 +888,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private fun applyFont() {
         populateFont()
         FontHelper.reload(requireContext())
+        prefs.reopenSettingsAfterRestart = true
         requireActivity().recreate()
     }
 
@@ -820,6 +904,15 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun populateAlignment() {
+        // Each horizontal-alignment control only makes sense when its block is on screen,
+        // so we hide a whole row (and its divider) when the matching slider is at 0.
+        val appsOn = prefs.homeAppsNum > 0
+        val iconsOn = prefs.shortcutIconsEnabled // == homeShortcutIconsNum > 0
+        binding.appAlignmentRow.isVisible = appsOn
+        binding.appAlignmentDivider.isVisible = appsOn
+        binding.iconsAlignmentRow.isVisible = iconsOn
+        binding.iconsAlignmentDivider.isVisible = iconsOn
+
         highlightHorizontal(prefs.homeAlignment, binding.alignHomeLeft, binding.alignHomeCenter, binding.alignHomeRight)
         highlightHorizontal(prefs.clockAlignment, binding.alignClockLeft, binding.alignClockCenter, binding.alignClockRight)
         highlightHorizontal(prefs.shortcutIconsAlignment, binding.alignIconsLeft, binding.alignIconsCenter, binding.alignIconsRight)
@@ -830,10 +923,22 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     // Apps and shortcut icons must not share the same horizontal position: in each
     // segmented control we disable the button that matches the other control's
-    // current position (but never the control's own current selection).
+    // current position (but never the control's own current selection). The mutual
+    // exclusion only applies while BOTH blocks are visible — when only one is on
+    // screen it is free to use any of the three slots.
     private fun applyAlignmentExclusion() {
-        applyExclusion(prefs.homeAlignment, prefs.shortcutIconsAlignment, binding.alignHomeLeft, binding.alignHomeCenter, binding.alignHomeRight)
-        applyExclusion(prefs.shortcutIconsAlignment, prefs.homeAlignment, binding.alignIconsLeft, binding.alignIconsCenter, binding.alignIconsRight)
+        val both = prefs.homeAppsNum > 0 && prefs.shortcutIconsEnabled
+        if (both) {
+            applyExclusion(prefs.homeAlignment, prefs.shortcutIconsAlignment, binding.alignHomeLeft, binding.alignHomeCenter, binding.alignHomeRight)
+            applyExclusion(prefs.shortcutIconsAlignment, prefs.homeAlignment, binding.alignIconsLeft, binding.alignIconsCenter, binding.alignIconsRight)
+        } else {
+            setAllSegmentsEnabled(binding.alignHomeLeft, binding.alignHomeCenter, binding.alignHomeRight)
+            setAllSegmentsEnabled(binding.alignIconsLeft, binding.alignIconsCenter, binding.alignIconsRight)
+        }
+    }
+
+    private fun setAllSegmentsEnabled(vararg views: ImageView) {
+        for (v in views) setSegmentEnabled(v, true)
     }
 
     private fun applyExclusion(own: Int, other: Int, left: ImageView, center: ImageView, right: ImageView) {
@@ -963,18 +1068,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.action_settingsFragment_to_appListFragment,
             bundleOf(Constants.Key.FLAG to flag)
         )
-    }
-
-    private fun toggleShortcutIcons() {
-        prefs.shortcutIconsEnabled = !prefs.shortcutIconsEnabled
-        populateShortcutIconsSetting()
-        viewModel.refreshHome(false)
-        if (prefs.shortcutIconsEnabled)
-            requireContext().showToast(getString(R.string.long_press_shortcut_icon_hint), Toast.LENGTH_LONG)
-    }
-
-    private fun populateShortcutIconsSetting() {
-        binding.shortcutIcons.isChecked = prefs.shortcutIconsEnabled
     }
 
     private fun populateWidget() {
@@ -1129,8 +1222,16 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         requireContext().showToast(getString(R.string.widget_removed))
     }
 
+    override fun onStop() {
+        super.onStop()
+        // Don't leave the font picker floating over the home screen when we leave Settings.
+        fontDialog?.dismiss()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        fontDialog?.dismiss()
+        fontDialog = null
         _binding = null
     }
 
@@ -1148,11 +1249,12 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         private const val WIDGET_TAG = "BLWidget"
         private const val KEY_PENDING_WIDGET_ID = "pending_widget_id"
 
-        // Apps-on-home slider bounds.
-        private const val APPS_NUM_MIN = 1
+        // Apps-on-home slider bounds. 0 lets the user hide the apps column entirely.
+        private const val APPS_NUM_MIN = 0
         private const val APPS_NUM_MAX = 8
 
-        private const val ICONS_NUM_MIN = 1
+        // Icons slider bounds. 0 hides the favorite-icons column entirely.
+        private const val ICONS_NUM_MIN = 0
         private const val ICONS_NUM_MAX = Constants.SHORTCUT_COUNT
 
         // Text-size slider: 0.8..1.5 in steps of 0.1 (8 stops => max progress 7).

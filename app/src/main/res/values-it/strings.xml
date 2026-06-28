@@ -194,6 +194,14 @@
     <string name="app_locked_toast">App bloccata</string>
     <string name="app_unlocked_toast">App sbloccata</string>
 
+    <!-- Limite "usa meno" con cooldown progressivo -->
+    <string name="limit_apps">Usa meno (cooldown)</string>
+    <string name="app_limited_toast">Cooldown attivato</string>
+    <string name="app_unlimited_toast">Cooldown rimosso</string>
+    <string name="app_limit_cooldown_title">%1$s · rallenta</string>
+    <string name="app_limit_cooldown_message">L\'hai aperta da poco. Riprova tra %1$s.</string>
+    <string name="app_limit_cooldown_over">Ora puoi aprirla.</string>
+
     <!-- Esportazione, Importazione & Ripristino -->
     <string name="backup_saved">Impostazioni esportate con successo</string>
     <string name="backup_failed">Esportazione fallita</string>
@@ -227,6 +235,33 @@
     <string name="background_opacity">Opacità sfondo</string>
     <string name="opacity_home">Opacità home</string>
     <string name="opacity_drawer">Opacità menù app</string>
+
+    <!-- Ricerca drawer -->
+    <string name="search_drawer_title">Ricerca nel drawer</string>
+    <string name="search_settings_category">Cerca impostazioni Android</string>
+    <string name="search_contacts_category">Cerca contatti</string>
+    <string name="search_contacts_permission_needed">Serve il permesso Contatti</string>
+
+    <!-- Scorciatoie impostazioni (ricercabili dal drawer) -->
+    <string name="settings">Impostazioni</string>
+    <string name="setting_wifi">Wi-Fi</string>
+    <string name="setting_bluetooth">Bluetooth</string>
+    <string name="setting_airplane">Modalità aereo</string>
+    <string name="setting_data">Rete e internet</string>
+    <string name="setting_nfc">NFC</string>
+    <string name="setting_display">Display</string>
+    <string name="setting_sound">Suoni</string>
+    <string name="setting_battery">Batteria</string>
+    <string name="setting_apps">App</string>
+    <string name="setting_storage">Archiviazione</string>
+    <string name="setting_location">Geolocalizzazione</string>
+    <string name="setting_security">Sicurezza</string>
+    <string name="setting_privacy">Privacy</string>
+    <string name="setting_accessibility">Accessibilità</string>
+    <string name="setting_language">Lingue e immissione</string>
+    <string name="setting_datetime">Data e ora</string>
+    <string name="setting_developer">Opzioni sviluppatore</string>
+    <string name="setting_about">Info sul telefono</string>
 
     <string name="hidden_apps_instructions">Per nascondere un\'app, tieni premuto il suo nome nel drawer delle app e seleziona \'Nascondi\'. Per ripristinare un\'app nascosta, apri questa schermata, tieni premuta l\'app e seleziona \'Mostra\'.</string>
 </resources><!-- Italian -->
