@@ -137,6 +137,15 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         viewModel.isOlauncherDefault()
         if (prefs.showStatusBar) showStatusBar()
         else hideStatusBar()
+        applyOpacityScrim()
+    }
+
+    // Darkens the wallpaper behind the UI. The alpha is baked into the background
+    // color (not View.alpha) and the scrim stays VISIBLE so the parent's
+    // LayoutTransition never animates it to full opacity (which caused a black flash).
+    private fun applyOpacityScrim() {
+        val alpha = (prefs.opacityHome.coerceIn(0f, 1f) * 255).toInt()
+        binding.homeOpacityScrim.setBackgroundColor(android.graphics.Color.argb(alpha, 0, 0, 0))
     }
 
     override fun onPause() {

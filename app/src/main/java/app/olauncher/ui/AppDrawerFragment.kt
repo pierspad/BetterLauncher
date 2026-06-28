@@ -82,6 +82,7 @@ class AppDrawerFragment : Fragment() {
     }
 
     private fun initViews() {
+        applyOpacityScrim()
         if (flag == Constants.FLAG_HIDDEN_APPS)
             binding.search.queryHint = getString(R.string.hidden_apps)
         else if (flag == Constants.FLAG_LOCKED_APPS)
@@ -95,6 +96,13 @@ class AppDrawerFragment : Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    // Darkens the wallpaper behind the drawer. Alpha is baked into the background color
+    // (not View.alpha) and the scrim stays VISIBLE for consistent, flicker-free rendering.
+    private fun applyOpacityScrim() {
+        val alpha = (prefs.opacityDrawer.coerceIn(0f, 1f) * 255).toInt()
+        binding.drawerOpacityScrim.setBackgroundColor(android.graphics.Color.argb(alpha, 0, 0, 0))
     }
 
     private fun initSearch() {

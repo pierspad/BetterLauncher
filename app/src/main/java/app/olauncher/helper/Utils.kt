@@ -119,6 +119,57 @@ suspend fun getAppsList(
     }
 }
 
+// ---- App drawer cache ----
+// Serializes the regular apps (AppModel.App only) of a drawer list to a compact JSON
+// string. Pinned shortcuts are intentionally skipped: they are cheap and dynamic, so
+// they are always recomputed.
+fun appListToCacheJson(list: List<AppModel>): String {
+    val arr = org.json.JSONArray()
+    for (app in list) {
+        if (app is AppModel.App) {
+            arr.put(
+                org.json.JSONObject()
+                    .put("l", app.appLabel)
+                    .put("p", app.appPackage)
+                    .put("c", app.activityClassName ?: "")
+                    .put("u", app.user.toString())
+            )
+        }
+    }
+    return arr.toString()
+}
+
+// Rebuilds a drawer list from a cached JSON snapshot. UserHandles are resolved once
+// through a map to avoid a per-app lookup. Returns an empty list on any problem.
+fun appListFromCacheJson(context: Context, json: String): MutableList<AppModel> {
+    val result = mutableListOf<AppModel>()
+    if (json.isBlank()) return result
+    try {
+        val collator = Collator.getInstance()
+        val userManager = context.getSystemService(Context.USER_SERVICE) as UserManager
+        val handleMap = userManager.userProfiles.associateBy { it.toString() }
+        val myHandle = android.os.Process.myUserHandle()
+        val arr = org.json.JSONArray(json)
+        for (i in 0 until arr.length()) {
+            val o = arr.getJSONObject(i)
+            val label = o.optString("l")
+            result.add(
+                AppModel.App(
+                    appLabel = label,
+                    key = collator.getCollationKey(label),
+                    appPackage = o.optString("p"),
+                    activityClassName = o.optString("c").ifBlank { null },
+                    isNew = false,
+                    user = handleMap[o.optString("u")] ?: myHandle,
+                )
+            )
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return result
+}
+
 @RequiresApi(Build.VERSION_CODES.O)
 private suspend fun getPinnedShortcuts(
     context: Context,
