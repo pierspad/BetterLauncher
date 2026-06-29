@@ -232,35 +232,35 @@ class MainActivity : AppCompatActivity() {
         cooldownDialog?.dismiss()
 
         val label = resolveAppLabel(block.packageName, block.user)
-        val messageView = android.widget.TextView(this).apply {
-            val pad = (24 * resources.displayMetrics.density).toInt()
-            setPadding(pad, pad, pad, pad / 2)
-            textSize = 16f
-        }
+        val view = layoutInflater.inflate(R.layout.dialog_app_cooldown, null)
+        val titleView = view.findViewById<android.widget.TextView>(R.id.cooldownTitle)
+        val messageView = view.findViewById<android.widget.TextView>(R.id.cooldownMessage)
+        val timerView = view.findViewById<android.widget.TextView>(R.id.cooldownTimer)
+        val buttonView = view.findViewById<android.widget.TextView>(R.id.cooldownButton)
+
+        titleView.text = getString(R.string.app_limit_cooldown_title, label)
+        messageView.text = getString(R.string.app_limit_cooldown_message)
 
         val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
-            .setTitle(getString(R.string.app_limit_cooldown_title, label))
-            .setView(messageView)
-            .setPositiveButton(R.string.okay, null)
+            .setView(view)
             .create()
+        // Transparent window so the rounded surface (not a square frame) is what shows.
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         cooldownDialog = dialog
         dialog.setOnDismissListener { cooldownJob?.cancel() }
+        buttonView.setOnClickListener { dialog.dismiss() }
         dialog.show()
 
         cooldownJob = lifecycleScope.launch {
             while (true) {
                 val remaining = block.untilMillis - System.currentTimeMillis()
                 if (remaining <= 0) {
+                    timerView.text = "00:00"
                     messageView.text = getString(R.string.app_limit_cooldown_over)
                     break
                 }
                 val totalSec = (remaining + 999) / 1000
-                val mm = totalSec / 60
-                val ss = totalSec % 60
-                messageView.text = getString(
-                    R.string.app_limit_cooldown_message,
-                    String.format("%02d:%02d", mm, ss)
-                )
+                timerView.text = String.format("%02d:%02d", totalSec / 60, totalSec % 60)
                 delay(500)
             }
         }

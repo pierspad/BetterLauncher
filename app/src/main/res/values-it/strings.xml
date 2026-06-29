@@ -199,7 +199,7 @@
     <string name="app_limited_toast">Cooldown attivato</string>
     <string name="app_unlimited_toast">Cooldown rimosso</string>
     <string name="app_limit_cooldown_title">%1$s · rallenta</string>
-    <string name="app_limit_cooldown_message">L\'hai aperta da poco. Riprova tra %1$s.</string>
+    <string name="app_limit_cooldown_message">L\'hai aperta da poco. Prenditi una pausa.</string>
     <string name="app_limit_cooldown_over">Ora puoi aprirla.</string>
 
     <!-- Esportazione, Importazione & Ripristino -->

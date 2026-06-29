@@ -227,7 +227,7 @@
     <string name="app_limited_toast">Cooldown enabled</string>
     <string name="app_unlimited_toast">Cooldown removed</string>
     <string name="app_limit_cooldown_title">%1$s · slow down</string>
-    <string name="app_limit_cooldown_message">You opened this recently. Try again in %1$s.</string>
+    <string name="app_limit_cooldown_message">You opened this recently. Take a breather.</string>
     <string name="app_limit_cooldown_over">You can open it now.</string>
 
     <!-- Export, Import & Reset -->

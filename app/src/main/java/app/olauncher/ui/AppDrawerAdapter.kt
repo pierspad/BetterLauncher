@@ -335,10 +335,16 @@ class AppDrawerAdapter(
                 // U+1F512 PADLOCK + U+FE0E (text-presentation selector): forces the
                 // monochrome glyph, so the lock inherits the row's text colour (white)
                 // instead of the multicolour emoji — same effect the ✦ above already relies on.
-                if (flag == Constants.FLAG_LOCKED_APPS && isAppLocked(appModel)) append("  🔒︎")
-                // U+23F3 HOURGLASS + U+FE0E text-presentation selector: monochrome glyph,
-                // so the marker inherits the row colour like the lock above.
-                if (flag == Constants.FLAG_LIMITED_APPS && isAppLimited(appModel)) append("  ⏳︎")
+                // Markers: shown in the lock/limit pickers (only the relevant one), and BOTH
+                // in the main drawer so each row advertises what's set on it.
+                // U+FE0E (text-presentation selector) forces the monochrome glyph so the
+                // markers inherit the row's text colour instead of multicolour emoji.
+                val showLock = isAppLocked(appModel) &&
+                    (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_LOCKED_APPS)
+                val showLimit = isAppLimited(appModel) &&
+                    (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_LIMITED_APPS)
+                if (showLock) append("  🔒︎")
+                if (showLimit) append("  ⏳︎")
             }
             appTitle.gravity = appLabelGravity
             otherProfileIndicator.isVisible = appModel.user != myUserHandle

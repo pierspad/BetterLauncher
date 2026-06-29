@@ -662,7 +662,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     // Opacity sliders: progress runs 0..OPACITY_STEPS (20) in steps of 5%, so each
     // tick is 5% (progress*5 = percentage, progress/steps = 0f..1f scrim alpha).
     private fun setupOpacitySliders() {
-        loadOpacityPreviewWallpaper()
+        // The preview is a real hole onto the live wallpaper, tracking the placeholder box.
+        binding.wallpaperHole.attachTo(binding.opacityPreview, 16.dpToPx().toFloat())
 
         binding.homeOpacitySeekBar.max = OPACITY_STEPS
         binding.homeOpacitySeekBar.progress = opacityToProgress(prefs.opacityHome)
@@ -704,33 +705,13 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         updateOpacityPreview(binding.homeOpacitySeekBar.progress, getString(R.string.opacity_home))
     }
 
-    // Mirrors the real home/drawer effect: same wallpaper, same theme-aware scrim
-    // (darken in dark mode, lighten in light mode) at the chosen intensity.
+    // Mirrors the real home/drawer effect over the live wallpaper revealed by the hole:
+    // the same theme-aware scrim (darken in dark mode, lighten in light mode) at the chosen
+    // intensity, plus a centered label. At 0% the hole shows the bare wallpaper, no tint.
     private fun updateOpacityPreview(progress: Int, label: String) {
         val alpha = (progress.toFloat() / OPACITY_STEPS * 255).toInt()
-        binding.opacityPreviewScrim.setBackgroundColor(requireContext().scrimColor(alpha))
-        binding.opacityPreviewLabel.setTextColor(requireContext().getColorFromAttr(R.attr.primaryColor))
-        binding.opacityPreviewLabel.text = "$label · ${progress * OPACITY_STEP_PERCENT}%"
-    }
-
-    // The preview box is meant to be a "hole" punched through the settings panel onto the
-    // real wallpaper, so that 0% opacity renders as the bare wallpaper (no panel tint).
-    // getDrawable() can return null / throw on newer Android, so we fall back through the
-    // cheaper cached variants, and if the wallpaper truly can't be read we paint a neutral
-    // dark fill instead of letting the panel's grey glass bleed through the transparent box.
-    private fun loadOpacityPreviewWallpaper() {
-        val wm = android.app.WallpaperManager.getInstance(requireContext())
-        val wallpaper = runCatching { wm.peekFastDrawable() }.getOrNull()
-            ?: runCatching { wm.fastDrawable }.getOrNull()
-            ?: runCatching { wm.drawable }.getOrNull()
-
-        if (wallpaper != null) {
-            binding.opacityPreviewWallpaper.setImageDrawable(wallpaper)
-            binding.opacityPreviewWallpaper.setBackgroundColor(android.graphics.Color.TRANSPARENT)
-        } else {
-            binding.opacityPreviewWallpaper.setImageDrawable(null)
-            binding.opacityPreviewWallpaper.setBackgroundColor(0xFF101010.toInt())
-        }
+        binding.wallpaperHole.setScrimColor(requireContext().scrimColor(alpha))
+        binding.wallpaperHole.setLabel("$label · ${progress * OPACITY_STEP_PERCENT}%")
     }
 
     private fun opacityToProgress(value: Float): Int =
@@ -876,10 +857,11 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         val customLabel = if (isCustom) current.removePrefix(FontHelper.CUSTOM_PREFIX)
         else getString(R.string.font_custom)
         addRow(customLabel, customPreview, isCustom) {
-            // OpenDocument with a broad filter; many providers report fonts as
-            // octet-stream, so we validate after copying instead.
+            // Restrict the system picker to font files. Different providers report
+            // fonts under different MIME types, so we pass the common ones; the file
+            // is still validated after copying (see FontHelper.importCustomFont).
             dialog.dismiss()
-            pickFontLauncher.launch(arrayOf("*/*"))
+            pickFontLauncher.launch(FONT_MIME_TYPES)
         }
 
         dialog.show()
@@ -983,8 +965,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun updateHomeHorizontalAlignment(gravity: Int) {
-        // Apps can't occupy the same horizontal position as the shortcut icons.
-        if (gravity == prefs.shortcutIconsAlignment) return
+        // Apps can't occupy the same horizontal position as the shortcut icons,
+        // but only while the icons column is actually on screen.
+        if (prefs.shortcutIconsEnabled && gravity == prefs.shortcutIconsAlignment) return
         viewModel.updateHomeAlignment(gravity)
     }
 
@@ -996,8 +979,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun updateIconsAlignment(gravity: Int) {
-        // Shortcut icons can't occupy the same horizontal position as the apps.
-        if (gravity == prefs.homeAlignment) return
+        // Shortcut icons can't occupy the same horizontal position as the apps,
+        // but only while the apps column is actually on screen.
+        if (prefs.homeAppsNum > 0 && gravity == prefs.homeAlignment) return
         prefs.shortcutIconsAlignment = gravity
         viewModel.updateHomeAlignment(prefs.homeAlignment)
     }
@@ -1248,6 +1232,18 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     companion object {
         private const val WIDGET_TAG = "BLWidget"
         private const val KEY_PENDING_WIDGET_ID = "pending_widget_id"
+
+        // MIME types accepted by the custom-font picker (TrueType / OpenType, plus the
+        // generic font category some providers expose). Validated again after import.
+        private val FONT_MIME_TYPES = arrayOf(
+            "font/ttf",
+            "font/otf",
+            "font/sfnt",
+            "application/x-font-ttf",
+            "application/x-font-otf",
+            "application/font-sfnt",
+            "application/vnd.ms-opentype",
+        )
 
         // Apps-on-home slider bounds. 0 lets the user hide the apps column entirely.
         private const val APPS_NUM_MIN = 0
