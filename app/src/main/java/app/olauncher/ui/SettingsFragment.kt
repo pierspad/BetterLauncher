@@ -230,6 +230,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             }
         }
         populateAlignment()
+        (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

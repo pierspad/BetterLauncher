@@ -390,14 +390,15 @@ class AppDrawerFragment : Fragment() {
         // could end up stuck at the animation's start alpha (0) → an all-black drawer until
         // a relayout (lock/unlock or reopen). Triggering it from the commit callback keeps
         // the animation but guarantees the rows are always visible. E-ink keeps no animation.
-        if (requireContext().isEinkDisplay().not()) {
-            adapter.onFirstNonEmptyCommit = {
+        adapter.onFirstNonEmptyCommit = {
+            if (requireContext().isEinkDisplay().not()) {
                 _binding?.recyclerView?.let { rv ->
                     rv.layoutAnimation =
                         AnimationUtils.loadLayoutAnimation(rv.context, R.anim.layout_anim_from_bottom)
                     rv.scheduleLayoutAnimation()
                 }
             }
+            (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = true)
         }
     }
 

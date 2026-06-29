@@ -1,6 +1,5 @@
 package app.olauncher
 
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.BroadcastReceiver
@@ -90,9 +89,6 @@ class MainActivity : AppCompatActivity() {
 
         navController = this.findNavController(R.id.nav_host_fragment)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        navController.addOnDestinationChangedListener { _, _, _ ->
-            updateGlobalOpacityScrim(animate = true)
-        }
 
         // A settings-initiated recreate (theme/font/text size) drops to the home via
         // onStop→backToHomeScreen; reopen Settings so the user stays where they were.
@@ -112,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                         // if you want other system/activity level handling
                     }
                 } else {
-                    binding.messageLayout.visibility = View.GONE
+                    hideMessageLayout()
                 }
             }
         }
@@ -158,7 +154,6 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         isResumed = true
         viewModel.isPrivateSpaceToggling = false
-        updateGlobalOpacityScrim()
 
         // Decay check for all limited apps once per day:
         val now = System.currentTimeMillis()
@@ -228,7 +223,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initClickListeners() {
         binding.ivClose.setOnClickListener {
-            binding.messageLayout.visibility = View.GONE
+            hideMessageLayout()
         }
     }
 
@@ -255,7 +250,7 @@ class MainActivity : AppCompatActivity() {
             when (it) {
                 Constants.Dialog.ABOUT -> {
                     showMessageDialog(R.string.app_name, R.string.welcome_to_olauncher_settings, R.string.okay) {
-                        binding.messageLayout.visibility = View.GONE
+                        hideMessageLayout()
                     }
                 }
 
@@ -395,9 +390,9 @@ class MainActivity : AppCompatActivity() {
         binding.tvAction.text = getString(action)
         binding.tvAction.setOnClickListener {
             clickListener()
-            binding.messageLayout.visibility = View.GONE
+            hideMessageLayout()
         }
-        binding.messageLayout.visibility = View.VISIBLE
+        showMessageLayout()
     }
 
     private fun checkForMessages() {
@@ -415,7 +410,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun backToHomeScreen() {
         if (viewModel.isPrivateSpaceToggling) return
-        binding.messageLayout.visibility = View.GONE
+        hideMessageLayout()
         if (navController.currentDestination?.id != R.id.mainFragment)
             navController.popBackStack(R.id.mainFragment, false)
     }
@@ -478,27 +473,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private var colorAnimator: ValueAnimator? = null
     private var currentOpacity: Float = -1f
 
-    private fun animateGlobalOpacityScrim(startOpacity: Float, targetOpacity: Float) {
-        colorAnimator?.cancel()
-
-        val duration = 400L // 400ms for a very smooth and soft fade
-
-        colorAnimator = ValueAnimator.ofFloat(startOpacity, targetOpacity).apply {
-            setDuration(duration)
-            addUpdateListener { animator ->
-                val opacity = animator.animatedValue as Float
-                currentOpacity = opacity
-                val alpha = (opacity.coerceIn(0f, 1f) * 255).toInt()
-                binding.globalOpacityScrim.setBackgroundColor(this@MainActivity.scrimColor(alpha))
-            }
-            start()
-        }
-    }
-
-    private fun updateGlobalOpacityScrim(animate: Boolean = false) {
+    fun updateGlobalOpacityScrim(animate: Boolean = false) {
         val destinationId = if (::navController.isInitialized) navController.currentDestination?.id else null
         val opacity = when (destinationId) {
             R.id.mainFragment -> prefs.opacityHome
@@ -506,16 +483,39 @@ class MainActivity : AppCompatActivity() {
             R.id.settingsFragment -> 0.25f
             else -> 0f
         }
+        android.util.Log.d("BetterLauncher", "updateGlobalOpacityScrim: dest=$destinationId, opacity=$opacity, current=$currentOpacity, animate=$animate")
+
+        // Ensure the background is solid (alpha 255) black or white depending on the active theme
+        binding.globalOpacityScrim.setBackgroundColor(this.scrimColor(255))
 
         if (currentOpacity == opacity) return
 
         if (animate && currentOpacity >= 0f) {
-            animateGlobalOpacityScrim(currentOpacity, opacity)
+            android.util.Log.d("BetterLauncher", "updateGlobalOpacityScrim: Animating from $currentOpacity to $opacity")
+            binding.globalOpacityScrim.animate().cancel()
+            binding.globalOpacityScrim.animate()
+                .alpha(opacity.coerceIn(0f, 1f))
+                .setDuration(220)
+                .start()
         } else {
-            colorAnimator?.cancel()
-            currentOpacity = opacity
-            val alpha = (opacity.coerceIn(0f, 1f) * 255).toInt()
-            binding.globalOpacityScrim.setBackgroundColor(this.scrimColor(alpha))
+            android.util.Log.d("BetterLauncher", "updateGlobalOpacityScrim: Immediately setting to $opacity")
+            binding.globalOpacityScrim.animate().cancel()
+            binding.globalOpacityScrim.alpha = opacity.coerceIn(0f, 1f)
         }
+        currentOpacity = opacity
+    }
+
+    private fun showMessageLayout() {
+        binding.messageLayout.animate().cancel()
+        binding.messageLayout.alpha = 0f
+        binding.messageLayout.visibility = View.VISIBLE
+        binding.messageLayout.animate().alpha(1f).setDuration(200).start()
+    }
+
+    private fun hideMessageLayout() {
+        binding.messageLayout.animate().cancel()
+        binding.messageLayout.animate().alpha(0f).setDuration(200).withEndAction {
+            binding.messageLayout.visibility = View.GONE
+        }.start()
     }
 }
