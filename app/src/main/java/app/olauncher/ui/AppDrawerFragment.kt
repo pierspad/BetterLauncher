@@ -126,33 +126,44 @@ class AppDrawerFragment : Fragment() {
         }
     }
 
+    // Custom rounded popup anchored to the (right-aligned) tune button. A plain PopupMenu
+    // grows rightwards and runs off-screen, so we right-align this one to open leftwards.
     private fun showSearchOptionsMenu() {
-        val popup = android.widget.PopupMenu(requireContext(), binding.searchOptions)
-        val settingsItem = popup.menu.add(0, 1, 0, R.string.search_settings_category).apply {
-            isCheckable = true
-            isChecked = prefs.searchSettingsEnabled
-        }
-        val contactsItem = popup.menu.add(0, 2, 1, R.string.search_contacts_category).apply {
-            isCheckable = true
-            isChecked = prefs.searchContactsEnabled
-        }
-        popup.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                1 -> {
-                    prefs.searchSettingsEnabled = !prefs.searchSettingsEnabled
-                    settingsItem.isChecked = prefs.searchSettingsEnabled
-                    refreshSettingTiles()
-                }
+        val content = layoutInflater.inflate(R.layout.popup_search_options, null)
+        val settingsCheck = content.findViewById<View>(R.id.optSettingsCheck)
+        val contactsCheck = content.findViewById<View>(R.id.optContactsCheck)
 
-                2 -> {
-                    prefs.searchContactsEnabled = !prefs.searchContactsEnabled
-                    contactsItem.isChecked = prefs.searchContactsEnabled
-                    refreshContacts()
-                }
-            }
-            true
+        fun render() {
+            settingsCheck.visibility = if (prefs.searchSettingsEnabled) View.VISIBLE else View.INVISIBLE
+            contactsCheck.visibility = if (prefs.searchContactsEnabled) View.VISIBLE else View.INVISIBLE
         }
-        popup.show()
+        render()
+
+        val popup = android.widget.PopupWindow(
+            content,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true, // focusable: dismiss on outside touch / back
+        ).apply {
+            setBackgroundDrawable(android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT))
+            elevation = 16f
+        }
+
+        content.findViewById<View>(R.id.optSettings).setOnClickListener {
+            prefs.searchSettingsEnabled = !prefs.searchSettingsEnabled
+            render()
+            refreshSettingTiles()
+        }
+        content.findViewById<View>(R.id.optContacts).setOnClickListener {
+            prefs.searchContactsEnabled = !prefs.searchContactsEnabled
+            render()
+            refreshContacts()
+        }
+
+        // Right-align the popup with the anchor so it expands to the left, on-screen.
+        content.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        val xOffset = binding.searchOptions.width - content.measuredWidth
+        popup.showAsDropDown(binding.searchOptions, xOffset, 0)
     }
 
     private fun updateSearchSources() {

@@ -194,6 +194,8 @@
                             android:layout_weight="1"
                             android:layout_marginStart="8dp"
                             android:paddingVertical="8dp"
+                            android:drawableStart="@drawable/ic_sc_grid"
+                            android:drawablePadding="12dp"
                             android:text="@string/apps_on_home_screen"
                             android:textColor="?attr/primaryColor" />
 
@@ -245,6 +247,8 @@
                             android:layout_weight="1"
                             android:layout_marginStart="8dp"
                             android:paddingVertical="8dp"
+                            android:drawableStart="@drawable/ic_sc_star"
+                            android:drawablePadding="12dp"
                             android:text="@string/home_icons_count"
                             android:textColor="?attr/primaryColor" />
 
@@ -291,6 +295,8 @@
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_sc_clock"
+                        android:drawablePadding="12dp"
                         android:text="@string/show_date_time"
                         android:textColor="?attr/primaryColor" />
 
@@ -365,6 +371,8 @@
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_hourglass"
+                        android:drawablePadding="12dp"
                         android:text="@string/screen_time"
                         android:textColor="?attr/primaryColor" />
 
@@ -389,7 +397,6 @@
                     android:layout_marginVertical="4dp"
                     android:background="@drawable/divider_light" />
 
-                <!-- Shortcut icons (switch) -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -403,44 +410,8 @@
                         android:layout_weight="1"
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/shortcut_icons"
-                        android:textColor="?attr/primaryColor" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/shortcutIcons"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:text=""
-                        android:textOff=""
-                        android:textOn=""
-                        app:thumbTint="@color/switch_thumb"
-                        app:trackTint="@color/switch_track" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_marginVertical="4dp"
-                    android:background="@drawable/divider_light" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        style="@style/TextSmall"
-                        android:layout_marginStart="8dp"
+                        android:drawableStart="@drawable/ic_widget"
+                        android:drawablePadding="12dp"
                         android:paddingVertical="8dp"
                         android:text="@string/widget"
                         android:textColor="?attr/primaryColor" />
@@ -529,6 +500,8 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="12dp"
                         android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_sc_clock"
+                        android:drawablePadding="12dp"
                         android:text="@string/clock_alignment"
                         android:textColor="?attr/primaryColor" />
 
@@ -588,6 +561,8 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="12dp"
                         android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_align_up"
+                        android:drawablePadding="12dp"
                         android:text="@string/vertical_alignment"
                         android:textColor="?attr/primaryColor" />
 
@@ -617,6 +592,7 @@
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/appAlignmentDivider"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginHorizontal="8dp"
@@ -625,6 +601,7 @@
 
                 <!-- Horizontal app alignment -->
                 <LinearLayout
+                    android:id="@+id/appAlignmentRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
@@ -638,6 +615,8 @@
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="12dp"
+                        android:drawableStart="@drawable/ic_align_left"
+                        android:drawablePadding="12dp"
                         android:paddingVertical="8dp"
                         android:text="@string/home_layout_alignment"
                         android:textColor="?attr/primaryColor" />
@@ -676,6 +655,7 @@
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/iconsAlignmentDivider"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginHorizontal="8dp"
@@ -684,6 +664,7 @@
 
                 <!-- Horizontal icons alignment -->
                 <LinearLayout
+                    android:id="@+id/iconsAlignmentRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
@@ -698,6 +679,8 @@
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="12dp"
+                        android:drawableStart="@drawable/ic_sc_star"
+                        android:drawablePadding="12dp"
                         android:paddingVertical="8dp"
                         android:text="@string/icons_alignment"
                         android:textColor="?attr/primaryColor" />
@@ -796,6 +779,8 @@
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_keyboard"
+                        android:drawablePadding="12dp"
                         android:text="@string/auto_show_keyboard"
                         android:textColor="?attr/primaryColor" />
 
@@ -835,6 +820,8 @@
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_bell"
+                        android:drawablePadding="12dp"
                         android:text="@string/notification_bar"
                         android:textColor="?attr/primaryColor" />
 
@@ -874,6 +861,8 @@
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_moon"
+                        android:drawablePadding="12dp"
                         android:text="@string/theme_mode"
                         android:textColor="?attr/primaryColor" />
 
@@ -937,6 +926,8 @@
                             android:layout_weight="1"
                             android:layout_marginStart="8dp"
                             android:paddingVertical="8dp"
+                            android:drawableStart="@drawable/ic_text_size"
+                            android:drawablePadding="12dp"
                             android:text="@string/text_size"
                             android:textColor="?attr/primaryColor" />
 
@@ -980,6 +971,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_font"
+                        android:drawablePadding="12dp"
                         android:text="@string/font"
                         android:textColor="?attr/primaryColor" />
 
@@ -1009,46 +1002,20 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="6dp"
                     android:paddingVertical="8dp"
+                    android:drawableStart="@drawable/ic_opacity"
+                    android:drawablePadding="12dp"
                     android:text="@string/background_opacity"
                     android:textColor="?attr/primaryColor" />
 
-                <!-- Live preview: wallpaper + scrim updated as the sliders move -->
+                <!-- Live preview: transparent placeholder; the WallpaperHoleView overlay
+                     (below) draws the real wallpaper + scrim + label through the panel. -->
                 <FrameLayout
                     android:id="@+id/opacityPreview"
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
                     android:layout_marginHorizontal="6dp"
                     android:layout_marginTop="2dp"
-                    android:layout_marginBottom="6dp"
-                    android:background="@drawable/rounded_preview"
-                    android:clipToOutline="true">
-
-                    <ImageView
-                        android:id="@+id/opacityPreviewWallpaper"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@null"
-                        android:scaleType="centerCrop" />
-
-                    <View
-                        android:id="@+id/opacityPreviewScrim"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/black" />
-
-                    <TextView
-                        android:id="@+id/opacityPreviewLabel"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:shadowColor="#000000"
-                        android:shadowDx="0"
-                        android:shadowDy="0"
-                        android:shadowRadius="6"
-                        android:textColor="#FFFFFF"
-                        tools:text="Home · 40%" />
-                </FrameLayout>
+                    android:layout_marginBottom="6dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1167,6 +1134,8 @@
                         android:layout_weight="1"
                         android:lines="1"
                         android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_align_left"
+                        android:drawablePadding="12dp"
                         android:text="@string/swipe_left_app"
                         android:textColor="?attr/primaryColor" />
 
@@ -1203,6 +1172,8 @@
                         android:layout_weight="1"
                         android:lines="1"
                         android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_align_right"
+                        android:drawablePadding="12dp"
                         android:text="@string/swipe_right_app"
                         android:textColor="?attr/primaryColor" />
 
@@ -1234,6 +1205,8 @@
                         android:layout_marginEnd="24dp"
                         android:lines="1"
                         android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_align_down"
+                        android:drawablePadding="12dp"
                         android:text="@string/swipe_down_for"
                         android:textColor="?attr/primaryColor" />
 
@@ -1314,6 +1287,8 @@
                         android:layout_weight="1"
                         style="@style/TextSmall"
                         android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_shield"
+                        android:drawablePadding="12dp"
                         android:text="@string/double_tap_to_lock_screen"
                         android:textColor="?attr/primaryColor" />
 
@@ -1484,6 +1459,12 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <!-- Punches a real hole onto the live wallpaper for the opacity preview. -->
+    <app.olauncher.ui.WallpaperHoleView
+        android:id="@+id/wallpaperHole"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:id="@+id/accessibilityLayout"
