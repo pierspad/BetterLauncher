@@ -290,8 +290,7 @@
     <string name="tag_6">6</string>
     <string name="tag_7">7</string>
     <string name="tag_8">8</string>
-    <string name="time_spent_min"></string>
-    <string name="time_spent_hour">%1$sh %2$mq</string>
+
     <string name="x_twitter">X/Twitter</string>
     <string name="instagram">Instagram</string>
     <string name="unable_to_open_app_info">Impossibile aprire le informazioni sull\'app</string>

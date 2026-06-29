@@ -158,8 +158,6 @@
     <string name="tag_6">6</string>
     <string name="tag_7">7</string>
     <string name="tag_8">8</string>
-    <string name="time_spent_min"></string>
-    <string name="time_spent_hour">%1$sh %2$sm</string>
     <string name="x_twitter">X/טוויטר</string>
     <string name="instagram">אינסטגרם</string>
     <string name="clock_alignment">יישור שעון אופקי</string>

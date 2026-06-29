@@ -24,9 +24,62 @@ object FuzzySearch {
             .replace(separatorsRegex, "")
             .lowercase()
 
-    fun score(label: String, query: String): Int = scoreStrict(label, query)
+    fun score(label: String, query: String): Int {
+        val strict = scoreStrict(label, query)
+        if (strict >= 0) return strict
+        return scoreSubsequencePerWord(label, query)
+    }
 
     fun matches(label: String, query: String): Boolean = score(label, query) >= 0
+
+    private fun findSubsequenceEnd(word: String, startIdx: Int, part: String): Int {
+        if (part.isEmpty()) return startIdx
+        var pi = 0
+        for (i in startIdx until word.length) {
+            if (word[i] == part[pi]) {
+                pi++
+                if (pi == part.length) return i + 1
+            }
+        }
+        return -1
+    }
+
+    private fun scoreSubsequencePerWord(label: String, query: String): Int {
+        val words = label.split(Regex("[\\s\\-_+,.`']+"))
+            .map { normalize(it) }
+            .filter { it.isNotEmpty() }
+        
+        val parts = query.split(Regex("\\s+"))
+            .map { normalize(it) }
+            .filter { it.isNotEmpty() }
+
+        if (parts.isEmpty() || words.isEmpty()) return -1
+
+        var wi = 0
+        var ci = 0
+        var bonus = 0
+
+        for (part in parts) {
+            var found = false
+            while (wi < words.size) {
+                val endIdx = findSubsequenceEnd(words[wi], ci, part)
+                if (endIdx >= 0) {
+                    if (ci == 0 && words[wi].startsWith(part)) {
+                        bonus += 50
+                    }
+                    ci = endIdx
+                    found = true
+                    break
+                } else {
+                    wi++
+                    ci = 0
+                }
+            }
+            if (!found) return -1
+        }
+
+        return 300 + bonus
+    }
 
     /**
      * Stricter variant for secondary sources (Android settings tiles, contacts) where the
