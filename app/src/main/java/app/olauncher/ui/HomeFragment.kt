@@ -340,7 +340,9 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     // Keep the home apps text clear of the icons column when they are on the same side
     private fun applyAppsPaddingForIcons() {
         val base = 24.dpToPx()
-        val reserve = 56.dpToPx()
+        val textSizeScale = prefs.textSizeScale
+        val iconScale = 1.0f + (textSizeScale - 1.0f) / 2.0f
+        val reserve = (56 * iconScale).toInt().dpToPx()
         var left = base
         var right = base
         if (prefs.shortcutIconsEnabled) {
@@ -1005,16 +1007,25 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         val appCount = prefs.homeAppsNum
         val minCount = minOf(count, appCount)
         val appViews = homeAppViews()
+        val textSizeScale = prefs.textSizeScale
+        val iconScale = 1.0f + (textSizeScale - 1.0f) / 2.0f
+        val targetWidth = (48 * iconScale).toInt().dpToPx()
+        val targetPadding = (12 * iconScale).toInt().dpToPx()
         shortcutIconViews().forEachIndexed { slot, imageView ->
             if (slot < count) {
                 imageView.isVisible = true
                 val iconIndex = prefs.getShortcutIconIndex(slot)
                     .coerceIn(0, Constants.SHORTCUT_ICONS.size - 1)
                 imageView.setImageResource(Constants.SHORTCUT_ICONS[iconIndex])
+                imageView.setPadding(targetPadding, targetPadding, targetPadding, targetPadding)
 
                 // Keep icon height in sync with the corresponding app's height if both exist,
-                // otherwise reset to default 48dp.
+                // otherwise reset to default.
                 val lp = imageView.layoutParams
+                if (lp.width != targetWidth) {
+                    lp.width = targetWidth
+                    imageView.layoutParams = lp
+                }
                 if (slot < minCount) {
                     val textView = appViews[slot]
                     if (textView.height > 0) {
@@ -1024,9 +1035,9 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                         }
                     }
                 } else {
-                    val defaultHeight = 48.dpToPx()
-                    if (lp.height != defaultHeight) {
-                        lp.height = defaultHeight
+                    val targetHeight = (48 * iconScale).toInt().dpToPx()
+                    if (lp.height != targetHeight) {
+                        lp.height = targetHeight
                         imageView.layoutParams = lp
                     }
                 }

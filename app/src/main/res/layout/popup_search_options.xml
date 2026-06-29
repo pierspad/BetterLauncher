@@ -3,6 +3,7 @@
      (Android settings / contacts), each showing a leading icon and a trailing
      check when enabled. Anchored to open leftwards from the tune button. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/rounded_dialog_surface"
@@ -24,7 +25,8 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:contentDescription="@null"
-            android:src="@drawable/ic_sc_settings" />
+            android:src="@drawable/ic_sc_settings"
+            app:tint="?attr/primaryColor" />
 
         <TextView
             android:id="@+id/optSettingsLabel"
@@ -42,7 +44,8 @@
             android:layout_height="20dp"
             android:layout_marginStart="12dp"
             android:contentDescription="@null"
-            android:src="@drawable/ic_check" />
+            android:src="@drawable/ic_check"
+            app:tint="?attr/primaryColor" />
     </LinearLayout>
 
     <View
@@ -65,7 +68,8 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:contentDescription="@null"
-            android:src="@drawable/ic_sc_person" />
+            android:src="@drawable/ic_sc_person"
+            app:tint="?attr/primaryColor" />
 
         <TextView
             android:id="@+id/optContactsLabel"
@@ -83,6 +87,7 @@
             android:layout_height="20dp"
             android:layout_marginStart="12dp"
             android:contentDescription="@null"
-            android:src="@drawable/ic_check" />
+            android:src="@drawable/ic_check"
+            app:tint="?attr/primaryColor" />
     </LinearLayout>
 </LinearLayout>

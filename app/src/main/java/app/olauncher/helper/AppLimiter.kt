@@ -22,17 +22,17 @@ object AppLimiter {
         data class Block(val untilMillis: Long) : Decision
     }
 
-    private fun ladderMs(prefs: Prefs): List<Long> =
-        prefs.appLimitLadderMinutes
-            .split(',')
-            .mapNotNull { it.trim().toLongOrNull() }
-            .filter { it > 0 }
-            .map { it * 60_000L }
-            .ifEmpty { listOf(60_000L) } // sane fallback: 1 minute
-
-    // Duration for escalation [step] (1-based). Clamped to the ladder's last entry (the cap).
-    private fun durationFor(ladder: List<Long>, step: Int): Long =
-        ladder[(step - 1).coerceIn(0, ladder.lastIndex)]
+    fun durationForStep(step: Int): Long {
+        val minutes = when (step) {
+            1 -> 5
+            2 -> 15
+            3 -> 30
+            4 -> 60
+            5 -> 120
+            else -> 120 + (step - 5) * 60
+        }
+        return minOf(minutes.toLong(), 1440L) * 60_000L
+    }
 
     /**
      * Evaluates — and persists — the cooldown state for [key] at time [now].
@@ -42,7 +42,6 @@ object AppLimiter {
     fun evaluate(prefs: Prefs, key: String, now: Long): Decision {
         if (!prefs.appLimitEnabled) return Decision.Allow
 
-        val ladder = ladderMs(prefs)
         val level = prefs.limitLevel(key)       // 0 = no cooldown currently in effect
         val until = prefs.limitUntil(key)
         val lastOpen = prefs.limitLastOpen(key)
@@ -51,7 +50,7 @@ object AppLimiter {
         // 1) A cooldown is currently running and the user is knocking early → escalate.
         if (level >= 1 && until > now) {
             val newLevel = level + 1
-            val newUntil = now + durationFor(ladder, newLevel)
+            val newUntil = now + durationForStep(newLevel)
             prefs.setLimitLevel(key, newLevel)
             prefs.setLimitUntil(key, newUntil)
             return Decision.Block(newUntil)
@@ -67,7 +66,7 @@ object AppLimiter {
 
         // 3) No cooldown active. Re-opening within the grace window starts the first one.
         if (windowMs > 0 && lastOpen > 0 && now - lastOpen < windowMs) {
-            val newUntil = now + durationFor(ladder, 1)
+            val newUntil = now + durationForStep(1)
             prefs.setLimitLevel(key, 1)
             prefs.setLimitUntil(key, newUntil)
             return Decision.Block(newUntil)

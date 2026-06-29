@@ -34,6 +34,7 @@ import app.olauncher.helper.hasBeenHours
 import app.olauncher.helper.hasBeenMinutes
 import app.olauncher.helper.isDaySince
 import app.olauncher.helper.isDefaultLauncher
+import app.olauncher.helper.isDarkThemeOn
 import app.olauncher.helper.isEinkDisplay
 import app.olauncher.helper.isOlauncherDefault
 import app.olauncher.helper.isTablet
@@ -175,6 +176,7 @@ class MainActivity : AppCompatActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         AppCompatDelegate.setDefaultNightMode(prefs.appTheme)
+        checkTheme()
     }
 
     private fun initClickListeners() {
@@ -373,10 +375,15 @@ class MainActivity : AppCompatActivity() {
         timerJob?.cancel()
         timerJob = lifecycleScope.launch {
             delay(200)
-            if ((prefs.appTheme == AppCompatDelegate.MODE_NIGHT_YES && getColorFromAttr(R.attr.primaryColor) != getColor(R.color.white))
-                || (prefs.appTheme == AppCompatDelegate.MODE_NIGHT_NO && getColorFromAttr(R.attr.primaryColor) != getColor(R.color.black))
-            )
+            val isDark = when (prefs.appTheme) {
+                AppCompatDelegate.MODE_NIGHT_YES -> true
+                AppCompatDelegate.MODE_NIGHT_NO -> false
+                else -> isDarkThemeOn()
+            }
+            val expectedColor = if (isDark) getColor(R.color.white) else getColor(R.color.black)
+            if (getColorFromAttr(R.attr.primaryColor) != expectedColor) {
                 restartLauncherOrCheckTheme(true)
+            }
         }
     }
 

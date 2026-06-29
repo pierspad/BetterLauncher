@@ -206,7 +206,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateLockSettings()
         // Home button for recents feature disabled
         // populateHomeButtonRecents()
-        populateThemeSwitch()
+        populateTheme()
         populateFont()
         populateTextSize()
         populateAlignment()
@@ -254,7 +254,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.dateTimeSwitch -> toggleDateTimeEnabled()
             R.id.dateOnlySwitch -> toggleDateOnly()
             R.id.fontText -> showFontDialog()
-            R.id.themeSwitch -> toggleThemeSwitch()
+            R.id.themeChooseRow -> cycleTheme()
             R.id.actionAccessibility -> openAccessibilityService()
             R.id.closeAccessibility -> toggleAccessibilityVisibility(false)
             R.id.notWorking -> requireContext().openUrl(Constants.URL_DOUBLE_TAP)
@@ -332,7 +332,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.search.setOnClickListener(this)
         binding.notifications.setOnClickListener(this)
         binding.fontText.setOnClickListener(this)
-        binding.themeSwitch.setOnClickListener(this)
+        binding.themeChooseRow.setOnClickListener(this)
         binding.actionAccessibility.setOnClickListener(this)
         binding.closeAccessibility.setOnClickListener(this)
         binding.notWorking.setOnClickListener(this)
@@ -605,6 +605,19 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     // ---- Sliders: apps-on-home (1..6) and text size (0.8..1.5) ----
 
     private fun setupSliders() {
+        // Mutate drawables to prevent shared state highlights
+        val seekBars = listOf(
+            binding.appsNumSeekBar,
+            binding.iconsNumSeekBar,
+            binding.textSizeSeekBar,
+            binding.homeOpacitySeekBar,
+            binding.drawerOpacitySeekBar
+        )
+        seekBars.forEach { seekBar ->
+            seekBar.thumb?.mutate()
+            seekBar.progressDrawable?.mutate()
+        }
+
         // Apps on home: progress 0..(MAX-MIN) maps to MIN..MAX apps.
         val appsNum = prefs.homeAppsNum.coerceIn(APPS_NUM_MIN, APPS_NUM_MAX)
         if (appsNum != prefs.homeAppsNum) prefs.homeAppsNum = appsNum
@@ -748,27 +761,43 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         // setDefaultNightMode applies the change and recreates the activity once,
         // re-inflating all views (and re-tinting icons) with the new theme.
         AppCompatDelegate.setDefaultNightMode(appTheme)
+        requireActivity().recreate()
     }
 
-    // Light/dark slider: checked = dark (moon side), unchecked = light (sun side).
-    private fun isDarkModeActive(): Boolean {
-        return when (prefs.appTheme) {
-            AppCompatDelegate.MODE_NIGHT_YES -> true
-            AppCompatDelegate.MODE_NIGHT_NO -> false
-            else -> (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
-                    Configuration.UI_MODE_NIGHT_YES
+    private fun getThemeName(appTheme: Int): String {
+        return when (appTheme) {
+            AppCompatDelegate.MODE_NIGHT_NO -> getString(R.string.light)
+            AppCompatDelegate.MODE_NIGHT_YES -> getString(R.string.dark)
+            else -> getString(R.string.system_default)
         }
     }
 
-    private fun populateThemeSwitch() {
-        binding.themeSwitch.isChecked = isDarkModeActive()
+    private fun populateTheme() {
+        val currentTheme = prefs.appTheme
+        binding.themeValue.text = getThemeName(currentTheme)
+
+        val iconRes = when (currentTheme) {
+            AppCompatDelegate.MODE_NIGHT_NO -> R.drawable.ic_sun
+            AppCompatDelegate.MODE_NIGHT_YES -> R.drawable.ic_moon
+            else -> R.drawable.ic_contrast
+        }
+
+        val ctx = requireContext()
+        val drawable = androidx.core.content.ContextCompat.getDrawable(ctx, iconRes)?.mutate()
+        if (drawable != null) {
+            val color = ctx.getColorFromAttr(R.attr.primaryColor)
+            androidx.core.graphics.drawable.DrawableCompat.setTint(drawable, color)
+            binding.themeLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+        }
     }
 
-    private fun toggleThemeSwitch() {
-        updateTheme(
-            if (binding.themeSwitch.isChecked) AppCompatDelegate.MODE_NIGHT_YES
-            else AppCompatDelegate.MODE_NIGHT_NO
-        )
+    private fun cycleTheme() {
+        val nextTheme = when (prefs.appTheme) {
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> AppCompatDelegate.MODE_NIGHT_NO
+            AppCompatDelegate.MODE_NIGHT_NO -> AppCompatDelegate.MODE_NIGHT_YES
+            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        }
+        updateTheme(nextTheme)
     }
 
     private fun populateTextSize() {
@@ -1253,11 +1282,11 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         private const val ICONS_NUM_MIN = 0
         private const val ICONS_NUM_MAX = Constants.SHORTCUT_COUNT
 
-        // Text-size slider: 0.8..1.5 in steps of 0.1 (8 stops => max progress 7).
-        private const val TEXT_SIZE_MIN = 0.8f
+        // Text-size slider: 0.5..1.5 in steps of 0.1 (10 stops => max progress 10).
+        private const val TEXT_SIZE_MIN = 0.5f
         private const val TEXT_SIZE_MAX = 1.5f
         private const val TEXT_SIZE_STEP = 0.1f
-        private const val TEXT_SIZE_STEPS = 7
+        private const val TEXT_SIZE_STEPS = 10
 
         // Opacity sliders: 20 steps of 5% each (0%..100%).
         private const val OPACITY_STEPS = 20

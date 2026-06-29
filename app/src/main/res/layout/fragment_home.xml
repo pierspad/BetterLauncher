@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
@@ -229,7 +230,8 @@
             android:importantForAccessibility="no"
             android:padding="12dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_sc_search" />
+            android:src="@drawable/ic_sc_search"
+            app:tint="?attr/primaryColor" />
 
         <ImageView
             android:id="@+id/ivShortcut2"
@@ -239,7 +241,8 @@
             android:importantForAccessibility="no"
             android:padding="12dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_sc_image" />
+            android:src="@drawable/ic_sc_image"
+            app:tint="?attr/primaryColor" />
 
         <ImageView
             android:id="@+id/ivShortcut3"
@@ -249,7 +252,8 @@
             android:importantForAccessibility="no"
             android:padding="12dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_sc_camera" />
+            android:src="@drawable/ic_sc_camera"
+            app:tint="?attr/primaryColor" />
 
         <ImageView
             android:id="@+id/ivShortcut4"
@@ -259,7 +263,8 @@
             android:importantForAccessibility="no"
             android:padding="12dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_sc_message" />
+            android:src="@drawable/ic_sc_message"
+            app:tint="?attr/primaryColor" />
 
         <ImageView
             android:id="@+id/ivShortcut5"
@@ -269,7 +274,8 @@
             android:importantForAccessibility="no"
             android:padding="12dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_sc_phone" />
+            android:src="@drawable/ic_sc_phone"
+            app:tint="?attr/primaryColor" />
 
         <ImageView
             android:id="@+id/ivShortcut6"
@@ -279,7 +285,8 @@
             android:importantForAccessibility="no"
             android:padding="12dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_sc_settings" />
+            android:src="@drawable/ic_sc_settings"
+            app:tint="?attr/primaryColor" />
 
         <ImageView
             android:id="@+id/ivShortcut7"
@@ -289,7 +296,8 @@
             android:importantForAccessibility="no"
             android:padding="12dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_sc_mail" />
+            android:src="@drawable/ic_sc_mail"
+            app:tint="?attr/primaryColor" />
 
         <ImageView
             android:id="@+id/ivShortcut8"
@@ -299,7 +307,8 @@
             android:importantForAccessibility="no"
             android:padding="12dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_sc_music" />
+            android:src="@drawable/ic_sc_music"
+            app:tint="?attr/primaryColor" />
 
     </LinearLayout>
 

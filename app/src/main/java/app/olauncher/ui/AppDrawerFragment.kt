@@ -66,6 +66,7 @@ class AppDrawerFragment : Fragment() {
     private var currentPrivateSpaceAvailable: Boolean = false
 
     private val viewModel: MainViewModel by activityViewModels()
+    private var searchOptionsPopup: android.widget.PopupWindow? = null
     private var _binding: FragmentAppDrawerBinding? = null
     private val binding get() = _binding!!
 
@@ -148,6 +149,7 @@ class AppDrawerFragment : Fragment() {
             setBackgroundDrawable(android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT))
             elevation = 16f
         }
+        searchOptionsPopup = popup
 
         content.findViewById<View>(R.id.optSettings).setOnClickListener {
             prefs.searchSettingsEnabled = !prefs.searchSettingsEnabled
@@ -639,6 +641,8 @@ class AppDrawerFragment : Fragment() {
     }
 
     override fun onStop() {
+        searchOptionsPopup?.dismiss()
+        searchOptionsPopup = null
         binding.search.hideKeyboard()
         super.onStop()
     }

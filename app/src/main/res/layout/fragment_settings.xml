@@ -69,7 +69,8 @@
                     android:drawableStart="@drawable/ic_hide"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
-                    android:text="@string/hidden_apps" />
+                    android:text="@string/hidden_apps" 
+                    app:drawableTint="?attr/primaryColor" />
 
                 <View
                     android:layout_width="match_parent"
@@ -89,7 +90,8 @@
                     android:drawableStart="@drawable/ic_sc_grid"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
-                    android:text="@string/set_as_default_launcher" />
+                    android:text="@string/set_as_default_launcher" 
+                    app:drawableTint="?attr/primaryColor" />
 
                 <View
                     android:layout_width="match_parent"
@@ -109,7 +111,8 @@
                     android:drawableStart="@drawable/ic_shield"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
-                    android:text="@string/lock_apps" />
+                    android:text="@string/lock_apps" 
+                    app:drawableTint="?attr/primaryColor" />
 
                 <View
                     android:layout_width="match_parent"
@@ -126,10 +129,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_hourglass"
+                    android:drawableStart="@drawable/ic_sc_alarm"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
-                    android:text="@string/limit_apps" />
+                    android:text="@string/limit_apps" 
+                    app:drawableTint="?attr/primaryColor" />
 
                 <View
                     android:layout_width="match_parent"
@@ -149,7 +153,8 @@
                     android:drawableStart="@drawable/ic_info"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
-                    android:text="@string/about_olauncher" />
+                    android:text="@string/about_olauncher" 
+                    app:drawableTint="?attr/primaryColor" />
 
             </LinearLayout>
 
@@ -199,7 +204,8 @@
                             android:drawableStart="@drawable/ic_sc_grid"
                             android:drawablePadding="12dp"
                             android:text="@string/apps_on_home_screen"
-                            android:textColor="?attr/primaryColor" />
+                            android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                         <TextView
                             android:id="@+id/homeAppsNum"
@@ -252,7 +258,8 @@
                             android:drawableStart="@drawable/ic_sc_star"
                             android:drawablePadding="12dp"
                             android:text="@string/home_icons_count"
-                            android:textColor="?attr/primaryColor" />
+                            android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                         <TextView
                             android:id="@+id/homeIconsNum"
@@ -300,7 +307,8 @@
                         android:drawableStart="@drawable/ic_sc_clock"
                         android:drawablePadding="12dp"
                         android:text="@string/show_date_time"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/dateTimeSwitch"
@@ -376,7 +384,8 @@
                         android:drawableStart="@drawable/ic_hourglass"
                         android:drawablePadding="12dp"
                         android:text="@string/screen_time"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/screenTimeSwitch"
@@ -416,7 +425,8 @@
                         android:drawablePadding="12dp"
                         android:paddingVertical="8dp"
                         android:text="@string/widget"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/widgetEnabled"
@@ -505,7 +515,8 @@
                         android:drawableStart="@drawable/ic_sc_clock"
                         android:drawablePadding="12dp"
                         android:text="@string/clock_alignment"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -566,7 +577,8 @@
                         android:drawableStart="@drawable/ic_align_up"
                         android:drawablePadding="12dp"
                         android:text="@string/vertical_alignment"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -621,7 +633,8 @@
                         android:drawablePadding="12dp"
                         android:paddingVertical="8dp"
                         android:text="@string/home_layout_alignment"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -685,7 +698,8 @@
                         android:drawablePadding="12dp"
                         android:paddingVertical="8dp"
                         android:text="@string/icons_alignment"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -739,7 +753,8 @@
                     android:drawableStart="@drawable/ic_sc_grid"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
-                    android:text="@string/reorder_items" />
+                    android:text="@string/reorder_items" 
+                    app:drawableTint="?attr/primaryColor" />
 
             </LinearLayout>
 
@@ -784,7 +799,8 @@
                         android:drawableStart="@drawable/ic_keyboard"
                         android:drawablePadding="12dp"
                         android:text="@string/auto_show_keyboard"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/autoShowKeyboard"
@@ -825,7 +841,8 @@
                         android:drawableStart="@drawable/ic_bell"
                         android:drawablePadding="12dp"
                         android:text="@string/notification_bar"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/statusBar"
@@ -848,57 +865,39 @@
                     android:layout_marginVertical="4dp"
                     android:background="@drawable/divider_light" />
 
-                <!-- Theme mode: sun ⟷ moon slider (light / dark) -->
-                <LinearLayout
+                <!-- Theme mode: clickable row that opens a dialog -->
+                <FrameLayout
+                    android:id="@+id/themeChooseRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <TextView
+                        android:id="@+id/themeLabel"
                         style="@style/TextSmall"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
                         android:drawableStart="@drawable/ic_contrast"
                         android:drawablePadding="12dp"
                         android:text="@string/theme_mode"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginEnd="6dp"
-                        android:contentDescription="@string/light"
-                        android:src="@drawable/ic_sun"
-                        app:tint="?attr/primaryColor" />
-
-                    <!-- A mode picker, not an on/off switch: keep thumb + track the same
-                         solid white in both states so it never reads as "enabling" something. -->
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/themeSwitch"
+                    <TextView
+                        android:id="@+id/themeValue"
+                        style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:text=""
-                        android:textOff=""
-                        android:textOn=""
-                        app:thumbTint="#FFFFFF"
-                        app:trackTint="#80FFFFFF" />
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="6dp"
+                        android:layout_gravity="end|bottom"
                         android:layout_marginEnd="20dp"
-                        android:contentDescription="@string/dark"
-                        android:src="@drawable/ic_moon"
-                        app:tint="?attr/primaryColor" />
-                </LinearLayout>
+                        android:padding="8dp"
+                        tools:text="Sistema" />
+                </FrameLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -931,7 +930,8 @@
                             android:drawableStart="@drawable/ic_text_size"
                             android:drawablePadding="12dp"
                             android:text="@string/text_size"
-                            android:textColor="?attr/primaryColor" />
+                            android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                         <TextView
                             android:id="@+id/textSizeValue"
@@ -976,7 +976,8 @@
                         android:drawableStart="@drawable/ic_font"
                         android:drawablePadding="12dp"
                         android:text="@string/font"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <TextView
                         android:id="@+id/fontText"
@@ -1007,7 +1008,8 @@
                     android:drawableStart="@drawable/ic_opacity"
                     android:drawablePadding="12dp"
                     android:text="@string/background_opacity"
-                    android:textColor="?attr/primaryColor" />
+                    android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                 <!-- Live preview: a transparent placeholder reserving the hole area. The
                      real wallpaper + scrim + label are drawn by the WallpaperHoleView overlay
@@ -1140,7 +1142,8 @@
                         android:drawableStart="@drawable/ic_align_left"
                         android:drawablePadding="12dp"
                         android:text="@string/swipe_left_app"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <TextView
                         android:id="@+id/swipeLeftApp"
@@ -1178,7 +1181,8 @@
                         android:drawableStart="@drawable/ic_align_right"
                         android:drawablePadding="12dp"
                         android:text="@string/swipe_right_app"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <TextView
                         android:id="@+id/swipeRightApp"
@@ -1211,7 +1215,8 @@
                         android:drawableStart="@drawable/ic_align_down"
                         android:drawablePadding="12dp"
                         android:text="@string/swipe_down_for"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <TextView
                         android:id="@+id/swipeDownAction"
@@ -1293,7 +1298,8 @@
                         android:drawableStart="@drawable/ic_shield"
                         android:drawablePadding="12dp"
                         android:text="@string/double_tap_to_lock_screen"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor" 
+                    app:drawableTint="?attr/primaryColor" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/toggleLock"
@@ -1341,7 +1347,8 @@
                     android:drawableStart="@drawable/ic_sc_upload"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
-                    android:text="@string/backup_settings" />
+                    android:text="@string/backup_settings" 
+                    app:drawableTint="?attr/primaryColor" />
 
                 <View
                     android:layout_width="match_parent"
@@ -1361,7 +1368,8 @@
                     android:drawableStart="@drawable/ic_sc_download"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
-                    android:text="@string/restore_settings" />
+                    android:text="@string/restore_settings" 
+                    app:drawableTint="?attr/primaryColor" />
 
                 <View
                     android:layout_width="match_parent"
@@ -1381,7 +1389,8 @@
                     android:drawableStart="@drawable/ic_delete"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
-                    android:text="@string/reset_settings" />
+                    android:text="@string/reset_settings" 
+                    app:drawableTint="?attr/primaryColor" />
 
             </LinearLayout>
 
@@ -1402,7 +1411,8 @@
                     android:background="@drawable/circle_shade_color_glass"
                     android:padding="12dp"
                     android:src="@drawable/ic_share_minimal"
-                    android:contentDescription="@string/share" />
+                    android:contentDescription="@string/share"
+                    app:tint="?attr/primaryColor" />
 
                 <ImageView
                     android:id="@+id/rate"
@@ -1412,7 +1422,8 @@
                     android:background="@drawable/circle_shade_color_glass"
                     android:padding="12dp"
                     android:src="@drawable/ic_sc_star"
-                    android:contentDescription="@string/rate" />
+                    android:contentDescription="@string/rate"
+                    app:tint="?attr/primaryColor" />
 
                 <ImageView
                     android:id="@+id/github"
@@ -1422,7 +1433,8 @@
                     android:background="@drawable/circle_shade_color_glass"
                     android:padding="12dp"
                     android:src="@drawable/ic_github"
-                    android:contentDescription="@string/github" />
+                    android:contentDescription="@string/github"
+                    app:tint="?attr/primaryColor" />
             </LinearLayout>
 
             <!-- ============ Footer (text links) ============ -->
