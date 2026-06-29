@@ -331,7 +331,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginStart="24dp"
+                        android:layout_marginStart="44dp"
                         android:paddingVertical="8dp"
                         android:text="@string/date_only"
                         android:textColor="?attr/primaryColor" />
@@ -863,7 +863,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_moon"
+                        android:drawableStart="@drawable/ic_contrast"
                         android:drawablePadding="12dp"
                         android:text="@string/theme_mode"
                         android:textColor="?attr/primaryColor" />
