@@ -11,16 +11,8 @@ object Constants {
 
     object Dialog {
         const val ABOUT = "ABOUT"
-        const val SHARE = "SHARE"
-        const val HIDDEN = "HIDDEN"
         const val KEYBOARD = "KEYBOARD"
         const val DIGITAL_WELLBEING = "DIGITAL_WELLBEING"
-        const val PRO_MESSAGE = "PRO_MESSAGE"
-    }
-
-    object UserState {
-        const val START = "START"
-        const val SHARE = "SHARE"
     }
 
     object DateTime {
