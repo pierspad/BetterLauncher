@@ -218,6 +218,20 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        val wasScreenTimeOn = binding.screenTimeAlignmentRow.isVisible
+        populateScreenTimeOnOff()
+        val isScreenTimeOn = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && requireContext().appUsagePermissionGranted()
+        if (!wasScreenTimeOn && isScreenTimeOn) {
+            val clockOn = prefs.dateTimeVisibility != Constants.DateTime.OFF
+            if (clockOn && prefs.screenTimeAlignment == prefs.clockAlignment) {
+                prefs.screenTimeAlignment = firstFreeAlignment(prefs.clockAlignment)
+            }
+        }
+        populateAlignment()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         savedInstanceState?.let {
@@ -290,6 +304,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.alignClockLeft -> updateClockAlignment(Gravity.START)
             R.id.alignClockCenter -> updateClockAlignment(Gravity.CENTER)
             R.id.alignClockRight -> updateClockAlignment(Gravity.END)
+            R.id.alignScreenTimeLeft -> updateScreenTimeAlignment(Gravity.START)
+            R.id.alignScreenTimeCenter -> updateScreenTimeAlignment(Gravity.CENTER)
+            R.id.alignScreenTimeRight -> updateScreenTimeAlignment(Gravity.END)
             R.id.alignIconsLeft -> updateIconsAlignment(Gravity.START)
             R.id.alignIconsCenter -> updateIconsAlignment(Gravity.CENTER)
             R.id.alignIconsRight -> updateIconsAlignment(Gravity.END)
@@ -366,6 +383,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.alignClockLeft.setOnClickListener(this)
         binding.alignClockCenter.setOnClickListener(this)
         binding.alignClockRight.setOnClickListener(this)
+        binding.alignScreenTimeLeft.setOnClickListener(this)
+        binding.alignScreenTimeCenter.setOnClickListener(this)
+        binding.alignScreenTimeRight.setOnClickListener(this)
         binding.alignIconsLeft.setOnClickListener(this)
         binding.alignIconsCenter.setOnClickListener(this)
         binding.alignIconsRight.setOnClickListener(this)
@@ -451,6 +471,10 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun setDateTimeVisibility(selected: Int) {
+        val screenTimeOn = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && requireContext().appUsagePermissionGranted()
+        if (selected != Constants.DateTime.OFF && screenTimeOn && prefs.clockAlignment == prefs.screenTimeAlignment) {
+            prefs.clockAlignment = firstFreeAlignment(prefs.screenTimeAlignment)
+        }
         prefs.dateTimeVisibility = selected
         populateDateTime()
         viewModel.toggleDateTime()
@@ -608,6 +632,10 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     private fun updateHomeAppsNum(num: Int) {
         val wasEnabled = prefs.homeAppsNum > 0
+        val oldNum = prefs.homeAppsNum
+        if (num < oldNum) {
+            prefs.reduceHomeApps(oldNum, num)
+        }
         prefs.homeAppsNum = num
         binding.homeAppsNum.text = num.toString()
 
@@ -1106,14 +1134,18 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         // so we hide a whole row (and its divider) when the matching slider is at 0.
         val appsOn = prefs.homeAppsNum > 0
         val iconsOn = prefs.shortcutIconsEnabled // == homeShortcutIconsNum > 0
+        val screenTimeOn = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && requireContext().appUsagePermissionGranted()
         binding.appAlignmentRow.isVisible = appsOn
         binding.appAlignmentDivider.isVisible = appsOn
         binding.iconsAlignmentRow.isVisible = iconsOn
         binding.iconsAlignmentDivider.isVisible = iconsOn
+        binding.screenTimeAlignmentRow.isVisible = screenTimeOn
+        binding.screenTimeAlignmentDivider.isVisible = screenTimeOn
 
         highlightHorizontal(prefs.homeAlignment, binding.alignHomeLeft, binding.alignHomeCenter, binding.alignHomeRight)
         highlightHorizontal(prefs.clockAlignment, binding.alignClockLeft, binding.alignClockCenter, binding.alignClockRight)
         highlightHorizontal(prefs.shortcutIconsAlignment, binding.alignIconsLeft, binding.alignIconsCenter, binding.alignIconsRight)
+        highlightHorizontal(prefs.screenTimeAlignment, binding.alignScreenTimeLeft, binding.alignScreenTimeCenter, binding.alignScreenTimeRight)
         val verticalSelected = if (prefs.homeVerticalAlignment == Gravity.TOP) binding.alignVertUp else binding.alignVertDown
         highlightSegment(verticalSelected, binding.alignVertUp, binding.alignVertDown)
         applyAlignmentExclusion()
@@ -1124,14 +1156,26 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     // current position (but never the control's own current selection). The mutual
     // exclusion only applies while BOTH blocks are visible — when only one is on
     // screen it is free to use any of the three slots.
+    // Pairwise mutual exclusion is also applied between Clock and Screen Time.
     private fun applyAlignmentExclusion() {
-        val both = prefs.homeAppsNum > 0 && prefs.shortcutIconsEnabled
-        if (both) {
+        val bothAppsIcons = prefs.homeAppsNum > 0 && prefs.shortcutIconsEnabled
+        if (bothAppsIcons) {
             applyExclusion(prefs.homeAlignment, prefs.shortcutIconsAlignment, binding.alignHomeLeft, binding.alignHomeCenter, binding.alignHomeRight)
             applyExclusion(prefs.shortcutIconsAlignment, prefs.homeAlignment, binding.alignIconsLeft, binding.alignIconsCenter, binding.alignIconsRight)
         } else {
             setAllSegmentsEnabled(binding.alignHomeLeft, binding.alignHomeCenter, binding.alignHomeRight)
             setAllSegmentsEnabled(binding.alignIconsLeft, binding.alignIconsCenter, binding.alignIconsRight)
+        }
+
+        val screenTimeOn = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && requireContext().appUsagePermissionGranted()
+        val clockOn = prefs.dateTimeVisibility != Constants.DateTime.OFF
+        val bothClockScreenTime = screenTimeOn && clockOn
+        if (bothClockScreenTime) {
+            applyExclusion(prefs.clockAlignment, prefs.screenTimeAlignment, binding.alignClockLeft, binding.alignClockCenter, binding.alignClockRight)
+            applyExclusion(prefs.screenTimeAlignment, prefs.clockAlignment, binding.alignScreenTimeLeft, binding.alignScreenTimeCenter, binding.alignScreenTimeRight)
+        } else {
+            setAllSegmentsEnabled(binding.alignClockLeft, binding.alignClockCenter, binding.alignClockRight)
+            setAllSegmentsEnabled(binding.alignScreenTimeLeft, binding.alignScreenTimeCenter, binding.alignScreenTimeRight)
         }
     }
 
@@ -1176,8 +1220,19 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun updateClockAlignment(gravity: Int) {
+        val screenTimeOn = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && requireContext().appUsagePermissionGranted()
+        if (screenTimeOn && gravity == prefs.screenTimeAlignment) return
         prefs.clockAlignment = gravity
         viewModel.updateHomeAlignment(prefs.homeAlignment)
+        populateAlignment()
+    }
+
+    private fun updateScreenTimeAlignment(gravity: Int) {
+        val clockOn = prefs.dateTimeVisibility != Constants.DateTime.OFF
+        if (clockOn && gravity == prefs.clockAlignment) return
+        prefs.screenTimeAlignment = gravity
+        viewModel.updateHomeAlignment(prefs.homeAlignment)
+        populateAlignment()
     }
 
     private fun updateHomeHorizontalAlignment(gravity: Int) {

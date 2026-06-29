@@ -572,6 +572,72 @@
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/screenTimeAlignmentDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="6dp"
+                    android:background="@drawable/divider_light"
+                    android:visibility="gone" />
+
+                <!-- Horizontal screen time alignment -->
+                <LinearLayout
+                    android:id="@+id/screenTimeAlignmentRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_hourglass"
+                        android:drawablePadding="12dp"
+                        android:text="@string/screen_time_alignment"
+                        android:textColor="?attr/primaryColor" 
+                        app:drawableTint="?attr/primaryColor" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/segmented_track"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <ImageView
+                            android:id="@+id/alignScreenTimeLeft"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_left"
+                            android:contentDescription="@string/left" />
+
+                        <ImageView
+                            android:id="@+id/alignScreenTimeCenter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_center"
+                            android:contentDescription="@string/center" />
+
+                        <ImageView
+                            android:id="@+id/alignScreenTimeRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_align_right"
+                            android:contentDescription="@string/right" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginHorizontal="8dp"

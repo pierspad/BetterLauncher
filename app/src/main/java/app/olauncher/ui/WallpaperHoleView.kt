@@ -136,13 +136,14 @@ class WallpaperHoleView @JvmOverloads constructor(
         val paddingLeft = 24f * density
         val paddingRight = 24f * density
         val centerY = holeRect.centerY()
-        val spaceBetween = 24f * density
+        val spaceBetweenText = 32f * density
+        val spaceBetweenIcons = 44f * density
 
         val appPhone = context.getString(R.string.preview_app_phone)
         val appCamera = context.getString(R.string.preview_app_camera)
 
-        val app1Y = centerY - spaceBetween / 2f - (appTextPaint.descent() + appTextPaint.ascent()) / 2f
-        val app2Y = centerY + spaceBetween / 2f - (appTextPaint.descent() + appTextPaint.ascent()) / 2f
+        val app1Y = centerY - spaceBetweenText / 2f - (appTextPaint.descent() + appTextPaint.ascent()) / 2f
+        val app2Y = centerY + spaceBetweenText / 2f - (appTextPaint.descent() + appTextPaint.ascent()) / 2f
 
         canvas.drawText(appPhone, holeRect.left + paddingLeft, app1Y, appTextPaint)
         canvas.drawText(appCamera, holeRect.left + paddingLeft, app2Y, appTextPaint)
@@ -153,14 +154,14 @@ class WallpaperHoleView @JvmOverloads constructor(
 
         iconPhone?.let {
             it.setTint(themeColor)
-            val icon1Top = centerY - spaceBetween / 2f - iconSize / 2f
+            val icon1Top = centerY - spaceBetweenIcons / 2f - iconSize / 2f
             it.setBounds(iconLeft.toInt(), icon1Top.toInt(), iconRight.toInt(), (icon1Top + iconSize).toInt())
             it.draw(canvas)
         }
 
         iconCamera?.let {
             it.setTint(themeColor)
-            val icon2Top = centerY + spaceBetween / 2f - iconSize / 2f
+            val icon2Top = centerY + spaceBetweenIcons / 2f - iconSize / 2f
             it.setBounds(iconLeft.toInt(), icon2Top.toInt(), iconRight.toInt(), (icon2Top + iconSize).toInt())
             it.draw(canvas)
         }

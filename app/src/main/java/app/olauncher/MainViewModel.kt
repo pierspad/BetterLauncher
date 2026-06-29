@@ -76,6 +76,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val packageName: String,
         val user: UserHandle,
         val untilMillis: Long,
+        val isSevere: Boolean,
+        val penaltyMinutes: Int,
+        val compulsivenessLevel: Int,
+        val totalBanMinutes: Int
     )
 
     init {
@@ -441,6 +445,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun isAppLimited(appModel: AppModel): Boolean =
         appModel is AppModel.App && prefs.isAppLimited(appKey(appModel))
 
+    fun appLimitLevel(appModel: AppModel): Int =
+        if (appModel is AppModel.App) prefs.limitLevel(appKey(appModel)) else 0
+
     // Toggles the soft-limit state of an app and returns the new state (true = limited).
     // Clearing the limit also wipes any pending cooldown so the app opens freely again.
     fun toggleAppLimit(appModel: AppModel): Boolean {
@@ -467,13 +474,35 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private fun launchApp(packageName: String, activityClassName: String?, userHandle: UserHandle) {
         val key = "$packageName|$userHandle"
 
+        val lastOpened = prefs.lastOpenedLimitedApp
+        if (lastOpened.isNotEmpty() && lastOpened != key) {
+            val now = System.currentTimeMillis()
+            val currentLevel = prefs.limitLevel(lastOpened)
+            if (currentLevel > 0) {
+                val duration = AppLimiter.durationForStep(currentLevel)
+                prefs.setLimitUntil(lastOpened, now + duration)
+                prefs.setLimitRetryCount(lastOpened, 0)
+            }
+            prefs.lastOpenedLimitedApp = ""
+        }
+
         // Soft "use it less" limit: gate the launch behind a progressive cooldown.
         // Evaluated at the single launch chokepoint so it covers home, drawer, swipe
         // and post-auth launches alike.
         if (prefs.isAppLimited(key)) {
             when (val decision = AppLimiter.evaluate(prefs, key, System.currentTimeMillis())) {
                 is AppLimiter.Decision.Block -> {
-                    cooldownBlocked.postValue(CooldownBlock(packageName, userHandle, decision.untilMillis))
+                    cooldownBlocked.postValue(
+                        CooldownBlock(
+                            packageName = packageName,
+                            user = userHandle,
+                            untilMillis = decision.untilMillis,
+                            isSevere = decision.isSevere,
+                            penaltyMinutes = decision.penaltyMinutes,
+                            compulsivenessLevel = decision.compulsivenessLevel,
+                            totalBanMinutes = decision.totalBanMinutes
+                        )
+                    )
                     return
                 }
 

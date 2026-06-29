@@ -244,6 +244,7 @@ class AppDrawerFragment : Fragment() {
             prefs.appLabelAlignment,
             isAppLocked = { viewModel.isAppLocked(it) },
             isAppLimited = { viewModel.isAppLimited(it) },
+            appLimitLevel = { viewModel.appLimitLevel(it) },
             appClickListener = { appModel ->
                 if (appModel is AppModel.SettingTile) {
                     AndroidSettingsCatalog.launchSettingTile(requireContext(), appModel)
@@ -638,6 +639,11 @@ class AppDrawerFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         binding.search.showKeyboard(prefs.autoShowKeyboard)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyDataSetChanged()
     }
 
     override fun onStop() {

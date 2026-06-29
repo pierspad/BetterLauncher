@@ -26,6 +26,7 @@ class Prefs(context: Context) {
     private val HOME_BOTTOM_ALIGNMENT = "HOME_BOTTOM_ALIGNMENT"
     private val CLOCK_ALIGNMENT = "CLOCK_ALIGNMENT"
     private val SHORTCUT_ICONS_ALIGNMENT = "SHORTCUT_ICONS_ALIGNMENT"
+    private val SCREEN_TIME_ALIGNMENT = "SCREEN_TIME_ALIGNMENT"
     private val HOME_VERTICAL_ALIGNMENT = "HOME_VERTICAL_ALIGNMENT"
     private val APP_LABEL_ALIGNMENT = "APP_LABEL_ALIGNMENT"
     private val STATUS_BAR = "STATUS_BAR"
@@ -50,6 +51,7 @@ class Prefs(context: Context) {
     private val CUSTOM_FONT_PATH = "CUSTOM_FONT_PATH"
     private val OPACITY_HOME = "OPACITY_HOME"
     private val OPACITY_DRAWER = "OPACITY_DRAWER"
+    private val LAST_DECAY_DAY = "LAST_DECAY_DAY"
     private val PRO_MESSAGE_SHOWN = "PRO_MESSAGE_SHOWN"
     private val HIDE_SET_DEFAULT_LAUNCHER = "HIDE_SET_DEFAULT_LAUNCHER"
     private val SCREEN_TIME_LAST_UPDATED = "SCREEN_TIME_LAST_UPDATED"
@@ -253,6 +255,10 @@ class Prefs(context: Context) {
         get() = prefs.getInt(SHORTCUT_ICONS_ALIGNMENT, Gravity.END)
         set(value) = prefs.edit { putInt(SHORTCUT_ICONS_ALIGNMENT, value).apply() }
 
+    var screenTimeAlignment: Int
+        get() = prefs.getInt(SCREEN_TIME_ALIGNMENT, Gravity.END)
+        set(value) = prefs.edit { putInt(SCREEN_TIME_ALIGNMENT, value).apply() }
+
     // Vertical alignment (Gravity.TOP / CENTER_VERTICAL / BOTTOM) for apps + icons block
     var homeVerticalAlignment: Int
         get() = prefs.getInt(HOME_VERTICAL_ALIGNMENT, Gravity.BOTTOM)
@@ -397,12 +403,30 @@ class Prefs(context: Context) {
     fun setLimitUntil(key: String, value: Long) =
         prefs.edit { putLong("LIMIT_UNTIL_$key", value).apply() }
 
+    var lastOpenedLimitedApp: String
+        get() = prefs.getString("LAST_OPENED_LIMITED_APP", "").toString()
+        set(value) = prefs.edit { putString("LAST_OPENED_LIMITED_APP", value).apply() }
+
+    fun limitRetryCount(key: String): Int = prefs.getInt("LIMIT_RETRY_COUNT_$key", 0)
+    fun setLimitRetryCount(key: String, value: Int) =
+        prefs.edit { putInt("LIMIT_RETRY_COUNT_$key", value).apply() }
+
+    fun limitLastOpenDay(key: String): Long = prefs.getLong("LIMIT_LAST_OPEN_DAY_$key", 0L)
+    fun setLimitLastOpenDay(key: String, value: Long) =
+        prefs.edit { putLong("LIMIT_LAST_OPEN_DAY_$key", value).apply() }
+
     fun clearLimitState(key: String) = prefs.edit {
         remove("LIMIT_LAST_OPEN_$key")
         remove("LIMIT_LEVEL_$key")
         remove("LIMIT_UNTIL_$key")
+        remove("LIMIT_RETRY_COUNT_$key")
+        remove("LIMIT_LAST_OPEN_DAY_$key")
         apply()
     }
+
+    var lastDecayDay: Long
+        get() = prefs.getLong(LAST_DECAY_DAY, 0L)
+        set(value) = prefs.edit { putLong(LAST_DECAY_DAY, value).apply() }
 
     var toShowHintCounter: Int
         get() = prefs.getInt(SHOW_HINT_COUNTER, 1)
@@ -948,6 +972,29 @@ class Prefs(context: Context) {
         setAppName(location, "")
         setAppPackage(location, "")
         setFolderAt(location, false, "")
+    }
+
+    fun reduceHomeApps(oldNum: Int, newNum: Int) {
+        if (newNum >= oldNum) return
+        var currentNum = oldNum
+        val diff = oldNum - newNum
+        for (step in 1..diff) {
+            var emptyIndex = -1
+            for (i in 1..currentNum) {
+                if (getAppName(i).isBlank() && !getIsFolder(i)) {
+                    emptyIndex = i
+                    break
+                }
+            }
+            if (emptyIndex != -1) {
+                for (i in emptyIndex until currentNum) {
+                    val data = readHomeSlot(i + 1)
+                    writeHomeSlot(i, data)
+                }
+                writeHomeSlot(currentNum, HomeSlotData("", "", "", "", false, "", false, ""))
+            }
+            currentNum--
+        }
     }
 
     // ---- Generic per-slot setters (the getters already exist as getAppName(i) etc.) ----

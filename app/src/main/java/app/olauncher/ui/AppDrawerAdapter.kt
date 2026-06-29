@@ -30,6 +30,7 @@ class AppDrawerAdapter(
     private val appLabelGravity: Int,
     private val isAppLocked: (AppModel) -> Boolean = { false },
     private val isAppLimited: (AppModel) -> Boolean = { false },
+    private val appLimitLevel: (AppModel) -> Int = { 0 },
     private val appClickListener: (AppModel) -> Unit,
     private val appInfoListener: (AppModel) -> Unit,
     private val appDeleteListener: (AppModel) -> Unit,
@@ -150,6 +151,7 @@ class AppDrawerAdapter(
                     appModel,
                     isAppLocked,
                     isAppLimited,
+                    appLimitLevel,
                     appClickListener,
                     appDeleteListener,
                     appInfoListener,
@@ -317,6 +319,7 @@ class AppDrawerAdapter(
             appModel: AppModel,
             isAppLocked: (AppModel) -> Boolean,
             isAppLimited: (AppModel) -> Boolean,
+            appLimitLevel: (AppModel) -> Int,
             clickListener: (AppModel) -> Unit,
             appDeleteListener: (AppModel) -> Unit,
             appInfoListener: (AppModel) -> Unit,
@@ -344,7 +347,11 @@ class AppDrawerAdapter(
                 val showLimit = isAppLimited(appModel) &&
                     (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_LIMITED_APPS)
                 if (showLock) append("  🔒︎")
-                if (showLimit) append("  ⏳︎")
+                if (showLimit) {
+                    append("  ⏳︎")
+                    val level = appLimitLevel(appModel)
+                    append(" liv. $level")
+                }
             }
             appTitle.gravity = appLabelGravity
             otherProfileIndicator.isVisible = appModel.user != myUserHandle

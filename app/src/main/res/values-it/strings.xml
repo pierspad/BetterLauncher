@@ -201,6 +201,12 @@
     <string name="app_limit_cooldown_title">%1$s · rallenta</string>
     <string name="app_limit_cooldown_message">L\'hai aperta da poco. Prenditi una pausa.</string>
     <string name="app_limit_cooldown_over">Ora puoi aprirla.</string>
+    <string name="screen_time_alignment">Allinea orizzontalmente tempo di schermo</string>
+    <string name="app_limit_cooldown_penalty_message">Non è possibile aprire l\'app durante il cooldown. Penale: +%1$d minuti aggiunti.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - rallenta</string>
+    <string name="app_limit_cooldown_message_new">non è possibile aprire l\'app durante il cooldown</string>
+    <string name="app_limit_cooldown_reason_severe">Pena grave!\nhai aperto l\'app durante un ban: + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Pena di Compulsività!\nhai aperto l\'app per la %1$d volta oggi, ban: + %2$d minuti</string>
 
     <!-- Language picker & opacity preview -->
     <string name="change_language">Cambia lingua</string>
