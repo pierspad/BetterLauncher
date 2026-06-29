@@ -1,5 +1,6 @@
 package app.olauncher
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.BroadcastReceiver
@@ -29,6 +30,7 @@ import app.olauncher.data.Prefs
 import app.olauncher.databinding.ActivityMainBinding
 import app.olauncher.helper.FontHelper
 import app.olauncher.helper.AppLimiter
+import app.olauncher.helper.scrimColor
 import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.hasBeenDays
 import app.olauncher.helper.hasBeenHours
@@ -88,6 +90,9 @@ class MainActivity : AppCompatActivity() {
 
         navController = this.findNavController(R.id.nav_host_fragment)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        navController.addOnDestinationChangedListener { _, _, _ ->
+            updateGlobalOpacityScrim(animate = true)
+        }
 
         // A settings-initiated recreate (theme/font/text size) drops to the home via
         // onStop→backToHomeScreen; reopen Settings so the user stays where they were.
@@ -153,6 +158,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         isResumed = true
         viewModel.isPrivateSpaceToggling = false
+        updateGlobalOpacityScrim()
 
         // Decay check for all limited apps once per day:
         val now = System.currentTimeMillis()
@@ -469,6 +475,47 @@ class MainActivity : AppCompatActivity() {
                 if (resultCode == Activity.RESULT_OK)
                     resetLauncherViaFakeActivity()
             }
+        }
+    }
+
+    private var colorAnimator: ValueAnimator? = null
+    private var currentOpacity: Float = -1f
+
+    private fun animateGlobalOpacityScrim(startOpacity: Float, targetOpacity: Float) {
+        colorAnimator?.cancel()
+
+        val duration = 400L // 400ms for a very smooth and soft fade
+
+        colorAnimator = ValueAnimator.ofFloat(startOpacity, targetOpacity).apply {
+            setDuration(duration)
+            addUpdateListener { animator ->
+                val opacity = animator.animatedValue as Float
+                currentOpacity = opacity
+                val alpha = (opacity.coerceIn(0f, 1f) * 255).toInt()
+                binding.globalOpacityScrim.setBackgroundColor(this@MainActivity.scrimColor(alpha))
+            }
+            start()
+        }
+    }
+
+    private fun updateGlobalOpacityScrim(animate: Boolean = false) {
+        val destinationId = if (::navController.isInitialized) navController.currentDestination?.id else null
+        val opacity = when (destinationId) {
+            R.id.mainFragment -> prefs.opacityHome
+            R.id.appListFragment -> prefs.opacityDrawer
+            R.id.settingsFragment -> 0.25f
+            else -> 0f
+        }
+
+        if (currentOpacity == opacity) return
+
+        if (animate && currentOpacity >= 0f) {
+            animateGlobalOpacityScrim(currentOpacity, opacity)
+        } else {
+            colorAnimator?.cancel()
+            currentOpacity = opacity
+            val alpha = (opacity.coerceIn(0f, 1f) * 255).toInt()
+            binding.globalOpacityScrim.setBackgroundColor(this.scrimColor(alpha))
         }
     }
 }

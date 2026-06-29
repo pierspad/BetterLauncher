@@ -194,8 +194,7 @@ class AppDrawerFragment : Fragment() {
     // Darkens the wallpaper behind the drawer. Alpha is baked into the background color
     // (not View.alpha) and the scrim stays VISIBLE for consistent, flicker-free rendering.
     private fun applyOpacityScrim() {
-        val alpha = (prefs.opacityDrawer.coerceIn(0f, 1f) * 255).toInt()
-        binding.drawerOpacityScrim.setBackgroundColor(requireContext().scrimColor(alpha))
+        binding.drawerOpacityScrim.setBackgroundColor(android.graphics.Color.TRANSPARENT)
     }
 
     private fun initSearch() {

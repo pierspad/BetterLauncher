@@ -145,8 +145,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     // color (not View.alpha) and the scrim stays VISIBLE so the parent's
     // LayoutTransition never animates it to full opacity (which caused a black flash).
     private fun applyOpacityScrim() {
-        val alpha = (prefs.opacityHome.coerceIn(0f, 1f) * 255).toInt()
-        binding.homeOpacityScrim.setBackgroundColor(requireContext().scrimColor(alpha))
+        binding.homeOpacityScrim.setBackgroundColor(android.graphics.Color.TRANSPARENT)
     }
 
     override fun onPause() {
