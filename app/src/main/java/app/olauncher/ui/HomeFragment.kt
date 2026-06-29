@@ -139,6 +139,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         if (prefs.showStatusBar) showStatusBar()
         else hideStatusBar()
         applyOpacityScrim()
+        (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = true)
     }
 
     // Darkens the wallpaper behind the UI. The alpha is baked into the background
