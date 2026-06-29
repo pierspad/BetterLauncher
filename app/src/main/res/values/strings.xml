@@ -218,7 +218,7 @@
     <!-- App locking -->
     <string name="set_up_screen_lock_for_app_lock">Please set up a screen lock (PIN, pattern or password) in your device settings to lock apps.</string>
     <string name="unlock_app">Unlock app</string>
-    <string name="lock_apps">Lock apps</string>
+    <string name="lock_apps">Protect apps</string>
     <string name="app_locked_toast">App locked</string>
     <string name="app_unlocked_toast">App unlocked</string>
 
@@ -226,6 +226,8 @@
     <string name="limit_apps">Use less (cooldown)</string>
     <string name="app_limited_toast">Cooldown enabled</string>
     <string name="app_unlimited_toast">Cooldown removed</string>
+    <string name="cannot_remove_limit_banned">Cannot remove limit: the app is currently in cooldown/banned!</string>
+    <string name="cannot_remove_limit_compulsiveness">Cannot remove limit: compulsiveness level is %1$d (maximum allowed is 2)!</string>
     <string name="app_limit_cooldown_title">%1$s · slow down</string>
     <string name="app_limit_cooldown_message">You opened this recently. Take a breather.</string>
     <string name="app_limit_cooldown_over">You can open it now.</string>
@@ -305,4 +307,11 @@
     <string name="setting_about">About phone</string>
 
     <string name="hidden_apps_instructions">To hide an app, long-press its name in the app drawer and select \'Hide\'. To restore a hidden app, open this screen, long-press the app, and select \'Show\'.</string>
+    <string name="invalid_pin_request">Invalid pin request</string>
+    <string name="widgets_not_supported">Widgets are not supported</string>
+    <string name="unknown_action_not_supported">Unknown action not supported</string>
+    <string name="invalid_shortcut_info">Invalid shortcut info</string>
+    <string name="hiding_pinned_shortcuts_not_supported">Hiding pinned shortcuts is not supported</string>
+    <string name="shortcut_pinned_successfully">Shortcut pinned successfully</string>
+    <string name="failed_to_pin_shortcut">Failed to pin shortcut</string>
 </resources>

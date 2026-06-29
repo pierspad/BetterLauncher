@@ -206,7 +206,7 @@
     <string name="manage_group">Administrar grupo</string>
     <string name="set_up_screen_lock_for_app_lock">Configure un bloqueo de pantalla (PIN, patrón o contraseña) en la configuración de su dispositivo para bloquear aplicaciones.</string>
     <string name="unlock_app">Desbloquear aplicación</string>
-    <string name="lock_apps">Bloquear aplicaciones</string>
+    <string name="lock_apps">Proteger aplicaciones</string>
     <string name="app_locked_toast">Aplicación bloqueada</string>
     <string name="app_unlocked_toast">Aplicación desbloqueada</string>
     <string name="limit_apps">Usar menos (enfriamiento)</string>
@@ -270,4 +270,19 @@
     <string name="language_automatic">Automático (predeterminado del sistema)</string>
     <string name="preview_app_phone">Teléfono</string>
     <string name="preview_app_camera">Cámara</string>
+    <string name="screen_time_alignment">Alineación horizontal del tiempo de pantalla</string>
+    <string name="cannot_remove_limit_banned">¡No se puede eliminar el límite: la aplicación está actualmente en cooldown/bloqueada!</string>
+    <string name="cannot_remove_limit_compulsiveness">¡No se puede eliminar el límite: el nivel de compulsividad es %1$d (el máximo permitido es 2)!</string>
+    <string name="app_limit_cooldown_penalty_message">No se permite abrir durante el cooldown. Penalización: +%1$d minutos añadidos.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - ralentizar</string>
+    <string name="app_limit_cooldown_message_new">No es posible abrir la aplicación durante el cooldown</string>
+    <string name="app_limit_cooldown_reason_severe">¡Penalización grave!\nAbriste la aplicación durante un bloqueo: + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">¡Penalización por compulsividad!\nAbriste la aplicación por %1$d.ª vez hoy, bloqueo: + %2$d minutos</string>
+    <string name="invalid_pin_request">Solicitud de PIN no válida</string>
+    <string name="widgets_not_supported">Los widgets no son compatibles</string>
+    <string name="unknown_action_not_supported">Acción desconocida no compatible</string>
+    <string name="invalid_shortcut_info">Información de acceso directo no válida</string>
+    <string name="hiding_pinned_shortcuts_not_supported">No se admite ocultar accesos directos fijados</string>
+    <string name="shortcut_pinned_successfully">Acceso directo fijado con éxito</string>
+    <string name="failed_to_pin_shortcut">Error al fijar el acceso directo</string>
 </resources><!-- Spanish -->

@@ -141,6 +141,7 @@ class MainActivity : AppCompatActivity() {
             }
             registerReceiver(profileReceiver, filter)
         }
+        intent?.let { handleIntent(it) }
     }
 
     override fun onStart() {
@@ -203,6 +204,14 @@ class MainActivity : AppCompatActivity() {
         // if (alreadyHome && isResumed && prefs.homeButtonShowRecents)
         //     viewModel.showRecentApps.call()
         super.onNewIntent(intent)
+        intent?.let { handleIntent(it) }
+    }
+
+    private fun handleIntent(intent: Intent) {
+        val key = intent.getStringExtra("SHOW_COOLDOWN_FOR_KEY")
+        if (key != null) {
+            viewModel.triggerCooldownBlock(key)
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -303,7 +312,16 @@ class MainActivity : AppCompatActivity() {
                     break
                 }
                 val totalSec = (remaining + 999) / 1000
-                timerView.text = String.format("%02d:%02d", totalSec / 60, totalSec % 60)
+                if (totalSec >= 3600) {
+                    val hours = totalSec / 3600
+                    val minutes = (totalSec % 3600) / 60
+                    val seconds = totalSec % 60
+                    timerView.text = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+                } else {
+                    val minutes = totalSec / 60
+                    val seconds = totalSec % 60
+                    timerView.text = String.format("%02d:%02d", minutes, seconds)
+                }
                 delay(500)
             }
         }

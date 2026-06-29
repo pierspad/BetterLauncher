@@ -204,7 +204,7 @@
     <string name="manage_group">Hantera grupp</string>
     <string name="set_up_screen_lock_for_app_lock">Ställ in ett skärmlås (PIN, mönster eller lösenord) i enhetens inställningar för att låsa appar.</string>
     <string name="unlock_app">Lås upp appen</string>
-    <string name="lock_apps">Lås appar</string>
+    <string name="lock_apps">Skydda appar</string>
     <string name="app_locked_toast">App låst</string>
     <string name="app_unlocked_toast">App upplåst</string>
     <string name="limit_apps">Använd mindre (nedkylning)</string>
@@ -268,4 +268,19 @@
     <string name="language_automatic">Automatisk (systemstandard)</string>
     <string name="preview_app_phone">Telefon</string>
     <string name="preview_app_camera">Kamera</string>
+    <string name="screen_time_alignment">Horisontell justering av skärmtid</string>
+    <string name="cannot_remove_limit_banned">Kan inte ta bort gränsen: appen är för närvarande i nedkylning/blockerad!</string>
+    <string name="cannot_remove_limit_compulsiveness">Kan inte ta bort gränsen: tvångsmässighet nivå är %1$d (max tillåtet är 2)!</string>
+    <string name="app_limit_cooldown_penalty_message">Öppning under nedkylning är inte tillåten. Straff: +%1$d minuter har lagts till.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - sakta ner</string>
+    <string name="app_limit_cooldown_message_new">Det går inte att öppna appen under nedkylningen</string>
+    <string name="app_limit_cooldown_reason_severe">Allvarligt straff!\nDu öppnade appen under en blockering: + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Tvångsmässigt straff!\nDu öppnade appen för %1$d:e gången idag, blockering: + %2$d minuter</string>
+    <string name="invalid_pin_request">Ogiltig PIN-begäran</string>
+    <string name="widgets_not_supported">Widgetar stöds inte</string>
+    <string name="unknown_action_not_supported">Okänd åtgärd stöds inte</string>
+    <string name="invalid_shortcut_info">Ogiltig genvägsinformation</string>
+    <string name="hiding_pinned_shortcuts_not_supported">Det går inte att dölja fästa genvägar</string>
+    <string name="shortcut_pinned_successfully">Genväg fäst framgångsrikt</string>
+    <string name="failed_to_pin_shortcut">Det gick inte att fästa genvägen</string>
 </resources><!-- Swedish -->

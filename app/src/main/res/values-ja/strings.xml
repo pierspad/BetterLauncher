@@ -205,7 +205,7 @@
     <string name="manage_group">グループの管理</string>
     <string name="set_up_screen_lock_for_app_lock">アプリをロックするには、デバイスの設定で画面ロック (PIN、パターン、またはパスワード) を設定してください。</string>
     <string name="unlock_app">アプリのロックを解除する</string>
-    <string name="lock_apps">アプリをロックする</string>
+    <string name="lock_apps">アプリを保護する</string>
     <string name="app_locked_toast">アプリがロックされています</string>
     <string name="app_unlocked_toast">アプリのロックが解除されました</string>
     <string name="limit_apps">使用量を減らす（クールダウン）</string>
@@ -269,4 +269,19 @@
     <string name="language_automatic">自動 (システムのデフォルト)</string>
     <string name="preview_app_phone">電話</string>
     <string name="preview_app_camera">カメラ</string>
+    <string name="screen_time_alignment">スクリーンタイムの水平配置</string>
+    <string name="cannot_remove_limit_banned">制限を削除できません：アプリは現在クールダウン中/禁止されています！</string>
+    <string name="cannot_remove_limit_compulsiveness">制限を削除できません：強迫行為レベルは %1$d です（許容される最大値は 2 です）！</string>
+    <string name="app_limit_cooldown_penalty_message">クールダウン中の起動は許可されていません。ペナルティ：+%1$d 分が追加されました。</string>
+    <string name="app_limit_cooldown_title_new">%1$s - 速度を落としてください</string>
+    <string name="app_limit_cooldown_message_new">クールダウン中はアプリを開くことができません</string>
+    <string name="app_limit_cooldown_reason_severe">重いペナルティ！\n禁止期間中にアプリを開きました：+ %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">強迫行為ペナルティ！\n今日 %1$d 回目にアプリを開きました。禁止：+ %2$d 分</string>
+    <string name="invalid_pin_request">無効なPINリクエスト</string>
+    <string name="widgets_not_supported">ウィジェットはサポートされていません</string>
+    <string name="unknown_action_not_supported">不明なアクションはサポートされていません</string>
+    <string name="invalid_shortcut_info">無効なショートカット情報</string>
+    <string name="hiding_pinned_shortcuts_not_supported">固定されたショートカットの非表示はサポートされていません</string>
+    <string name="shortcut_pinned_successfully">ショートカットが正常に固定されました</string>
+    <string name="failed_to_pin_shortcut">ショートカットの固定に失敗しました</string>
 </resources> <!-- Japanese -->

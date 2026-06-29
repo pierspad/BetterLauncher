@@ -82,6 +82,7 @@
 
     <style name="TextSmall" parent="TextDefault">
         <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:gravity">start|center_vertical</item>
     </style>
 
     <style name="TextSmallBold" parent="TextSmall">

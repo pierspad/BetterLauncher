@@ -206,7 +206,7 @@
     <string name="manage_group">Керувати групою</string>
     <string name="set_up_screen_lock_for_app_lock">Налаштуйте блокування екрана (PIN-код, ключ або пароль) у налаштуваннях пристрою, щоб блокувати програми.</string>
     <string name="unlock_app">Розблокувати додаток</string>
-    <string name="lock_apps">Блокування програм</string>
+    <string name="lock_apps">Захист програм</string>
     <string name="app_locked_toast">Додаток заблоковано</string>
     <string name="app_unlocked_toast">Додаток розблоковано</string>
     <string name="limit_apps">Використовуйте менше (кулдаун)</string>
@@ -270,4 +270,19 @@
     <string name="language_automatic">Автоматично (за замовчуванням у системі)</string>
     <string name="preview_app_phone">Телефон</string>
     <string name="preview_app_camera">Камера</string>
+    <string name="screen_time_alignment">Горизонтальне вирівнювання екранного часу</string>
+    <string name="cannot_remove_limit_banned">Неможливо видалити обмеження: додаток зараз перебуває в режимі очікування/заблокований!</string>
+    <string name="cannot_remove_limit_compulsiveness">Неможливо видалити обмеження: рівень компульсивності становить %1$d (максимально дозволено 2)!</string>
+    <string name="app_limit_cooldown_penalty_message">Відкриття під час очікування заборонено. Штраф: додано +%1$d хв.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - уповільнення</string>
+    <string name="app_limit_cooldown_message_new">Неможливо відкрити додаток під час очікування</string>
+    <string name="app_limit_cooldown_reason_severe">Суворе покарання!\nВи відкрили додаток під час блокування: + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Покарання за компульсивність!\nВи відкрили додаток %1$d-й раз за сьогодні, блокування: + %2$d хв.</string>
+    <string name="invalid_pin_request">Недійсний запит PIN-коду</string>
+    <string name="widgets_not_supported">Віджети не підтримуються</string>
+    <string name="unknown_action_not_supported">Невідома дія не підтримується</string>
+    <string name="invalid_shortcut_info">Недійсна інформація про ярлик</string>
+    <string name="hiding_pinned_shortcuts_not_supported">Приховання закріплених ярликів не підтримується</string>
+    <string name="shortcut_pinned_successfully">Ярлык успішно закріплено</string>
+    <string name="failed_to_pin_shortcut">Не вдалося закріпити ярлик</string>
 </resources><!-- Ukrainian -->

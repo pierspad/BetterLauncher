@@ -207,7 +207,7 @@
     <string name="manage_group">管理群组</string>
     <string name="set_up_screen_lock_for_app_lock">请在您的设备设置中设置屏幕锁定（PIN、图案或密码）以锁定应用程序。</string>
     <string name="unlock_app">解锁应用程序</string>
-    <string name="lock_apps">锁定应用程序</string>
+    <string name="lock_apps">保护应用程序</string>
     <string name="app_locked_toast">应用程序已锁定</string>
     <string name="app_unlocked_toast">应用程序已解锁</string>
     <string name="limit_apps">减少使用（冷却时间）</string>
@@ -271,4 +271,19 @@
     <string name="language_automatic">自动（系统默认）</string>
     <string name="preview_app_phone">电话</string>
     <string name="preview_app_camera">相机</string>
+    <string name="screen_time_alignment">屏幕使用时间水平对齐方式</string>
+    <string name="cannot_remove_limit_banned">无法移除限制：该应用目前处于冷却/禁用状态！</string>
+    <string name="cannot_remove_limit_compulsiveness">无法移除限制：强迫性级别为 %1$d（允许的最大值为 2）！</string>
+    <string name="app_limit_cooldown_penalty_message">冷却期间不允许打开。处罚：增加 +%1$d 分钟。</string>
+    <string name="app_limit_cooldown_title_new">%1$s - 放慢速度</string>
+    <string name="app_limit_cooldown_message_new">冷却期间无法打开应用</string>
+    <string name="app_limit_cooldown_reason_severe">严重处罚！\n您在禁止期间打开了应用：+ %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">强迫性处罚！\n您今天第 %1$d 次打开该应用，禁止：+ %2$d 分钟</string>
+    <string name="invalid_pin_request">无效的 PIN 请求</string>
+    <string name="widgets_not_supported">不支持小部件</string>
+    <string name="unknown_action_not_supported">不支持未知操作</string>
+    <string name="invalid_shortcut_info">无效的快捷方式信息</string>
+    <string name="hiding_pinned_shortcuts_not_supported">不支持隐藏固定的快捷方式</string>
+    <string name="shortcut_pinned_successfully">快捷方式固定成功</string>
+    <string name="failed_to_pin_shortcut">无法固定快捷方式</string>
 </resources><!-- Chinese -->

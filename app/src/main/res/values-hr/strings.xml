@@ -205,7 +205,7 @@
     <string name="manage_group">Upravljanje grupom</string>
     <string name="set_up_screen_lock_for_app_lock">Postavite zaključavanje zaslona (PIN, uzorak ili lozinku) u postavkama uređaja kako biste zaključali aplikacije.</string>
     <string name="unlock_app">Otključaj aplikaciju</string>
-    <string name="lock_apps">Zaključaj aplikacije</string>
+    <string name="lock_apps">Zaštiti aplikacije</string>
     <string name="app_locked_toast">Aplikacija zaključana</string>
     <string name="app_unlocked_toast">Aplikacija je otključana</string>
     <string name="limit_apps">Koristite manje (hlađenje)</string>
@@ -269,4 +269,19 @@
     <string name="language_automatic">Automatski (zadano za sustav)</string>
     <string name="preview_app_phone">Telefon</string>
     <string name="preview_app_camera">Fotoaparat</string>
+    <string name="screen_time_alignment">Vodoravno poravnanje vremena zaslona</string>
+    <string name="cannot_remove_limit_banned">Nije moguće ukloniti ograničenje: aplikacija je trenutno u hlađenju/blokirana!</string>
+    <string name="cannot_remove_limit_compulsiveness">Nije moguće ukloniti ograničenje: razina kompulzivnosti je %1$d (maksimalno dopušteno je 2)!</string>
+    <string name="app_limit_cooldown_penalty_message">Otvaranje tijekom hlađenja nije dopušteno. Kazna: dodano +%1$d minuta.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - uspori</string>
+    <string name="app_limit_cooldown_message_new">Nije moguće otvoriti aplikaciju tijekom hlađenja</string>
+    <string name="app_limit_cooldown_reason_severe">Ozbiljna kazna!\nOtvorili ste aplikaciju tijekom blokade: + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Kompulzivna kazna!\nOtvorili ste aplikaciju %1$d. put danas, blokada: + %2$d minuta</string>
+    <string name="invalid_pin_request">Nevaljani zahtjev za PIN</string>
+    <string name="widgets_not_supported">Widgeti nisu podržani</string>
+    <string name="unknown_action_not_supported">Nepoznata radnja nije podržana</string>
+    <string name="invalid_shortcut_info">Nevaljane informacije o prečacu</string>
+    <string name="hiding_pinned_shortcuts_not_supported">Skrivanje prikovanih prečaca nije podržano</string>
+    <string name="shortcut_pinned_successfully">Prečac je uspješno pribadačen</string>
+    <string name="failed_to_pin_shortcut">Pribadanje prečaca nije uspjelo</string>
 </resources><!-- Croatian -->

@@ -207,7 +207,7 @@
     <string name="manage_group">Управление группой</string>
     <string name="set_up_screen_lock_for_app_lock">Установите блокировку экрана (PIN-код, графический ключ или пароль) в настройках вашего устройства, чтобы заблокировать приложения.</string>
     <string name="unlock_app">Разблокировать приложение</string>
-    <string name="lock_apps">Блокировка приложений</string>
+    <string name="lock_apps">Защита приложений</string>
     <string name="app_locked_toast">Приложение заблокировано</string>
     <string name="app_unlocked_toast">Приложение разблокировано</string>
     <string name="limit_apps">Используйте меньше (перезарядка)</string>
@@ -271,4 +271,19 @@
     <string name="language_automatic">Автоматически (по умолчанию в системе)</string>
     <string name="preview_app_phone">Телефон</string>
     <string name="preview_app_camera">Камера</string>
+    <string name="screen_time_alignment">Горизонтальное выравнивание экранного времени</string>
+    <string name="cannot_remove_limit_banned">Невозможно удалить ограничение: приложение находится в режиме ожидания/заблокировано!</string>
+    <string name="cannot_remove_limit_compulsiveness">Невозможно удалить ограничение: уровень компульсивности составляет %1$d (максимально разрешено 2)!</string>
+    <string name="app_limit_cooldown_penalty_message">Открытие во время ожидания запрещено. Штраф: добавлено +%1$d мин.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - замедлиться</string>
+    <string name="app_limit_cooldown_message_new">Невозможно открыть приложение во время ожидания</string>
+    <string name="app_limit_cooldown_reason_severe">Серьезное наказание!\nВы открыли приложение во время блокировки: + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Наказание за компульсивность!\nВы открыли приложение %1$d-й раз за сегодня, блокировка: + %2$d мин.</string>
+    <string name="invalid_pin_request">Неверный запрос PIN-кода</string>
+    <string name="widgets_not_supported">Виджеты не поддерживаются</string>
+    <string name="unknown_action_not_supported">Неизвестное действие не поддерживается</string>
+    <string name="invalid_shortcut_info">Недопустимая информация о ярлыке</string>
+    <string name="hiding_pinned_shortcuts_not_supported">Скрытие закрепленных ярлыков не поддерживается</string>
+    <string name="shortcut_pinned_successfully">Ярлык успешно закреплен</string>
+    <string name="failed_to_pin_shortcut">Не удалось закрепить ярлык</string>
 </resources><!-- Russian -->

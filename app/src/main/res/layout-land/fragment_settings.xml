@@ -543,6 +543,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/segmented_track"
                         android:orientation="horizontal"
+                        android:layoutDirection="ltr"
                         android:padding="2dp">
 
                         <ImageView
@@ -609,6 +610,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/segmented_track"
                         android:orientation="horizontal"
+                        android:layoutDirection="ltr"
                         android:padding="2dp">
 
                         <ImageView
@@ -671,6 +673,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/segmented_track"
                         android:orientation="horizontal"
+                        android:layoutDirection="ltr"
                         android:padding="2dp">
 
                         <ImageView
@@ -727,6 +730,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/segmented_track"
                         android:orientation="horizontal"
+                        android:layoutDirection="ltr"
                         android:padding="2dp">
 
                         <ImageView
@@ -792,6 +796,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/segmented_track"
                         android:orientation="horizontal"
+                        android:layoutDirection="ltr"
                         android:padding="2dp">
 
                         <ImageView

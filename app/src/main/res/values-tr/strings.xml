@@ -206,7 +206,7 @@
     <string name="manage_group">Grubu yönet</string>
     <string name="set_up_screen_lock_for_app_lock">Uygulamaları kilitlemek için lütfen cihaz ayarlarınızda bir ekran kilidi (PIN, desen veya şifre) ayarlayın.</string>
     <string name="unlock_app">Uygulamanın kilidini aç</string>
-    <string name="lock_apps">Uygulamaları kilitleme</string>
+    <string name="lock_apps">Uygulamaları koru</string>
     <string name="app_locked_toast">Uygulama kilitlendi</string>
     <string name="app_unlocked_toast">Uygulamanın kilidi açıldı</string>
     <string name="limit_apps">Daha az kullanın (bekleme süresi)</string>
@@ -270,4 +270,19 @@
     <string name="language_automatic">Otomatik (Sistem Varsayılanı)</string>
     <string name="preview_app_phone">Telefon</string>
     <string name="preview_app_camera">Kamera</string>
+    <string name="screen_time_alignment">Yatay ekran süresi hizalaması</string>
+    <string name="cannot_remove_limit_banned">Sınır kaldırılamıyor: Uygulama şu anda bekleme süresinde/engellendi!</string>
+    <string name="cannot_remove_limit_compulsiveness">Sınır kaldırılamıyor: Zorlayıcılık düzeyi %1$d (izin verilen en fazla 2)!</string>
+    <string name="app_limit_cooldown_penalty_message">Bekleme süresi boyunca açılmasına izin verilmez. Ceza: +%1$d dakika eklendi.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - yavaşla</string>
+    <string name="app_limit_cooldown_message_new">Bekleme süresi boyunca uygulamanın açılması mümkün değildir</string>
+    <string name="app_limit_cooldown_reason_severe">Ağır Ceza!\nEngelleme sırasında uygulamayı açtınız: + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Zorlayıcılık Cezası!\nUygulamayı bugün %1$d. kez açtınız, engelleme: + %2$d dakika</string>
+    <string name="invalid_pin_request">Geçersiz PIN isteği</string>
+    <string name="widgets_not_supported">Widget\'lar desteklenmiyor</string>
+    <string name="unknown_action_not_supported">Bilinmeyen eylem desteklenmiyor</string>
+    <string name="invalid_shortcut_info">Geçersiz kısayol bilgisi</string>
+    <string name="hiding_pinned_shortcuts_not_supported">Sabitlenmiş kısayolları gizleme desteklenmiyor</string>
+    <string name="shortcut_pinned_successfully">Kısayol başarıyla sabitlendi</string>
+    <string name="failed_to_pin_shortcut">Kısayol sabitleme başarısız oldu</string>
 </resources><!-- Turkish -->

@@ -204,7 +204,7 @@
     <string name="manage_group">إدارة المجموعة</string>
     <string name="set_up_screen_lock_for_app_lock">يرجى إعداد قفل الشاشة (رقم التعريف الشخصي أو النمط أو كلمة المرور) في إعدادات جهازك لقفل التطبيقات.</string>
     <string name="unlock_app">فتح التطبيق</string>
-    <string name="lock_apps">قفل التطبيقات</string>
+    <string name="lock_apps">حماية التطبيقات</string>
     <string name="app_locked_toast">التطبيق مغلق</string>
     <string name="app_unlocked_toast">تم فتح التطبيق</string>
     <string name="limit_apps">استخدم أقل (فترة التهدئة)</string>
@@ -268,4 +268,19 @@
     <string name="language_automatic">تلقائي (النظام الافتراضي)</string>
     <string name="preview_app_phone">هاتف</string>
     <string name="preview_app_camera">آلة تصوير</string>
+    <string name="screen_time_alignment">محاذاة وقت الشاشة أفقياً</string>
+    <string name="cannot_remove_limit_banned">لا يمكن إزالة الحد: التطبيق حالياً في فترة تهدئة/محظور!</string>
+    <string name="cannot_remove_limit_compulsiveness">لا يمكن إزالة الحد: مستوى القهرية هو %1$d (الحد الأقصى المسموح به هو 2)!</string>
+    <string name="app_limit_cooldown_penalty_message">لا يُسمح بالفتح أثناء فترة التهدئة. عقوبة: تم إضافة +%1$d دقيقة.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - أبطأ</string>
+    <string name="app_limit_cooldown_message_new">لا يمكن فتح التطبيق أثناء فترة التهدئة</string>
+    <string name="app_limit_cooldown_reason_severe">عقوبة شديدة!\nلقد فتحت التطبيق أثناء الحظر: + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">عقوبة القهرية!\nلقد فتحت التطبيق للمرة %1$d اليوم، الحظر: + %2$d دقيقة</string>
+    <string name="invalid_pin_request">طلب رمز PIN غير صالح</string>
+    <string name="widgets_not_supported">الأدوات غير مدعومة</string>
+    <string name="unknown_action_not_supported">الإجراء غير المعروف غير مدعوم</string>
+    <string name="invalid_shortcut_info">معلومات الاختصار غير صالحة</string>
+    <string name="hiding_pinned_shortcuts_not_supported">إخفاء الاختصارات المثبتة غير مدعوم</string>
+    <string name="shortcut_pinned_successfully">تم تثبيت الاختصار بنجاح</string>
+    <string name="failed_to_pin_shortcut">فشل تثبيت الاختصار</string>
 </resources>

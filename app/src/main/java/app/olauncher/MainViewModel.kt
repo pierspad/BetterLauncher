@@ -448,13 +448,32 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun appLimitLevel(appModel: AppModel): Int =
         if (appModel is AppModel.App) prefs.limitLevel(appKey(appModel)) else 0
 
-    // Toggles the soft-limit state of an app and returns the new state (true = limited).
+    fun appCooldownRemainingMillis(appModel: AppModel): Long {
+        if (appModel !is AppModel.App) return 0L
+        val key = appKey(appModel)
+        if (!prefs.isAppLimited(key)) return 0L
+        val until = prefs.limitUntil(key)
+        val remaining = until - System.currentTimeMillis()
+        return if (remaining > 0) remaining else 0L
+    }
+
+    // Toggles the soft-limit state of an app and returns the new state (true = limited, false = unlimited, null = prevented).
     // Clearing the limit also wipes any pending cooldown so the app opens freely again.
-    fun toggleAppLimit(appModel: AppModel): Boolean {
+    fun toggleAppLimit(appModel: AppModel): Boolean? {
         val key = appKey(appModel)
         val newSet = prefs.limitedApps.toMutableSet()
         val nowLimited: Boolean
         if (newSet.contains(key)) {
+            val isBanned = prefs.limitUntil(key) > System.currentTimeMillis()
+            val compulsivenessLevel = prefs.limitLevel(key)
+            if (isBanned) {
+                appContext.showToast(appContext.getString(R.string.cannot_remove_limit_banned))
+                return null
+            }
+            if (compulsivenessLevel >= 3) {
+                appContext.showToast(appContext.getString(R.string.cannot_remove_limit_compulsiveness, compulsivenessLevel))
+                return null
+            }
             newSet.remove(key)
             prefs.clearLimitState(key)
             nowLimited = false
@@ -464,6 +483,41 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
         prefs.limitedApps = newSet
         return nowLimited
+    }
+
+    fun triggerCooldownBlock(key: String) {
+        val parts = key.split("|")
+        if (parts.size < 2) return
+        val packageName = parts[0]
+        val userHandleStr = parts[1]
+        val user = app.olauncher.helper.getUserHandleFromString(appContext, userHandleStr)
+
+        val level = prefs.limitLevel(key)
+        val until = prefs.limitUntil(key)
+        if (until > System.currentTimeMillis()) {
+            val retries = prefs.limitRetryCount(key)
+            val totalBanMinutes = ((until - System.currentTimeMillis()) / 60_000L).toInt()
+
+            cooldownBlocked.postValue(
+                CooldownBlock(
+                    packageName = packageName,
+                    user = user,
+                    untilMillis = until,
+                    isSevere = retries > 1,
+                    penaltyMinutes = if (retries > 1) {
+                        when (retries) {
+                            2 -> 15
+                            3 -> 30
+                            4 -> 60
+                            5 -> 120
+                            else -> 240
+                        }
+                    } else 0,
+                    compulsivenessLevel = level,
+                    totalBanMinutes = totalBanMinutes
+                )
+            )
+        }
     }
 
     // Called by the Activity after a successful unlock.

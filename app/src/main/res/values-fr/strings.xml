@@ -138,7 +138,7 @@
     <string name="hey">Salut</string>
     <string name="more_features">Plus de fonctionnalités…</string>
     <string name="new_year_wish">À une année meilleure que toutes les précédentes. Bonne année !</string>
-    <string name="new_year_wish_1">" Peu importe comment s'est passé le mois de janvier. Tu as encore le reste de l'année pour faire mieux que jamais."</string>
+    <string name="new_year_wish_1">" Peu importe comment s\'est passé le mois de janvier. Tu as encore le reste de l\'année pour faire mieux que jamais."</string>
     <string name="cheers">Santé!</string>
     <string name="notification_bar">Barre de notifications</string>
 
@@ -206,7 +206,7 @@
     <string name="manage_group">Gérer le groupe</string>
     <string name="set_up_screen_lock_for_app_lock">Veuillez configurer un verrouillage d\'écran (PIN, schéma ou mot de passe) dans les paramètres de votre appareil pour verrouiller les applications.</string>
     <string name="unlock_app">Déverrouiller l\'application</string>
-    <string name="lock_apps">Verrouiller les applications</string>
+    <string name="lock_apps">Protéger les applications</string>
     <string name="app_locked_toast">Application verrouillée</string>
     <string name="app_unlocked_toast">Application déverrouillée</string>
     <string name="limit_apps">Utiliser moins (temps de recharge)</string>
@@ -270,4 +270,19 @@
     <string name="language_automatic">Automatique (système par défaut)</string>
     <string name="preview_app_phone">Téléphone</string>
     <string name="preview_app_camera">Caméra</string>
+    <string name="screen_time_alignment">Alignement horizontal du temps d\'écran</string>
+    <string name="cannot_remove_limit_banned">Impossible de supprimer la limite : l\'application est actuellement en période de pause/bloquée !</string>
+    <string name="cannot_remove_limit_compulsiveness">Impossible de supprimer la limite : le niveau de compulsivité est de %1$d (le maximum autorisé est 2) !</string>
+    <string name="app_limit_cooldown_penalty_message">L\'ouverture pendant la période de pause n\'est pas autorisée. Pénalité : +%1$d minutes ajoutées.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - ralentir</string>
+    <string name="app_limit_cooldown_message_new">Il n\'est pas possible d\'ouvrir l\'application pendant la période de pause</string>
+    <string name="app_limit_cooldown_reason_severe">Pénalité sévère !\nVous avez ouvert l\'application pendant un blocage : + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Pénalité de compulsivité !\nVous avez ouvert l\'application pour la %1$dème fois aujourd\'hui, blocage : + %2$d minutes</string>
+    <string name="invalid_pin_request">Demande de code PIN invalide</string>
+    <string name="widgets_not_supported">Les widgets ne sont pas pris en charge</string>
+    <string name="unknown_action_not_supported">Action inconnue non prise en charge</string>
+    <string name="invalid_shortcut_info">Informations de raccourci invalides</string>
+    <string name="hiding_pinned_shortcuts_not_supported">Masquer les raccourcis épinglés n\'est pas pris en charge</string>
+    <string name="shortcut_pinned_successfully">Raccourci épinglé avec succès</string>
+    <string name="failed_to_pin_shortcut">Échec de l\'épinglage du raccourci</string>
 </resources><!-- French -->
