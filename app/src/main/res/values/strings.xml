@@ -230,6 +230,13 @@
     <string name="app_limit_cooldown_message">You opened this recently. Take a breather.</string>
     <string name="app_limit_cooldown_over">You can open it now.</string>
 
+    <!-- Language picker & opacity preview -->
+    <string name="change_language">Change language</string>
+    <string name="language_automatic">Automatic (System Default)</string>
+    <string name="preview_app_phone">Phone</string>
+    <string name="preview_app_camera">Camera</string>
+
+
     <!-- Export, Import & Reset -->
     <string name="backup_saved">Settings exported successfully</string>
     <string name="backup_failed">Export failed</string>

@@ -24,40 +24,7 @@ object FuzzySearch {
             .replace(separatorsRegex, "")
             .lowercase()
 
-    fun score(label: String, query: String): Int {
-        val q = normalize(query)
-        if (q.isEmpty()) return 0
-        val l = normalize(label)
-        if (l.isEmpty()) return -1
-
-        val idx = l.indexOf(q)
-        when {
-            idx == 0 -> return 1000               // prefix: best
-            idx > 0 -> return 700 - idx.coerceAtMost(200) // substring: strong, earlier is better
-        }
-
-        // Subsequence: every query char must appear in order.
-        var li = 0
-        var contiguous = 0
-        var maxContiguous = 0
-        for (qc in q) {
-            var found = false
-            while (li < l.length) {
-                val match = l[li] == qc
-                li++
-                if (match) {
-                    contiguous++
-                    if (contiguous > maxContiguous) maxContiguous = contiguous
-                    found = true
-                    break
-                } else {
-                    contiguous = 0
-                }
-            }
-            if (!found) return -1
-        }
-        return 300 + maxContiguous * 10
-    }
+    fun score(label: String, query: String): Int = scoreStrict(label, query)
 
     fun matches(label: String, query: String): Boolean = score(label, query) >= 0
 

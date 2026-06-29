@@ -300,7 +300,7 @@ class Prefs(context: Context) {
     // Scrim intensity (0f..1f) for the home screen and the app drawer respectively.
     // A value of 0 means no scrim. (Replaces the former master on/off toggle.)
     var opacityHome: Float
-        get() = prefs.getFloat(OPACITY_HOME, 0.4f)
+        get() = prefs.getFloat(OPACITY_HOME, 0.05f)
         set(value) = prefs.edit { putFloat(OPACITY_HOME, value).apply() }
 
     var opacityDrawer: Float
@@ -329,6 +329,11 @@ class Prefs(context: Context) {
     var reopenSettingsAfterRestart: Boolean
         get() = prefs.getBoolean(REOPEN_SETTINGS, false)
         set(value) = prefs.edit { putBoolean(REOPEN_SETTINGS, value).apply() }
+
+    private val SETTINGS_SCROLL_Y = "SETTINGS_SCROLL_Y"
+    var settingsScrollY: Int
+        get() = prefs.getInt(SETTINGS_SCROLL_Y, 0)
+        set(value) = prefs.edit { putInt(SETTINGS_SCROLL_Y, value).apply() }
 
     var shownOnDayOfYear: Int
         get() = prefs.getInt(SHOWN_ON_DAY_OF_YEAR, 0)
