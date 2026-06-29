@@ -245,6 +245,7 @@ class AppDrawerFragment : Fragment() {
             isAppLocked = { viewModel.isAppLocked(it) },
             isAppLimited = { viewModel.isAppLimited(it) },
             appLimitLevel = { viewModel.appLimitLevel(it) },
+            appCooldownRemainingMillis = { viewModel.appCooldownRemainingMillis(it) },
             appClickListener = { appModel ->
                 if (appModel is AppModel.SettingTile) {
                     AndroidSettingsCatalog.launchSettingTile(requireContext(), appModel)
@@ -263,10 +264,12 @@ class AppDrawerFragment : Fragment() {
                 } else if (flag == Constants.FLAG_LIMITED_APPS) {
                     if (appModel is AppModel.App) {
                         val nowLimited = viewModel.toggleAppLimit(appModel)
-                        requireContext().showToast(
-                            getString(if (nowLimited) R.string.app_limited_toast else R.string.app_unlimited_toast)
-                        )
-                        adapter.notifyDataSetChanged()
+                        if (nowLimited != null) {
+                            requireContext().showToast(
+                                getString(if (nowLimited) R.string.app_limited_toast else R.string.app_unlimited_toast)
+                            )
+                            adapter.notifyDataSetChanged()
+                        }
                     }
                 } else {
                     viewModel.selectedApp(appModel, flag)
@@ -314,7 +317,7 @@ class AppDrawerFragment : Fragment() {
             },
             appHideListener = { appModel, position ->
                 if (appModel is AppModel.PinnedShortcut) {
-                    requireContext().showToast("Hiding pinned shortcuts is not supported")
+                    requireContext().showToast(getString(R.string.hiding_pinned_shortcuts_not_supported))
                     return@AppDrawerAdapter
                 }
                 adapter.appFilteredList.removeAt(position)

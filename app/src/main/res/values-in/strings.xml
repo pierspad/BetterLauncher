@@ -204,7 +204,7 @@
     <string name="manage_group">Kelola grup</string>
     <string name="set_up_screen_lock_for_app_lock">Harap siapkan kunci layar (PIN, pola, atau kata sandi) di pengaturan perangkat Anda untuk mengunci aplikasi.</string>
     <string name="unlock_app">Buka kunci aplikasi</string>
-    <string name="lock_apps">Kunci aplikasi</string>
+    <string name="lock_apps">Lindungi aplikasi</string>
     <string name="app_locked_toast">Aplikasi terkunci</string>
     <string name="app_unlocked_toast">Aplikasi tidak terkunci</string>
     <string name="limit_apps">Gunakan lebih sedikit (cooldown)</string>
@@ -268,4 +268,19 @@
     <string name="language_automatic">Otomatis (Default Sistem)</string>
     <string name="preview_app_phone">Telepon</string>
     <string name="preview_app_camera">Kamera</string>
+    <string name="screen_time_alignment">Penyelarasan waktu layar horizontal</string>
+    <string name="cannot_remove_limit_banned">Tidak dapat menghapus batasan: aplikasi saat ini sedang dalam cooldown/diblokir!</string>
+    <string name="cannot_remove_limit_compulsiveness">Tidak dapat menghapus batasan: tingkat kompulsif adalah %1$d (maksimum yang diizinkan adalah 2)!</string>
+    <string name="app_limit_cooldown_penalty_message">Membuka aplikasi selama cooldown tidak diperbolehkan. Penalti: +%1$d menit ditambahkan.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - pelan-pelan</string>
+    <string name="app_limit_cooldown_message_new">Tidak dapat membuka aplikasi selama cooldown</string>
+    <string name="app_limit_cooldown_reason_severe">Penalti Berat!\nAnda membuka aplikasi saat diblokir: + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Penalti Kompulsif!\nAnda membuka aplikasi untuk ke-%1$d kalinya hari ini, pemblokiran: + %2$d menit</string>
+    <string name="invalid_pin_request">Permintaan PIN tidak valid</string>
+    <string name="widgets_not_supported">Widget tidak didukung</string>
+    <string name="unknown_action_not_supported">Tindakan tidak dikenal tidak didukung</string>
+    <string name="invalid_shortcut_info">Info pintasan tidak valid</string>
+    <string name="hiding_pinned_shortcuts_not_supported">Menyembunyikan pintasan tersemat tidak didukung</string>
+    <string name="shortcut_pinned_successfully">Pintasan berhasil disematkan</string>
+    <string name="failed_to_pin_shortcut">Gagal menyematkan pintasan</string>
 </resources><!-- Indonesian -->

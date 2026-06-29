@@ -208,7 +208,7 @@
     <string name="manage_group">Csoport kezelése</string>
     <string name="set_up_screen_lock_for_app_lock">Az alkalmazások zárolásához állítson be képernyőzárat (PIN-kód, minta vagy jelszó) az eszköz beállításaiban.</string>
     <string name="unlock_app">Oldja fel az alkalmazást</string>
-    <string name="lock_apps">Alkalmazások zárolása</string>
+    <string name="lock_apps">Alkalmazások védelme</string>
     <string name="app_locked_toast">Alkalmazás zárolva</string>
     <string name="app_unlocked_toast">Alkalmazás feloldva</string>
     <string name="limit_apps">Használjon kevesebbet (hűtés)</string>
@@ -272,4 +272,19 @@
     <string name="language_automatic">Automatikus (rendszer alapértelmezett)</string>
     <string name="preview_app_phone">Telefon</string>
     <string name="preview_app_camera">Kamera</string>
+    <string name="screen_time_alignment">Képernyőidő vízszintes igazítása</string>
+    <string name="cannot_remove_limit_banned">Nem távolítható el a korlát: az alkalmazás jelenleg lehűlési időszakban van/tiltva van!</string>
+    <string name="cannot_remove_limit_compulsiveness">Nem távolítható el a korlát: a kompulzivitási szint %1$d (a megengedett maximum 2)!</string>
+    <string name="app_limit_cooldown_penalty_message">A lehűlési időszak alatti megnyitás nem engedélyezett. Büntetés: +%1$d perc hozzáadva.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - lassíts</string>
+    <string name="app_limit_cooldown_message_new">A lehűlési időszak alatt nem lehetséges az alkalmazás megnyitása</string>
+    <string name="app_limit_cooldown_reason_severe">Súlyos büntetés!\nMegnyitottad az alkalmazást a tiltás alatt: + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Kompulzivitási büntetés!\nA mai napon %1$d. alkalommal nyitottad meg az alkalmazást, tiltás: + %2$d perc</string>
+    <string name="invalid_pin_request">Érvénytelen PIN-kérés</string>
+    <string name="widgets_not_supported">A widgetek nem támogatottak</string>
+    <string name="unknown_action_not_supported">Ismeretlen művelet nem támogatott</string>
+    <string name="invalid_shortcut_info">Érvénytelen parancsikon-információ</string>
+    <string name="hiding_pinned_shortcuts_not_supported">A rögzített parancsikonok elrejtése nem támogatott</string>
+    <string name="shortcut_pinned_successfully">A parancsikon sikeresen rögzítve</string>
+    <string name="failed_to_pin_shortcut">Nem sikerült rögzíteni a parancsikont</string>
 </resources><!-- Hungarian -->

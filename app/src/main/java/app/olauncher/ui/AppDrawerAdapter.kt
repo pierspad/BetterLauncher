@@ -4,7 +4,11 @@ import android.content.Context
 import android.content.pm.LauncherApps
 import android.os.UserHandle
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.text.style.LeadingMarginSpan
+import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +35,7 @@ class AppDrawerAdapter(
     private val isAppLocked: (AppModel) -> Boolean = { false },
     private val isAppLimited: (AppModel) -> Boolean = { false },
     private val appLimitLevel: (AppModel) -> Int = { 0 },
+    private val appCooldownRemainingMillis: (AppModel) -> Long = { 0L },
     private val appClickListener: (AppModel) -> Unit,
     private val appInfoListener: (AppModel) -> Unit,
     private val appDeleteListener: (AppModel) -> Unit,
@@ -152,6 +157,7 @@ class AppDrawerAdapter(
                     isAppLocked,
                     isAppLimited,
                     appLimitLevel,
+                    appCooldownRemainingMillis,
                     appClickListener,
                     appDeleteListener,
                     appInfoListener,
@@ -320,6 +326,7 @@ class AppDrawerAdapter(
             isAppLocked: (AppModel) -> Boolean,
             isAppLimited: (AppModel) -> Boolean,
             appLimitLevel: (AppModel) -> Int,
+            appCooldownRemainingMillis: (AppModel) -> Long,
             clickListener: (AppModel) -> Unit,
             appDeleteListener: (AppModel) -> Unit,
             appInfoListener: (AppModel) -> Unit,
@@ -332,27 +339,69 @@ class AppDrawerAdapter(
             appTitle.visibility = View.VISIBLE
 
             // Show indicators in title based on app type and state
-            appTitle.text = buildString {
-                append(appModel.appLabel)
-                if (appModel.isNew) append(" ✦")
-                // U+1F512 PADLOCK + U+FE0E (text-presentation selector): forces the
-                // monochrome glyph, so the lock inherits the row's text colour (white)
-                // instead of the multicolour emoji — same effect the ✦ above already relies on.
-                // Markers: shown in the lock/limit pickers (only the relevant one), and BOTH
-                // in the main drawer so each row advertises what's set on it.
-                // U+FE0E (text-presentation selector) forces the monochrome glyph so the
-                // markers inherit the row's text colour instead of multicolour emoji.
-                val showLock = isAppLocked(appModel) &&
-                    (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_LOCKED_APPS)
-                val showLimit = isAppLimited(appModel) &&
-                    (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_LIMITED_APPS)
-                if (showLock) append("  🔒︎")
-                if (showLimit) {
-                    append("  ⏳︎")
-                    val level = appLimitLevel(appModel)
-                    append(" liv. $level")
+            val builder = SpannableStringBuilder(appModel.appLabel)
+            if (appModel.isNew) builder.append(" ✦")
+
+            val showLock = isAppLocked(appModel) &&
+                (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_LOCKED_APPS)
+            val showLimit = isAppLimited(appModel) &&
+                (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_LIMITED_APPS)
+
+            if (showLock) {
+                builder.append("  ")
+                val lockStart = builder.length
+                builder.append(" ") // placeholder for lock icon
+                val lockEnd = builder.length
+
+                val context = appTitle.context
+                val lockDrawable = ContextCompat.getDrawable(context, R.drawable.ic_lock)
+                if (lockDrawable != null) {
+                    val textColor = appTitle.currentTextColor
+                    lockDrawable.mutate().setTint(textColor)
+                    val iconSize = (appTitle.textSize * 0.75).toInt()
+                    lockDrawable.setBounds(0, 0, iconSize, iconSize)
+                    builder.setSpan(
+                        CenteredImageSpan(lockDrawable),
+                        lockStart,
+                        lockEnd,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
                 }
             }
+
+            if (showLimit) {
+                val level = appLimitLevel(appModel)
+                if (showLock) {
+                    builder.append("\u00A0liv.\u00A0$level")
+                } else {
+                    builder.append("  liv.\u00A0$level")
+                }
+
+                val remainingMs = appCooldownRemainingMillis(appModel)
+                if (remainingMs > 0) {
+                    val minutes = (remainingMs / 60_000L).coerceAtLeast(1)
+                    val timeStr = if (minutes >= 60) {
+                        val hours = minutes / 60
+                        val mins = minutes % 60
+                        "${hours}h\u00A0${mins}m"
+                    } else {
+                        "${minutes}m"
+                    }
+                    builder.append("  ⏳︎\u00A0$timeStr")
+                } else {
+                    builder.append("  ⏳︎")
+                }
+            }
+
+            val indent = (24 * appTitle.context.resources.displayMetrics.density).toInt()
+            builder.setSpan(
+                LeadingMarginSpan.Standard(0, indent),
+                0,
+                builder.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+            appTitle.text = builder
             appTitle.gravity = appLabelGravity
             otherProfileIndicator.isVisible = appModel.user != myUserHandle
 

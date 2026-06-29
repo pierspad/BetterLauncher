@@ -206,7 +206,7 @@
     <string name="manage_group">Gruppe verwalten</string>
     <string name="set_up_screen_lock_for_app_lock">Bitte richten Sie in Ihren Geräteeinstellungen eine Bildschirmsperre (PIN, Muster oder Passwort) ein, um Apps zu sperren.</string>
     <string name="unlock_app">App entsperren</string>
-    <string name="lock_apps">Apps sperren</string>
+    <string name="lock_apps">Apps schützen</string>
     <string name="app_locked_toast">App gesperrt</string>
     <string name="app_unlocked_toast">App entsperrt</string>
     <string name="limit_apps">Weniger verbrauchen (Abklingzeit)</string>
@@ -270,4 +270,19 @@
     <string name="language_automatic">Automatisch (Systemstandard)</string>
     <string name="preview_app_phone">Telefon</string>
     <string name="preview_app_camera">Kamera</string>
+    <string name="screen_time_alignment">Horizontale Ausrichtung der Bildschirmzeit</string>
+    <string name="cannot_remove_limit_banned">Limit kann nicht entfernt werden: Die App befindet sich derzeit in der Abklingzeit/ist gesperrt!</string>
+    <string name="cannot_remove_limit_compulsiveness">Limit kann nicht entfernt werden: Der Zwanghaftigkeitsgrad beträgt %1$d (maximal zulässig ist 2)!</string>
+    <string name="app_limit_cooldown_penalty_message">Das Öffnen während der Abklingzeit ist nicht gestattet. Strafe: +%1$d Minuten hinzugefügt.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - langsamer</string>
+    <string name="app_limit_cooldown_message_new">Es ist nicht möglich, die App während der Abklingzeit zu öffnen</string>
+    <string name="app_limit_cooldown_reason_severe">Harte Strafe!\nSie haben die App während einer Sperre geöffnet: + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Zwanghaftigkeitsstrafe!\nSie haben die App heute zum %1$d. Mal geöffnet, Sperre: + %2$d Minuten</string>
+    <string name="invalid_pin_request">Ungültige PIN-Anfrage</string>
+    <string name="widgets_not_supported">Widgets werden nicht unterstützt</string>
+    <string name="unknown_action_not_supported">Unbekannte Aktion wird nicht unterstützt</string>
+    <string name="invalid_shortcut_info">Ungültige Verknüpfungsinformationen</string>
+    <string name="hiding_pinned_shortcuts_not_supported">Das Ausblenden angehefteter Verknüpfungen wird nicht unterstützt</string>
+    <string name="shortcut_pinned_successfully">Verknüpfung erfolgreich angeheftet</string>
+    <string name="failed_to_pin_shortcut">Verknüpfung konnte nicht angeheftet werden</string>
 </resources>

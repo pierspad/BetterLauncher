@@ -205,7 +205,7 @@
     <string name="manage_group">Groep beheren</string>
     <string name="set_up_screen_lock_for_app_lock">Stel een schermvergrendeling (pincode, patroon of wachtwoord) in uw apparaatinstellingen in om apps te vergrendelen.</string>
     <string name="unlock_app">Ontgrendel app</string>
-    <string name="lock_apps">Apps vergrendelen</string>
+    <string name="lock_apps">Apps beveiligen</string>
     <string name="app_locked_toast">App vergrendeld</string>
     <string name="app_unlocked_toast">App ontgrendeld</string>
     <string name="limit_apps">Minder gebruiken (cooldown)</string>
@@ -269,4 +269,19 @@
     <string name="language_automatic">Automatisch (Systeemstandaard)</string>
     <string name="preview_app_phone">Telefoon</string>
     <string name="preview_app_camera">Camera</string>
+    <string name="screen_time_alignment">Horizontale uitlijning van schermtijd</string>
+    <string name="cannot_remove_limit_banned">Kan limiet niet verwijderen: de app bevindt zich momenteel in de afkoelperiode/is geblokkeerd!</string>
+    <string name="cannot_remove_limit_compulsiveness">Kan limiet niet verwijderen: dwangmatigheidsniveau is %1$d (maximaal toegestaan is 2)!</string>
+    <string name="app_limit_cooldown_penalty_message">Openen tijdens afkoelperiode is niet toegestaan. Straf: +%1$d minuten toegevoegd.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - langzamer</string>
+    <string name="app_limit_cooldown_message_new">Het is niet mogelijk om de app te openen tijdens de afkoelperiode</string>
+    <string name="app_limit_cooldown_reason_severe">Zware straf!\nU hebt de app geopend tijdens een blokkade: + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Dwangmatigheidsstraf!\nU hebt de app vandaag voor de %1$de keer geopend, blokkade: + %2$d minuten</string>
+    <string name="invalid_pin_request">Ongeldig PIN-verzoek</string>
+    <string name="widgets_not_supported">Widgets worden niet ondersteund</string>
+    <string name="unknown_action_not_supported">Onbekende actie wordt niet ondersteund</string>
+    <string name="invalid_shortcut_info">Ongeldige snelkoppelingsinformatie</string>
+    <string name="hiding_pinned_shortcuts_not_supported">Het verbergen van vastgezette snelkoppelingen wordt niet ondersteund</string>
+    <string name="shortcut_pinned_successfully">Snelkoppeling succesvol vastgezet</string>
+    <string name="failed_to_pin_shortcut">Vastzetten van snelkoppeling mislukt</string>
 </resources><!-- Dutch -->

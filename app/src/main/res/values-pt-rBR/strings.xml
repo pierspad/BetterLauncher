@@ -205,7 +205,7 @@
     <string name="manage_group">Gerenciar grupo</string>
     <string name="set_up_screen_lock_for_app_lock">Configure um bloqueio de tela (PIN, padrão ou senha) nas configurações do seu dispositivo para bloquear aplicativos.</string>
     <string name="unlock_app">Desbloquear aplicativo</string>
-    <string name="lock_apps">Bloquear aplicativos</string>
+    <string name="lock_apps">Proteger aplicativos</string>
     <string name="app_locked_toast">Aplicativo bloqueado</string>
     <string name="app_unlocked_toast">Aplicativo desbloqueado</string>
     <string name="limit_apps">Use menos (recarga)</string>
@@ -269,4 +269,19 @@
     <string name="language_automatic">Automático (padrão do sistema)</string>
     <string name="preview_app_phone">Telefone</string>
     <string name="preview_app_camera">Câmera</string>
+    <string name="screen_time_alignment">Alinhamento horizontal do tempo de tela</string>
+    <string name="cannot_remove_limit_banned">Não é possível remover o limite: o aplicativo está em cooldown/bloqueado!</string>
+    <string name="cannot_remove_limit_compulsiveness">Não é possível remover o limite: o nível de compulsividade é %1$d (o máximo permitido é 2)!</string>
+    <string name="app_limit_cooldown_penalty_message">Não é permitido abrir durante o cooldown. Penalidade: +%1$d minutos adicionados.</string>
+    <string name="app_limit_cooldown_title_new">%1$s - desacelere</string>
+    <string name="app_limit_cooldown_message_new">Não é possível abrir o aplicativo durante o cooldown</string>
+    <string name="app_limit_cooldown_reason_severe">Penalidade Grave!\nVocê abriu o aplicativo durante um bloqueio: + %1$d</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Penalidade de Compulsividade!\nVocê abriu o aplicativo pela %1$dª vez hoje, bloqueio: + %2$d minutos</string>
+    <string name="invalid_pin_request">Solicitação de PIN inválida</string>
+    <string name="widgets_not_supported">Widgets não são suportados</string>
+    <string name="unknown_action_not_supported">Ação desconhecida não suportada</string>
+    <string name="invalid_shortcut_info">Informações de atalho inválidas</string>
+    <string name="hiding_pinned_shortcuts_not_supported">Ocultar atalhos fixados não é suportado</string>
+    <string name="shortcut_pinned_successfully">Atalho fixado com sucesso</string>
+    <string name="failed_to_pin_shortcut">Falha ao fixar atalho</string>
 </resources><!-- Portuguese -->

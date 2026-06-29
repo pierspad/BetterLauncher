@@ -148,7 +148,7 @@
     <string name="home_screen">Schermata principale</string>
     <string name="hey">Ciao</string>
     <string name="new_year_wish">A un anno migliore di tutti i precedenti. Buon anno nuovo!</string>
-    <string name="new_year_wish_1">" Non importa come sia andato gennaio. Hai ancora il resto dell'anno per fare meglio che mai."</string>
+    <string name="new_year_wish_1">" Non importa come sia andato gennaio. Hai ancora il resto dell\'anno per fare meglio che mai."</string>
     <string name="cheers">Saluti!</string>
     <string name="notification_bar">Barra delle notifiche</string>
 
@@ -190,7 +190,7 @@
     <!-- App locking -->
     <string name="set_up_screen_lock_for_app_lock">Imposta un blocco schermo (PIN, sequenza o password) nelle impostazioni del dispositivo per bloccare le app.</string>
     <string name="unlock_app">Sblocca app</string>
-    <string name="lock_apps">Blocca app</string>
+    <string name="lock_apps">Proteggi app</string>
     <string name="app_locked_toast">App bloccata</string>
     <string name="app_unlocked_toast">App sbloccata</string>
 
@@ -198,6 +198,8 @@
     <string name="limit_apps">Usa meno (cooldown)</string>
     <string name="app_limited_toast">Cooldown attivato</string>
     <string name="app_unlimited_toast">Cooldown rimosso</string>
+    <string name="cannot_remove_limit_banned">Impossibile rimuovere il limite: l\'app è attualmente in cooldown!</string>
+    <string name="cannot_remove_limit_compulsiveness">Impossibile rimuovere il limite: il livello di compulsività è %1$d (massimo consentito è 2)!</string>
     <string name="app_limit_cooldown_title">%1$s · rallenta</string>
     <string name="app_limit_cooldown_message">L\'hai aperta da poco. Prenditi una pausa.</string>
     <string name="app_limit_cooldown_over">Ora puoi aprirla.</string>
@@ -301,4 +303,11 @@
     <string name="instagram">Instagram</string>
     <string name="unable_to_open_app_info">Impossibile aprire le informazioni sull\'app</string>
     <string name="private_space">Spazio privato</string>
+    <string name="invalid_pin_request">Richiesta pin non valida</string>
+    <string name="widgets_not_supported">I widget non sono supportati</string>
+    <string name="unknown_action_not_supported">Azione sconosciuta non supportata</string>
+    <string name="invalid_shortcut_info">Informazioni scorciatoia non valide</string>
+    <string name="hiding_pinned_shortcuts_not_supported">Nascondere le scorciatoie bloccate non è supportato</string>
+    <string name="shortcut_pinned_successfully">Scorciatoia aggiunta con successo</string>
+    <string name="failed_to_pin_shortcut">Impossibile aggiungere la scorciatoia</string>
 </resources><!-- Italian -->

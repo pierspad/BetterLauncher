@@ -3,6 +3,7 @@ package app.olauncher.helper
 import android.content.pm.LauncherApps
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import app.olauncher.R
 
 class PinItemActivity : AppCompatActivity() {
 
@@ -17,7 +18,7 @@ class PinItemActivity : AppCompatActivity() {
 
         when (pinItemRequest != null) {
             true -> handleRequestType(pinItemRequest)
-            false -> showToast("Invalid pin request")
+            false -> showToast(getString(R.string.invalid_pin_request))
         }
 
         finish()
@@ -29,9 +30,9 @@ class PinItemActivity : AppCompatActivity() {
                 handleShortcutRequest(pinItemRequest)
 
             LauncherApps.PinItemRequest.REQUEST_TYPE_APPWIDGET ->
-                showToast("Widgets are not supported")
+                showToast(getString(R.string.widgets_not_supported))
 
-            else -> showToast("Unknown action not supported")
+            else -> showToast(getString(R.string.unknown_action_not_supported))
         }
     }
 
@@ -40,12 +41,12 @@ class PinItemActivity : AppCompatActivity() {
         if (shortcutInfo != null) {
             val success = pinItemRequest.accept()
             val message = when (success) {
-                true -> "Shortcut pinned successfully"
-                false -> "Failed to pin shortcut"
+                true -> getString(R.string.shortcut_pinned_successfully)
+                false -> getString(R.string.failed_to_pin_shortcut)
             }
             showToast(message)
         } else {
-            showToast("Invalid shortcut info")
+            showToast(getString(R.string.invalid_shortcut_info))
         }
     }
 }
