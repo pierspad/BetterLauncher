@@ -317,6 +317,14 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         // Clock/date — independent horizontal alignment
         binding.dateTimeLayout.gravity = prefs.clockAlignment
 
+        // Screen time — independent horizontal alignment
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && requireContext().appUsagePermissionGranted()) {
+            (binding.tvScreenTime.layoutParams as? FrameLayout.LayoutParams)?.let { lp ->
+                lp.gravity = prefs.screenTimeAlignment
+                binding.tvScreenTime.layoutParams = lp
+            }
+        }
+
         // Home apps — independent horizontal + shared vertical alignment
         binding.homeAppsLayout.gravity = appsH or vertical
         binding.homeApp1.gravity = appsH
@@ -398,7 +406,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             topMargin = marginTop
             marginStart = horizontalMargin
             marginEnd = horizontalMargin
-            gravity = if (prefs.homeAlignment == Gravity.END) Gravity.START else Gravity.END
+            gravity = prefs.screenTimeAlignment
         }
         binding.tvScreenTime.layoutParams = params
         binding.tvScreenTime.setPadding(10.dpToPx())

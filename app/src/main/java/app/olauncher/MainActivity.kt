@@ -28,6 +28,7 @@ import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.ActivityMainBinding
 import app.olauncher.helper.FontHelper
+import app.olauncher.helper.AppLimiter
 import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.hasBeenDays
 import app.olauncher.helper.hasBeenHours
@@ -151,6 +152,37 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         isResumed = true
         viewModel.isPrivateSpaceToggling = false
+
+        // Decay check for all limited apps once per day:
+        val now = System.currentTimeMillis()
+        val today = now / (24 * 3600 * 1000)
+        val lastDecay = prefs.lastDecayDay
+        if (lastDecay == 0L) {
+            prefs.lastDecayDay = today
+        } else if (today > lastDecay) {
+            val daysPassed = (today - lastDecay).toInt()
+            val limitedSet = prefs.limitedApps
+            for (key in limitedSet) {
+                val currentLevel = prefs.limitLevel(key)
+                if (currentLevel > 0) {
+                    val newLevel = maxOf(0, currentLevel - daysPassed)
+                    prefs.setLimitLevel(key, newLevel)
+                    prefs.setLimitLastOpenDay(key, today)
+                }
+            }
+            prefs.lastDecayDay = today
+        }
+
+        val lastOpened = prefs.lastOpenedLimitedApp
+        if (lastOpened.isNotEmpty()) {
+            val currentLevel = prefs.limitLevel(lastOpened)
+            if (currentLevel > 0) {
+                val duration = AppLimiter.durationForStep(currentLevel)
+                prefs.setLimitUntil(lastOpened, now + duration)
+                prefs.setLimitRetryCount(lastOpened, 0)
+            }
+            prefs.lastOpenedLimitedApp = ""
+        }
     }
 
     override fun onStop() {
@@ -240,8 +272,17 @@ class MainActivity : AppCompatActivity() {
         val timerView = view.findViewById<android.widget.TextView>(R.id.cooldownTimer)
         val buttonView = view.findViewById<android.widget.TextView>(R.id.cooldownButton)
 
-        titleView.text = getString(R.string.app_limit_cooldown_title, label)
-        messageView.text = getString(R.string.app_limit_cooldown_message)
+        titleView.text = getString(R.string.app_limit_cooldown_title_new, label)
+        val messageText = buildString {
+            append(getString(R.string.app_limit_cooldown_message_new))
+            append("\n\n")
+            if (block.isSevere) {
+                append(getString(R.string.app_limit_cooldown_reason_severe, block.penaltyMinutes))
+            } else {
+                append(getString(R.string.app_limit_cooldown_reason_compulsiveness, block.compulsivenessLevel, block.totalBanMinutes))
+            }
+        }
+        messageView.text = messageText
 
         val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
             .setView(view)
