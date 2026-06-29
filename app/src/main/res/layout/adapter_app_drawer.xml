@@ -53,7 +53,8 @@
             android:paddingHorizontal="8dp"
             android:text="@string/delete"
             android:textSize="12sp"
-            app:drawableTopCompat="@drawable/ic_delete" />
+            app:drawableTopCompat="@drawable/ic_delete"
+            app:drawableTint="?attr/primaryColor" />
 
         <TextView
             android:id="@+id/appRename"
@@ -68,7 +69,8 @@
             android:paddingHorizontal="8dp"
             android:text="@string/rename"
             android:textSize="12sp"
-            app:drawableTopCompat="@drawable/ic_rename" />
+            app:drawableTopCompat="@drawable/ic_rename"
+            app:drawableTint="?attr/primaryColor" />
 
         <TextView
             android:id="@+id/appFolder"
@@ -83,7 +85,8 @@
             android:paddingHorizontal="8dp"
             android:text="@string/group"
             android:textSize="12sp"
-            app:drawableTopCompat="@drawable/ic_sc_folder" />
+            app:drawableTopCompat="@drawable/ic_sc_folder"
+            app:drawableTint="?attr/primaryColor" />
 
         <TextView
             android:id="@+id/appHide"
@@ -98,7 +101,8 @@
             android:paddingHorizontal="8dp"
             android:text="@string/hide"
             android:textSize="12sp"
-            app:drawableTopCompat="@drawable/ic_hide" />
+            app:drawableTopCompat="@drawable/ic_hide"
+            app:drawableTint="?attr/primaryColor" />
 
         <TextView
             android:id="@+id/appInfo"
@@ -113,7 +117,8 @@
             android:paddingHorizontal="8dp"
             android:text="@string/info"
             android:textSize="12sp"
-            app:drawableTopCompat="@drawable/ic_info" />
+            app:drawableTopCompat="@drawable/ic_info"
+            app:drawableTint="?attr/primaryColor" />
 
         <TextView
             android:id="@+id/appMenuClose"
@@ -128,7 +133,8 @@
             android:paddingHorizontal="8dp"
             android:text="@string/close"
             android:textSize="12sp"
-            app:drawableTopCompat="@drawable/ic_close" />
+            app:drawableTopCompat="@drawable/ic_close"
+            app:drawableTint="?attr/primaryColor" />
 
     </LinearLayout>
 

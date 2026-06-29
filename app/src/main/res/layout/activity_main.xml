@@ -55,7 +55,8 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/close"
                     android:padding="6dp"
-                    android:src="@drawable/ic_close" />
+                    android:src="@drawable/ic_close"
+                    app:tint="?attr/primaryColor" />
 
                 <TextView
                     android:id="@+id/tvTitle"
