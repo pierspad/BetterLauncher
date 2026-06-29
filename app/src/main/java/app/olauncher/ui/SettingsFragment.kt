@@ -30,6 +30,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -69,6 +70,38 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private val binding get() = _binding!!
 
     private var fontDialog: AlertDialog? = null
+    private var languageDialog: AlertDialog? = null
+
+    private data class LanguageOption(
+        val code: String,
+        val flag: String,
+        val nativeName: String,
+        val nameRes: Int = 0
+    )
+
+    private val languageOptions = listOf(
+        LanguageOption("", "🌐", "Automatic", R.string.language_automatic),
+        LanguageOption("en", "🇬🇧", "English"),
+        LanguageOption("it", "🇮🇹", "Italiano"),
+        LanguageOption("de", "🇩🇪", "Deutsch"),
+        LanguageOption("es-ES", "🇪🇸", "Español (España)"),
+        LanguageOption("es-US", "🇲🇽", "Español (Latinoamérica)"),
+        LanguageOption("fr", "🇫🇷", "Français"),
+        LanguageOption("pt-BR", "🇧🇷", "Português (Brasil)"),
+        LanguageOption("ru-RU", "🇷🇺", "Русский"),
+        LanguageOption("ar", "🇸🇦", "العربية"),
+        LanguageOption("he", "🇮🇱", "עברית"),
+        LanguageOption("hr", "🇭🇷", "Hrvatski"),
+        LanguageOption("hu", "🇭🇺", "Magyar"),
+        LanguageOption("in", "🇮🇩", "Bahasa Indonesia"),
+        LanguageOption("ja", "🇯🇵", "日本語"),
+        LanguageOption("nl", "🇳🇱", "Nederlands"),
+        LanguageOption("pl", "🇵🇱", "Polski"),
+        LanguageOption("sv", "🇸🇪", "Svenska"),
+        LanguageOption("tr", "🇹🇷", "Türkçe"),
+        LanguageOption("uk", "🇺🇦", "Українська"),
+        LanguageOption("zh", "🇨🇳", "中文")
+    )
 
     private val enableAdminLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -217,6 +250,14 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateWidget()
         initClickListeners()
         initObservers()
+
+        val savedScrollY = prefs.settingsScrollY
+        if (savedScrollY > 0) {
+            prefs.settingsScrollY = 0
+            binding.scrollView.post {
+                binding.scrollView.scrollTo(0, savedScrollY)
+            }
+        }
     }
 
     override fun onClick(view: View) {
@@ -269,6 +310,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.notifications -> updateSwipeDownAction(Constants.SwipeDownAction.NOTIFICATIONS)
             R.id.search -> updateSwipeDownAction(Constants.SwipeDownAction.SEARCH)
 
+            R.id.changeLanguage -> showLanguageDialog()
+
             R.id.aboutOlauncher -> {
                 prefs.aboutClicked = true
                 requireContext().openUrl(Constants.URL_ABOUT_OLAUNCHER)
@@ -300,6 +343,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.olauncherHiddenApps.setOnClickListener(this)
         binding.lockApps.setOnClickListener(this)
         binding.limitApps.setOnClickListener(this)
+        binding.changeLanguage.setOnClickListener(this)
         binding.backupSettings.setOnClickListener(this)
         binding.restoreSettings.setOnClickListener(this)
         binding.resetSettings.setOnClickListener(this)
@@ -736,11 +780,16 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private fun scaleToProgress(scale: Float): Int =
         Math.round((scale - TEXT_SIZE_MIN) / TEXT_SIZE_STEP).coerceIn(0, TEXT_SIZE_STEPS)
 
+    private fun recreateSettingsWithScroll() {
+        prefs.settingsScrollY = binding.scrollView.scrollY
+        prefs.reopenSettingsAfterRestart = true
+        requireActivity().recreate()
+    }
+
     private fun applyTextSizeScale(scale: Float) {
         if (prefs.textSizeScale == scale) return
         prefs.textSizeScale = scale
-        prefs.reopenSettingsAfterRestart = true
-        requireActivity().recreate()
+        recreateSettingsWithScroll()
     }
 
     private fun toggleKeyboardText() {
@@ -757,11 +806,10 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private fun updateTheme(appTheme: Int) {
         if (prefs.appTheme == appTheme) return
         prefs.appTheme = appTheme
-        prefs.reopenSettingsAfterRestart = true
         // setDefaultNightMode applies the change and recreates the activity once,
         // re-inflating all views (and re-tinting icons) with the new theme.
         AppCompatDelegate.setDefaultNightMode(appTheme)
-        requireActivity().recreate()
+        recreateSettingsWithScroll()
     }
 
     private fun getThemeName(appTheme: Int): String {
@@ -896,11 +944,73 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         dialog.show()
     }
 
+    private fun showLanguageDialog() {
+        val ctx = requireContext()
+        val view = layoutInflater.inflate(R.layout.dialog_language_picker, null)
+        val list = view.findViewById<LinearLayout>(R.id.languagePickerList)
+        val dialog = AlertDialog.Builder(ctx).setView(view).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        languageDialog = dialog
+
+        val currentLocales = AppCompatDelegate.getApplicationLocales()
+        val currentCode = if (currentLocales.isEmpty) "" else currentLocales.get(0)?.toLanguageTag() ?: ""
+
+        val padV = 14.dpToPx()
+        val padH = 10.dpToPx()
+        val rippleBg = TypedValue().also {
+            ctx.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
+        }.resourceId
+
+        fun addRow(label: String, selected: Boolean, onClick: () -> Unit) {
+            val row = TextView(ctx).apply {
+                text = label
+                textSize = 18f
+                setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
+                typeface = if (selected) Typeface.create(Typeface.DEFAULT, Typeface.BOLD) else Typeface.DEFAULT
+                gravity = Gravity.CENTER_VERTICAL
+                setPadding(padH, padV, padH, padV)
+                setBackgroundResource(if (selected) R.drawable.rounded_rect_shade_color_glass else rippleBg)
+                setOnClickListener { onClick() }
+            }
+            list.addView(
+                row,
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply { topMargin = 2.dpToPx() }
+            )
+        }
+
+        for (opt in languageOptions) {
+            val displayLabel = if (opt.code.isEmpty()) {
+                "${opt.flag}   ${getString(opt.nameRes)}"
+            } else {
+                "${opt.flag}   ${opt.nativeName}"
+            }
+            val isSelectedExact = if (opt.code.isEmpty()) {
+                currentCode.isEmpty()
+            } else {
+                currentCode.equals(opt.code, ignoreCase = true) ||
+                (opt.code.length == 2 && currentCode.startsWith(opt.code + "-", ignoreCase = true))
+            }
+            addRow(displayLabel, isSelectedExact) {
+                val localeList = if (opt.code.isEmpty()) {
+                    LocaleListCompat.getEmptyLocaleList()
+                } else {
+                    LocaleListCompat.forLanguageTags(opt.code)
+                }
+                AppCompatDelegate.setApplicationLocales(localeList)
+                dialog.dismiss()
+            }
+        }
+
+        dialog.show()
+    }
+
     private fun applyFont() {
         populateFont()
         FontHelper.reload(requireContext())
-        prefs.reopenSettingsAfterRestart = true
-        requireActivity().recreate()
+        recreateSettingsWithScroll()
     }
 
 
@@ -1237,14 +1347,17 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     override fun onStop() {
         super.onStop()
-        // Don't leave the font picker floating over the home screen when we leave Settings.
+        // Don't leave the pickers floating over the home screen when we leave Settings.
         fontDialog?.dismiss()
+        languageDialog?.dismiss()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         fontDialog?.dismiss()
         fontDialog = null
+        languageDialog?.dismiss()
+        languageDialog = null
         _binding = null
     }
 

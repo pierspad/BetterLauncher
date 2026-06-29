@@ -54,7 +54,7 @@
     <string name="app_drawer_tips">Suggerimento: inizia a digitare il nome di un\'app per avviarla automaticamente</string>
     <string name="okay">OK</string>
     <string name="cool">Freddo</string>
-    <string name="auto_show_keyboard">Tastiera di visualizzazione automatica</string>
+    <string name="auto_show_keyboard">Mostra tastiera nel drawer</string>
     <string name="hide">Nascondi</string>
     <string name="status_bar">Mostra la barra di stato</string>
     <string name="rename">Rinomina</string>
@@ -202,6 +202,13 @@
     <string name="app_limit_cooldown_message">L\'hai aperta da poco. Prenditi una pausa.</string>
     <string name="app_limit_cooldown_over">Ora puoi aprirla.</string>
 
+    <!-- Language picker & opacity preview -->
+    <string name="change_language">Cambia lingua</string>
+    <string name="language_automatic">Automatico (Predefinito di sistema)</string>
+    <string name="preview_app_phone">Telefono</string>
+    <string name="preview_app_camera">Fotocamera</string>
+
+
     <!-- Esportazione, Importazione & Ripristino -->
     <string name="backup_saved">Impostazioni esportate con successo</string>
     <string name="backup_failed">Esportazione fallita</string>
@@ -264,4 +271,29 @@
     <string name="setting_about">Info sul telefono</string>
 
     <string name="hidden_apps_instructions">Per nascondere un\'app, tieni premuto il suo nome nel drawer delle app e seleziona \'Nascondi\'. Per ripristinare un\'app nascosta, apri questa schermata, tieni premuta l\'app e seleziona \'Mostra\'.</string>
+
+    <string name="app_name">BetterLauncher</string>
+    <string name="website">pierspad.com</string>
+    <string name="github">Github</string>
+    <string name="lock_layout_description">la descrizione del layout di blocco deve essere utilizzata come ID univoco per bloccare la schermata</string>
+    <string name="olauncher_pro">BetterLauncher Pro</string>
+    <string name="digital_minimalism"></string>
+    <string name="new_app_note_safe"></string>
+    <string name="new_app_minimal_todo_lists"></string>
+    <string name="day_battery">%1$s, %2$d%%</string>
+    <string name="tag_0">0</string>
+    <string name="tag_1">1</string>
+    <string name="tag_2">2</string>
+    <string name="tag_3">3</string>
+    <string name="tag_4">4</string>
+    <string name="tag_5">5</string>
+    <string name="tag_6">6</string>
+    <string name="tag_7">7</string>
+    <string name="tag_8">8</string>
+    <string name="time_spent_min"></string>
+    <string name="time_spent_hour">%1$sh %2$mq</string>
+    <string name="x_twitter">X/Twitter</string>
+    <string name="instagram">Instagram</string>
+    <string name="unable_to_open_app_info">Impossibile aprire le informazioni sull\'app</string>
+    <string name="private_space">Spazio privato</string>
 </resources><!-- Italian -->
