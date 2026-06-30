@@ -273,8 +273,11 @@
     <string name="preview_app_phone">Telefon</string>
     <string name="preview_app_camera">Kamera</string>
     <string name="screen_time_alignment">Képernyőidő vízszintes igazítása</string>
-    <string name="cannot_remove_limit_banned">Nem távolítható el a korlát: az alkalmazás jelenleg lehűlési időszakban van/tiltva van!</string>
-    <string name="cannot_remove_limit_compulsiveness">Nem távolítható el a korlát: a kompulzivitási szint %1$d (a megengedett maximum 2)!</string>
+    <string name="cannot_remove_limit_banned">Nem távolítható el a korlát!
+Az alkalmazás lehűlési időszakban van/tiltva van!</string>
+    <string name="cannot_remove_limit_compulsiveness">Nem távolítható el a korlát!
+A kompulzivitási szinted %1$d
+Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="app_limit_cooldown_penalty_message">A lehűlési időszak alatti megnyitás nem engedélyezett. Büntetés: +%1$d perc hozzáadva.</string>
     <string name="app_limit_cooldown_title_new">%1$s - lassíts</string>
     <string name="app_limit_cooldown_message_new">A lehűlési időszak alatt nem lehetséges az alkalmazás megnyitása</string>

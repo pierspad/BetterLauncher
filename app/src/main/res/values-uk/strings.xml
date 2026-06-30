@@ -271,8 +271,11 @@
     <string name="preview_app_phone">Телефон</string>
     <string name="preview_app_camera">Камера</string>
     <string name="screen_time_alignment">Горизонтальне вирівнювання екранного часу</string>
-    <string name="cannot_remove_limit_banned">Неможливо видалити обмеження: додаток зараз перебуває в режимі очікування/заблокований!</string>
-    <string name="cannot_remove_limit_compulsiveness">Неможливо видалити обмеження: рівень компульсивності становить %1$d (максимально дозволено 2)!</string>
+    <string name="cannot_remove_limit_banned">Неможливо видалити обмеження!
+Додаток перебуває в режимі очікування/заблокований!</string>
+    <string name="cannot_remove_limit_compulsiveness">Неможливо видалити обмеження!
+Ваш рівень компульсивності: %1$d
+Для видалення він має бути ≤ 2</string>
     <string name="app_limit_cooldown_penalty_message">Відкриття під час очікування заборонено. Штраф: додано +%1$d хв.</string>
     <string name="app_limit_cooldown_title_new">%1$s - уповільнення</string>
     <string name="app_limit_cooldown_message_new">Неможливо відкрити додаток під час очікування</string>

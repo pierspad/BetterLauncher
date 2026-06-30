@@ -36,6 +36,12 @@ import java.util.Calendar
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
+    sealed interface ToggleLimitResult {
+        data class Success(val nowLimited: Boolean) : ToggleLimitResult
+        object PreventedBanned : ToggleLimitResult
+        data class PreventedCompulsiveness(val level: Int) : ToggleLimitResult
+    }
+
     private val appContext by lazy { application.applicationContext }
     private val prefs = Prefs(appContext)
 
@@ -118,7 +124,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             Constants.FLAG_LIMITED_APPS -> {
-                if (appModel is AppModel.App) toggleAppLimit(appModel)
+                if (appModel is AppModel.App) {
+                    when (val result = toggleAppLimit(appModel)) {
+                        is ToggleLimitResult.PreventedBanned -> {
+                            appContext.showToast(appContext.getString(R.string.cannot_remove_limit_banned))
+                        }
+                        is ToggleLimitResult.PreventedCompulsiveness -> {
+                            appContext.showToast(appContext.getString(R.string.cannot_remove_limit_compulsiveness, result.level))
+                        }
+                        else -> {}
+                    }
+                }
             }
 
             Constants.FLAG_SET_HOME_APP_1 -> saveHomeApp(appModel, 1)
@@ -457,9 +473,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return if (remaining > 0) remaining else 0L
     }
 
-    // Toggles the soft-limit state of an app and returns the new state (true = limited, false = unlimited, null = prevented).
-    // Clearing the limit also wipes any pending cooldown so the app opens freely again.
-    fun toggleAppLimit(appModel: AppModel): Boolean? {
+    fun toggleAppLimit(appModel: AppModel): ToggleLimitResult {
         val key = appKey(appModel)
         val newSet = prefs.limitedApps.toMutableSet()
         val nowLimited: Boolean
@@ -467,12 +481,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             val isBanned = prefs.limitUntil(key) > System.currentTimeMillis()
             val compulsivenessLevel = prefs.limitLevel(key)
             if (isBanned) {
-                appContext.showToast(appContext.getString(R.string.cannot_remove_limit_banned))
-                return null
+                return ToggleLimitResult.PreventedBanned
             }
             if (compulsivenessLevel >= 3) {
-                appContext.showToast(appContext.getString(R.string.cannot_remove_limit_compulsiveness, compulsivenessLevel))
-                return null
+                return ToggleLimitResult.PreventedCompulsiveness(compulsivenessLevel)
             }
             newSet.remove(key)
             prefs.clearLimitState(key)
@@ -482,7 +494,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             nowLimited = true
         }
         prefs.limitedApps = newSet
-        return nowLimited
+        return ToggleLimitResult.Success(nowLimited)
     }
 
     fun triggerCooldownBlock(key: String) {

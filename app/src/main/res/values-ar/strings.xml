@@ -269,8 +269,11 @@
     <string name="preview_app_phone">هاتف</string>
     <string name="preview_app_camera">آلة تصوير</string>
     <string name="screen_time_alignment">محاذاة وقت الشاشة أفقياً</string>
-    <string name="cannot_remove_limit_banned">لا يمكن إزالة الحد: التطبيق حالياً في فترة تهدئة/محظور!</string>
-    <string name="cannot_remove_limit_compulsiveness">لا يمكن إزالة الحد: مستوى القهرية هو %1$d (الحد الأقصى المسموح به هو 2)!</string>
+    <string name="cannot_remove_limit_banned">لا يمكن إزالة الحد!
+التطبيق حالياً في فترة تهدئة/محظور!</string>
+    <string name="cannot_remove_limit_compulsiveness">لا يمكن إزالة الحد!
+مستوى القهرية لديك هو %1$d
+للإزالة يجب أن يكون ≤ 2</string>
     <string name="app_limit_cooldown_penalty_message">لا يُسمح بالفتح أثناء فترة التهدئة. عقوبة: تم إضافة +%1$d دقيقة.</string>
     <string name="app_limit_cooldown_title_new">%1$s - أبطأ</string>
     <string name="app_limit_cooldown_message_new">لا يمكن فتح التطبيق أثناء فترة التهدئة</string>

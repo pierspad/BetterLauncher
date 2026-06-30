@@ -271,8 +271,11 @@
     <string name="preview_app_phone">Telefon</string>
     <string name="preview_app_camera">Kamera</string>
     <string name="screen_time_alignment">Yatay ekran süresi hizalaması</string>
-    <string name="cannot_remove_limit_banned">Sınır kaldırılamıyor: Uygulama şu anda bekleme süresinde/engellendi!</string>
-    <string name="cannot_remove_limit_compulsiveness">Sınır kaldırılamıyor: Zorlayıcılık düzeyi %1$d (izin verilen en fazla 2)!</string>
+    <string name="cannot_remove_limit_banned">Sınır kaldırılamıyor!
+Uygulama bekleme süresinde/engellendi!</string>
+    <string name="cannot_remove_limit_compulsiveness">Sınır kaldırılamıyor!
+Zorlayıcılık düzeyiniz %1$d
+Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="app_limit_cooldown_penalty_message">Bekleme süresi boyunca açılmasına izin verilmez. Ceza: +%1$d dakika eklendi.</string>
     <string name="app_limit_cooldown_title_new">%1$s - yavaşla</string>
     <string name="app_limit_cooldown_message_new">Bekleme süresi boyunca uygulamanın açılması mümkün değildir</string>

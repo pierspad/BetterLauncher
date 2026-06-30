@@ -269,8 +269,11 @@
     <string name="preview_app_phone">Telefon</string>
     <string name="preview_app_camera">Kamera</string>
     <string name="screen_time_alignment">Poziome wyrównanie czasu przed ekranem</string>
-    <string name="cannot_remove_limit_banned">Nie można usunąć limitu: aplikacja jest obecnie w okresie schładzania/zablokowana!</string>
-    <string name="cannot_remove_limit_compulsiveness">Nie można usunąć limitu: poziom kompulsywności wynosi %1$d (maksymalny dozwolony to 2)!</string>
+    <string name="cannot_remove_limit_banned">Nie można usunąć limitu!
+Aplikacja jest w okresie schładzania/zablokowana!</string>
+    <string name="cannot_remove_limit_compulsiveness">Nie można usunąć limitu!
+Twój poziom kompulsywności wynosi %1$d
+Aby go usunąć, musi wynosić ≤ 2</string>
     <string name="app_limit_cooldown_penalty_message">Otwieranie w trakcie schładzania jest niedozwolone. Kara: dodano +%1$d minut.</string>
     <string name="app_limit_cooldown_title_new">%1$s - zwolnij</string>
     <string name="app_limit_cooldown_message_new">Nie można otworzyć aplikacji w okresie schładzania</string>

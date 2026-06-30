@@ -480,7 +480,7 @@ class MainActivity : AppCompatActivity() {
         val opacity = when (destinationId) {
             R.id.mainFragment -> prefs.opacityHome
             R.id.appListFragment -> prefs.opacityDrawer
-            R.id.settingsFragment -> 0.25f
+            R.id.settingsFragment -> prefs.opacityHome
             else -> 0f
         }
         android.util.Log.d("BetterLauncher", "updateGlobalOpacityScrim: dest=$destinationId, opacity=$opacity, current=$currentOpacity, animate=$animate")

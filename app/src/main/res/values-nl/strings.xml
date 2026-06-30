@@ -270,8 +270,11 @@
     <string name="preview_app_phone">Telefoon</string>
     <string name="preview_app_camera">Camera</string>
     <string name="screen_time_alignment">Horizontale uitlijning van schermtijd</string>
-    <string name="cannot_remove_limit_banned">Kan limiet niet verwijderen: de app bevindt zich momenteel in de afkoelperiode/is geblokkeerd!</string>
-    <string name="cannot_remove_limit_compulsiveness">Kan limiet niet verwijderen: dwangmatigheidsniveau is %1$d (maximaal toegestaan is 2)!</string>
+    <string name="cannot_remove_limit_banned">Kan limiet niet verwijderen!
+De app is momenteel in afkoeltijd/is geblokkeerd!</string>
+    <string name="cannot_remove_limit_compulsiveness">Kan limiet niet verwijderen!
+Je dwangmatigheidsniveau is %1$d
+Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="app_limit_cooldown_penalty_message">Openen tijdens afkoelperiode is niet toegestaan. Straf: +%1$d minuten toegevoegd.</string>
     <string name="app_limit_cooldown_title_new">%1$s - langzamer</string>
     <string name="app_limit_cooldown_message_new">Het is niet mogelijk om de app te openen tijdens de afkoelperiode</string>

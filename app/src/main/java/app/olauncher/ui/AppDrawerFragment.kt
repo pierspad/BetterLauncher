@@ -15,7 +15,15 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.widget.SearchView
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -65,8 +73,9 @@ class AppDrawerFragment : Fragment() {
     private var currentPrivateSpaceLocked: Boolean = true
     private var currentPrivateSpaceAvailable: Boolean = false
 
-    private val viewModel: MainViewModel by activityViewModels()
+        private val viewModel: MainViewModel by activityViewModels()
     private var searchOptionsPopup: android.widget.PopupWindow? = null
+    private var alertJob: kotlinx.coroutines.Job? = null
     private var _binding: FragmentAppDrawerBinding? = null
     private val binding get() = _binding!!
 
@@ -262,12 +271,19 @@ class AppDrawerFragment : Fragment() {
                     }
                 } else if (flag == Constants.FLAG_LIMITED_APPS) {
                     if (appModel is AppModel.App) {
-                        val nowLimited = viewModel.toggleAppLimit(appModel)
-                        if (nowLimited != null) {
-                            requireContext().showToast(
-                                getString(if (nowLimited) R.string.app_limited_toast else R.string.app_unlimited_toast)
-                            )
-                            adapter.notifyDataSetChanged()
+                        when (val result = viewModel.toggleAppLimit(appModel)) {
+                            is MainViewModel.ToggleLimitResult.Success -> {
+                                requireContext().showToast(
+                                    getString(if (result.nowLimited) R.string.app_limited_toast else R.string.app_unlimited_toast)
+                                )
+                                adapter.notifyDataSetChanged()
+                            }
+                            is MainViewModel.ToggleLimitResult.PreventedBanned -> {
+                                showCustomAlert(getString(R.string.cannot_remove_limit_banned))
+                            }
+                            is MainViewModel.ToggleLimitResult.PreventedCompulsiveness -> {
+                                showCustomAlert(getString(R.string.cannot_remove_limit_compulsiveness, result.level))
+                            }
                         }
                     }
                 } else {
@@ -305,7 +321,7 @@ class AppDrawerFragment : Fragment() {
                         if (appModel.user != Process.myUserHandle()) {
                             openAppInfo(requireContext(), appModel.user, appModel.appPackage)
                         } else if (requireContext().isSystemApp(appModel.appPackage, appModel.user)) {
-                            requireContext().showToast(getString(R.string.system_app_cannot_delete))
+                            showCustomAlert(getString(R.string.system_app_cannot_delete))
                             openAppInfo(requireContext(), appModel.user, appModel.appPackage)
                         } else {
                             requireContext().uninstall(appModel.appPackage)
@@ -316,7 +332,7 @@ class AppDrawerFragment : Fragment() {
             },
             appHideListener = { appModel, position ->
                 if (appModel is AppModel.PinnedShortcut) {
-                    requireContext().showToast(getString(R.string.hiding_pinned_shortcuts_not_supported))
+                    showCustomAlert(getString(R.string.hiding_pinned_shortcuts_not_supported))
                     return@AppDrawerAdapter
                 }
                 adapter.appFilteredList.removeAt(position)
@@ -459,7 +475,7 @@ class AppDrawerFragment : Fragment() {
         binding.appRename.setOnClickListener {
             val name = binding.search.query.toString().trim()
             if (name.isEmpty()) {
-                requireContext().showToast(getString(R.string.type_a_new_app_name_first))
+                showCustomAlert(getString(R.string.type_a_new_app_name_first))
                 binding.search.showKeyboard()
                 return@setOnClickListener
             }
@@ -654,6 +670,38 @@ class AppDrawerFragment : Fragment() {
         searchOptionsPopup = null
         binding.search.hideKeyboard()
         super.onStop()
+    }
+
+    private fun showCustomAlert(message: String) {
+        alertJob?.cancel()
+        val container = binding.customAlertContainer
+        val textView = binding.customAlertText
+        
+        textView.text = message
+        container.alpha = 0f
+        container.translationY = -50f
+        container.visibility = View.VISIBLE
+        
+        container.animate()
+            .alpha(1f)
+            .translationY(0f)
+            .setDuration(250)
+            .setInterpolator(DecelerateInterpolator())
+            .setListener(null)
+            
+        alertJob = viewLifecycleOwner.lifecycleScope.launch {
+            delay(1500)
+            container.animate()
+                .alpha(0f)
+                .translationY(-50f)
+                .setDuration(200)
+                .setInterpolator(AccelerateInterpolator())
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        container.visibility = View.GONE
+                    }
+                })
+        }
     }
 
     override fun onDestroyView() {

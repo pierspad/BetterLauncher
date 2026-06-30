@@ -120,8 +120,10 @@
     <string name="long_press_to_select_app">Premere a lungo per selezionare l\'app</string>
     <string name="unable_to_open_app">Impossibile aprire l\'app</string>
     <string name="copied">Copiato</string>
-    <string name="system_app_cannot_delete">Impossibile eliminare le app di sistema</string>
-    <string name="type_a_new_app_name_first">Digita prima un nuovo nome per l\'app</string>
+    <string name="system_app_cannot_delete">App di sistema!
+Impossibile eliminarla</string>
+    <string name="type_a_new_app_name_first">Nome mancante!
+Inserisci prima un nuovo nome per l\'app</string>
     <string name="app_not_found">App non trovata</string>
     <string name="unable_to_launch_app">Impossibile avviare l\'app</string>
     <string name="search_for_Launcher_or_home_app">Cerca Launcher o l\'app Home</string>
@@ -198,8 +200,11 @@
     <string name="limit_apps">Usa meno (cooldown)</string>
     <string name="app_limited_toast">Cooldown attivato</string>
     <string name="app_unlimited_toast">Cooldown rimosso</string>
-    <string name="cannot_remove_limit_banned">Impossibile rimuovere il limite: l\'app è attualmente in cooldown!</string>
-    <string name="cannot_remove_limit_compulsiveness">Impossibile rimuovere il limite: il livello di compulsività è %1$d (massimo consentito è 2)!</string>
+    <string name="cannot_remove_limit_banned">Impossibile rimuovere il limite!
+L\'app è attualmente in cooldown/bloccata!</string>
+    <string name="cannot_remove_limit_compulsiveness">Impossibile rimuovere il limite!
+hai una compulsività di livello %1$d
+per rimuovere serve che sia ≤ 2</string>
     <string name="app_limit_cooldown_title">%1$s · rallenta</string>
     <string name="app_limit_cooldown_message">L\'hai aperta da poco. Prenditi una pausa.</string>
     <string name="app_limit_cooldown_over">Ora puoi aprirla.</string>
@@ -307,7 +312,8 @@
     <string name="widgets_not_supported">I widget non sono supportati</string>
     <string name="unknown_action_not_supported">Azione sconosciuta non supportata</string>
     <string name="invalid_shortcut_info">Informazioni scorciatoia non valide</string>
-    <string name="hiding_pinned_shortcuts_not_supported">Nascondere le scorciatoie bloccate non è supportato</string>
+    <string name="hiding_pinned_shortcuts_not_supported">Operazione non supportata!
+Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="shortcut_pinned_successfully">Scorciatoia aggiunta con successo</string>
     <string name="failed_to_pin_shortcut">Impossibile aggiungere la scorciatoia</string>
 </resources><!-- Italian -->

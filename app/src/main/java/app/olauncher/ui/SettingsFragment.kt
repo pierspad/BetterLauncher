@@ -761,6 +761,10 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 binding.homeOpacityValue.text = "${progress * OPACITY_STEP_PERCENT}%"
                 updateOpacityPreview(progress, getString(R.string.opacity_home))
+                if (fromUser) {
+                    prefs.opacityHome = progress.toFloat() / OPACITY_STEPS
+                    (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = false)
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -769,6 +773,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 prefs.opacityHome = seekBar.progress.toFloat() / OPACITY_STEPS
+                (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = false)
             }
         })
 

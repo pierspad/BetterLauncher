@@ -271,8 +271,11 @@
     <string name="preview_app_phone">Teléfono</string>
     <string name="preview_app_camera">Cámara</string>
     <string name="screen_time_alignment">Alineación horizontal del tiempo de pantalla</string>
-    <string name="cannot_remove_limit_banned">¡No se puede eliminar el límite: la aplicación está actualmente en cooldown/bloqueada!</string>
-    <string name="cannot_remove_limit_compulsiveness">¡No se puede eliminar el límite: el nivel de compulsividad es %1$d (el máximo permitido es 2)!</string>
+    <string name="cannot_remove_limit_banned">¡No se puede eliminar el límite!
+La aplicación está en cooldown/bloqueada!</string>
+    <string name="cannot_remove_limit_compulsiveness">¡No se puede eliminar el límite!
+Tu nivel de compulsividad es %1$d
+Para eliminarlo debe ser ≤ 2</string>
     <string name="app_limit_cooldown_penalty_message">No se permite abrir durante el cooldown. Penalización: +%1$d minutos añadidos.</string>
     <string name="app_limit_cooldown_title_new">%1$s - ralentizar</string>
     <string name="app_limit_cooldown_message_new">No es posible abrir la aplicación durante el cooldown</string>

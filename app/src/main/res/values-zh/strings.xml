@@ -272,8 +272,11 @@
     <string name="preview_app_phone">电话</string>
     <string name="preview_app_camera">相机</string>
     <string name="screen_time_alignment">屏幕使用时间水平对齐方式</string>
-    <string name="cannot_remove_limit_banned">无法移除限制：该应用目前处于冷却/禁用状态！</string>
-    <string name="cannot_remove_limit_compulsiveness">无法移除限制：强迫性级别为 %1$d（允许的最大值为 2）！</string>
+    <string name="cannot_remove_limit_banned">无法移除限制！
+该应用目前处于冷却/禁用状态！</string>
+    <string name="cannot_remove_limit_compulsiveness">无法移除限制！
+您的强迫性级别为 %1$d
+移除限制需要该级别 ≤ 2</string>
     <string name="app_limit_cooldown_penalty_message">冷却期间不允许打开。处罚：增加 +%1$d 分钟。</string>
     <string name="app_limit_cooldown_title_new">%1$s - 放慢速度</string>
     <string name="app_limit_cooldown_message_new">冷却期间无法打开应用</string>
