@@ -269,8 +269,11 @@
     <string name="preview_app_phone">Telepon</string>
     <string name="preview_app_camera">Kamera</string>
     <string name="screen_time_alignment">Penyelarasan waktu layar horizontal</string>
-    <string name="cannot_remove_limit_banned">Tidak dapat menghapus batasan: aplikasi saat ini sedang dalam cooldown/diblokir!</string>
-    <string name="cannot_remove_limit_compulsiveness">Tidak dapat menghapus batasan: tingkat kompulsif adalah %1$d (maksimum yang diizinkan adalah 2)!</string>
+    <string name="cannot_remove_limit_banned">Tidak dapat menghapus batasan!
+Aplikasi sedang dalam cooldown/diblokir!</string>
+    <string name="cannot_remove_limit_compulsiveness">Tidak dapat menghapus batasan!
+Tingkat kompulsif Anda adalah %1$d
+Untuk menghapus harus ≤ 2</string>
     <string name="app_limit_cooldown_penalty_message">Membuka aplikasi selama cooldown tidak diperbolehkan. Penalti: +%1$d menit ditambahkan.</string>
     <string name="app_limit_cooldown_title_new">%1$s - pelan-pelan</string>
     <string name="app_limit_cooldown_message_new">Tidak dapat membuka aplikasi selama cooldown</string>

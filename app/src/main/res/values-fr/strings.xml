@@ -271,8 +271,11 @@
     <string name="preview_app_phone">Téléphone</string>
     <string name="preview_app_camera">Caméra</string>
     <string name="screen_time_alignment">Alignement horizontal du temps d\'écran</string>
-    <string name="cannot_remove_limit_banned">Impossible de supprimer la limite : l\'application est actuellement en période de pause/bloquée !</string>
-    <string name="cannot_remove_limit_compulsiveness">Impossible de supprimer la limite : le niveau de compulsivité est de %1$d (le maximum autorisé est 2) !</string>
+    <string name="cannot_remove_limit_banned">Impossible de supprimer la limite !
+L\'application est en période de pause/bloquée !</string>
+    <string name="cannot_remove_limit_compulsiveness">Impossible de supprimer la limite !
+Votre niveau de compulsivité est de %1$d
+Pour la supprimer, il doit être ≤ 2</string>
     <string name="app_limit_cooldown_penalty_message">L\'ouverture pendant la période de pause n\'est pas autorisée. Pénalité : +%1$d minutes ajoutées.</string>
     <string name="app_limit_cooldown_title_new">%1$s - ralentir</string>
     <string name="app_limit_cooldown_message_new">Il n\'est pas possible d\'ouvrir l\'application pendant la période de pause</string>

@@ -269,8 +269,11 @@
     <string name="preview_app_phone">Telefon</string>
     <string name="preview_app_camera">Kamera</string>
     <string name="screen_time_alignment">Horisontell justering av skärmtid</string>
-    <string name="cannot_remove_limit_banned">Kan inte ta bort gränsen: appen är för närvarande i nedkylning/blockerad!</string>
-    <string name="cannot_remove_limit_compulsiveness">Kan inte ta bort gränsen: tvångsmässighet nivå är %1$d (max tillåtet är 2)!</string>
+    <string name="cannot_remove_limit_banned">Kan inte ta bort gränsen!
+Appen är i nedkylning/blockerad!</string>
+    <string name="cannot_remove_limit_compulsiveness">Kan inte ta bort gränsen!
+Din tvångsmässighet är på nivå %1$d
+För att ta bort måste den vara ≤ 2</string>
     <string name="app_limit_cooldown_penalty_message">Öppning under nedkylning är inte tillåten. Straff: +%1$d minuter har lagts till.</string>
     <string name="app_limit_cooldown_title_new">%1$s - sakta ner</string>
     <string name="app_limit_cooldown_message_new">Det går inte att öppna appen under nedkylningen</string>

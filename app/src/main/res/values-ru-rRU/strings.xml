@@ -272,8 +272,11 @@
     <string name="preview_app_phone">Телефон</string>
     <string name="preview_app_camera">Камера</string>
     <string name="screen_time_alignment">Горизонтальное выравнивание экранного времени</string>
-    <string name="cannot_remove_limit_banned">Невозможно удалить ограничение: приложение находится в режиме ожидания/заблокировано!</string>
-    <string name="cannot_remove_limit_compulsiveness">Невозможно удалить ограничение: уровень компульсивности составляет %1$d (максимально разрешено 2)!</string>
+    <string name="cannot_remove_limit_banned">Невозможно удалить ограничение!
+Приложение в режиме ожидания/заблокировано!</string>
+    <string name="cannot_remove_limit_compulsiveness">Невозможно удалить ограничение!
+Ваш уровень компульсивности: %1$d
+Для удаления он должен быть ≤ 2</string>
     <string name="app_limit_cooldown_penalty_message">Открытие во время ожидания запрещено. Штраф: добавлено +%1$d мин.</string>
     <string name="app_limit_cooldown_title_new">%1$s - замедлиться</string>
     <string name="app_limit_cooldown_message_new">Невозможно открыть приложение во время ожидания</string>

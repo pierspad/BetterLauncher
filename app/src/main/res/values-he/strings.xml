@@ -263,8 +263,11 @@
     <string name="preview_app_phone">טֵלֵפוֹן</string>
     <string name="preview_app_camera">מַצלֵמָה</string>
     <string name="screen_time_alignment">יישור אופקי של זמן מסך</string>
-    <string name="cannot_remove_limit_banned">לא ניתן להסיר את המגבלה: האפליקציה נמצאת כעת בהשהיה/חסומה!</string>
-    <string name="cannot_remove_limit_compulsiveness">לא ניתן להסיר את המגבלה: רמת האיмפולסיביות היא %1$d (המקסימום המותר הוא 2)!</string>
+    <string name="cannot_remove_limit_banned">לא ניתן להסיר את המגבלה!
+האפליקציה נמצאת כעת בהשהיה/חסומה!</string>
+    <string name="cannot_remove_limit_compulsiveness">לא ניתן להסיר את המגבלה!
+רמת האימפולסיביות שלך היא %1$d
+כדי להסיר, עליה להיות ≤ 2</string>
     <string name="app_limit_cooldown_penalty_message">פתיחה במהלך תקופת ההשהיה אינה מותרת. קנס: נוספו +%1$d דקות.</string>
     <string name="app_limit_cooldown_title_new">%1$s - האטה</string>
     <string name="app_limit_cooldown_message_new">לא ניתן לפתוח את האפліקציה במהלך תקופת ההשהיה</string>

@@ -271,8 +271,11 @@
     <string name="preview_app_phone">Telefon</string>
     <string name="preview_app_camera">Kamera</string>
     <string name="screen_time_alignment">Horizontale Ausrichtung der Bildschirmzeit</string>
-    <string name="cannot_remove_limit_banned">Limit kann nicht entfernt werden: Die App befindet sich derzeit in der Abklingzeit/ist gesperrt!</string>
-    <string name="cannot_remove_limit_compulsiveness">Limit kann nicht entfernt werden: Der Zwanghaftigkeitsgrad beträgt %1$d (maximal zulässig ist 2)!</string>
+    <string name="cannot_remove_limit_banned">Limit kann nicht entfernt werden!
+Die App befindet sich in der Abklingzeit/ist gesperrt!</string>
+    <string name="cannot_remove_limit_compulsiveness">Limit kann nicht entfernt werden!
+Dein Zwanghaftigkeitsgrad ist %1$d
+Zum Entfernen muss er ≤ 2 sein</string>
     <string name="app_limit_cooldown_penalty_message">Das Öffnen während der Abklingzeit ist nicht gestattet. Strafe: +%1$d Minuten hinzugefügt.</string>
     <string name="app_limit_cooldown_title_new">%1$s - langsamer</string>
     <string name="app_limit_cooldown_message_new">Es ist nicht möglich, die App während der Abklingzeit zu öffnen</string>

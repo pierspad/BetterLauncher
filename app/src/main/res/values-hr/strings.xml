@@ -270,8 +270,11 @@
     <string name="preview_app_phone">Telefon</string>
     <string name="preview_app_camera">Fotoaparat</string>
     <string name="screen_time_alignment">Vodoravno poravnanje vremena zaslona</string>
-    <string name="cannot_remove_limit_banned">Nije moguće ukloniti ograničenje: aplikacija je trenutno u hlađenju/blokirana!</string>
-    <string name="cannot_remove_limit_compulsiveness">Nije moguće ukloniti ograničenje: razina kompulzivnosti je %1$d (maksimalno dopušteno je 2)!</string>
+    <string name="cannot_remove_limit_banned">Nije moguće ukloniti ograničenje!
+Aplikacija je trenutno u hlađenju/blokirana!</string>
+    <string name="cannot_remove_limit_compulsiveness">Nije moguće ukloniti ograničenje!
+Razina kompulzivnosti vam je %1$d
+Za uklanjanje mora biti ≤ 2</string>
     <string name="app_limit_cooldown_penalty_message">Otvaranje tijekom hlađenja nije dopušteno. Kazna: dodano +%1$d minuta.</string>
     <string name="app_limit_cooldown_title_new">%1$s - uspori</string>
     <string name="app_limit_cooldown_message_new">Nije moguće otvoriti aplikaciju tijekom hlađenja</string>
