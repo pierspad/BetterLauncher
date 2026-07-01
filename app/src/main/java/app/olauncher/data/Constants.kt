@@ -45,7 +45,7 @@ object Constants {
         "com.oneplus.deskclock", //OnePlus Clock
         "com.miui.clock", //Xiaomi Clock
     )
-    
+
     const val FLAG_LAUNCH_APP = 100
     const val FLAG_HIDDEN_APPS = 101
     const val FLAG_LOCKED_APPS = 102
