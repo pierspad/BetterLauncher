@@ -24,86 +24,85 @@ object FuzzySearch {
             .replace(separatorsRegex, "")
             .lowercase()
 
-    fun score(label: String, query: String): Int {
-        val strict = scoreStrict(label, query)
-        if (strict >= 0) return strict
-        return scoreSubsequencePerWord(label, query)
+    fun normalizeWithSpaces(s: CharSequence): String =
+        Normalizer.normalize(s, Normalizer.Form.NFD)
+            .replace(diacriticsRegex, "")
+            .replace(separatorsRegex, " ")
+            .replace(Regex("\\s+"), " ")
+            .trim()
+            .lowercase()
+
+    private fun matchesParts(target: String, parts: List<String>, partIdx: Int, targetStartIdx: Int): Boolean {
+        if (partIdx >= parts.size) return true
+        val part = parts[partIdx]
+        var searchIdx = targetStartIdx
+        while (true) {
+            val idx = target.indexOf(part, searchIdx)
+            if (idx == -1) return false
+            if (matchesParts(target, parts, partIdx + 1, idx + part.length + 1)) {
+                return true
+            }
+            searchIdx = idx + 1
+        }
     }
 
-    fun matches(label: String, query: String): Boolean = score(label, query) >= 0
+    fun score(label: String, query: String): Int {
+        val qClean = query.trim()
+        if (qClean.isEmpty()) return 0
 
-    private fun findSubsequenceEnd(word: String, startIdx: Int, part: String): Int {
-        if (part.isEmpty()) return startIdx
-        var pi = 0
-        for (i in startIdx until word.length) {
-            if (word[i] == part[pi]) {
-                pi++
-                if (pi == part.length) return i + 1
+        val parts = qClean.split(Regex("\\s+"))
+            .map { normalize(it) }
+            .filter { it.isNotEmpty() }
+
+        if (parts.isEmpty()) return -1
+
+        val lSpaces = normalizeWithSpaces(label)
+        val lNoSeparators = normalize(label)
+
+        val matches = matchesParts(lSpaces, parts, 0, 0) || matchesParts(lNoSeparators, parts, 0, 0)
+        if (!matches) return -1
+
+        val qConcat = parts.joinToString("")
+
+        // 1. Whole label prefix check
+        if (lNoSeparators.startsWith(qConcat)) {
+            return 1000
+        }
+
+        // 2. Contiguous substring check
+        val idx = lNoSeparators.indexOf(qConcat)
+        if (idx > 0) {
+            return 700 - idx.coerceAtMost(200)
+        }
+
+        // 3. Word prefix check
+        for (word in label.split(Regex("[\\s\\-_+,.`']+"))) {
+            if (word.isEmpty()) continue
+            if (normalize(word).startsWith(qConcat)) {
+                return 650
             }
         }
-        return -1
-    }
 
-    private fun scoreSubsequencePerWord(label: String, query: String): Int {
-        val words = label.split(Regex("[\\s\\-_+,.`']+"))
-            .map { normalize(it) }
-            .filter { it.isNotEmpty() }
-        
-        val parts = query.split(Regex("\\s+"))
-            .map { normalize(it) }
-            .filter { it.isNotEmpty() }
-
-        if (parts.isEmpty() || words.isEmpty()) return -1
-
-        var wi = 0
-        var ci = 0
+        // 4. Otherwise, subsequence match (with gaps)
         var bonus = 0
-
-        for (part in parts) {
-            var found = false
-            while (wi < words.size) {
-                val endIdx = findSubsequenceEnd(words[wi], ci, part)
-                if (endIdx >= 0) {
-                    if (ci == 0 && words[wi].startsWith(part)) {
-                        bonus += 50
-                    }
-                    ci = endIdx
-                    found = true
-                    break
-                } else {
-                    wi++
-                    ci = 0
-                }
+        if (parts.isNotEmpty()) {
+            val firstPart = parts[0]
+            if (lSpaces.startsWith(firstPart) || lSpaces.contains(" $firstPart")) {
+                bonus += 50
             }
-            if (!found) return -1
         }
 
         return 300 + bonus
     }
 
+    fun matches(label: String, query: String): Boolean = score(label, query) >= 0
+
     /**
      * Stricter variant for secondary sources (Android settings tiles, contacts) where the
-     * loose subsequence pass is too permissive — e.g. "pint" is a subsequence of
-     * "opzioni sviluppatore" and would wrongly surface Developer Options. Here only a
-     * prefix or a contiguous substring counts, and a per-word prefix (so "svil" still
-     * finds "Opzioni sviluppatore"). Returns -1 when there is no such match.
+     * loose subsequence pass is too permissive.
      */
     fun scoreStrict(label: String, query: String): Int {
-        val q = normalize(query)
-        if (q.isEmpty()) return 0
-        val l = normalize(label)
-        if (l.isEmpty()) return -1
-
-        val idx = l.indexOf(q)
-        if (idx == 0) return 1000              // whole-label prefix: best
-        if (idx > 0) return 700 - idx.coerceAtMost(200) // contiguous substring
-
-        // Per-word prefix: match the query against the start of any word in the label.
-        // normalize() strips separators, so score against the *raw* words instead.
-        for (word in label.split(Regex("[\\s\\-_+,.`']+"))) {
-            if (word.isEmpty()) continue
-            if (normalize(word).startsWith(q)) return 650
-        }
-        return -1
+        val s = score(label, query)
+        return if (s >= 600) s else -1
     }
 }
