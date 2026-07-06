@@ -103,7 +103,7 @@
                 android:drawableStart="@drawable/ic_copy"
                 android:drawablePadding="12dp"
                 android:gravity="center_vertical"
-                android:text="Copy text"
+                android:text="@string/copy_text"
                 app:drawableTint="?attr/primaryColor"
                 android:clickable="true"
                 android:focusable="true"/>
@@ -121,7 +121,7 @@
                 android:drawableStart="@drawable/ic_delete"
                 android:drawablePadding="12dp"
                 android:gravity="center_vertical"
-                android:text="Clear text"
+                android:text="@string/clear_text"
                 app:drawableTint="?attr/primaryColor"
                 android:clickable="true"
                 android:focusable="true"/>
@@ -147,7 +147,7 @@
                 android:drawableStart="@drawable/ic_sc_download"
                 android:drawablePadding="12dp"
                 android:gravity="center_vertical"
-                android:text="Import file"
+                android:text="@string/import_file"
                 app:drawableTint="?attr/primaryColor"
                 android:clickable="true"
                 android:focusable="true"/>
@@ -165,7 +165,7 @@
                 android:drawableStart="@drawable/ic_sc_upload"
                 android:drawablePadding="12dp"
                 android:gravity="center_vertical"
-                android:text="Save file"
+                android:text="@string/save_file"
                 app:drawableTint="?attr/primaryColor"
                 android:clickable="true"
                 android:focusable="true"/>
@@ -189,7 +189,7 @@
                 android:drawableStart="@drawable/ic_check"
                 android:drawablePadding="12dp"
                 android:gravity="center"
-                android:text="Apply changes"
+                android:text="@string/apply_changes"
                 app:drawableTint="?attr/primaryColor"
                 android:clickable="false"
                 android:focusable="false"

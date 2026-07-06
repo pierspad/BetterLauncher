@@ -289,4 +289,12 @@
     <string name="hiding_pinned_shortcuts_not_supported">Скрытие закрепленных ярлыков не поддерживается</string>
     <string name="shortcut_pinned_successfully">Ярлык успешно закреплен</string>
     <string name="failed_to_pin_shortcut">Не удалось закрепить ярлык</string>
+    <string name="copy_text">Копировать текст</string>
+    <string name="clear_text">Очистить текст</string>
+    <string name="import_file">Импортировать файл</string>
+    <string name="save_file">Сохранить файл</string>
+    <string name="apply_changes">Применить изменения</string>
+    <string name="discard_changes_title">Сбросить изменения?</string>
+    <string name="discard_changes_message">У вас есть несохраненные изменения. Хотите сбросить их?</string>
+    <string name="discard">Сбросить</string>
 </resources><!-- Russian -->

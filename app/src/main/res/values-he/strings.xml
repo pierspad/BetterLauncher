@@ -280,4 +280,12 @@
     <string name="hiding_pinned_shortcuts_not_supported">הסתרת קיצורי דרך נעוצים אינה נתמכת</string>
     <string name="shortcut_pinned_successfully">קיצור הדרך ננעץ בהצלחה</string>
     <string name="failed_to_pin_shortcut">נעיצת קיצור הדרך נכשלה</string>
+    <string name="copy_text">העתק טקסט</string>
+    <string name="clear_text">נקה טקסט</string>
+    <string name="import_file">ייבא קобץ</string>
+    <string name="save_file">שמור קובץ</string>
+    <string name="apply_changes">החל שינויים</string>
+    <string name="discard_changes_title">לבטל שינויים?</string>
+    <string name="discard_changes_message">יש לך שינויים שלא נשמרו. האם ברצונך לבטל אותם?</string>
+    <string name="discard">בטל</string>
 </resources>

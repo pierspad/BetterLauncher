@@ -288,4 +288,12 @@ Pour la supprimer, il doit être ≤ 2</string>
     <string name="hiding_pinned_shortcuts_not_supported">Masquer les raccourcis épinglés n\'est pas pris en charge</string>
     <string name="shortcut_pinned_successfully">Raccourci épinglé avec succès</string>
     <string name="failed_to_pin_shortcut">Échec de l\'épinglage du raccourci</string>
+    <string name="copy_text">Copier le texte</string>
+    <string name="clear_text">Effacer le texte</string>
+    <string name="import_file">Importer le fichier</string>
+    <string name="save_file">Enregistrer le fichier</string>
+    <string name="apply_changes">Appliquer les modifications</string>
+    <string name="discard_changes_title">Abandonner les modifications ?</string>
+    <string name="discard_changes_message">Vous avez des modifications non enregistrées. Voulez-vous les abandonner ?</string>
+    <string name="discard">Abandonner</string>
 </resources><!-- French -->

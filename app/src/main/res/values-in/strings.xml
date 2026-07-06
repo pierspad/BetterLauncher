@@ -286,4 +286,12 @@ Untuk menghapus harus ≤ 2</string>
     <string name="hiding_pinned_shortcuts_not_supported">Menyembunyikan pintasan tersemat tidak didukung</string>
     <string name="shortcut_pinned_successfully">Pintasan berhasil disematkan</string>
     <string name="failed_to_pin_shortcut">Gagal menyematkan pintasan</string>
+    <string name="copy_text">Salin teks</string>
+    <string name="clear_text">Hapus teks</string>
+    <string name="import_file">Impor file</string>
+    <string name="save_file">Simpan file</string>
+    <string name="apply_changes">Terapkan perubahan</string>
+    <string name="discard_changes_title">Buang perubahan?</string>
+    <string name="discard_changes_message">Ada perubahan yang belum disimpan. Apakah Anda ingin membuangnya?</string>
+    <string name="discard">Buang</string>
 </resources><!-- Indonesian -->

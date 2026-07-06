@@ -287,4 +287,12 @@ Para remover, deve ser ≤ 2</string>
     <string name="hiding_pinned_shortcuts_not_supported">Ocultar atalhos fixados não é suportado</string>
     <string name="shortcut_pinned_successfully">Atalho fixado com sucesso</string>
     <string name="failed_to_pin_shortcut">Falha ao fixar atalho</string>
+    <string name="copy_text">Copiar texto</string>
+    <string name="clear_text">Limpar texto</string>
+    <string name="import_file">Importar arquivo</string>
+    <string name="save_file">Salvar arquivo</string>
+    <string name="apply_changes">Aplicar alterações</string>
+    <string name="discard_changes_title">Descartar alterações?</string>
+    <string name="discard_changes_message">Você tem alterações não salvas. Deseja descartá-las?</string>
+    <string name="discard">Descartar</string>
 </resources><!-- Portuguese -->

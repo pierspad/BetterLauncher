@@ -287,4 +287,12 @@
     <string name="hiding_pinned_shortcuts_not_supported">固定されたショートカットの非表示はサポートされていません</string>
     <string name="shortcut_pinned_successfully">ショートカットが正常に固定されました</string>
     <string name="failed_to_pin_shortcut">ショートカットの固定に失敗しました</string>
+    <string name="copy_text">テキストをコピー</string>
+    <string name="clear_text">テキストを消去</string>
+    <string name="import_file">ファイルをインポート</string>
+    <string name="save_file">ファイルを保存</string>
+    <string name="apply_changes">変更を適用</string>
+    <string name="discard_changes_title">変更を破棄しますか？</string>
+    <string name="discard_changes_message">保存されていない変更があります。破棄しますか？</string>
+    <string name="discard">破棄</string>
 </resources> <!-- Japanese -->

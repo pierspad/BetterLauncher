@@ -287,4 +287,12 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="hiding_pinned_shortcuts_not_supported">Het verbergen van vastgezette snelkoppelingen wordt niet ondersteund</string>
     <string name="shortcut_pinned_successfully">Snelkoppeling succesvol vastgezet</string>
     <string name="failed_to_pin_shortcut">Vastzetten van snelkoppeling mislukt</string>
+    <string name="copy_text">Tekst kopiëren</string>
+    <string name="clear_text">Tekst wissen</string>
+    <string name="import_file">Bestand importeren</string>
+    <string name="save_file">Bestand opslaan</string>
+    <string name="apply_changes">Wijzigingen toepassen</string>
+    <string name="discard_changes_title">Wijzigingen verwerpen?</string>
+    <string name="discard_changes_message">Je hebt onopgeslagen wijzigingen. Wil je deze verwerfen?</string>
+    <string name="discard">Verwerpen</string>
 </resources><!-- Dutch -->

@@ -286,4 +286,12 @@
     <string name="hiding_pinned_shortcuts_not_supported">إخفاء الاختصارات المثبتة غير مدعوم</string>
     <string name="shortcut_pinned_successfully">تم تثبيت الاختصار بنجاح</string>
     <string name="failed_to_pin_shortcut">فشل تثبيت الاختصار</string>
+    <string name="copy_text">نسخ النص</string>
+    <string name="clear_text">مسح النص</string>
+    <string name="import_file">استيراد ملف</string>
+    <string name="save_file">حفظ ملف</string>
+    <string name="apply_changes">تطبيق التغييرات</string>
+    <string name="discard_changes_title">هل تريد تجاهل التغييرات؟</string>
+    <string name="discard_changes_message">لديك تغييرات غير محفوظة. هل تريد تجاهلها؟</string>
+    <string name="discard">تجاهل</string>
 </resources>

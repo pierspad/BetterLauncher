@@ -288,4 +288,12 @@
     <string name="hiding_pinned_shortcuts_not_supported">Приховання закріплених ярликів не підтримується</string>
     <string name="shortcut_pinned_successfully">Ярлык успішно закріплено</string>
     <string name="failed_to_pin_shortcut">Не вдалося закріпити ярлик</string>
+    <string name="copy_text">Копіювати текст</string>
+    <string name="clear_text">Очистити текст</string>
+    <string name="import_file">Імпортувати файл</string>
+    <string name="save_file">Зберегти файл</string>
+    <string name="apply_changes">Застосувати зміни</string>
+    <string name="discard_changes_title">Відкинути зміни?</string>
+    <string name="discard_changes_message">У вас є незбережені зміни. Бажаєте відкинути їх?</string>
+    <string name="discard">Відкинути</string>
 </resources><!-- Ukrainian -->

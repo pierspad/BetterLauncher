@@ -45,12 +45,17 @@ class FontPickerFragment : Fragment() {
     private data class FontOption(val labelRes: Int, val family: String)
     private val fontOptions = listOf(
         FontOption(R.string.font_system_default, ""),
-        FontOption(R.string.font_sans_serif, "sans-serif"),
+        FontOption(R.string.font_sans_serif_thin, "sans-serif-thin"),
         FontOption(R.string.font_sans_serif_light, "sans-serif-light"),
+        FontOption(R.string.font_sans_serif, "sans-serif"),
         FontOption(R.string.font_sans_serif_medium, "sans-serif-medium"),
+        FontOption(R.string.font_sans_serif_black, "sans-serif-black"),
         FontOption(R.string.font_sans_serif_condensed, "sans-serif-condensed"),
+        FontOption(R.string.font_sans_serif_smallcaps, "sans-serif-smallcaps"),
         FontOption(R.string.font_serif, "serif"),
-        FontOption(R.string.font_monospace, "monospace")
+        FontOption(R.string.font_monospace, "monospace"),
+        FontOption(R.string.font_casual, "casual"),
+        FontOption(R.string.font_cursive, "cursive")
     )
 
     private val pickFontLauncher =

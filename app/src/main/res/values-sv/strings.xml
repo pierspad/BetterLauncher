@@ -286,4 +286,12 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="hiding_pinned_shortcuts_not_supported">Det går inte att dölja fästa genvägar</string>
     <string name="shortcut_pinned_successfully">Genväg fäst framgångsrikt</string>
     <string name="failed_to_pin_shortcut">Det gick inte att fästa genvägen</string>
+    <string name="copy_text">Kopiera text</string>
+    <string name="clear_text">Rensa text</string>
+    <string name="import_file">Importera fil</string>
+    <string name="save_file">Spara fil</string>
+    <string name="apply_changes">Verkställ ändringar</string>
+    <string name="discard_changes_title">Kassera ändringar?</string>
+    <string name="discard_changes_message">Du har osparade ändringar. Vill du kassera dem?</string>
+    <string name="discard">Kassera</string>
 </resources><!-- Swedish -->

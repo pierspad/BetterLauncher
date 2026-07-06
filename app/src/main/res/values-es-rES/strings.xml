@@ -288,4 +288,12 @@ Para eliminarlo debe ser ≤ 2</string>
     <string name="hiding_pinned_shortcuts_not_supported">No se admite ocultar accesos directos fijados</string>
     <string name="shortcut_pinned_successfully">Acceso directo fijado con éxito</string>
     <string name="failed_to_pin_shortcut">Error al fijar el acceso directo</string>
+    <string name="copy_text">Copiar texto</string>
+    <string name="clear_text">Borrar texto</string>
+    <string name="import_file">Importar archivo</string>
+    <string name="save_file">Guardar archivo</string>
+    <string name="apply_changes">Aplicar cambios</string>
+    <string name="discard_changes_title">¿Descartar cambios?</string>
+    <string name="discard_changes_message">Tienes cambios sin guardar. ¿Quieres descartarlos?</string>
+    <string name="discard">Descartar</string>
 </resources><!-- Spanish -->

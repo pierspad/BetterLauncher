@@ -286,4 +286,12 @@ Aby go usunąć, musi wynosić ≤ 2</string>
     <string name="hiding_pinned_shortcuts_not_supported">Ukrywanie przypiętych skrótów nie jest obsługiwane</string>
     <string name="shortcut_pinned_successfully">Skrót został pomyślnie przypięty</string>
     <string name="failed_to_pin_shortcut">Nie udało się przypiąć skrótu</string>
+    <string name="copy_text">Kopiuj tekst</string>
+    <string name="clear_text">Wyczyść tekst</string>
+    <string name="import_file">Importuj plik</string>
+    <string name="save_file">Zapisz plik</string>
+    <string name="apply_changes">Zastosuj zmiany</string>
+    <string name="discard_changes_title">Odrzucić zmiany?</string>
+    <string name="discard_changes_message">Masz niezapisane zmiany. Czy chcesz je odrzucić?</string>
+    <string name="discard">Odrzuć</string>
 </resources><!-- Polish -->

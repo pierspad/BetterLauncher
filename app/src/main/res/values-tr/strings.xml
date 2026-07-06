@@ -288,4 +288,12 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="hiding_pinned_shortcuts_not_supported">Sabitlenmiş kısayolları gizleme desteklenmiyor</string>
     <string name="shortcut_pinned_successfully">Kısayol başarıyla sabitlendi</string>
     <string name="failed_to_pin_shortcut">Kısayol sabitleme başarısız oldu</string>
+    <string name="copy_text">Metni kopyala</string>
+    <string name="clear_text">Metni temizle</string>
+    <string name="import_file">Dosya içe aktar</string>
+    <string name="save_file">Dosya kaydet</string>
+    <string name="apply_changes">Değişiklikleri uygula</string>
+    <string name="discard_changes_title">Değişiklikleri iptal et?</string>
+    <string name="discard_changes_message">Kaydedilmemiş değişiklikleriniz var. İptal etmek istiyor musunuz?</string>
+    <string name="discard">İptal et</string>
 </resources><!-- Turkish -->

@@ -288,4 +288,12 @@ Zum Entfernen muss er ≤ 2 sein</string>
     <string name="hiding_pinned_shortcuts_not_supported">Das Ausblenden angehefteter Verknüpfungen wird nicht unterstützt</string>
     <string name="shortcut_pinned_successfully">Verknüpfung erfolgreich angeheftet</string>
     <string name="failed_to_pin_shortcut">Verknüpfung konnte nicht angeheftet werden</string>
+    <string name="copy_text">Text kopieren</string>
+    <string name="clear_text">Text löschen</string>
+    <string name="import_file">Datei importieren</string>
+    <string name="save_file">Datei speichern</string>
+    <string name="apply_changes">Änderungen übernehmen</string>
+    <string name="discard_changes_title">Änderungen verwerfen?</string>
+    <string name="discard_changes_message">Sie haben ungespeicherte Änderungen. Möchten Sie diese verwerfen?</string>
+    <string name="discard">Verwerfen</string>
 </resources>

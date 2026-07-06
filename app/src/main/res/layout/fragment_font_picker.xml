@@ -40,7 +40,36 @@
             android:text="@string/font" />
     </RelativeLayout>
 
-    <!-- Main card containing EditText preview and list (high opacity dialog surface) -->
+    <!-- Card 1: Textbox in alto per preview del font (pannello a parte) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_dialog_surface"
+        android:orientation="vertical"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="14dp">
+
+        <EditText
+            android:id="@+id/etFontPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="The quick brown fox jumps over the lazy dog."
+            android:textSize="18sp"
+            android:textColor="?attr/primaryColor"
+            android:textColorHint="#808080"
+            android:background="@drawable/rounded_rect_shade_color_glass"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:lines="2"
+            android:minLines="2"
+            android:maxLines="2" />
+    </LinearLayout>
+
+    <!-- Card 2: Main card containing list (high opacity dialog surface) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -53,28 +82,11 @@
         android:paddingHorizontal="14dp"
         android:paddingVertical="14dp">
 
-        <!-- Textbox in alto per preview del font -->
-        <EditText
-            android:id="@+id/etFontPreview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="12dp"
-            android:text="The quick brown fox jumps over the lazy dog."
-            android:textSize="18sp"
-            android:textColor="?attr/primaryColor"
-            android:textColorHint="#808080"
-            android:background="@drawable/rounded_rect_shade_color_glass"
-            android:layout_marginBottom="12dp"
-            android:inputType="textMultiLine|textNoSuggestions"
-            android:maxLines="3"/>
-
         <!-- NestedScrollView per la lista dei font -->
         <androidx.core.widget.NestedScrollView
             android:id="@+id/fontScrollView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:scrollbars="vertical"
             android:fadeScrollbars="false"
             android:fillViewport="true">
@@ -107,12 +119,11 @@
                 android:id="@+id/btnAddCustomFont"
                 style="@style/TextSmall"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="52dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="6dp"
                 android:background="@drawable/rounded_dialog_surface"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
                 android:drawableStart="@drawable/ic_font"
                 android:drawablePadding="12dp"
                 android:gravity="center_vertical"
@@ -125,12 +136,11 @@
                 android:id="@+id/btnRemoveFont"
                 style="@style/TextSmall"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="52dp"
                 android:layout_weight="1"
                 android:layout_marginStart="6dp"
                 android:background="@drawable/rounded_dialog_surface"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
                 android:drawableStart="@drawable/ic_delete"
                 android:drawablePadding="12dp"
                 android:gravity="center_vertical"

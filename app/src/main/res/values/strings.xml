@@ -280,7 +280,6 @@ To remove, it must be ≤ 2</string>
     <string name="font_imported">Custom font applied</string>
     <string name="add_custom_font">Add custom font</string>
     <string name="remove_font">Remove font</string>
-    <string name="apply_changes">Apply changes</string>
 
     <!-- Background opacity -->
     <string name="background_opacity">Background opacity</string>
@@ -325,8 +324,19 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="failed_to_pin_shortcut">Failed to pin shortcut</string>
 
     <!-- Backup/Restore Fragment UI -->
+
+    <string name="backup_restore_title">Import / Export settings</string>
+    <string name="copy_text">Copy text</string>
+    <string name="clear_text">Clear text</string>
+    <string name="import_file">Import file</string>
+    <string name="save_file">Save file</string>
+    <string name="apply_changes">Apply changes</string>
     <string name="discard_changes_title">Discard changes?</string>
     <string name="discard_changes_message">You have unsaved changes. Do you want to discard them?</string>
     <string name="discard">Discard</string>
-    <string name="backup_restore_title">Import / Export settings</string>
+    <string name="font_sans_serif_thin">Sans Serif Thin</string>
+    <string name="font_sans_serif_black">Sans Serif Black</string>
+    <string name="font_sans_serif_smallcaps">Small Caps</string>
+    <string name="font_casual">Casual</string>
+    <string name="font_cursive">Cursive</string>
 </resources>

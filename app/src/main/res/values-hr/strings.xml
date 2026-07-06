@@ -287,4 +287,12 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="hiding_pinned_shortcuts_not_supported">Skrivanje prikovanih prečaca nije podržano</string>
     <string name="shortcut_pinned_successfully">Prečac je uspješno pribadačen</string>
     <string name="failed_to_pin_shortcut">Pribadanje prečaca nije uspjelo</string>
+    <string name="copy_text">Kopiraj tekst</string>
+    <string name="clear_text">Očisti tekst</string>
+    <string name="import_file">Uvezi datoteku</string>
+    <string name="save_file">Spremi datoteku</string>
+    <string name="apply_changes">Primijeni promjene</string>
+    <string name="discard_changes_title">Odbaciti promjene?</string>
+    <string name="discard_changes_message">Imate nespremljene promjene. Želite li ih odbaciti?</string>
+    <string name="discard">Odbaci</string>
 </resources><!-- Croatian -->

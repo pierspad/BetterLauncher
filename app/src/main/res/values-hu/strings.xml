@@ -290,4 +290,12 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="hiding_pinned_shortcuts_not_supported">A rögzített parancsikonok elrejtése nem támogatott</string>
     <string name="shortcut_pinned_successfully">A parancsikon sikeresen rögzítve</string>
     <string name="failed_to_pin_shortcut">Nem sikerült rögzíteni a parancsikont</string>
+    <string name="copy_text">Szöveg másolása</string>
+    <string name="clear_text">Szöveg törlése</string>
+    <string name="import_file">Fájl importálása</string>
+    <string name="save_file">Fájl mentése</string>
+    <string name="apply_changes">Módosítások alkalmazása</string>
+    <string name="discard_changes_title">Módosítások elvetése?</string>
+    <string name="discard_changes_message">Mentetlen módosításaid vannak. El szeretnéd vetni őket?</string>
+    <string name="discard">Elvetés</string>
 </resources><!-- Hungarian -->

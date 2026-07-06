@@ -289,4 +289,12 @@
     <string name="hiding_pinned_shortcuts_not_supported">不支持隐藏固定的快捷方式</string>
     <string name="shortcut_pinned_successfully">快捷方式固定成功</string>
     <string name="failed_to_pin_shortcut">无法固定快捷方式</string>
+    <string name="copy_text">复制文本</string>
+    <string name="clear_text">清除文本</string>
+    <string name="import_file">导入文件</string>
+    <string name="save_file">保存文件</string>
+    <string name="apply_changes">应用更改</string>
+    <string name="discard_changes_title">放弃更改？</string>
+    <string name="discard_changes_message">您有未保存的更改。确定要放弃吗？</string>
+    <string name="discard">放弃</string>
 </resources><!-- Chinese -->
