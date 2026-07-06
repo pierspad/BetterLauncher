@@ -2,13 +2,15 @@ package app.olauncher.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Base64
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
+import java.io.File
 import org.json.JSONArray
 import org.json.JSONObject
 
-class Prefs(context: Context) {
+class Prefs(private val context: Context) {
     private val PREFS_FILENAME = "com.pierspad.betterlauncher"
 
     private val FIRST_OPEN = "FIRST_OPEN"
@@ -137,22 +139,66 @@ class Prefs(context: Context) {
     fun exportToJson(): String {
         val root = JSONObject()
         for ((key, value) in prefs.all) {
-            val entry = JSONObject()
-            when (value) {
-                is Boolean -> entry.put("t", "b").put("v", value)
-                is Int -> entry.put("t", "i").put("v", value)
-                is Long -> entry.put("t", "l").put("v", value)
-                is Float -> entry.put("t", "f").put("v", value.toDouble())
-                is String -> entry.put("t", "s").put("v", value)
-                is Set<*> -> {
-                    val arr = JSONArray()
-                    value.forEach { arr.put(it.toString()) }
-                    entry.put("t", "set").put("v", arr)
+            try {
+                val entry = JSONObject()
+                when (value) {
+                    is Boolean -> entry.put("t", "b").put("v", value)
+                    is Int -> entry.put("t", "i").put("v", value)
+                    is Long -> entry.put("t", "l").put("v", value)
+                    is Float -> {
+                        if (value.isNaN() || value.isInfinite()) continue
+                        entry.put("t", "f").put("v", value.toDouble())
+                    }
+                    is Double -> {
+                        if (value.isNaN() || value.isInfinite()) continue
+                        entry.put("t", "f").put("v", value)
+                    }
+                    is String -> entry.put("t", "s").put("v", value)
+                    is Set<*> -> {
+                        val arr = JSONArray()
+                        value.forEach { it?.let { arr.put(it.toString()) } }
+                        entry.put("t", "set").put("v", arr)
+                    }
+                    else -> {
+                        val className = value?.javaClass?.name ?: ""
+                        when {
+                            className.contains("Boolean") -> entry.put("t", "b").put("v", value as Boolean)
+                            className.contains("Integer") || className.contains("Int") -> entry.put("t", "i").put("v", (value as Number).toInt())
+                            className.contains("Long") -> entry.put("t", "l").put("v", (value as Number).toLong())
+                            className.contains("Float") || className.contains("Double") -> {
+                                val d = (value as Number).toDouble()
+                                if (d.isNaN() || d.isInfinite()) continue
+                                entry.put("t", "f").put("v", d)
+                            }
+                            className.contains("String") -> entry.put("t", "s").put("v", value.toString())
+                            value is java.util.Set<*> -> {
+                                val arr = JSONArray()
+                                value.forEach { it?.let { arr.put(it.toString()) } }
+                                entry.put("t", "set").put("v", arr)
+                            }
+                            else -> continue
+                        }
+                    }
                 }
-                else -> continue
+                root.put(key, entry)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            root.put(key, entry)
         }
+
+        // Export custom font file as Base64 if it exists in private storage
+        try {
+            val fontFile = File(context.filesDir, "custom_font")
+            if (fontFile.exists()) {
+                val bytes = fontFile.readBytes()
+                val base64 = Base64.encodeToString(bytes, Base64.NO_WRAP)
+                val entry = JSONObject().put("t", "s").put("v", base64)
+                root.put("CUSTOM_FONT_BASE64", entry)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         return root.toString(2)
     }
 
@@ -166,22 +212,56 @@ class Prefs(context: Context) {
             val keys = root.keys()
             while (keys.hasNext()) {
                 val key = keys.next()
-                val entry = root.getJSONObject(key)
-                when (entry.getString("t")) {
-                    "b" -> editor.putBoolean(key, entry.getBoolean("v"))
-                    "i" -> editor.putInt(key, entry.getInt("v"))
-                    "l" -> editor.putLong(key, entry.getLong("v"))
-                    "f" -> editor.putFloat(key, entry.getDouble("v").toFloat())
-                    "s" -> editor.putString(key, entry.getString("v"))
-                    "set" -> {
-                        val arr = entry.getJSONArray("v")
-                        val set = mutableSetOf<String>()
-                        for (i in 0 until arr.length()) set.add(arr.getString(i))
-                        editor.putStringSet(key, set)
+                if (key == "CUSTOM_FONT_BASE64") {
+                    try {
+                        val entry = root.getJSONObject(key)
+                        val base64 = entry.getString("v")
+                        if (base64.isNotEmpty()) {
+                            val bytes = Base64.decode(base64, Base64.NO_WRAP)
+                            val fontFile = File(context.filesDir, "custom_font")
+                            fontFile.writeBytes(bytes)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
+                    continue
+                }
+                if (key == LOCK_MODE) {
+                    editor.putBoolean(key, false)
+                    continue
+                }
+                if (key == SCREEN_TIME_APP_PACKAGE || key == SCREEN_TIME_APP_USER || key == SCREEN_TIME_APP_CLASS_NAME) {
+                    editor.putString(key, "")
+                    continue
+                }
+                try {
+                    val entry = root.getJSONObject(key)
+                    when (entry.getString("t")) {
+                        "b" -> editor.putBoolean(key, entry.getBoolean("v"))
+                        "i" -> editor.putInt(key, entry.getInt("v"))
+                        "l" -> editor.putLong(key, entry.getLong("v"))
+                        "f" -> editor.putFloat(key, entry.getDouble("v").toFloat())
+                        "s" -> editor.putString(key, entry.getString("v"))
+                        "set" -> {
+                            val arr = entry.getJSONArray("v")
+                            val set = mutableSetOf<String>()
+                            for (i in 0 until arr.length()) set.add(arr.getString(i))
+                            editor.putStringSet(key, set)
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
             editor.apply()
+
+            // If the restored settings do NOT contain a custom font, remove any leftover font file
+            if (!root.has("CUSTOM_FONT_BASE64")) {
+                try {
+                    File(context.filesDir, "custom_font").delete()
+                } catch (_: Exception) {}
+            }
+
             true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -766,6 +846,17 @@ class Prefs(context: Context) {
     var widgetEnabled: Boolean
         get() = prefs.getBoolean(WIDGET_ENABLED, false)
         set(value) = prefs.edit { putBoolean(WIDGET_ENABLED, value) }
+
+    private val WIDGET_PROVIDER_PACKAGE = "WIDGET_PROVIDER_PACKAGE"
+    private val WIDGET_PROVIDER_CLASS = "WIDGET_PROVIDER_CLASS"
+
+    var widgetProviderPackage: String
+        get() = prefs.getString(WIDGET_PROVIDER_PACKAGE, "").toString()
+        set(value) = prefs.edit { putString(WIDGET_PROVIDER_PACKAGE, value) }
+
+    var widgetProviderClass: String
+        get() = prefs.getString(WIDGET_PROVIDER_CLASS, "").toString()
+        set(value) = prefs.edit { putString(WIDGET_PROVIDER_CLASS, value) }
 
     // ---- App drawer cache ----
     // A JSON snapshot of the last computed regular-app list, used to show the drawer

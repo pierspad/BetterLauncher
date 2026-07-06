@@ -53,6 +53,19 @@
             app:exitAnim="@anim/fade_exit"
             app:popEnterAnim="@anim/fade_enter"
             app:popExitAnim="@anim/fade_exit" />
+        <action
+            android:id="@+id/action_settingsFragment_to_backupRestoreFragment"
+            app:destination="@id/backupRestoreFragment"
+            app:enterAnim="@anim/fade_enter"
+            app:exitAnim="@anim/fade_exit"
+            app:popEnterAnim="@anim/fade_enter"
+            app:popExitAnim="@anim/fade_exit" />
     </fragment>
+
+    <fragment
+        android:id="@+id/backupRestoreFragment"
+        android:name="app.olauncher.ui.BackupRestoreFragment"
+        android:label="BackupRestoreFragment"
+        tools:layout="@layout/fragment_backup_restore" />
 
 </navigation>

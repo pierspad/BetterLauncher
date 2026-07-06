@@ -320,4 +320,10 @@ To remove, it must be ≤ 2</string>
 Hiding pinned shortcuts is not allowed</string>
     <string name="shortcut_pinned_successfully">Shortcut pinned successfully</string>
     <string name="failed_to_pin_shortcut">Failed to pin shortcut</string>
+
+    <!-- Backup/Restore Fragment UI -->
+    <string name="discard_changes_title">Discard changes?</string>
+    <string name="discard_changes_message">You have unsaved changes. Do you want to discard them?</string>
+    <string name="discard">Discard</string>
+    <string name="backup_restore_title">Import / Export settings</string>
 </resources>

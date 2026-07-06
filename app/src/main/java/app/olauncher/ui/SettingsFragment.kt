@@ -114,39 +114,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             }
         }
 
-    // Backup: let the user pick where to save the settings JSON (Storage Access Framework).
-    private val createBackupLauncher =
-        registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
-            if (uri == null) return@registerForActivityResult
-            try {
-                requireContext().contentResolver.openOutputStream(uri)?.use { out ->
-                    out.write(prefs.exportToJson().toByteArray())
-                }
-                requireContext().showToast(getString(R.string.backup_saved))
-            } catch (e: Exception) {
-                e.printStackTrace()
-                requireContext().showToast(getString(R.string.backup_failed))
-            }
-        }
-
-    // Restore: pick a previously exported JSON and apply it.
-    private val openRestoreLauncher =
-        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            if (uri == null) return@registerForActivityResult
-            try {
-                val json = requireContext().contentResolver.openInputStream(uri)
-                    ?.use { it.readBytes().decodeToString() }
-                if (json != null && prefs.importFromJson(json)) {
-                    requireContext().showToast(getString(R.string.restore_done))
-                    restartLauncher()
-                } else {
-                    requireContext().showToast(getString(R.string.restore_failed))
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                requireContext().showToast(getString(R.string.restore_failed))
-            }
-        }
 
     // Custom font: let the user pick a .ttf/.otf, copy it into private storage and apply.
     private val pickFontLauncher =
@@ -285,8 +252,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.olauncherHiddenApps -> showHiddenApps()
             R.id.lockApps -> showLockApps()
             R.id.limitApps -> showLimitApps()
-            R.id.backupSettings -> createBackupLauncher.launch("betterlauncher-backup.json")
-            R.id.restoreSettings -> openRestoreLauncher.launch(arrayOf("*/*"))
+            R.id.backupRestoreSettings -> findNavController().navigate(R.id.action_settingsFragment_to_backupRestoreFragment)
             R.id.resetSettings -> resetSettingsToDefault()
             R.id.screenTimeSwitch -> {
                 viewModel.showDialog.postValue(Constants.Dialog.DIGITAL_WELLBEING)
@@ -365,8 +331,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.lockApps.setOnClickListener(this)
         binding.limitApps.setOnClickListener(this)
         binding.changeLanguage.setOnClickListener(this)
-        binding.backupSettings.setOnClickListener(this)
-        binding.restoreSettings.setOnClickListener(this)
+        binding.backupRestoreSettings.setOnClickListener(this)
         binding.resetSettings.setOnClickListener(this)
         binding.scrollLayout.setOnClickListener(this)
         binding.setLauncher.setOnClickListener(this)
@@ -1501,7 +1466,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun setWidget(appWidgetId: Int) {
-        if (appWidgetManager.getAppWidgetInfo(appWidgetId) == null) {
+        val info = appWidgetManager.getAppWidgetInfo(appWidgetId)
+        if (info == null) {
             Log.w(WIDGET_TAG, "setWidget: id=$appWidgetId is NOT bound -> aborting, not persisting")
             try { appWidgetHost.deleteAppWidgetId(appWidgetId) } catch (_: Exception) {}
             pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
@@ -1519,6 +1485,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             }
         }
         prefs.widgetId = appWidgetId
+        prefs.widgetProviderPackage = info.provider.packageName
+        prefs.widgetProviderClass = info.provider.className
         pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
         prefs.pendingWidgetId = -1
         populateWidget()
@@ -1538,6 +1506,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             e.printStackTrace()
         }
         prefs.widgetId = -1
+        prefs.widgetProviderPackage = ""
+        prefs.widgetProviderClass = ""
         populateWidget()
         viewModel.refreshHome(false)
         requireContext().showToast(getString(R.string.widget_removed))

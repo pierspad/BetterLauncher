@@ -436,8 +436,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             val textView = views[location - 1]
             textView.visibility = View.VISIBLE
             if (!bindHomeSlot(textView, location)) {
-                prefs.setAppName(location, "")
-                prefs.setAppPackage(location, "")
+                textView.text = ""
             }
         }
     }
@@ -1250,18 +1249,52 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         val container = binding.widgetContainer
         val manager = appWidgetManager
         val host = appWidgetHost
-        val id = prefs.widgetId
-        if (manager == null || host == null || id == -1 || !prefs.widgetEnabled) {
+        var id = prefs.widgetId
+
+        if (manager == null || host == null || !prefs.widgetEnabled) {
             container.removeAllViews()
             container.isVisible = false
             return
         }
-        val info = manager.getAppWidgetInfo(id)
-        if (info == null) {
-            Log.w(WIDGET_TAG, "renderWidget: id=$id has no provider info -> clearing")
+
+        val pkg = prefs.widgetProviderPackage
+        val cls = prefs.widgetProviderClass
+
+        if (id != -1 && manager.getAppWidgetInfo(id) == null) {
+            Log.w(WIDGET_TAG, "renderWidget: id=$id has no provider info -> clearing invalid id")
+            try { host.deleteAppWidgetId(id) } catch (_: Exception) {}
+            id = -1
+            prefs.widgetId = -1
+        }
+
+        if (id == -1 && pkg.isNotEmpty() && cls.isNotEmpty()) {
+            try {
+                val newId = host.allocateAppWidgetId()
+                val component = android.content.ComponentName(pkg, cls)
+                val success = manager.bindAppWidgetIdIfAllowed(newId, component)
+                if (success) {
+                    prefs.widgetId = newId
+                    id = newId
+                    Log.d(WIDGET_TAG, "renderWidget: automatically re-bound widget provider $component to id=$newId")
+                } else {
+                    host.deleteAppWidgetId(newId)
+                    Log.w(WIDGET_TAG, "renderWidget: failed to automatically bind widget provider $component (permission not granted)")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        if (id == -1) {
             container.removeAllViews()
             container.isVisible = false
-            prefs.widgetId = -1
+            return
+        }
+
+        val info = manager.getAppWidgetInfo(id)
+        if (info == null) {
+            container.removeAllViews()
+            container.isVisible = false
             return
         }
         try {

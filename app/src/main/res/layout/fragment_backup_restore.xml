@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:fitsSystemWindows="true"
+    android:background="@android:color/transparent">
+
+    <!-- Header bar -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_close"
+            android:contentDescription="Close"
+            app:tint="?attr/primaryColor"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <TextView
+            style="@style/TextSectionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/backup_restore" />
+    </RelativeLayout>
+
+    <!-- Main card containing EditText (high opacity dialog surface) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_dialog_surface"
+        android:orientation="vertical"
+        android:padding="14dp"
+        android:layout_marginBottom="12dp">
+
+        <app.olauncher.ui.LineNumberEditText
+            android:id="@+id/etSettingsJson"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top|start"
+            android:background="@android:color/transparent"
+            android:textColor="?attr/primaryColor"
+            android:textColorHint="#808080"
+            android:textSize="14sp"
+            android:fontFamily="monospace"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:scrollbars="vertical|horizontal"
+            android:fadeScrollbars="false"
+            android:hint="Settings JSON will appear here..." />
+    </LinearLayout>
+
+    <!-- Buttons Panel (No background container; individual bubbles will stand out) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="8dp">
+
+        <!-- Row 1: Copy & Clear as separate bubbles -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/btnCopy"
+                style="@style/TextSmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/rounded_dialog_surface"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                android:drawableStart="@drawable/ic_copy"
+                android:drawablePadding="12dp"
+                android:gravity="center_vertical"
+                android:text="Copy text"
+                app:drawableTint="?attr/primaryColor"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <TextView
+                android:id="@+id/btnClear"
+                style="@style/TextSmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/rounded_dialog_surface"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                android:drawableStart="@drawable/ic_delete"
+                android:drawablePadding="12dp"
+                android:gravity="center_vertical"
+                android:text="Clear text"
+                app:drawableTint="?attr/primaryColor"
+                android:clickable="true"
+                android:focusable="true"/>
+        </LinearLayout>
+
+        <!-- Row 2: Import file & Save file as separate bubbles -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:id="@+id/btnImportFile"
+                style="@style/TextSmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/rounded_dialog_surface"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                android:drawableStart="@drawable/ic_sc_download"
+                android:drawablePadding="12dp"
+                android:gravity="center_vertical"
+                android:text="Import file"
+                app:drawableTint="?attr/primaryColor"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <TextView
+                android:id="@+id/btnExportFile"
+                style="@style/TextSmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/rounded_dialog_surface"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                android:drawableStart="@drawable/ic_sc_upload"
+                android:drawablePadding="12dp"
+                android:gravity="center_vertical"
+                android:text="Save file"
+                app:drawableTint="?attr/primaryColor"
+                android:clickable="true"
+                android:focusable="true"/>
+        </LinearLayout>
+
+        <!-- Row 3: Apply Changes centered and in its own bubble -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btnApplyChanges"
+                style="@style/TextSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_dialog_surface"
+                android:paddingHorizontal="32dp"
+                android:paddingVertical="12dp"
+                android:drawableStart="@drawable/ic_check"
+                android:drawablePadding="12dp"
+                android:gravity="center"
+                android:text="Apply changes"
+                app:drawableTint="?attr/primaryColor"
+                android:clickable="false"
+                android:focusable="false"
+                android:alpha="0.4" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

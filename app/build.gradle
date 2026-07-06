@@ -71,5 +71,4 @@ dependencies {
 
     //Material dependency
     implementation libs.material
-
 }
