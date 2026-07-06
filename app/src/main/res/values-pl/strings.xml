@@ -224,7 +224,7 @@
     <string name="reset_settings_confirm">Czy na pewno chcesz zresetować wszystkie ustawienia do wartości domyślnych?</string>
     <string name="reset">Nastawić</string>
     <string name="reset_done">Ustawienia zostały zresetowane pomyślnie</string>
-    <string name="backup_restore">Kopia zapasowa i przywracanie</string>
+    <string name="backup_restore">Import/Eksport</string>
     <string name="font">Chrzcielnica</string>
     <string name="font_system_default">Domyślne systemowe</string>
     <string name="font_sans_serif">Bezszeryfowy</string>

@@ -225,7 +225,7 @@
     <string name="reset_settings_confirm">Weet u zeker dat u alle instellingen naar de standaardwaarden wilt terugzetten?</string>
     <string name="reset">Opnieuw instellen</string>
     <string name="reset_done">Instellingen zijn opnieuw ingesteld</string>
-    <string name="backup_restore">Back-up en herstel</string>
+    <string name="backup_restore">Importeren/Exporteren</string>
     <string name="font">Lettertype</string>
     <string name="font_system_default">Systeemstandaard</string>
     <string name="font_sans_serif">Sans-serif</string>

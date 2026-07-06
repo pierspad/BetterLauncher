@@ -226,7 +226,7 @@
     <string name="reset_settings_confirm">Sind Sie sicher, dass Sie alle Einstellungen auf die Standardeinstellungen zurücksetzen möchten?</string>
     <string name="reset">Zurücksetzen</string>
     <string name="reset_done">Einstellungen erfolgreich zurückgesetzt</string>
-    <string name="backup_restore">Sichern und wiederherstellen</string>
+    <string name="backup_restore">Import/Export</string>
     <string name="font">Schriftart</string>
     <string name="font_system_default">Systemstandard</string>
     <string name="font_sans_serif">Ohne Serifen</string>

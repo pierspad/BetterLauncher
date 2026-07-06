@@ -224,7 +224,7 @@
     <string name="reset_settings_confirm">هل أنت متأكد أنك تريد إعادة تعيين كافة الإعدادات إلى الإعدادات الافتراضية؟</string>
     <string name="reset">إعادة ضبط</string>
     <string name="reset_done">تمت إعادة ضبط الإعدادات بنجاح</string>
-    <string name="backup_restore">النسخ الاحتياطي والاستعادة</string>
+    <string name="backup_restore">استيراد/تصدير</string>
     <string name="font">الخط</string>
     <string name="font_system_default">الافتراضي للنظام</string>
     <string name="font_sans_serif">بلا شريف</string>

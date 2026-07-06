@@ -227,7 +227,7 @@
     <string name="reset_settings_confirm">Вы уверены, что хотите сбросить все настройки к значениям по умолчанию?</string>
     <string name="reset">Перезагрузить</string>
     <string name="reset_done">Настройки успешно сброшены</string>
-    <string name="backup_restore">Резервное копирование и восстановление</string>
+    <string name="backup_restore">Импорт/Экспорт</string>
     <string name="font">Шрифт</string>
     <string name="font_system_default">Система по умолчанию</string>
     <string name="font_sans_serif">Без засечек</string>

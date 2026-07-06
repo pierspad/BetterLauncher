@@ -236,7 +236,7 @@ per rimuovere serve che sia ≤ 2</string>
     <string name="reset_done">Impostazioni ripristinate con successo</string>
 
     <!-- Pannello backup e ripristino -->
-    <string name="backup_restore">Backup e ripristino</string>
+    <string name="backup_restore">Importa/Esporta</string>
 
     <!-- Font -->
     <string name="font">Font</string>

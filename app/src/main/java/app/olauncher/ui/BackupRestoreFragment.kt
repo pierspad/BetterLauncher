@@ -85,9 +85,9 @@ class BackupRestoreFragment : Fragment() {
                 systemBars.bottom + 16.dpToPx()
             }
             v.setPadding(
-                24.dpToPx(),
+                0,
                 systemBars.top + 16.dpToPx(),
-                24.dpToPx(),
+                0,
                 bottomPadding
             )
             insets
@@ -185,20 +185,44 @@ class BackupRestoreFragment : Fragment() {
     }
 
     private fun showDiscardChangesDialog() {
-        AlertDialog.Builder(requireContext())
-            .setTitle(R.string.discard_changes_title)
-            .setMessage(R.string.discard_changes_message)
-            .setPositiveButton(R.string.discard) { _, _ ->
-                isModified = false
-                findNavController().navigateUp()
-            }
-            .setNegativeButton(android.R.string.cancel, null)
-            .show()
+        val view = layoutInflater.inflate(R.layout.dialog_message, null)
+        val titleView = view.findViewById<android.widget.TextView>(R.id.dialogTitle)
+        val messageView = view.findViewById<android.widget.TextView>(R.id.dialogMessage)
+        val positiveButton = view.findViewById<android.widget.TextView>(R.id.dialogPositiveButton)
+        val negativeButton = view.findViewById<android.widget.TextView>(R.id.dialogNegativeButton)
+
+        titleView.setText(R.string.discard_changes_title)
+        messageView.setText(R.string.discard_changes_message)
+        positiveButton.setText(R.string.discard)
+        negativeButton.visibility = View.VISIBLE
+        negativeButton.setText(android.R.string.cancel)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(view)
+            .create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        positiveButton.setOnClickListener {
+            isModified = false
+            dialog.dismiss()
+            findNavController().navigateUp()
+        }
+
+        negativeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun restartLauncher() {
         AppCompatDelegate.setDefaultNightMode(prefs.appTheme)
         requireActivity().recreate()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = true)
     }
 
     override fun onDestroyView() {

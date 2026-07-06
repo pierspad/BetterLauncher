@@ -481,6 +481,7 @@ class MainActivity : AppCompatActivity() {
             R.id.mainFragment -> prefs.opacityHome
             R.id.appListFragment -> prefs.opacityDrawer
             R.id.settingsFragment -> prefs.opacityHome
+            R.id.backupRestoreFragment -> prefs.opacityDrawer
             else -> 0f
         }
         android.util.Log.d("BetterLauncher", "updateGlobalOpacityScrim: dest=$destinationId, opacity=$opacity, current=$currentOpacity, animate=$animate")

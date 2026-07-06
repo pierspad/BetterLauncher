@@ -225,7 +225,7 @@
     <string name="reset_settings_confirm">すべての設定をデフォルトにリセットしてもよろしいですか?</string>
     <string name="reset">リセット</string>
     <string name="reset_done">設定が正常にリセットされました</string>
-    <string name="backup_restore">バックアップと復元</string>
+    <string name="backup_restore">インポート/エクスポート</string>
     <string name="font">フォント</string>
     <string name="font_system_default">システムのデフォルト</string>
     <string name="font_sans_serif">サンセリフ</string>

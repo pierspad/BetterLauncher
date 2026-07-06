@@ -224,7 +224,7 @@
     <string name="reset_settings_confirm">¿Está seguro de que desea restablecer todas las configuraciones a los valores predeterminados?</string>
     <string name="reset">Reiniciar</string>
     <string name="reset_done">La configuración se restableció correctamente</string>
-    <string name="backup_restore">Copia de seguridad y restauración</string>
+    <string name="backup_restore">Importar/Exportar</string>
     <string name="font">Fuente</string>
     <string name="font_system_default">Valor predeterminado del sistema</string>
     <string name="font_sans_serif">Sin serifa</string>

@@ -224,7 +224,7 @@
     <string name="reset_settings_confirm">Apakah Anda yakin ingin mengatur ulang semua pengaturan ke default?</string>
     <string name="reset">Mengatur ulang</string>
     <string name="reset_done">Pengaturan berhasil diatur ulang</string>
-    <string name="backup_restore">Cadangkan &amp; pulihkan</string>
+    <string name="backup_restore">Impor/Ekspor</string>
     <string name="font">huruf</string>
     <string name="font_system_default">Bawaan sistem</string>
     <string name="font_sans_serif">Sans Serif</string>

@@ -227,7 +227,7 @@
     <string name="reset_settings_confirm">您确定要将所有设置重置为默认值吗？</string>
     <string name="reset">重置</string>
     <string name="reset_done">设置重置成功</string>
-    <string name="backup_restore">备份与恢复</string>
+    <string name="backup_restore">导入/导出</string>
     <string name="font">字体</string>
     <string name="font_system_default">系统默认</string>
     <string name="font_sans_serif">无衬线字体</string>

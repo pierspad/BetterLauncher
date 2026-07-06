@@ -226,7 +226,7 @@
     <string name="reset_settings_confirm">Ви впевнені, що бажаєте скинути всі налаштування до стандартних?</string>
     <string name="reset">Скинути</string>
     <string name="reset_done">Налаштування успішно скинуто</string>
-    <string name="backup_restore">Резервне копіювання та відновлення</string>
+    <string name="backup_restore">Імпорт/Експорт</string>
     <string name="font">Шрифт</string>
     <string name="font_system_default">Система за умовчанням</string>
     <string name="font_sans_serif">Без засічок</string>

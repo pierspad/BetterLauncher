@@ -226,7 +226,7 @@
     <string name="reset_settings_confirm">Êtes-vous sûr de vouloir réinitialiser tous les paramètres par défaut ?</string>
     <string name="reset">Réinitialiser</string>
     <string name="reset_done">Les paramètres ont été réinitialisés avec succès</string>
-    <string name="backup_restore">Sauvegarde et restauration</string>
+    <string name="backup_restore">Importer/Exporter</string>
     <string name="font">Fonte</string>
     <string name="font_system_default">Valeur par défaut du système</string>
     <string name="font_sans_serif">Sans empattements</string>

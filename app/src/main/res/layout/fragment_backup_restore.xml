@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingStart="24dp"
-    android:paddingEnd="24dp"
+    android:paddingStart="0dp"
+    android:paddingEnd="0dp"
     android:paddingTop="16dp"
     android:paddingBottom="16dp"
     android:fitsSystemWindows="false"
@@ -16,7 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
 
         <ImageView
             android:id="@+id/btnBack"
@@ -46,6 +48,8 @@
         android:layout_weight="1"
         android:background="@drawable/rounded_dialog_surface"
         android:layout_marginBottom="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:paddingLeft="0dp"
         android:paddingStart="0dp"
         android:paddingRight="14dp"
@@ -75,7 +79,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="8dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
 
         <!-- Row 1: Copy & Clear as separate bubbles -->
         <LinearLayout

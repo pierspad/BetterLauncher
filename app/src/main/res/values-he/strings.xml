@@ -218,7 +218,7 @@
     <string name="reset_settings_confirm">האם אתה בטוח שברצונך לאפס את כל ההגדרות לברירות המחדל?</string>
     <string name="reset">אִתחוּל</string>
     <string name="reset_done">ההגדרות אופסו בהצלחה</string>
-    <string name="backup_restore">גיבוי ושחזור</string>
+    <string name="backup_restore">יבוא/יצוא</string>
     <string name="font">גוֹפָן</string>
     <string name="font_system_default">ברירת המחדל של המערכת</string>
     <string name="font_sans_serif">Sans Serif</string>

@@ -228,7 +228,7 @@
     <string name="reset_settings_confirm">Biztosan vissza akarja állítani az összes beállítást az alapértelmezettre?</string>
     <string name="reset">Reset</string>
     <string name="reset_done">A beállítások visszaállítása sikeres volt</string>
-    <string name="backup_restore">Biztonsági mentés és visszaállítás</string>
+    <string name="backup_restore">Importálás/Exportálás</string>
     <string name="font">Betűtípus</string>
     <string name="font_system_default">Rendszer alapértelmezett</string>
     <string name="font_sans_serif">Sans Serif</string>

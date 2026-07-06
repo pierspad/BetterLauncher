@@ -26,6 +26,11 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
+import android.app.Activity
+import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
+import android.widget.TextView
+import android.view.Gravity
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
@@ -45,11 +50,66 @@ import kotlin.math.sqrt
 
 fun Context.showToast(message: String?, duration: Int = Toast.LENGTH_SHORT) {
     if (message.isNullOrBlank()) return
+
+    val activity = findActivity()
+    if (activity != null) {
+        val rootView = activity.findViewById<View>(android.R.id.content)
+        if (rootView != null) {
+            val snackbarDuration = if (duration == Toast.LENGTH_LONG) Snackbar.LENGTH_LONG else Snackbar.LENGTH_SHORT
+            val snackbar = Snackbar.make(rootView, message, snackbarDuration)
+            val snackbarView = snackbar.view
+
+            val density = resources.displayMetrics.density
+            val background = android.graphics.drawable.GradientDrawable().apply {
+                setColor(android.graphics.Color.WHITE)
+                cornerRadius = 16f * density
+            }
+            snackbarView.background = background
+
+            val params = snackbarView.layoutParams as? android.widget.FrameLayout.LayoutParams
+            if (params != null) {
+                params.setMargins((24 * density).toInt(), 0, (24 * density).toInt(), (24 * density).toInt())
+                params.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+                snackbarView.layoutParams = params
+            }
+
+            val textView = snackbarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+            if (textView != null) {
+                textView.setTextColor(android.graphics.Color.BLACK)
+                textView.textSize = 14f
+                val logoDrawable = ContextCompat.getDrawable(this, R.drawable.logo)
+                if (logoDrawable != null) {
+                    val size = (20 * density).toInt()
+                    logoDrawable.setBounds(0, 0, size, size)
+                    textView.setCompoundDrawablesRelative(logoDrawable, null, null, null)
+                    textView.compoundDrawablePadding = (12 * density).toInt()
+                    textView.gravity = Gravity.CENTER_VERTICAL
+                }
+            }
+
+            val actionView = snackbarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_action)
+            actionView?.visibility = View.GONE
+
+            snackbar.show()
+            return
+        }
+    }
+
+    // Fallback to standard Toast
     Toast.makeText(this, message, duration).show()
 }
 
 fun Context.showToast(stringResource: Int, duration: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(this, getString(stringResource), duration).show()
+    showToast(getString(stringResource), duration)
+}
+
+fun Context.findActivity(): Activity? {
+    var context = this
+    while (context is android.content.ContextWrapper) {
+        if (context is Activity) return context
+        context = context.baseContext
+    }
+    return null
 }
 
 suspend fun getAppsList(

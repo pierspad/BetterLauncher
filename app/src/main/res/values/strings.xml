@@ -264,7 +264,7 @@ To remove, it must be ≤ 2</string>
     <string name="reset_done">Settings reset successfully</string>
 
     <!-- Backup &amp; restore panel -->
-    <string name="backup_restore">Backup &amp; restore</string>
+    <string name="backup_restore">Import/Export</string>
 
     <!-- Font -->
     <string name="font">Font</string>

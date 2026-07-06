@@ -226,7 +226,7 @@
     <string name="reset_settings_confirm">Tüm ayarları varsayılanlara sıfırlamak istediğinizden emin misiniz?</string>
     <string name="reset">Sıfırla</string>
     <string name="reset_done">Ayarlar başarıyla sıfırlandı</string>
-    <string name="backup_restore">Yedekleme ve geri yükleme</string>
+    <string name="backup_restore">İçe Aktar/Dışa Aktar</string>
     <string name="font">Yazı tipi</string>
     <string name="font_system_default">Sistem varsayılanı</string>
     <string name="font_sans_serif">Sans Serif</string>

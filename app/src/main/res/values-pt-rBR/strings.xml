@@ -225,7 +225,7 @@
     <string name="reset_settings_confirm">Tem certeza de que deseja redefinir todas as configurações para os padrões?</string>
     <string name="reset">Reiniciar</string>
     <string name="reset_done">Configurações redefinidas com sucesso</string>
-    <string name="backup_restore">Backup e restauração</string>
+    <string name="backup_restore">Importar/Exportar</string>
     <string name="font">Fonte</string>
     <string name="font_system_default">Padrão do sistema</string>
     <string name="font_sans_serif">Sem serifa</string>
