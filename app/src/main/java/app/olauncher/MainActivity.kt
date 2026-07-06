@@ -28,6 +28,7 @@ import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.ActivityMainBinding
 import app.olauncher.helper.FontHelper
+import app.olauncher.helper.IconManager
 import app.olauncher.helper.AppLimiter
 import app.olauncher.helper.scrimColor
 import app.olauncher.helper.getColorFromAttr
@@ -76,6 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         prefs = Prefs(this)
+        IconManager.init(this)
         if (isEinkDisplay()) prefs.appTheme = AppCompatDelegate.MODE_NIGHT_NO
         AppCompatDelegate.setDefaultNightMode(prefs.appTheme)
         // Resolve the selected font and install the typeface factory *before*

@@ -25,6 +25,8 @@ import app.olauncher.databinding.AdapterAppDrawerBinding
 import app.olauncher.databinding.AdapterFolderHeaderBinding
 import app.olauncher.databinding.AdapterPrivateSpaceHeaderBinding
 import app.olauncher.helper.FuzzySearch
+import app.olauncher.data.Prefs
+import app.olauncher.helper.IconManager
 import app.olauncher.helper.hideKeyboard
 import app.olauncher.helper.isSystemApp
 import app.olauncher.helper.showKeyboard
@@ -313,6 +315,20 @@ class AppDrawerAdapter(
                 manageListener(folder.folderId)
                 true
             }
+
+            val prefs = Prefs(folderTitle.context)
+            if (prefs.showDrawerIcons) {
+                val icon = ContextCompat.getDrawable(folderTitle.context, R.drawable.ic_sc_folder)
+                icon?.let {
+                    val iconSize = (folderTitle.textSize * 1.2).toInt()
+                    it.setBounds(0, 0, iconSize, iconSize)
+                    it.mutate().setTint(folderTitle.currentTextColor)
+                    folderTitle.setCompoundDrawables(it, null, null, null)
+                    folderTitle.compoundDrawablePadding = (8 * folderTitle.context.resources.displayMetrics.density).toInt()
+                }
+            } else {
+                folderTitle.setCompoundDrawables(null, null, null, null)
+            }
         }
     }
 
@@ -403,6 +419,22 @@ class AppDrawerAdapter(
 
             appTitle.text = builder
             appTitle.gravity = appLabelGravity
+
+            val prefs = Prefs(appTitle.context)
+            if (prefs.showDrawerIcons) {
+                val icon = IconManager.getModelIcon(appTitle.context, appModel, appTitle.currentTextColor)
+                if (icon != null) {
+                    val iconSize = (appTitle.textSize * 1.2).toInt()
+                    icon.setBounds(0, 0, iconSize, iconSize)
+                    appTitle.setCompoundDrawables(icon, null, null, null)
+                    appTitle.compoundDrawablePadding = (8 * appTitle.context.resources.displayMetrics.density).toInt()
+                } else {
+                    appTitle.setCompoundDrawables(null, null, null, null)
+                }
+            } else {
+                appTitle.setCompoundDrawables(null, null, null, null)
+            }
+
             otherProfileIndicator.isVisible = appModel.user != myUserHandle
 
             appTitle.setOnClickListener { clickListener(appModel) }

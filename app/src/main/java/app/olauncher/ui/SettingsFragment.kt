@@ -199,6 +199,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateSwipeApps()
         populateSwipeDownAction()
         populateWidget()
+        populateIconsSettings()
         initClickListeners()
         initObservers()
 
@@ -245,6 +246,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.alignIconsRight -> updateIconsAlignment(Gravity.END)
             R.id.reorderItems -> startReorderMode()
             R.id.statusBar -> toggleStatusBar()
+            R.id.switchDrawerIcons -> toggleDrawerIcons()
+            R.id.switchHomeIcons -> toggleHomeIcons()
+            R.id.switchHomeOnlyIcons -> toggleHomeOnlyIcons()
             R.id.dateTimeSwitch -> toggleDateTimeEnabled()
             R.id.dateOnlySwitch -> toggleDateOnly()
             R.id.fontText -> findNavController().navigate(R.id.action_settingsFragment_to_fontPickerFragment)
@@ -323,6 +327,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.alignIconsRight.setOnClickListener(this)
         binding.reorderItems.setOnClickListener(this)
         binding.statusBar.setOnClickListener(this)
+        binding.switchDrawerIcons.setOnClickListener(this)
+        binding.switchHomeIcons.setOnClickListener(this)
+        binding.switchHomeOnlyIcons.setOnClickListener(this)
         binding.dateTimeSwitch.setOnClickListener(this)
         binding.dateOnlySwitch.setOnClickListener(this)
         binding.swipeLeftApp.setOnClickListener(this)
@@ -400,6 +407,37 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private fun populateStatusBar() {
         if (prefs.showStatusBar) showStatusBar() else hideStatusBar()
         binding.statusBar.isChecked = prefs.showStatusBar
+    }
+
+    private fun toggleDrawerIcons() {
+        prefs.showDrawerIcons = !prefs.showDrawerIcons
+        populateIconsSettings()
+    }
+
+    private fun toggleHomeIcons() {
+        prefs.showHomeIcons = !prefs.showHomeIcons
+        if (!prefs.showHomeIcons) {
+            prefs.showHomeOnlyIcons = false
+        }
+        populateIconsSettings()
+    }
+
+    private fun toggleHomeOnlyIcons() {
+        prefs.showHomeOnlyIcons = !prefs.showHomeOnlyIcons
+        if (prefs.showHomeOnlyIcons) {
+            prefs.showHomeIcons = true
+        }
+        populateIconsSettings()
+    }
+
+    private fun populateIconsSettings() {
+        binding.switchDrawerIcons.isChecked = prefs.showDrawerIcons
+        binding.switchHomeIcons.isChecked = prefs.showHomeIcons
+        binding.switchHomeOnlyIcons.isChecked = prefs.showHomeOnlyIcons
+
+        val homeIconsOn = prefs.showHomeIcons
+        binding.layoutHomeOnlyIcons.alpha = if (homeIconsOn) 1.0f else 0.4f
+        binding.switchHomeOnlyIcons.isEnabled = homeIconsOn
     }
 
     private fun setDateTimeVisibility(selected: Int) {

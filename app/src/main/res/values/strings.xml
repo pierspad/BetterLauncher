@@ -81,6 +81,9 @@
     <string name="okay">Okay</string>
     <string name="cool">Cool!</string>
     <string name="auto_show_keyboard">Auto show keyboard</string>
+    <string name="settings_drawer_icons">Icons in app drawer</string>
+    <string name="settings_home_icons">Icons on home screen</string>
+    <string name="settings_home_only_icons">Only icons on home screen</string>
     <string name="hide">Hide</string>
     <string name="status_bar">Status bar on top</string>
     <string name="rename">Rename</string>

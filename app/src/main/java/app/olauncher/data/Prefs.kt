@@ -48,6 +48,9 @@ class Prefs(private val context: Context) {
     private val SWIPE_DOWN_ACTION = "SWIPE_DOWN_ACTION"
     private val TEXT_SIZE_SCALE = "TEXT_SIZE_SCALE"
     private val FONT_FAMILY = "FONT_FAMILY"
+    private val SHOW_HOME_ICONS = "SHOW_HOME_ICONS"
+    private val SHOW_DRAWER_ICONS = "SHOW_DRAWER_ICONS"
+    private val SHOW_HOME_ONLY_ICONS = "SHOW_HOME_ONLY_ICONS"
     private val CUSTOM_FONT_PATH = "CUSTOM_FONT_PATH"
     private val OPACITY_HOME = "OPACITY_HOME"
     private val OPACITY_DRAWER = "OPACITY_DRAWER"
@@ -377,6 +380,18 @@ class Prefs(private val context: Context) {
     var customFontPath: String
         get() = prefs.getString(CUSTOM_FONT_PATH, "").toString()
         set(value) = prefs.edit { putString(CUSTOM_FONT_PATH, value).apply() }
+
+    var showHomeIcons: Boolean
+        get() = prefs.getBoolean(SHOW_HOME_ICONS, false)
+        set(value) = prefs.edit { putBoolean(SHOW_HOME_ICONS, value).apply() }
+
+    var showDrawerIcons: Boolean
+        get() = prefs.getBoolean(SHOW_DRAWER_ICONS, false)
+        set(value) = prefs.edit { putBoolean(SHOW_DRAWER_ICONS, value).apply() }
+
+    var showHomeOnlyIcons: Boolean
+        get() = prefs.getBoolean(SHOW_HOME_ONLY_ICONS, false)
+        set(value) = prefs.edit { putBoolean(SHOW_HOME_ONLY_ICONS, value).apply() }
 
     // Scrim intensity (0f..1f) for the home screen and the app drawer respectively.
     // A value of 0 means no scrim. (Replaces the former master on/off toggle.)

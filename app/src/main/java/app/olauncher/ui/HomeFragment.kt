@@ -48,6 +48,7 @@ import app.olauncher.helper.appUsagePermissionGranted
 import app.olauncher.helper.dpToPx
 import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.scrimColor
+import app.olauncher.helper.IconManager
 import app.olauncher.helper.expandNotificationDrawer
 import app.olauncher.helper.getUserHandleFromString
 import app.olauncher.helper.isPackageInstalled
@@ -444,15 +445,36 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     // Binds a single home slot, which may be a folder, a pinned shortcut or a plain app.
     // Returns false when the slot's target no longer exists (caller clears the slot).
     private fun bindHomeSlot(textView: TextView, location: Int): Boolean {
+        val showIcons = prefs.showHomeIcons
+        val onlyIcons = prefs.showHomeOnlyIcons
+
         if (prefs.getIsFolder(location)) {
             val folder = prefs.getFolder(prefs.getFolderIdAt(location))
             if (folder != null) {
-                textView.text = folder.name
+                if (showIcons) {
+                    val icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_sc_folder)
+                    icon?.let {
+                        val iconSize = (textView.textSize * 1.2).toInt()
+                        it.setBounds(0, 0, iconSize, iconSize)
+                        it.mutate().setTint(textView.currentTextColor)
+                        textView.setCompoundDrawables(it, null, null, null)
+                        textView.compoundDrawablePadding = (8 * requireContext().resources.displayMetrics.density).toInt()
+                    }
+                } else {
+                    textView.setCompoundDrawables(null, null, null, null)
+                }
+
+                if (onlyIcons && showIcons) {
+                    textView.text = ""
+                } else {
+                    textView.text = folder.name
+                }
                 return true
             }
             // The folder was deleted elsewhere: free the slot.
             prefs.clearHomeSlot(location)
             textView.text = ""
+            textView.setCompoundDrawables(null, null, null, null)
             return false
         }
         return setHomeAppText(
@@ -514,6 +536,32 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         // Get user handle for the app/shortcut
         val userHandle = getUserHandleFromString(requireContext(), userString)
 
+        val showIcons = prefs.showHomeIcons
+        val onlyIcons = prefs.showHomeOnlyIcons
+
+        // Helper to bind the icon to the TextView
+        fun bindIcon() {
+            if (showIcons) {
+                var icon: android.graphics.drawable.Drawable? = null
+                if (isShortcut && shortcutId != null) {
+                    icon = IconManager.getShortcutIcon(requireContext(), packageName, shortcutId, userHandle)
+                }
+                if (icon == null) {
+                    icon = IconManager.getAppIcon(requireContext(), packageName, userHandle, textView.currentTextColor)
+                }
+                if (icon != null) {
+                    val iconSize = (textView.textSize * 1.2).toInt()
+                    icon.setBounds(0, 0, iconSize, iconSize)
+                    textView.setCompoundDrawables(icon, null, null, null)
+                    textView.compoundDrawablePadding = (8 * requireContext().resources.displayMetrics.density).toInt()
+                } else {
+                    textView.setCompoundDrawables(null, null, null, null)
+                }
+            } else {
+                textView.setCompoundDrawables(null, null, null, null)
+            }
+        }
+
         // If it's a shortcut, verify it still exists
         if (isShortcut) {
             val launcherApps = requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
@@ -528,24 +576,37 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                 val shortcuts = launcherApps.getShortcuts(query, userHandle)
                 // Check if our shortcut still exists
                 if (shortcuts?.any { it.id == shortcutId } == true) {
-                    textView.text = appName
+                    bindIcon()
+                    if (onlyIcons && showIcons) {
+                        textView.text = ""
+                    } else {
+                        textView.text = appName
+                    }
                     return true
                 }
                 textView.text = ""
+                textView.setCompoundDrawables(null, null, null, null)
                 return false
             } catch (e: Exception) {
                 e.printStackTrace()
                 textView.text = ""
+                textView.setCompoundDrawables(null, null, null, null)
                 return false
             }
         }
 
         // Regular app check
         if (isPackageInstalled(requireContext(), packageName, userString)) {
-            textView.text = appName
+            bindIcon()
+            if (onlyIcons && showIcons) {
+                textView.text = ""
+            } else {
+                textView.text = appName
+            }
             return true
         }
         textView.text = ""
+        textView.setCompoundDrawables(null, null, null, null)
         return false
     }
 

@@ -1090,6 +1090,134 @@
                     android:layout_marginVertical="4dp"
                     android:background="@drawable/divider_light" />
 
+                <!-- Icons in app drawer (switch) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
+                        android:layout_marginStart="8dp"
+                        android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_sc_grid"
+                        android:drawablePadding="12dp"
+                        android:text="@string/settings_drawer_icons"
+                        android:textColor="?attr/primaryColor" 
+                        app:drawableTint="?attr/primaryColor" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchDrawerIcons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Icons on home screen (switch) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
+                        android:layout_marginStart="8dp"
+                        android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_sc_star"
+                        android:drawablePadding="12dp"
+                        android:text="@string/settings_home_icons"
+                        android:textColor="?attr/primaryColor" 
+                        app:drawableTint="?attr/primaryColor" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchHomeIcons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/dividerHomeOnlyIcons"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Only icons on home screen (switch) -->
+                <LinearLayout
+                    android:id="@+id/layoutHomeOnlyIcons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
+                        android:layout_marginStart="8dp"
+                        android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_hide"
+                        android:drawablePadding="12dp"
+                        android:text="@string/settings_home_only_icons"
+                        android:textColor="?attr/primaryColor" 
+                        app:drawableTint="?attr/primaryColor" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchHomeOnlyIcons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
                 <!-- Background opacity: two independent sliders (home + drawer) -->
                 <TextView
                     style="@style/TextSmall"
