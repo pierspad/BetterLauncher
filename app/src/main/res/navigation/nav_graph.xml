@@ -60,6 +60,13 @@
             app:exitAnim="@anim/fade_exit"
             app:popEnterAnim="@anim/fade_enter"
             app:popExitAnim="@anim/fade_exit" />
+        <action
+            android:id="@+id/action_settingsFragment_to_fontPickerFragment"
+            app:destination="@id/fontPickerFragment"
+            app:enterAnim="@anim/fade_enter"
+            app:exitAnim="@anim/fade_exit"
+            app:popEnterAnim="@anim/fade_enter"
+            app:popExitAnim="@anim/fade_exit" />
     </fragment>
 
     <fragment
@@ -67,5 +74,11 @@
         android:name="app.olauncher.ui.BackupRestoreFragment"
         android:label="BackupRestoreFragment"
         tools:layout="@layout/fragment_backup_restore" />
+
+    <fragment
+        android:id="@+id/fontPickerFragment"
+        android:name="app.olauncher.ui.FontPickerFragment"
+        android:label="FontPickerFragment"
+        tools:layout="@layout/fragment_font_picker" />
 
 </navigation>

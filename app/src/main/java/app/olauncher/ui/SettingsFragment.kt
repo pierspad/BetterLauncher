@@ -281,7 +281,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.statusBar -> toggleStatusBar()
             R.id.dateTimeSwitch -> toggleDateTimeEnabled()
             R.id.dateOnlySwitch -> toggleDateOnly()
-            R.id.fontText -> showFontDialog()
+            R.id.fontText -> findNavController().navigate(R.id.action_settingsFragment_to_fontPickerFragment)
             R.id.themeChooseRow -> cycleTheme()
             R.id.actionAccessibility -> openAccessibilityService()
             R.id.closeAccessibility -> toggleAccessibilityVisibility(false)

@@ -55,8 +55,8 @@ fun Context.showToast(message: String?, duration: Int = Toast.LENGTH_SHORT) {
     if (activity != null) {
         val rootView = activity.findViewById<View>(android.R.id.content)
         if (rootView != null) {
-            val snackbarDuration = if (duration == Toast.LENGTH_LONG) Snackbar.LENGTH_LONG else Snackbar.LENGTH_SHORT
-            val snackbar = Snackbar.make(rootView, message, snackbarDuration)
+            val snackbar = Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT)
+            snackbar.duration = 1500
             val snackbarView = snackbar.view
 
             val density = resources.displayMetrics.density
@@ -68,8 +68,8 @@ fun Context.showToast(message: String?, duration: Int = Toast.LENGTH_SHORT) {
 
             val params = snackbarView.layoutParams as? android.widget.FrameLayout.LayoutParams
             if (params != null) {
-                params.setMargins((24 * density).toInt(), 0, (24 * density).toInt(), (24 * density).toInt())
-                params.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+                params.setMargins((24 * density).toInt(), (64 * density).toInt(), (24 * density).toInt(), 0)
+                params.gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
                 snackbarView.layoutParams = params
             }
 

@@ -250,6 +250,9 @@ per rimuovere serve che sia ≤ 2</string>
     <string name="font_custom">Personalizzato…</string>
     <string name="font_import_failed">Impossibile caricare il font selezionato</string>
     <string name="font_imported">Font personalizzato applicato</string>
+    <string name="add_custom_font">Aggiungi font personalizzato</string>
+    <string name="remove_font">Rimuovi font</string>
+    <string name="apply_changes">Applica cambiamenti</string>
 
     <!-- Opacità sfondo -->
     <string name="background_opacity">Opacità sfondo</string>

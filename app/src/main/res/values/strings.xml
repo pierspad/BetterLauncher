@@ -278,6 +278,9 @@ To remove, it must be ≤ 2</string>
     <string name="font_custom">Custom…</string>
     <string name="font_import_failed">Could not load the selected font</string>
     <string name="font_imported">Custom font applied</string>
+    <string name="add_custom_font">Add custom font</string>
+    <string name="remove_font">Remove font</string>
+    <string name="apply_changes">Apply changes</string>
 
     <!-- Background opacity -->
     <string name="background_opacity">Background opacity</string>
