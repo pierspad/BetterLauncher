@@ -483,6 +483,7 @@ class MainActivity : AppCompatActivity() {
             R.id.settingsFragment -> prefs.opacityHome
             R.id.backupRestoreFragment -> prefs.opacityDrawer
             R.id.fontPickerFragment -> prefs.opacityDrawer
+            R.id.languagePickerFragment -> prefs.opacityDrawer
             else -> 0f
         }
         android.util.Log.d("BetterLauncher", "updateGlobalOpacityScrim: dest=$destinationId, opacity=$opacity, current=$currentOpacity, animate=$animate")

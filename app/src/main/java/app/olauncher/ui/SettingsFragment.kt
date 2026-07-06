@@ -70,41 +70,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private val binding get() = _binding!!
 
     private var fontDialog: AlertDialog? = null
-    private var languageDialog: AlertDialog? = null
 
-    private data class LanguageOption(
-        val code: String,
-        val flag: String,
-        val nativeName: String,
-        val englishName: String,
-        val nameRes: Int = 0
-    )
-
-    private val languageOptions = listOf(
-        LanguageOption("", "🌐", "Automatic", "Automatic", R.string.language_automatic),
-        LanguageOption("ar", "🇸🇦", "العربية", "Arabic"),
-        LanguageOption("bn", "🇧🇩", "বাংলা", "Bengali"),
-        LanguageOption("zh", "🇨🇳", "中文", "Chinese"),
-        LanguageOption("hr", "🇭🇷", "Hrvatski", "Croatian"),
-        LanguageOption("nl", "🇳🇱", "Nederlands", "Dutch"),
-        LanguageOption("en", "🇬🇧", "English", "English"),
-        LanguageOption("fr", "🇫🇷", "Français", "French"),
-        LanguageOption("de", "🇩🇪", "Deutsch", "German"),
-        LanguageOption("he", "🇮🇱", "עברית", "Hebrew"),
-        LanguageOption("hi", "🇮🇳", "हिन्दी", "Hindi"),
-        LanguageOption("hu", "🇭🇺", "Magyar", "Hungarian"),
-        LanguageOption("in", "🇮🇩", "Bahasa Indonesia", "Indonesian"),
-        LanguageOption("it", "🇮🇹", "Italiano", "Italian"),
-        LanguageOption("ja", "🇯🇵", "日本語", "Japanese"),
-        LanguageOption("ko", "🇰🇷", "한국어", "Korean"),
-        LanguageOption("pl", "🇵🇱", "Polski", "Polish"),
-        LanguageOption("pt-BR", "🇧🇷", "Português", "Portuguese"),
-        LanguageOption("ru-RU", "🇷🇺", "Русский", "Russian"),
-        LanguageOption("es-ES", "🇪🇸", "Español", "Spanish"),
-        LanguageOption("sv", "🇸🇪", "Svenska", "Swedish"),
-        LanguageOption("tr", "🇹🇷", "Türkçe", "Turkish"),
-        LanguageOption("uk", "🇺🇦", "Українська", "Ukrainian")
-    )
 
     private val enableAdminLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -297,7 +263,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.notifications -> updateSwipeDownAction(Constants.SwipeDownAction.NOTIFICATIONS)
             R.id.search -> updateSwipeDownAction(Constants.SwipeDownAction.SEARCH)
 
-            R.id.changeLanguage -> showLanguageDialog()
+            R.id.changeLanguage -> findNavController().navigate(R.id.action_settingsFragment_to_languagePickerFragment)
 
             R.id.aboutOlauncher -> {
                 prefs.aboutClicked = true
@@ -996,152 +962,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         }
     }
 
-    private fun showLanguageDialog() {
-        val ctx = requireContext()
-        val view = layoutInflater.inflate(R.layout.dialog_language_picker, null)
-        val list = view.findViewById<LinearLayout>(R.id.languagePickerList)
-        val dialog = AlertDialog.Builder(ctx).setView(view).create()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        languageDialog = dialog
 
-        val currentLocales = AppCompatDelegate.getApplicationLocales()
-        val currentCode = if (currentLocales.isEmpty) "" else currentLocales.get(0)?.toLanguageTag() ?: ""
-
-        val padV = 14.dpToPx()
-        val padH = 10.dpToPx()
-        val rippleBg = TypedValue().also {
-            ctx.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
-        }.resourceId
-
-        fun addRow(opt: LanguageOption, selected: Boolean, onClick: () -> Unit) {
-            val rowLayout = LinearLayout(ctx).apply {
-                orientation = LinearLayout.HORIZONTAL
-                gravity = Gravity.CENTER_VERTICAL
-                setPadding(padH, padV, padH, padV)
-                setBackgroundResource(if (selected) R.drawable.rounded_rect_selected_language else rippleBg)
-                setOnClickListener { onClick() }
-            }
-
-            // Flag TextView
-            val flagView = TextView(ctx).apply {
-                text = opt.flag
-                textSize = 18f
-                gravity = Gravity.CENTER
-                layoutParams = LinearLayout.LayoutParams(
-                    32.dpToPx(),
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    marginEnd = 12.dpToPx()
-                }
-            }
-            rowLayout.addView(flagView)
-
-            if (opt.code.isEmpty()) {
-                val nameView = TextView(ctx).apply {
-                    text = getString(opt.nameRes)
-                    textSize = 18f
-                    setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
-                    typeface = if (selected) Typeface.create(Typeface.DEFAULT, Typeface.BOLD) else Typeface.DEFAULT
-                    layoutParams = LinearLayout.LayoutParams(
-                        0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1f
-                    )
-                }
-                rowLayout.addView(nameView)
-            } else {
-                val nativeView = TextView(ctx).apply {
-                    text = opt.nativeName
-                    textSize = 18f
-                    gravity = Gravity.CENTER
-                    textAlignment = View.TEXT_ALIGNMENT_CENTER
-                    setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
-                    typeface = if (selected) Typeface.create(Typeface.DEFAULT, Typeface.BOLD) else Typeface.DEFAULT
-                    layoutParams = LinearLayout.LayoutParams(
-                        0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1f
-                    )
-                }
-
-                val separatorView = TextView(ctx).apply {
-                    text = "-"
-                    textSize = 18f
-                    gravity = Gravity.CENTER
-                    textAlignment = View.TEXT_ALIGNMENT_CENTER
-                    setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
-                    typeface = if (selected) Typeface.create(Typeface.DEFAULT, Typeface.BOLD) else Typeface.DEFAULT
-                    layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    ).apply {
-                        marginStart = 8.dpToPx()
-                        marginEnd = 8.dpToPx()
-                    }
-                }
-
-                val englishView = TextView(ctx).apply {
-                    text = opt.englishName
-                    textSize = 18f
-                    gravity = Gravity.CENTER
-                    textAlignment = View.TEXT_ALIGNMENT_CENTER
-                    setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
-                    typeface = if (selected) Typeface.create(Typeface.DEFAULT, Typeface.BOLD) else Typeface.DEFAULT
-                    layoutParams = LinearLayout.LayoutParams(
-                        0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1f
-                    )
-                }
-
-                rowLayout.addView(nativeView)
-                rowLayout.addView(separatorView)
-                rowLayout.addView(englishView)
-            }
-
-            list.addView(
-                rowLayout,
-                LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply { topMargin = 2.dpToPx() }
-            )
-        }
-
-        for (opt in languageOptions) {
-            val isSelectedExact = if (opt.code.isEmpty()) {
-                currentCode.isEmpty()
-            } else {
-                currentCode.equals(opt.code, ignoreCase = true) ||
-                (opt.code.length == 2 && currentCode.startsWith(opt.code + "-", ignoreCase = true))
-            }
-            addRow(opt, isSelectedExact) {
-                // Save current settings scroll position
-                prefs.settingsScrollY = binding.scrollView.scrollY
-                prefs.reopenSettingsAfterRestart = true
-
-                val localeList = if (opt.code.isEmpty()) {
-                    LocaleListCompat.getEmptyLocaleList()
-                } else {
-                    LocaleListCompat.forLanguageTags(opt.code)
-                }
-                AppCompatDelegate.setApplicationLocales(localeList)
-                dialog.dismiss()
-            }
-        }
-
-        dialog.show()
-        val displayMetrics = ctx.resources.displayMetrics
-        val maxHeight = (displayMetrics.heightPixels * 0.8).toInt()
-        view.post {
-            if (view.height > maxHeight) {
-                val scrollView = view.findViewById<View>(R.id.languageScrollView)
-                val lp = scrollView.layoutParams
-                lp.height = maxHeight - 48.dpToPx()
-                scrollView.layoutParams = lp
-            }
-        }
-    }
 
     private fun applyFont() {
         populateFont()
@@ -1517,15 +1338,12 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         super.onStop()
         // Don't leave the pickers floating over the home screen when we leave Settings.
         fontDialog?.dismiss()
-        languageDialog?.dismiss()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         fontDialog?.dismiss()
         fontDialog = null
-        languageDialog?.dismiss()
-        languageDialog = null
         _binding = null
     }
 

@@ -307,7 +307,23 @@ class FontPickerFragment : Fragment() {
         messageView.setText(R.string.discard_changes_message)
         positiveButton.setText(R.string.discard)
         negativeButton.visibility = View.VISIBLE
-        negativeButton.setText(android.R.string.cancel)
+        negativeButton.setText(R.string.dialog_back)
+
+        val cancelIcon = androidx.core.content.ContextCompat.getDrawable(requireContext(), R.drawable.ic_close)?.apply {
+            val size = (16 * resources.displayMetrics.density).toInt()
+            setBounds(0, 0, size, size)
+            setTint(requireContext().getColorFromAttr(R.attr.primaryColorTrans80))
+        }
+        negativeButton.setCompoundDrawablesRelative(cancelIcon, null, null, null)
+        negativeButton.compoundDrawablePadding = (8 * resources.displayMetrics.density).toInt()
+
+        val discardIcon = androidx.core.content.ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)?.apply {
+            val size = (16 * resources.displayMetrics.density).toInt()
+            setBounds(0, 0, size, size)
+            setTint(requireContext().getColorFromAttr(R.attr.primaryColor))
+        }
+        positiveButton.setCompoundDrawablesRelative(discardIcon, null, null, null)
+        positiveButton.compoundDrawablePadding = (8 * resources.displayMetrics.density).toInt()
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(view)

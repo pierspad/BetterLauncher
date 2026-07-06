@@ -38,9 +38,11 @@
             style="@style/TextSmallBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
+            android:gravity="center_vertical"
             android:textAllCaps="true"
             android:textColor="?attr/primaryColorTrans80"
             android:visibility="gone" />
@@ -53,6 +55,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
+            android:gravity="center_vertical"
             android:textAllCaps="true"
             android:textColor="?attr/primaryColor" />
 

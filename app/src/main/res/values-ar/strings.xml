@@ -293,5 +293,8 @@
     <string name="apply_changes">تطبيق التغييرات</string>
     <string name="discard_changes_title">هل تريد تجاهل التغييرات؟</string>
     <string name="discard_changes_message">لديك تغييرات غير محفوظة. هل تريد تجاهلها؟</string>
-    <string name="discard">تجاهل</string>
+    <string name="discard">تجاهل التغييرات</string>
+    <string name="add_custom_font">إضافة خط</string>
+    <string name="backup_restore_title">استيراد / تصدير الإعدادات</string>
+    <string name="dialog_back">رجوع</string>
 </resources>

@@ -295,5 +295,8 @@ Zum Entfernen muss er ≤ 2 sein</string>
     <string name="apply_changes">Änderungen übernehmen</string>
     <string name="discard_changes_title">Änderungen verwerfen?</string>
     <string name="discard_changes_message">Sie haben ungespeicherte Änderungen. Möchten Sie diese verwerfen?</string>
-    <string name="discard">Verwerfen</string>
+    <string name="discard">Änderungen verwerfen</string>
+    <string name="add_custom_font">Schriftart hinzufügen</string>
+    <string name="backup_restore_title">Einstellungen importieren / exportieren</string>
+    <string name="dialog_back">Zurück</string>
 </resources>

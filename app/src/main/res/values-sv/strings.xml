@@ -293,5 +293,8 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="apply_changes">Verkställ ändringar</string>
     <string name="discard_changes_title">Kassera ändringar?</string>
     <string name="discard_changes_message">Du har osparade ändringar. Vill du kassera dem?</string>
-    <string name="discard">Kassera</string>
+    <string name="discard">Kassera ändringar</string>
+    <string name="add_custom_font">Lägg till typsnitt</string>
+    <string name="backup_restore_title">Importera / Exportera inställningar</string>
+    <string name="dialog_back">Tillbaka</string>
 </resources><!-- Swedish -->

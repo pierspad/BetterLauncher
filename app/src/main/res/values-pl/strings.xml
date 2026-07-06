@@ -293,5 +293,8 @@ Aby go usunąć, musi wynosić ≤ 2</string>
     <string name="apply_changes">Zastosuj zmiany</string>
     <string name="discard_changes_title">Odrzucić zmiany?</string>
     <string name="discard_changes_message">Masz niezapisane zmiany. Czy chcesz je odrzucić?</string>
-    <string name="discard">Odrzuć</string>
+    <string name="discard">Odrzuć zmiany</string>
+    <string name="add_custom_font">Dodaj czcionkę</string>
+    <string name="backup_restore_title">Import / Eksport ustawień</string>
+    <string name="dialog_back">Wstecz</string>
 </resources><!-- Polish -->

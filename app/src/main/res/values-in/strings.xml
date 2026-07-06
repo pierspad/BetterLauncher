@@ -293,5 +293,8 @@ Untuk menghapus harus ≤ 2</string>
     <string name="apply_changes">Terapkan perubahan</string>
     <string name="discard_changes_title">Buang perubahan?</string>
     <string name="discard_changes_message">Ada perubahan yang belum disimpan. Apakah Anda ingin membuangnya?</string>
-    <string name="discard">Buang</string>
+    <string name="discard">Buang perubahan</string>
+    <string name="add_custom_font">Tambah font</string>
+    <string name="backup_restore_title">Impor / Ekspor pengaturan</string>
+    <string name="dialog_back">Kembali</string>
 </resources><!-- Indonesian -->

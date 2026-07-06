@@ -297,5 +297,8 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="apply_changes">Módosítások alkalmazása</string>
     <string name="discard_changes_title">Módosítások elvetése?</string>
     <string name="discard_changes_message">Mentetlen módosításaid vannak. El szeretnéd vetni őket?</string>
-    <string name="discard">Elvetés</string>
+    <string name="discard">Módosítások elvetése</string>
+    <string name="add_custom_font">Betűtípus hozzáadása</string>
+    <string name="backup_restore_title">Beállítások importálása / exportálása</string>
+    <string name="dialog_back">Vissza</string>
 </resources><!-- Hungarian -->

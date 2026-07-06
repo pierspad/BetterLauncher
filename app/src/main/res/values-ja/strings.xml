@@ -294,5 +294,8 @@
     <string name="apply_changes">変更を適用</string>
     <string name="discard_changes_title">変更を破棄しますか？</string>
     <string name="discard_changes_message">保存されていない変更があります。破棄しますか？</string>
-    <string name="discard">破棄</string>
+    <string name="discard">変更を破棄</string>
+    <string name="add_custom_font">フォントを追加</string>
+    <string name="backup_restore_title">設定のインポート / エクスポート</string>
+    <string name="dialog_back">戻る</string>
 </resources> <!-- Japanese -->

@@ -67,6 +67,13 @@
             app:exitAnim="@anim/fade_exit"
             app:popEnterAnim="@anim/fade_enter"
             app:popExitAnim="@anim/fade_exit" />
+        <action
+            android:id="@+id/action_settingsFragment_to_languagePickerFragment"
+            app:destination="@id/languagePickerFragment"
+            app:enterAnim="@anim/fade_enter"
+            app:exitAnim="@anim/fade_exit"
+            app:popEnterAnim="@anim/fade_enter"
+            app:popExitAnim="@anim/fade_exit" />
     </fragment>
 
     <fragment
@@ -80,5 +87,11 @@
         android:name="app.olauncher.ui.FontPickerFragment"
         android:label="FontPickerFragment"
         tools:layout="@layout/fragment_font_picker" />
+
+    <fragment
+        android:id="@+id/languagePickerFragment"
+        android:name="app.olauncher.ui.LanguagePickerFragment"
+        android:label="LanguagePickerFragment"
+        tools:layout="@layout/fragment_language_picker" />
 
 </navigation>

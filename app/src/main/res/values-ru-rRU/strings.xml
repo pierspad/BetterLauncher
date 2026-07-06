@@ -296,5 +296,8 @@
     <string name="apply_changes">Применить изменения</string>
     <string name="discard_changes_title">Сбросить изменения?</string>
     <string name="discard_changes_message">У вас есть несохраненные изменения. Хотите сбросить их?</string>
-    <string name="discard">Сбросить</string>
+    <string name="discard">Сбросить изменения</string>
+    <string name="add_custom_font">Добавить шрифт</string>
+    <string name="backup_restore_title">Импорт / Экспорт настроек</string>
+    <string name="dialog_back">Назад</string>
 </resources><!-- Russian -->

@@ -294,5 +294,8 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="apply_changes">Primijeni promjene</string>
     <string name="discard_changes_title">Odbaciti promjene?</string>
     <string name="discard_changes_message">Imate nespremljene promjene. Želite li ih odbaciti?</string>
-    <string name="discard">Odbaci</string>
+    <string name="discard">Odbaci promjene</string>
+    <string name="add_custom_font">Dodaj font</string>
+    <string name="backup_restore_title">Uvoz / Izvoz postavki</string>
+    <string name="dialog_back">Natrag</string>
 </resources><!-- Croatian -->

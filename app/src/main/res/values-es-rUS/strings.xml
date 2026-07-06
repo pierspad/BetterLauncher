@@ -293,5 +293,8 @@ Para eliminarlo debe ser ≤ 2</string>
     <string name="apply_changes">Aplicar cambios</string>
     <string name="discard_changes_title">¿Descartar cambios?</string>
     <string name="discard_changes_message">Tienes cambios sin guardar. ¿Quieres descartarlos?</string>
-    <string name="discard">Descartar</string>
+    <string name="discard">Descartar cambios</string>
+    <string name="add_custom_font">Añadir fuente</string>
+    <string name="backup_restore_title">Importar / Exportar ajustes</string>
+    <string name="dialog_back">Atrás</string>
 </resources><!-- Spanish -->

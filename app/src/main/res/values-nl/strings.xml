@@ -294,5 +294,8 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="apply_changes">Wijzigingen toepassen</string>
     <string name="discard_changes_title">Wijzigingen verwerpen?</string>
     <string name="discard_changes_message">Je hebt onopgeslagen wijzigingen. Wil je deze verwerfen?</string>
-    <string name="discard">Verwerpen</string>
+    <string name="discard">Wijzigingen verwerpen</string>
+    <string name="add_custom_font">Lettertype toevoegen</string>
+    <string name="backup_restore_title">Instellingen importeren / exporteren</string>
+    <string name="dialog_back">Terug</string>
 </resources><!-- Dutch -->

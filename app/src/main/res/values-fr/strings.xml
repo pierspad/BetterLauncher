@@ -295,5 +295,8 @@ Pour la supprimer, il doit être ≤ 2</string>
     <string name="apply_changes">Appliquer les modifications</string>
     <string name="discard_changes_title">Abandonner les modifications ?</string>
     <string name="discard_changes_message">Vous avez des modifications non enregistrées. Voulez-vous les abandonner ?</string>
-    <string name="discard">Abandonner</string>
+    <string name="discard">Abandonner les modifications</string>
+    <string name="add_custom_font">Ajouter police</string>
+    <string name="backup_restore_title">Importer / Exporter les paramètres</string>
+    <string name="dialog_back">Retour</string>
 </resources><!-- French -->

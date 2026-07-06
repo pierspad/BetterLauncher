@@ -294,5 +294,8 @@ Para remover, deve ser ≤ 2</string>
     <string name="apply_changes">Aplicar alterações</string>
     <string name="discard_changes_title">Descartar alterações?</string>
     <string name="discard_changes_message">Você tem alterações não salvas. Deseja descartá-las?</string>
-    <string name="discard">Descartar</string>
+    <string name="discard">Descartar alterações</string>
+    <string name="add_custom_font">Adicionar fonte</string>
+    <string name="backup_restore_title">Importar / Exportar configurações</string>
+    <string name="dialog_back">Voltar</string>
 </resources><!-- Portuguese -->

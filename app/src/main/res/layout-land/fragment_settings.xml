@@ -1435,7 +1435,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_share_minimal"
+                    android:drawableStart="@drawable/ic_sc_upload"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:text="@string/backup_restore_title" 

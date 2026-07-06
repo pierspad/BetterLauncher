@@ -295,5 +295,8 @@
     <string name="apply_changes">Застосувати зміни</string>
     <string name="discard_changes_title">Відкинути зміни?</string>
     <string name="discard_changes_message">У вас є незбережені зміни. Бажаєте відкинути їх?</string>
-    <string name="discard">Відкинути</string>
+    <string name="discard">Відкинути зміни</string>
+    <string name="add_custom_font">Додати шрифт</string>
+    <string name="backup_restore_title">Імпорт / Експорт налаштувань</string>
+    <string name="dialog_back">Назад</string>
 </resources><!-- Ukrainian -->

@@ -295,5 +295,8 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="apply_changes">Değişiklikleri uygula</string>
     <string name="discard_changes_title">Değişiklikleri iptal et?</string>
     <string name="discard_changes_message">Kaydedilmemiş değişiklikleriniz var. İptal etmek istiyor musunuz?</string>
-    <string name="discard">İptal et</string>
+    <string name="discard">Değişiklikleri iptal et</string>
+    <string name="add_custom_font">Yazı tipi ekle</string>
+    <string name="backup_restore_title">Ayarları İçe / Dışa Aktar</string>
+    <string name="dialog_back">Geri</string>
 </resources><!-- Turkish -->

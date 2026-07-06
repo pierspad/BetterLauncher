@@ -287,5 +287,8 @@
     <string name="apply_changes">החל שינויים</string>
     <string name="discard_changes_title">לבטל שינויים?</string>
     <string name="discard_changes_message">יש לך שינויים שלא נשמרו. האם ברצונך לבטל אותם?</string>
-    <string name="discard">בטל</string>
+    <string name="discard">בטל שינויים</string>
+    <string name="add_custom_font">הוסף גופן</string>
+    <string name="backup_restore_title">ייבוא / ייצוא הגדרות</string>
+    <string name="dialog_back">חזור</string>
 </resources>

@@ -250,7 +250,7 @@ per rimuovere serve che sia ≤ 2</string>
     <string name="font_custom">Personalizzato…</string>
     <string name="font_import_failed">Impossibile caricare il font selezionato</string>
     <string name="font_imported">Font personalizzato applicato</string>
-    <string name="add_custom_font">Aggiungi font personalizzato</string>
+    <string name="add_custom_font">Aggiungi font</string>
     <string name="remove_font">Rimuovi font</string>
 
     <!-- Opacità sfondo -->
@@ -325,10 +325,12 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="apply_changes">Applica cambiamenti</string>
     <string name="discard_changes_title">Scartare le modifiche?</string>
     <string name="discard_changes_message">Hai delle modifiche non salvate. Vuoi scartarle?</string>
-    <string name="discard">Scarta</string>
+    <string name="discard">Scarta modifiche</string>
     <string name="font_sans_serif_thin">Sans Serif Sottile</string>
     <string name="font_sans_serif_black">Sans Serif Nero</string>
     <string name="font_sans_serif_smallcaps">Maiuscoletto</string>
     <string name="font_casual">Casual</string>
     <string name="font_cursive">Corsivo</string>
+    <string name="backup_restore_title">Importa / Esporta impostazioni</string>
+    <string name="dialog_back">Indietro</string>
 </resources><!-- Italian -->
