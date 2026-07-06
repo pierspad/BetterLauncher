@@ -299,4 +299,8 @@
     <string name="add_custom_font">Додати шрифт</string>
     <string name="backup_restore_title">Імпорт / Експорт налаштувань</string>
     <string name="dialog_back">Назад</string>
+    <string name="settings_drawer_icons">Значки в меню програм</string>
+    <string name="settings_home_icons">Значки на головному екрані</string>
+    <string name="settings_home_only_icons">Лише значки на головному екрані</string>
+    <string name="settings_use_minimal_icons">Використовувати мінімалістичні значки (Lawnicons)</string>
 </resources><!-- Ukrainian -->

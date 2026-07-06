@@ -22,6 +22,9 @@ object IconManager {
 
     private val iconCache = mutableMapOf<String, Drawable>()
 
+    val hasLawnicons: Boolean
+        get() = lawniconsContext != null
+
     fun init(context: Context) {
         if (initialized) return
         synchronized(initLock) {
@@ -109,7 +112,7 @@ object IconManager {
         var drawable: Drawable? = null
 
         // 1. Try Lawnicons first
-        if (lawniconsContext != null) {
+        if (lawniconsContext != null && Prefs(context).useMinimalIcons) {
             val pm = context.packageManager
             val launchIntent = pm.getLaunchIntentForPackage(packageName)
             val activityName = launchIntent?.component?.className
@@ -201,6 +204,12 @@ object IconManager {
                 icon?.mutate()?.apply { setTint(tintColor) }
             }
             else -> null
+        }
+    }
+
+    fun clearCache() {
+        synchronized(iconCache) {
+            iconCache.clear()
         }
     }
 }

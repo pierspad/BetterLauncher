@@ -298,4 +298,8 @@ Para remover, deve ser ≤ 2</string>
     <string name="add_custom_font">Adicionar fonte</string>
     <string name="backup_restore_title">Importar / Exportar configurações</string>
     <string name="dialog_back">Voltar</string>
+    <string name="settings_drawer_icons">Ícones no menu de aplicativos</string>
+    <string name="settings_home_icons">Ícones na tela inicial</string>
+    <string name="settings_home_only_icons">Apenas ícones na tela inicial</string>
+    <string name="settings_use_minimal_icons">Usar ícones minimalistas (Lawnicons)</string>
 </resources><!-- Portuguese -->

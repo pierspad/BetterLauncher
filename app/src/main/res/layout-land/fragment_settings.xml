@@ -1210,6 +1210,41 @@
                         app:trackTint="@color/switch_track" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/layoutMinimalIcons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/TextSmall"
+                        android:layout_marginStart="8dp"
+                        android:paddingVertical="8dp"
+                        android:drawableStart="@drawable/ic_sc_folder"
+                        android:drawablePadding="12dp"
+                        android:text="@string/settings_use_minimal_icons"
+                        android:textColor="?attr/primaryColor" 
+                        app:drawableTint="?attr/primaryColor" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchMinimalIcons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn=""
+                        app:thumbTint="@color/switch_thumb"
+                        app:trackTint="@color/switch_track" />
+                </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"

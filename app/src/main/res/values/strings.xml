@@ -81,9 +81,6 @@
     <string name="okay">Okay</string>
     <string name="cool">Cool!</string>
     <string name="auto_show_keyboard">Auto show keyboard</string>
-    <string name="settings_drawer_icons">Icons in app drawer</string>
-    <string name="settings_home_icons">Icons on home screen</string>
-    <string name="settings_home_only_icons">Only icons on home screen</string>
     <string name="hide">Hide</string>
     <string name="status_bar">Status bar on top</string>
     <string name="rename">Rename</string>
@@ -343,4 +340,8 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="font_casual">Casual</string>
     <string name="font_cursive">Cursive</string>
     <string name="dialog_back">Back</string>
+    <string name="settings_drawer_icons">Icons in app drawer</string>
+    <string name="settings_home_icons">Icons on home screen</string>
+    <string name="settings_home_only_icons">Only icons on home screen</string>
+    <string name="settings_use_minimal_icons">Use minimal icons (Lawnicons)</string>
 </resources>

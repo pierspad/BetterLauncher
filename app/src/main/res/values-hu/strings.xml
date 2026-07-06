@@ -301,4 +301,8 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="add_custom_font">Betűtípus hozzáadása</string>
     <string name="backup_restore_title">Beállítások importálása / exportálása</string>
     <string name="dialog_back">Vissza</string>
+    <string name="settings_drawer_icons">Ikonok az alkalmazásfiókban</string>
+    <string name="settings_home_icons">Ikonok a kezdőképernyőn</string>
+    <string name="settings_home_only_icons">Csak ikonok a kezdőképernyőn</string>
+    <string name="settings_use_minimal_icons">Minimalista ikonok használata (Lawnicons)</string>
 </resources><!-- Hungarian -->

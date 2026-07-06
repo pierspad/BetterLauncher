@@ -465,14 +465,17 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                 }
 
                 if (onlyIcons && showIcons) {
+                    textView.hint = null
                     textView.text = ""
                 } else {
+                    textView.hint = textView.context.getString(R.string.app)
                     textView.text = folder.name
                 }
                 return true
             }
             // The folder was deleted elsewhere: free the slot.
             prefs.clearHomeSlot(location)
+            textView.hint = textView.context.getString(R.string.app)
             textView.text = ""
             textView.setCompoundDrawables(null, null, null, null)
             return false
@@ -578,17 +581,21 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                 if (shortcuts?.any { it.id == shortcutId } == true) {
                     bindIcon()
                     if (onlyIcons && showIcons) {
+                        textView.hint = null
                         textView.text = ""
                     } else {
+                        textView.hint = textView.context.getString(R.string.app)
                         textView.text = appName
                     }
                     return true
                 }
+                textView.hint = textView.context.getString(R.string.app)
                 textView.text = ""
                 textView.setCompoundDrawables(null, null, null, null)
                 return false
             } catch (e: Exception) {
                 e.printStackTrace()
+                textView.hint = textView.context.getString(R.string.app)
                 textView.text = ""
                 textView.setCompoundDrawables(null, null, null, null)
                 return false
@@ -599,12 +606,15 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         if (isPackageInstalled(requireContext(), packageName, userString)) {
             bindIcon()
             if (onlyIcons && showIcons) {
+                textView.hint = null
                 textView.text = ""
             } else {
+                textView.hint = textView.context.getString(R.string.app)
                 textView.text = appName
             }
             return true
         }
+        textView.hint = textView.context.getString(R.string.app)
         textView.text = ""
         textView.setCompoundDrawables(null, null, null, null)
         return false

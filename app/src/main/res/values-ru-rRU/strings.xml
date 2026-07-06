@@ -300,4 +300,8 @@
     <string name="add_custom_font">Добавить шрифт</string>
     <string name="backup_restore_title">Импорт / Экспорт настроек</string>
     <string name="dialog_back">Назад</string>
+    <string name="settings_drawer_icons">Значки в меню приложений</string>
+    <string name="settings_home_icons">Значки на главном экране</string>
+    <string name="settings_home_only_icons">Только значки на главном экране</string>
+    <string name="settings_use_minimal_icons">Использовать минималистичные значки (Lawnicons)</string>
 </resources><!-- Russian -->

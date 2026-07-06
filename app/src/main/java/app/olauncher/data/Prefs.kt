@@ -51,6 +51,7 @@ class Prefs(private val context: Context) {
     private val SHOW_HOME_ICONS = "SHOW_HOME_ICONS"
     private val SHOW_DRAWER_ICONS = "SHOW_DRAWER_ICONS"
     private val SHOW_HOME_ONLY_ICONS = "SHOW_HOME_ONLY_ICONS"
+    private val USE_MINIMAL_ICONS = "USE_MINIMAL_ICONS"
     private val CUSTOM_FONT_PATH = "CUSTOM_FONT_PATH"
     private val OPACITY_HOME = "OPACITY_HOME"
     private val OPACITY_DRAWER = "OPACITY_DRAWER"
@@ -392,6 +393,10 @@ class Prefs(private val context: Context) {
     var showHomeOnlyIcons: Boolean
         get() = prefs.getBoolean(SHOW_HOME_ONLY_ICONS, false)
         set(value) = prefs.edit { putBoolean(SHOW_HOME_ONLY_ICONS, value).apply() }
+
+    var useMinimalIcons: Boolean
+        get() = prefs.getBoolean(USE_MINIMAL_ICONS, true)
+        set(value) = prefs.edit { putBoolean(USE_MINIMAL_ICONS, value).apply() }
 
     // Scrim intensity (0f..1f) for the home screen and the app drawer respectively.
     // A value of 0 means no scrim. (Replaces the former master on/off toggle.)

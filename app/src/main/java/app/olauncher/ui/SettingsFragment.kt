@@ -42,6 +42,7 @@ import app.olauncher.R
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentSettingsBinding
+import app.olauncher.helper.IconManager
 import app.olauncher.helper.ContactsHelper
 import app.olauncher.helper.FontHelper
 import app.olauncher.helper.animateAlpha
@@ -249,6 +250,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.switchDrawerIcons -> toggleDrawerIcons()
             R.id.switchHomeIcons -> toggleHomeIcons()
             R.id.switchHomeOnlyIcons -> toggleHomeOnlyIcons()
+            R.id.switchMinimalIcons -> toggleMinimalIcons()
             R.id.dateTimeSwitch -> toggleDateTimeEnabled()
             R.id.dateOnlySwitch -> toggleDateOnly()
             R.id.fontText -> findNavController().navigate(R.id.action_settingsFragment_to_fontPickerFragment)
@@ -330,6 +332,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.switchDrawerIcons.setOnClickListener(this)
         binding.switchHomeIcons.setOnClickListener(this)
         binding.switchHomeOnlyIcons.setOnClickListener(this)
+        binding.switchMinimalIcons.setOnClickListener(this)
         binding.dateTimeSwitch.setOnClickListener(this)
         binding.dateOnlySwitch.setOnClickListener(this)
         binding.swipeLeftApp.setOnClickListener(this)
@@ -430,10 +433,17 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateIconsSettings()
     }
 
+    private fun toggleMinimalIcons() {
+        prefs.useMinimalIcons = !prefs.useMinimalIcons
+        IconManager.clearCache()
+        populateIconsSettings()
+    }
+
     private fun populateIconsSettings() {
         binding.switchDrawerIcons.isChecked = prefs.showDrawerIcons
         binding.switchHomeIcons.isChecked = prefs.showHomeIcons
         binding.switchHomeOnlyIcons.isChecked = prefs.showHomeOnlyIcons
+        binding.switchMinimalIcons.isChecked = prefs.useMinimalIcons
 
         val homeIconsOn = prefs.showHomeIcons
         binding.layoutHomeOnlyIcons.alpha = if (homeIconsOn) 1.0f else 0.4f

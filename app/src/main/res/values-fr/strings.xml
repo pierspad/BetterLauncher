@@ -299,4 +299,8 @@ Pour la supprimer, il doit être ≤ 2</string>
     <string name="add_custom_font">Ajouter police</string>
     <string name="backup_restore_title">Importer / Exporter les paramètres</string>
     <string name="dialog_back">Retour</string>
+    <string name="settings_drawer_icons">Icônes dans le tiroir d\'applications</string>
+    <string name="settings_home_icons">Icônes sur l\'écran d\'accueil</string>
+    <string name="settings_home_only_icons">Uniquement les icônes sur l\'écran d\'accueil</string>
+    <string name="settings_use_minimal_icons">Utiliser des icônes minimalistes (Lawnicons)</string>
 </resources><!-- French -->

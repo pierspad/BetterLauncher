@@ -298,4 +298,8 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="add_custom_font">Lettertype toevoegen</string>
     <string name="backup_restore_title">Instellingen importeren / exporteren</string>
     <string name="dialog_back">Terug</string>
+    <string name="settings_drawer_icons">Pictogrammen in app-lade</string>
+    <string name="settings_home_icons">Pictogrammen op startscherm</string>
+    <string name="settings_home_only_icons">Alleen pictogrammen op startscherm</string>
+    <string name="settings_use_minimal_icons">Minimale pictogrammen gebruiken (Lawnicons)</string>
 </resources><!-- Dutch -->

@@ -300,4 +300,8 @@
     <string name="add_custom_font">添加字体</string>
     <string name="backup_restore_title">导入 / 导出设置</string>
     <string name="dialog_back">返回</string>
+    <string name="settings_drawer_icons">应用抽屉图标</string>
+    <string name="settings_home_icons">主屏幕图标</string>
+    <string name="settings_home_only_icons">仅主屏幕图标</string>
+    <string name="settings_use_minimal_icons">使用极简图标 (Lawnicons)</string>
 </resources><!-- Chinese -->

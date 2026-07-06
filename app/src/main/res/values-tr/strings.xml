@@ -299,4 +299,8 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="add_custom_font">Yazı tipi ekle</string>
     <string name="backup_restore_title">Ayarları İçe / Dışa Aktar</string>
     <string name="dialog_back">Geri</string>
+    <string name="settings_drawer_icons">Uygulama çekmecesindeki simgeler</string>
+    <string name="settings_home_icons">Ana ekrandaki simgeler</string>
+    <string name="settings_home_only_icons">Ana ekranda sadece simgeler</string>
+    <string name="settings_use_minimal_icons">Minimalist simgeleri kullan (Lawnicons)</string>
 </resources><!-- Turkish -->

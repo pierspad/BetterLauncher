@@ -55,9 +55,6 @@
     <string name="okay">OK</string>
     <string name="cool">Freddo</string>
     <string name="auto_show_keyboard">Mostra tastiera nel drawer</string>
-    <string name="settings_drawer_icons">Icone nel drawer delle app</string>
-    <string name="settings_home_icons">Icone nella schermata home</string>
-    <string name="settings_home_only_icons">Solo icone nella schermata home</string>
     <string name="hide">Nascondi</string>
     <string name="status_bar">Mostra la barra di stato</string>
     <string name="rename">Rinomina</string>
@@ -336,4 +333,8 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="font_cursive">Corsivo</string>
     <string name="backup_restore_title">Importa / Esporta impostazioni</string>
     <string name="dialog_back">Indietro</string>
+    <string name="settings_drawer_icons">Icone nel drawer delle app</string>
+    <string name="settings_home_icons">Icone nella schermata home</string>
+    <string name="settings_home_only_icons">Solo icone nella schermata home</string>
+    <string name="settings_use_minimal_icons">Usa icone minimali (Lawnicons)</string>
 </resources><!-- Italian -->
