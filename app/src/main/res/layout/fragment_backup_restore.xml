@@ -4,8 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:fitsSystemWindows="true"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:fitsSystemWindows="false"
     android:background="@android:color/transparent">
 
     <!-- Header bar -->
@@ -36,19 +39,27 @@
     </RelativeLayout>
 
     <!-- Main card containing EditText (high opacity dialog surface) -->
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/editorScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@drawable/rounded_dialog_surface"
-        android:orientation="vertical"
-        android:padding="14dp"
-        android:layout_marginBottom="12dp">
+        android:layout_marginBottom="12dp"
+        android:paddingLeft="0dp"
+        android:paddingStart="0dp"
+        android:paddingRight="14dp"
+        android:paddingEnd="14dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:fillViewport="true">
 
         <app.olauncher.ui.LineNumberEditText
             android:id="@+id/etSettingsJson"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="top|start"
             android:background="@android:color/transparent"
             android:textColor="?attr/primaryColor"
@@ -56,10 +67,8 @@
             android:textSize="14sp"
             android:fontFamily="monospace"
             android:inputType="textMultiLine|textNoSuggestions"
-            android:scrollbars="vertical|horizontal"
-            android:fadeScrollbars="false"
             android:hint="Settings JSON will appear here..." />
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <!-- Buttons Panel (No background container; individual bubbles will stand out) -->
     <LinearLayout

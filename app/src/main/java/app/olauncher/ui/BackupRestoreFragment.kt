@@ -20,6 +20,9 @@ import app.olauncher.R
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentBackupRestoreBinding
 import app.olauncher.helper.showToast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import app.olauncher.helper.dpToPx
 
 class BackupRestoreFragment : Fragment() {
 
@@ -71,6 +74,24 @@ class BackupRestoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefs = Prefs(requireContext())
+
+        // Adjust padding dynamically to handle edge-to-edge system bars and keyboard (IME) insets
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val bottomPadding = if (ime.bottom > 0) {
+                ime.bottom + 8.dpToPx()
+            } else {
+                systemBars.bottom + 16.dpToPx()
+            }
+            v.setPadding(
+                24.dpToPx(),
+                systemBars.top + 16.dpToPx(),
+                24.dpToPx(),
+                bottomPadding
+            )
+            insets
+        }
 
         // Load current settings
         originalJson = prefs.exportToJson()
