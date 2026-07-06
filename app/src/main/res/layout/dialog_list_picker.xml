@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Modern language picker: a rounded glass card with one row per language. -->
+<!-- Generic options list picker: a rounded card for picking options, with padding to prevent clipping. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,7 +9,6 @@
     android:clipChildren="false">
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/languageScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_dialog_surface"
@@ -25,15 +24,16 @@
             android:paddingVertical="22dp">
 
             <TextView
+                android:id="@+id/pickerTitle"
                 style="@style/TextSectionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginBottom="10dp"
-                android:text="@string/change_language" />
+                android:visibility="gone" />
 
             <LinearLayout
-                android:id="@+id/languagePickerList"
+                android:id="@+id/pickerList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />

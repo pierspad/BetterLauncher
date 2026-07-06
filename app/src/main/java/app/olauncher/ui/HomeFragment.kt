@@ -24,10 +24,13 @@ import android.widget.BaseAdapter
 import android.widget.FrameLayout
 import android.widget.GridView
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import android.util.TypedValue
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
@@ -43,6 +46,7 @@ import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentHomeBinding
 import app.olauncher.helper.appUsagePermissionGranted
 import app.olauncher.helper.dpToPx
+import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.scrimColor
 import app.olauncher.helper.expandNotificationDrawer
 import app.olauncher.helper.getUserHandleFromString
@@ -1124,24 +1128,66 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
 
     private fun showShortcutOptionsDialog(slot: Int) {
         if (reorderMode) return
+        val ctx = requireContext()
+        val view = layoutInflater.inflate(R.layout.dialog_list_picker, null)
+        val list = view.findViewById<LinearLayout>(R.id.pickerList)
+        val dialog = AlertDialog.Builder(ctx).setView(view).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val padV = 14.dpToPx()
+        val padH = 10.dpToPx()
+        val rippleBg = TypedValue().also {
+            ctx.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
+        }.resourceId
+
         val items = arrayOf(
             getString(R.string.change_app),
             getString(R.string.change_icon),
             getString(R.string.reset_to_default)
         )
-        AlertDialog.Builder(requireContext())
-            .setItems(items) { _, which ->
-                when (which) {
-                    0 -> showAppList(Constants.FLAG_SET_SHORTCUT_ICON_1 + slot)
-                    1 -> showIconPickerDialog(slot)
-                    2 -> {
-                        prefs.clearShortcutTarget(slot)
-                        prefs.setShortcutIconIndex(slot, Constants.SHORTCUT_DEFAULT_ICONS[slot])
-                        populateShortcutIcons()
+
+        for (i in items.indices) {
+            val row = TextView(ctx).apply {
+                text = items[i]
+                textSize = 18f
+                setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
+                gravity = Gravity.CENTER_VERTICAL
+                setPadding(padH, padV, padH, padV)
+                setBackgroundResource(rippleBg)
+
+                val iconRes = when (i) {
+                    0 -> R.drawable.ic_sc_grid
+                    1 -> R.drawable.ic_sc_image
+                    else -> R.drawable.ic_delete
+                }
+                val iconDrawable = ContextCompat.getDrawable(ctx, iconRes)?.mutate()?.apply {
+                    setTint(ctx.getColorFromAttr(R.attr.primaryColor))
+                }
+                setCompoundDrawablesWithIntrinsicBounds(iconDrawable, null, null, null)
+                compoundDrawablePadding = 12.dpToPx()
+
+                setOnClickListener {
+                    dialog.dismiss()
+                    when (i) {
+                        0 -> showAppList(Constants.FLAG_SET_SHORTCUT_ICON_1 + slot)
+                        1 -> showIconPickerDialog(slot)
+                        2 -> {
+                            prefs.clearShortcutTarget(slot)
+                            prefs.setShortcutIconIndex(slot, Constants.SHORTCUT_DEFAULT_ICONS[slot])
+                            populateShortcutIcons()
+                        }
                     }
                 }
             }
-            .show()
+            list.addView(
+                row,
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply { topMargin = 2.dpToPx() }
+            )
+        }
+        dialog.show()
     }
 
     private fun showIconPickerDialog(slot: Int) {

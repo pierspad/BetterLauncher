@@ -1,31 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Modern font picker: a rounded glass card with one preview row per font. -->
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:overScrollMode="never"
-    android:scrollbars="none">
+    android:paddingVertical="24dp"
+    android:paddingHorizontal="24dp"
+    android:clipToPadding="false"
+    android:clipChildren="false">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/fontScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_dialog_surface"
-        android:orientation="vertical"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="22dp">
-
-        <TextView
-            style="@style/TextSectionTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/font" />
+        android:clipToOutline="true"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
         <LinearLayout
-            android:id="@+id/fontPickerList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="22dp">
+
+            <TextView
+                style="@style/TextSectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/font" />
+
+            <LinearLayout
+                android:id="@+id/fontPickerList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

@@ -522,13 +522,52 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         }
     }
 
+    private fun showMessageDialog(
+        titleRes: Int,
+        messageRes: Int,
+        positiveBtnRes: Int,
+        negativeBtnRes: Int? = null,
+        onPositiveClick: (() -> Unit)? = null
+    ) {
+        val ctx = requireContext()
+        val view = layoutInflater.inflate(R.layout.dialog_message, null)
+        val titleView = view.findViewById<TextView>(R.id.dialogTitle)
+        val messageView = view.findViewById<TextView>(R.id.dialogMessage)
+        val positiveButton = view.findViewById<TextView>(R.id.dialogPositiveButton)
+        val negativeButton = view.findViewById<TextView>(R.id.dialogNegativeButton)
+
+        titleView.setText(titleRes)
+        messageView.setText(messageRes)
+        positiveButton.setText(positiveBtnRes)
+
+        val dialog = AlertDialog.Builder(ctx).setView(view).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        positiveButton.setOnClickListener {
+            onPositiveClick?.invoke()
+            dialog.dismiss()
+        }
+
+        if (negativeBtnRes != null) {
+            negativeButton.visibility = View.VISIBLE
+            negativeButton.setText(negativeBtnRes)
+            negativeButton.setOnClickListener {
+                dialog.dismiss()
+            }
+        } else {
+            negativeButton.visibility = View.GONE
+        }
+
+        dialog.show()
+    }
+
     private fun showHiddenApps() {
         if (prefs.hiddenApps.isEmpty()) {
-            AlertDialog.Builder(requireContext())
-                .setTitle(R.string.hidden_apps)
-                .setMessage(R.string.hidden_apps_instructions)
-                .setPositiveButton(android.R.string.ok, null)
-                .show()
+            showMessageDialog(
+                titleRes = R.string.hidden_apps,
+                messageRes = R.string.hidden_apps_instructions,
+                positiveBtnRes = android.R.string.ok
+            )
             return
         }
         viewModel.getHiddenApps()
@@ -539,16 +578,17 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun resetSettingsToDefault() {
-        AlertDialog.Builder(requireContext())
-            .setTitle(R.string.reset_settings_title)
-            .setMessage(R.string.reset_settings_confirm)
-            .setPositiveButton(R.string.reset) { _, _ ->
+        showMessageDialog(
+            titleRes = R.string.reset_settings_title,
+            messageRes = R.string.reset_settings_confirm,
+            positiveBtnRes = R.string.reset,
+            negativeBtnRes = android.R.string.cancel,
+            onPositiveClick = {
                 prefs.resetToDefaults()
                 requireContext().showToast(getString(R.string.reset_done))
                 restartLauncher()
             }
-            .setNegativeButton(android.R.string.cancel, null)
-            .show()
+        )
     }
 
     private fun showLockApps() {
@@ -979,6 +1019,16 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         }
 
         dialog.show()
+        val displayMetrics = ctx.resources.displayMetrics
+        val maxHeight = (displayMetrics.heightPixels * 0.8).toInt()
+        view.post {
+            if (view.height > maxHeight) {
+                val scrollView = view.findViewById<View>(R.id.fontScrollView)
+                val lp = scrollView.layoutParams
+                lp.height = maxHeight - 48.dpToPx()
+                scrollView.layoutParams = lp
+            }
+        }
     }
 
     private fun showLanguageDialog() {
@@ -1116,6 +1166,16 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         }
 
         dialog.show()
+        val displayMetrics = ctx.resources.displayMetrics
+        val maxHeight = (displayMetrics.heightPixels * 0.8).toInt()
+        view.post {
+            if (view.height > maxHeight) {
+                val scrollView = view.findViewById<View>(R.id.languageScrollView)
+                val lp = scrollView.layoutParams
+                lp.height = maxHeight - 48.dpToPx()
+                scrollView.layoutParams = lp
+            }
+        }
     }
 
     private fun applyFont() {
