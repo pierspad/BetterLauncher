@@ -216,7 +216,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:gravity="center_vertical"
-        android:layout_marginHorizontal="6dp"
+        android:layout_marginHorizontal="16dp"
         android:paddingTop="112dp"
         android:paddingBottom="48dp"
         android:orientation="vertical"

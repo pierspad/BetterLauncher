@@ -339,7 +339,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         val base = 24.dpToPx()
         val textSizeScale = prefs.textSizeScale
         val iconScale = 1.0f + (textSizeScale - 1.0f) / 2.0f
-        val reserve = (56 * iconScale).toInt().dpToPx()
+        val reserve = (68 * iconScale).toInt().dpToPx()
         var left = base
         var right = base
         if (prefs.shortcutIconsEnabled) {
