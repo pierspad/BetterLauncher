@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/pierspad/BetterLauncher/compare/v1.0.2...v1.0.3) (2026-07-07)
+
+
+### Bug Fixes
+
+* corrected implementation of the minimal lawnicons ([10f8ddf](https://github.com/pierspad/BetterLauncher/commit/10f8ddf199e0cc0f1ff053718595cda70bd0b50c))
+
 ## [1.0.2](https://github.com/pierspad/BetterLauncher/compare/v1.0.1...v1.0.2) (2026-07-07)
 
 
