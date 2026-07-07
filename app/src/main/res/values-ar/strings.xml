@@ -297,8 +297,9 @@
     <string name="add_custom_font">إضافة خط</string>
     <string name="backup_restore_title">استيراد / تصدير الإعدادات</string>
     <string name="dialog_back">رجوع</string>
-    <string name="settings_drawer_icons">أيقونات في درج التطبيقات</string>
-    <string name="settings_home_icons">أيقونات على الشاشة الرئيسية</string>
-    <string name="settings_home_only_icons">أيقونات فقط على الشاشة الرئيسية</string>
-    <string name="settings_use_minimal_icons">استخدم أيقونات بسيطة (Lawnicons)</string>
+    <string name="settings_drawer_icons">عرض الأيقونات في الدرج</string>
+    <string name="settings_home_icons">عرض الأيقونات على الشاشة الرئيسية</string>
+    <string name="settings_home_only_icons">عرض الأيقونات فقط على الشاشة الرئيسية</string>
+        <string name="settings_use_colorful_icons">استخدام الأيقونات الملونة</string>
+    <string name="settings_icons_title">الأيقونات</string>
 </resources>

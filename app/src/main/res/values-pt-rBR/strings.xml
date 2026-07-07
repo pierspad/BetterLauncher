@@ -298,8 +298,9 @@ Para remover, deve ser ≤ 2</string>
     <string name="add_custom_font">Adicionar fonte</string>
     <string name="backup_restore_title">Importar / Exportar configurações</string>
     <string name="dialog_back">Voltar</string>
-    <string name="settings_drawer_icons">Ícones no menu de aplicativos</string>
-    <string name="settings_home_icons">Ícones na tela inicial</string>
-    <string name="settings_home_only_icons">Apenas ícones na tela inicial</string>
-    <string name="settings_use_minimal_icons">Usar ícones minimalistas (Lawnicons)</string>
+    <string name="settings_drawer_icons">Mostrar ícones no menu</string>
+    <string name="settings_home_icons">Mostrar ícones na tela inicial</string>
+    <string name="settings_home_only_icons">Mostrar apenas ícones na tela inicial</string>
+        <string name="settings_use_colorful_icons">Usar ícones coloridos</string>
+    <string name="settings_icons_title">Ícones</string>
 </resources><!-- Portuguese -->

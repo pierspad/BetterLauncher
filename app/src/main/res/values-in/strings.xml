@@ -297,8 +297,9 @@ Untuk menghapus harus ≤ 2</string>
     <string name="add_custom_font">Tambah font</string>
     <string name="backup_restore_title">Impor / Ekspor pengaturan</string>
     <string name="dialog_back">Kembali</string>
-    <string name="settings_drawer_icons">Ikon di laci aplikasi</string>
-    <string name="settings_home_icons">Ikon di layar beranda</string>
-    <string name="settings_home_only_icons">Hanya ikon di layar beranda</string>
-    <string name="settings_use_minimal_icons">Gunakan ikon minimalis (Lawnicons)</string>
+    <string name="settings_drawer_icons">Tampilkan ikon di laci</string>
+    <string name="settings_home_icons">Tampilkan ikon di layar utama</string>
+    <string name="settings_home_only_icons">Hanya tampilkan ikon di layar utama</string>
+        <string name="settings_use_colorful_icons">Gunakan ikon berwarna</string>
+    <string name="settings_icons_title">Ikon</string>
 </resources><!-- Indonesian -->

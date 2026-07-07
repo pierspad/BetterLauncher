@@ -110,24 +110,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         initShortcutIcons()
         initReorder()
 
-        // Sync shortcut icon row heights with corresponding home app row heights
-        homeAppViews().forEachIndexed { index, textView ->
-            textView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-                if (prefs.shortcutIconsEnabled) {
-                    val count = prefs.homeShortcutIconsNum.coerceIn(1, Constants.SHORTCUT_COUNT)
-                    val appCount = prefs.homeAppsNum
-                    if (index < minOf(count, appCount)) {
-                        val iconViews = shortcutIconViews()
-                        val imageView = iconViews[index]
-                        val lp = imageView.layoutParams
-                        if (lp.height != textView.height) {
-                            lp.height = textView.height
-                            imageView.layoutParams = lp
-                        }
-                    }
-                }
-            }
-        }
+
     }
 
     override fun onResume() {
@@ -342,6 +325,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         binding.homeApp8.gravity = appsH
 
         // Shortcut icons column — independent horizontal + shared vertical alignment
+        binding.shortcutIconsLayout.gravity = prefs.shortcutIconsAlignment or vertical
         (binding.shortcutIconsLayout.layoutParams as? FrameLayout.LayoutParams)?.let { lp ->
             lp.gravity = prefs.shortcutIconsAlignment or vertical
             binding.shortcutIconsLayout.layoutParams = lp
@@ -422,6 +406,13 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         binding.homeApp5, binding.homeApp6, binding.homeApp7, binding.homeApp8
     )
 
+    private fun calculateRowHeight(context: Context): Int {
+        val paddingVertical = context.resources.getDimensionPixelSize(R.dimen.home_app_padding_vertical)
+        val textSize = binding.homeApp1.textSize
+        val iconSize = (textSize * 1.2).toInt()
+        return iconSize + 2 * paddingVertical
+    }
+
     private fun populateHomeScreen(appCountUpdated: Boolean) {
         if (appCountUpdated) hideHomeApps()
         populateDateTime()
@@ -430,14 +421,32 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
             populateScreenTime()
 
-        val homeAppsNum = prefs.homeAppsNum
+        val count = if (prefs.shortcutIconsEnabled) prefs.homeShortcutIconsNum.coerceIn(1, Constants.SHORTCUT_COUNT) else 0
+        val appCount = prefs.homeAppsNum
+        val maxCount = maxOf(count, appCount)
+        val rowHeight = calculateRowHeight(requireContext())
+
         val views = homeAppViews()
         for (location in 1..views.size) {
-            if (location > homeAppsNum) break
             val textView = views[location - 1]
-            textView.visibility = View.VISIBLE
-            if (!bindHomeSlot(textView, location)) {
-                textView.text = ""
+            
+            val lp = textView.layoutParams
+            if (lp.height != rowHeight) {
+                lp.height = rowHeight
+                textView.layoutParams = lp
+            }
+
+            if (location <= maxCount) {
+                if (location <= appCount) {
+                    textView.visibility = View.VISIBLE
+                    if (!bindHomeSlot(textView, location)) {
+                        textView.text = ""
+                    }
+                } else {
+                    textView.visibility = View.INVISIBLE
+                }
+            } else {
+                textView.visibility = View.GONE
             }
         }
     }
@@ -1087,44 +1096,36 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         if (!enabled) return
         val count = prefs.homeShortcutIconsNum.coerceIn(1, Constants.SHORTCUT_COUNT)
         val appCount = prefs.homeAppsNum
-        val minCount = minOf(count, appCount)
-        val appViews = homeAppViews()
+        val maxCount = maxOf(count, appCount)
         val textSizeScale = prefs.textSizeScale
         val iconScale = 1.0f + (textSizeScale - 1.0f) / 2.0f
         val targetWidth = (48 * iconScale).toInt().dpToPx()
         val targetPadding = (12 * iconScale).toInt().dpToPx()
+        val rowHeight = calculateRowHeight(requireContext())
+        
         shortcutIconViews().forEachIndexed { slot, imageView ->
-            if (slot < count) {
-                imageView.isVisible = true
-                val iconIndex = prefs.getShortcutIconIndex(slot)
-                    .coerceIn(0, Constants.SHORTCUT_ICONS.size - 1)
-                imageView.setImageResource(Constants.SHORTCUT_ICONS[iconIndex])
-                imageView.setPadding(targetPadding, targetPadding, targetPadding, targetPadding)
-
-                // Keep icon height in sync with the corresponding app's height if both exist,
-                // otherwise reset to default.
+            val location = slot + 1
+            if (location <= maxCount) {
                 val lp = imageView.layoutParams
                 if (lp.width != targetWidth) {
                     lp.width = targetWidth
-                    imageView.layoutParams = lp
                 }
-                if (slot < minCount) {
-                    val textView = appViews[slot]
-                    if (textView.height > 0) {
-                        if (lp.height != textView.height) {
-                            lp.height = textView.height
-                            imageView.layoutParams = lp
-                        }
-                    }
+                if (lp.height != rowHeight) {
+                    lp.height = rowHeight
+                }
+                imageView.layoutParams = lp
+
+                if (location <= count) {
+                    imageView.visibility = View.VISIBLE
+                    val iconIndex = prefs.getShortcutIconIndex(slot)
+                        .coerceIn(0, Constants.SHORTCUT_ICONS.size - 1)
+                    imageView.setImageResource(Constants.SHORTCUT_ICONS[iconIndex])
+                    imageView.setPadding(targetPadding, targetPadding, targetPadding, targetPadding)
                 } else {
-                    val targetHeight = (48 * iconScale).toInt().dpToPx()
-                    if (lp.height != targetHeight) {
-                        lp.height = targetHeight
-                        imageView.layoutParams = lp
-                    }
+                    imageView.visibility = View.INVISIBLE
                 }
             } else {
-                imageView.isVisible = false
+                imageView.visibility = View.GONE
             }
         }
         positionWidget()
@@ -1143,14 +1144,20 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             val parentHeight = binding.mainLayout.height
             if (parentHeight == 0) return@post
 
-            // shortcutIconsLayout is a direct child of mainLayout → .top is already in parent coords
-            val iconsTop = if (binding.shortcutIconsLayout.isVisible)
-                binding.shortcutIconsLayout.top
-            else
+            // shortcutIconsLayout is a direct child of mainLayout → .top + child.top is in parent coords
+            val iconsTop = if (binding.shortcutIconsLayout.isVisible) {
+                val firstIcon = shortcutIconViews().firstOrNull { it.visibility != View.GONE }
+                if (firstIcon != null) {
+                    binding.shortcutIconsLayout.top + firstIcon.top
+                } else {
+                    parentHeight
+                }
+            } else {
                 parentHeight
+            }
 
             // homeAppsLayout fills the parent (top == 0), so firstVisibleApp.top is in parent coords
-            val appsTop = homeAppViews().firstOrNull { it.isVisible }?.top ?: parentHeight
+            val appsTop = homeAppViews().firstOrNull { it.visibility != View.GONE }?.top ?: parentHeight
 
             // Whichever block starts higher on screen (smaller y) drives the widget bottom
             val blockTop = minOf(iconsTop, appsTop)

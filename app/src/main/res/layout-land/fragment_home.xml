@@ -212,11 +212,11 @@
     <LinearLayout
         android:id="@+id/shortcutIconsLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:gravity="center_vertical"
         android:layout_marginHorizontal="6dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginBottom="24dp"
+        android:paddingVertical="@dimen/home_app_padding_vertical"
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible">

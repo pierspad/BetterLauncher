@@ -2,6 +2,9 @@ package app.olauncher.helper
 
 import android.content.Context
 import android.content.pm.LauncherApps
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.UserHandle
@@ -10,10 +13,10 @@ import androidx.core.content.ContextCompat
 import app.olauncher.R
 import app.olauncher.data.AppModel
 import app.olauncher.data.Prefs
+import com.caverock.androidsvg.SVG
 import org.xmlpull.v1.XmlPullParser
 
 object IconManager {
-    private var lawniconsContext: Context? = null
     private var appFilterMap: Map<String, String>? = null
 
     @Volatile
@@ -23,7 +26,7 @@ object IconManager {
     private val iconCache = mutableMapOf<String, Drawable>()
 
     val hasLawnicons: Boolean
-        get() = lawniconsContext != null
+        get() = true
 
     fun init(context: Context) {
         if (initialized) return
@@ -31,26 +34,20 @@ object IconManager {
             if (initialized) return
             val appContext = context.applicationContext
             Thread {
-                val lawniconsPackages = listOf("app.lawnchair.lawnicons", "app.lawnchair.lawnicons.dev")
-                for (pkg in lawniconsPackages) {
-                    try {
-                        lawniconsContext = appContext.createPackageContext(pkg, 0)
-                        loadAppFilter()
-                        if (appFilterMap != null) break
-                    } catch (e: Exception) {
-                        // Lawnicons package not found or fails to load
-                    }
+                try {
+                    loadAppFilter(appContext)
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
                 initialized = true
             }.start()
         }
     }
 
-    private fun loadAppFilter() {
-        val iconCtx = lawniconsContext ?: return
+    private fun loadAppFilter(context: Context) {
         val map = mutableMapOf<String, String>()
         try {
-            iconCtx.assets.open("appfilter.xml").use { inputStream ->
+            context.assets.open("lawnicons/appfilter.xml").use { inputStream ->
                 val parser = Xml.newPullParser()
                 parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
                 parser.setInput(inputStream, null)
@@ -73,8 +70,7 @@ object IconManager {
         }
     }
 
-    fun getLawnicon(packageName: String, activityName: String?): Drawable? {
-        val iconCtx = lawniconsContext ?: return null
+    private fun getLawnicon(context: Context, packageName: String, activityName: String?): Drawable? {
         val filterMap = appFilterMap ?: return null
         val actName = activityName ?: ""
 
@@ -91,12 +87,17 @@ object IconManager {
 
         if (drawableName != null) {
             try {
-                val resId = iconCtx.resources.getIdentifier(drawableName, "drawable", iconCtx.packageName)
-                if (resId != 0) {
-                    return ContextCompat.getDrawable(iconCtx, resId)
+                val svgAssetPath = "lawnicons/svgs/$drawableName.svg"
+                context.assets.open(svgAssetPath).use { inputStream ->
+                    val svg = SVG.getFromInputStream(inputStream)
+                    val size = (72 * context.resources.displayMetrics.density).toInt()
+                    val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+                    val canvas = Canvas(bitmap)
+                    svg.renderToCanvas(canvas)
+                    return BitmapDrawable(context.resources, bitmap)
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
+                // SVG not found or fails to load/parse
             }
         }
         return null
@@ -112,11 +113,11 @@ object IconManager {
         var drawable: Drawable? = null
 
         // 1. Try Lawnicons first
-        if (lawniconsContext != null && Prefs(context).useMinimalIcons) {
+        if (!Prefs(context).useColorfulIcons) {
             val pm = context.packageManager
             val launchIntent = pm.getLaunchIntentForPackage(packageName)
             val activityName = launchIntent?.component?.className
-            val lawnicon = getLawnicon(packageName, activityName)
+            val lawnicon = getLawnicon(context, packageName, activityName)
             if (lawnicon != null) {
                 drawable = lawnicon
                 if (tintColor != null) {

@@ -291,8 +291,9 @@
     <string name="add_custom_font">הוסף גופן</string>
     <string name="backup_restore_title">ייבוא / ייצוא הגדרות</string>
     <string name="dialog_back">חזור</string>
-    <string name="settings_drawer_icons">סמלים במגירת האפליקציες</string>
-    <string name="settings_home_icons">סמלים במסך הבית</string>
-    <string name="settings_home_only_icons">סמלים בלבד במסך הבית</string>
-    <string name="settings_use_minimal_icons">השתמש בסמלים מינימליסטיים (Lawnicons)</string>
+    <string name="settings_drawer_icons">הצג סמלים במגירה</string>
+    <string name="settings_home_icons">הצג סמלים במסך הבית</string>
+    <string name="settings_home_only_icons">הצג רק סמלים במסך הבית</string>
+        <string name="settings_use_colorful_icons">השתמש בסמלים צבעוניים</string>
+    <string name="settings_icons_title">סמלים</string>
 </resources>

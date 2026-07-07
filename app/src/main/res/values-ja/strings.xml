@@ -298,8 +298,9 @@
     <string name="add_custom_font">フォントを追加</string>
     <string name="backup_restore_title">設定のインポート / エクスポート</string>
     <string name="dialog_back">戻る</string>
-    <string name="settings_drawer_icons">アプリドロワー of アイコン</string>
-    <string name="settings_home_icons">ホーム画面 of アイコン</string>
-    <string name="settings_home_only_icons">ホーム画面はアイコンのみ</string>
-    <string name="settings_use_minimal_icons">ミニマルアイコンを使用する (Lawnicons)</string>
+    <string name="settings_drawer_icons">ドロワー内にアイコンを表示</string>
+    <string name="settings_home_icons">ホーム画面にアイコンを表示</string>
+    <string name="settings_home_only_icons">ホーム画面にアイコンのみを表示</string>
+        <string name="settings_use_colorful_icons">カラフルなアイコンを使用</string>
+    <string name="settings_icons_title">アイコン</string>
 </resources> <!-- Japanese -->

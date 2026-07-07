@@ -250,7 +250,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.switchDrawerIcons -> toggleDrawerIcons()
             R.id.switchHomeIcons -> toggleHomeIcons()
             R.id.switchHomeOnlyIcons -> toggleHomeOnlyIcons()
-            R.id.switchMinimalIcons -> toggleMinimalIcons()
+            R.id.switchColorfulIcons -> toggleColorfulIcons()
             R.id.dateTimeSwitch -> toggleDateTimeEnabled()
             R.id.dateOnlySwitch -> toggleDateOnly()
             R.id.fontText -> findNavController().navigate(R.id.action_settingsFragment_to_fontPickerFragment)
@@ -332,7 +332,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.switchDrawerIcons.setOnClickListener(this)
         binding.switchHomeIcons.setOnClickListener(this)
         binding.switchHomeOnlyIcons.setOnClickListener(this)
-        binding.switchMinimalIcons.setOnClickListener(this)
+        binding.switchColorfulIcons.setOnClickListener(this)
         binding.dateTimeSwitch.setOnClickListener(this)
         binding.dateOnlySwitch.setOnClickListener(this)
         binding.swipeLeftApp.setOnClickListener(this)
@@ -433,8 +433,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateIconsSettings()
     }
 
-    private fun toggleMinimalIcons() {
-        prefs.useMinimalIcons = !prefs.useMinimalIcons
+    private fun toggleColorfulIcons() {
+        prefs.useColorfulIcons = !prefs.useColorfulIcons
         IconManager.clearCache()
         populateIconsSettings()
     }
@@ -443,7 +443,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.switchDrawerIcons.isChecked = prefs.showDrawerIcons
         binding.switchHomeIcons.isChecked = prefs.showHomeIcons
         binding.switchHomeOnlyIcons.isChecked = prefs.showHomeOnlyIcons
-        binding.switchMinimalIcons.isChecked = prefs.useMinimalIcons
+        binding.switchColorfulIcons.isChecked = prefs.useColorfulIcons
 
         val homeIconsOn = prefs.showHomeIcons
         binding.layoutHomeOnlyIcons.alpha = if (homeIconsOn) 1.0f else 0.4f

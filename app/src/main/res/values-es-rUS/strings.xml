@@ -297,8 +297,9 @@ Para eliminarlo debe ser ≤ 2</string>
     <string name="add_custom_font">Añadir fuente</string>
     <string name="backup_restore_title">Importar / Exportar ajustes</string>
     <string name="dialog_back">Atrás</string>
-    <string name="settings_drawer_icons">Iconos en el cajón de aplicaciones</string>
-    <string name="settings_home_icons">Iconos en la pantalla de inicio</string>
-    <string name="settings_home_only_icons">Solo iconos en la pantalla de inicio</string>
-    <string name="settings_use_minimal_icons">Usar iconos minimalistas (Lawnicons)</string>
+    <string name="settings_drawer_icons">Mostrar iconos en el cajón</string>
+    <string name="settings_home_icons">Mostrar iconos en la pantalla de inicio</string>
+    <string name="settings_home_only_icons">Mostrar solo iconos en la pantalla de inicio</string>
+        <string name="settings_use_colorful_icons">Usar iconos coloridos</string>
+    <string name="settings_icons_title">Iconos</string>
 </resources><!-- Spanish -->

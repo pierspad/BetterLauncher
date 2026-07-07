@@ -299,8 +299,9 @@ Zum Entfernen muss er ≤ 2 sein</string>
     <string name="add_custom_font">Schriftart hinzufügen</string>
     <string name="backup_restore_title">Einstellungen importieren / exportieren</string>
     <string name="dialog_back">Zurück</string>
-    <string name="settings_drawer_icons">Symbole in der App-Schublade</string>
-    <string name="settings_home_icons">Symbole auf dem Startbildschirm</string>
-    <string name="settings_home_only_icons">Nur Symbole auf dem Startbildschirm</string>
-    <string name="settings_use_minimal_icons">Minimale Symbole verwenden (Lawnicons)</string>
+    <string name="settings_drawer_icons">Symbole im Drawer anzeigen</string>
+    <string name="settings_home_icons">Symbole auf dem Startbildschirm anzeigen</string>
+    <string name="settings_home_only_icons">Nur Symbole auf dem Startbildschirm anzeigen</string>
+        <string name="settings_use_colorful_icons">Farbige Symbole verwenden</string>
+    <string name="settings_icons_title">Symbole</string>
 </resources>

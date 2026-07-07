@@ -333,8 +333,9 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="font_cursive">Corsivo</string>
     <string name="backup_restore_title">Importa / Esporta impostazioni</string>
     <string name="dialog_back">Indietro</string>
-    <string name="settings_drawer_icons">Icone nel drawer delle app</string>
-    <string name="settings_home_icons">Icone nella schermata home</string>
-    <string name="settings_home_only_icons">Solo icone nella schermata home</string>
-    <string name="settings_use_minimal_icons">Usa icone minimali (Lawnicons)</string>
+    <string name="settings_drawer_icons">Mostra icone nel drawer</string>
+    <string name="settings_home_icons">Mostra icone nella home</string>
+    <string name="settings_home_only_icons">Mostra solo le icone nella home</string>
+        <string name="settings_use_colorful_icons">Usa le icone colorate</string>
+    <string name="settings_icons_title">Icone</string>
 </resources><!-- Italian -->

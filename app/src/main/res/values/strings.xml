@@ -340,8 +340,9 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="font_casual">Casual</string>
     <string name="font_cursive">Cursive</string>
     <string name="dialog_back">Back</string>
-    <string name="settings_drawer_icons">Icons in app drawer</string>
-    <string name="settings_home_icons">Icons on home screen</string>
-    <string name="settings_home_only_icons">Only icons on home screen</string>
-    <string name="settings_use_minimal_icons">Use minimal icons (Lawnicons)</string>
+    <string name="settings_drawer_icons">Show icons in drawer</string>
+    <string name="settings_home_icons">Show icons on home screen</string>
+    <string name="settings_home_only_icons">Show only icons on home screen</string>
+        <string name="settings_use_colorful_icons">Use colorful icons</string>
+    <string name="settings_icons_title">Icons</string>
 </resources>
