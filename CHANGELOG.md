@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/pierspad/BetterLauncher/compare/v1.0.4...v1.0.5) (2026-07-07)
+
+
+### Bug Fixes
+
+* synchronize versioning by removing local-bump and removing v prefix ([cf76426](https://github.com/pierspad/BetterLauncher/commit/cf76426f631af074bed51c4b6bab114ded63d261))
+
 ## [1.0.4](https://github.com/pierspad/BetterLauncher/compare/v1.0.3...v1.0.4) (2026-07-07)
 
 
