@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/pierspad/BetterLauncher/compare/v1.0.6...v1.1.0) (2026-07-07)
+
+
+### Features
+
+* build and upload signed .aab bundle to GitHub Releases ([14d9ae1](https://github.com/pierspad/BetterLauncher/commit/14d9ae1a743abcc8ac87eeed42f5bf6f7119dccc))
+
 ## [1.0.6](https://github.com/pierspad/BetterLauncher/compare/v1.0.5...v1.0.6) (2026-07-07)
 
 
