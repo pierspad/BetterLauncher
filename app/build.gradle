@@ -17,8 +17,8 @@ android {
         applicationId "com.pierspad.betterlauncher"
         minSdkVersion 24
         targetSdkVersion 35
-        versionCode project.hasProperty('versionCode') ? project.property('versionCode').toInteger() : 108
-        versionName project.hasProperty('versionName') ? "v" + project.property('versionName').toString() : "v6.6.17"
+        versionCode project.hasProperty('versionCode') ? project.property('versionCode').toInteger() : 117
+        versionName project.hasProperty('versionName') ? project.property('versionName').toString() : "1.0.4"
 
         resourceConfigurations += ["en", "ar", "de", "es-rES", "es-rUS", "fr", "he", "iw", "hr", "hu", "in", "it", "ja", "nl", "pl", "pt-rBR", "ru-rRU", "sv", "tr", "uk", "zh"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
