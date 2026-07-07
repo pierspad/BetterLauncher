@@ -519,7 +519,11 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             } catch (e: Exception) {
                 null
             }
-            val label = prefs.getAppRenameLabel(pkg).ifEmpty { resolved ?: pkg }
+            var label = prefs.getAppRenameLabel(pkg).ifEmpty { resolved ?: pkg }
+            val appKey = "$pkg|$userString"
+            if (prefs.isAppLimited(appKey) && prefs.limitUntil(appKey) > System.currentTimeMillis()) {
+                label = "$label ⏳︎"
+            }
             Member(label, pkg, userString)
         }
 
@@ -551,6 +555,11 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         val showIcons = prefs.showHomeIcons
         val onlyIcons = prefs.showHomeOnlyIcons
 
+        val key = "$packageName|$userHandle"
+        val until = prefs.limitUntil(key)
+        val remainingMs = until - System.currentTimeMillis()
+        val isBanned = prefs.isAppLimited(key) && remainingMs > 0
+
         // Helper to bind the icon to the TextView
         fun bindIcon() {
             if (showIcons) {
@@ -574,6 +583,29 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             }
         }
 
+        // Helper to bind the text/label to the TextView
+        fun bindText() {
+            if (onlyIcons && showIcons) {
+                textView.hint = null
+                textView.text = if (isBanned) "⏳︎" else ""
+            } else {
+                textView.hint = textView.context.getString(R.string.app)
+                if (isBanned) {
+                    val minutes = (remainingMs / 60_000L).coerceAtLeast(1)
+                    val timeStr = if (minutes >= 60) {
+                        val hours = minutes / 60
+                        val mins = minutes % 60
+                        "${hours}h\u00A0${mins}m"
+                    } else {
+                        "${minutes}m"
+                    }
+                    textView.text = "$appName  ⏳︎\u00A0$timeStr"
+                } else {
+                    textView.text = appName
+                }
+            }
+        }
+
         // If it's a shortcut, verify it still exists
         if (isShortcut) {
             val launcherApps = requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
@@ -589,13 +621,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                 // Check if our shortcut still exists
                 if (shortcuts?.any { it.id == shortcutId } == true) {
                     bindIcon()
-                    if (onlyIcons && showIcons) {
-                        textView.hint = null
-                        textView.text = ""
-                    } else {
-                        textView.hint = textView.context.getString(R.string.app)
-                        textView.text = appName
-                    }
+                    bindText()
                     return true
                 }
                 textView.hint = textView.context.getString(R.string.app)
@@ -614,13 +640,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         // Regular app check
         if (isPackageInstalled(requireContext(), packageName, userString)) {
             bindIcon()
-            if (onlyIcons && showIcons) {
-                textView.hint = null
-                textView.text = ""
-            } else {
-                textView.hint = textView.context.getString(R.string.app)
-                textView.text = appName
-            }
+            bindText()
             return true
         }
         textView.hint = textView.context.getString(R.string.app)
