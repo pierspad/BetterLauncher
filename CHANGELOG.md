@@ -1,3 +1,11 @@
+## [1.1.1](https://github.com/pierspad/BetterLauncher/compare/v1.1.0...v1.1.1) (2026-07-07)
+
+
+### Bug Fixes
+
+* added hourglass icon in the homepage while an app has a ban ([6c490d7](https://github.com/pierspad/BetterLauncher/commit/6c490d77478d4e03cfa9dc796afa3be9caf1a8c4))
+* untrack accidentally committed lawnicons gitlink and add to .gitignore ([d8142ff](https://github.com/pierspad/BetterLauncher/commit/d8142ff73233a900782fc0a73de0d3de1c1d9f61))
+
 # [1.1.0](https://github.com/pierspad/BetterLauncher/compare/v1.0.6...v1.1.0) (2026-07-07)
 
 
