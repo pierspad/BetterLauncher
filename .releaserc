@@ -10,7 +10,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "node bump-version.js ${nextRelease.version} && ./gradlew assembleRelease"
+        "prepareCmd": "node bump-version.js ${nextRelease.version} && ./gradlew assembleRelease bundleRelease"
       }
     ],
     [
@@ -27,7 +27,8 @@
       "@semantic-release/github",
       {
         "assets": [
-          { "path": "app/build/outputs/apk/release/*.apk" }
+          { "path": "app/build/outputs/apk/release/*.apk" },
+          { "path": "app/build/outputs/bundle/release/*.aab" }
         ],
         "successComment": false
       }
