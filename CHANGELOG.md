@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/pierspad/BetterLauncher/compare/v1.0.5...v1.0.6) (2026-07-07)
+
+
+### Bug Fixes
+
+* increase horizontal margin for shortcut icons to prevent clipping ([e9af9c4](https://github.com/pierspad/BetterLauncher/commit/e9af9c42f198ee625afe28530141147515b81205))
+
 ## [1.0.5](https://github.com/pierspad/BetterLauncher/compare/v1.0.4...v1.0.5) (2026-07-07)
 
 
