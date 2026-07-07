@@ -298,9 +298,9 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="add_custom_font">Dodaj font</string>
     <string name="backup_restore_title">Uvoz / Izvoz postavki</string>
     <string name="dialog_back">Natrag</string>
-    <string name="settings_drawer_icons">Prikaži ikone u ladici</string>
+    <string name="settings_drawer_icons">Prikaži ikone u izborniku</string>
     <string name="settings_home_icons">Prikaži ikone na početnom zaslonu</string>
-    <string name="settings_home_only_icons">Prikaži samo ikone na početnom zaslonu</string>
+    <string name="settings_home_only_icons">Sakrij nazive aplikacija na početnom zaslonu</string>
         <string name="settings_use_colorful_icons">Koristi šarene ikone</string>
     <string name="settings_icons_title">Ikone</string>
 </resources><!-- Croatian -->

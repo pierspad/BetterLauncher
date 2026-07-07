@@ -301,7 +301,7 @@ Pour la supprimer, il doit être ≤ 2</string>
     <string name="dialog_back">Retour</string>
     <string name="settings_drawer_icons">Afficher les icônes dans le tiroir</string>
     <string name="settings_home_icons">Afficher les icônes sur l\'écran d\'accueil</string>
-    <string name="settings_home_only_icons">Afficher uniquement les icônes sur l\'écran d\'accueil</string>
+    <string name="settings_home_only_icons">Ne pas afficher le nom des applications sur l\'écran d\'accueil</string>
         <string name="settings_use_colorful_icons">Utiliser des icônes colorées</string>
     <string name="settings_icons_title">Icônes</string>
 </resources><!-- French -->

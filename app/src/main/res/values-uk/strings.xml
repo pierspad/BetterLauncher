@@ -299,9 +299,9 @@
     <string name="add_custom_font">Додати шрифт</string>
     <string name="backup_restore_title">Імпорт / Експорт налаштувань</string>
     <string name="dialog_back">Назад</string>
-    <string name="settings_drawer_icons">Показувати значки в меню</string>
+    <string name="settings_drawer_icons">Показувати значки в меню додатків</string>
     <string name="settings_home_icons">Показувати значки на головному екрані</string>
-    <string name="settings_home_only_icons">Показувати лише значки на головному екрані</string>
+    <string name="settings_home_only_icons">Приховати назви додатків на головному екрані</string>
         <string name="settings_use_colorful_icons">Використовувати кольорові значки</string>
     <string name="settings_icons_title">Значки</string>
 </resources><!-- Ukrainian -->

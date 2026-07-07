@@ -300,7 +300,7 @@
     <string name="dialog_back">戻る</string>
     <string name="settings_drawer_icons">ドロワー内にアイコンを表示</string>
     <string name="settings_home_icons">ホーム画面にアイコンを表示</string>
-    <string name="settings_home_only_icons">ホーム画面にアイコンのみを表示</string>
+    <string name="settings_home_only_icons">ホーム画面でアプリ名を非表示にする</string>
         <string name="settings_use_colorful_icons">カラフルなアイコンを使用</string>
     <string name="settings_icons_title">アイコン</string>
 </resources> <!-- Japanese -->

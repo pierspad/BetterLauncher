@@ -301,7 +301,7 @@ Zum Entfernen muss er ≤ 2 sein</string>
     <string name="dialog_back">Zurück</string>
     <string name="settings_drawer_icons">Symbole im Drawer anzeigen</string>
     <string name="settings_home_icons">Symbole auf dem Startbildschirm anzeigen</string>
-    <string name="settings_home_only_icons">Nur Symbole auf dem Startbildschirm anzeigen</string>
+    <string name="settings_home_only_icons">App-Namen auf dem Startbildschirm ausblenden</string>
         <string name="settings_use_colorful_icons">Farbige Symbole verwenden</string>
     <string name="settings_icons_title">Symbole</string>
 </resources>

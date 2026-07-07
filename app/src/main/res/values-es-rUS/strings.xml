@@ -299,7 +299,7 @@ Para eliminarlo debe ser ≤ 2</string>
     <string name="dialog_back">Atrás</string>
     <string name="settings_drawer_icons">Mostrar iconos en el cajón</string>
     <string name="settings_home_icons">Mostrar iconos en la pantalla de inicio</string>
-    <string name="settings_home_only_icons">Mostrar solo iconos en la pantalla de inicio</string>
+    <string name="settings_home_only_icons">No mostrar los nombres de las aplicaciones en la pantalla de inicio</string>
         <string name="settings_use_colorful_icons">Usar iconos coloridos</string>
     <string name="settings_icons_title">Iconos</string>
 </resources><!-- Spanish -->

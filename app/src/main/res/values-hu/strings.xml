@@ -301,9 +301,9 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="add_custom_font">Betűtípus hozzáadása</string>
     <string name="backup_restore_title">Beállítások importálása / exportálása</string>
     <string name="dialog_back">Vissza</string>
-    <string name="settings_drawer_icons">Ikonok megjelenítése a fiókban</string>
+    <string name="settings_drawer_icons">Ikonok megjelenítése az alkalmazásmenüben</string>
     <string name="settings_home_icons">Ikonok megjelenítése a kezdőképernyőn</string>
-    <string name="settings_home_only_icons">Csak ikonok megjelenítése a kezdőképernyőn</string>
+    <string name="settings_home_only_icons">Alkalmazásnevek elrejtése a kezdőképernyőn</string>
         <string name="settings_use_colorful_icons">Színes ikonok használata</string>
     <string name="settings_icons_title">Ikonok</string>
 </resources><!-- Hungarian -->

@@ -299,7 +299,7 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="dialog_back">Tillbaka</string>
     <string name="settings_drawer_icons">Visa ikoner i applådan</string>
     <string name="settings_home_icons">Visa ikoner på startskärmen</string>
-    <string name="settings_home_only_icons">Visa endast ikoner på startskärmen</string>
+    <string name="settings_home_only_icons">Dölj appnamn på startskärmen</string>
         <string name="settings_use_colorful_icons">Använd färgglada ikoner</string>
     <string name="settings_icons_title">Ikoner</string>
 </resources><!-- Swedish -->

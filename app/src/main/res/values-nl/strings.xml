@@ -298,9 +298,9 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="add_custom_font">Lettertype toevoegen</string>
     <string name="backup_restore_title">Instellingen importeren / exporteren</string>
     <string name="dialog_back">Terug</string>
-    <string name="settings_drawer_icons">Pictogrammen tonen in lade</string>
-    <string name="settings_home_icons">Pictogrammen tonen op startscherm</string>
-    <string name="settings_home_only_icons">Alleen pictogrammen tonen op startscherm</string>
+    <string name="settings_drawer_icons">Pictogrammen in lade weergeven</string>
+    <string name="settings_home_icons">Pictogrammen op startscherm weergeven</string>
+    <string name="settings_home_only_icons">App-namen verbergen op het startscherm</string>
         <string name="settings_use_colorful_icons">Kleurrijke pictogrammen gebruiken</string>
     <string name="settings_icons_title">Pictogrammen</string>
 </resources><!-- Dutch -->

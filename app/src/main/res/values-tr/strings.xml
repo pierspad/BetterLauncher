@@ -299,9 +299,9 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="add_custom_font">Yazı tipi ekle</string>
     <string name="backup_restore_title">Ayarları İçe / Dışa Aktar</string>
     <string name="dialog_back">Geri</string>
-    <string name="settings_drawer_icons">Çekmecede simgeleri göster</string>
+    <string name="settings_drawer_icons">Uygulama çekmecesinde simgeleri göster</string>
     <string name="settings_home_icons">Ana ekranda simgeleri göster</string>
-    <string name="settings_home_only_icons">Ana ekranda yalnızca simgeleri göster</string>
+    <string name="settings_home_only_icons">Ana ekranda uygulama adlarını gizle</string>
         <string name="settings_use_colorful_icons">Renkli simgeleri kullan</string>
     <string name="settings_icons_title">Simgeler</string>
 </resources><!-- Turkish -->

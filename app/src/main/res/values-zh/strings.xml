@@ -302,7 +302,7 @@
     <string name="dialog_back">返回</string>
     <string name="settings_drawer_icons">在抽屉中显示图标</string>
     <string name="settings_home_icons">在主屏幕上显示图标</string>
-    <string name="settings_home_only_icons">仅在主屏幕上显示图标</string>
+    <string name="settings_home_only_icons">在主屏幕上隐藏应用名称</string>
         <string name="settings_use_colorful_icons">使用彩色图标</string>
     <string name="settings_icons_title">图标</string>
 </resources><!-- Chinese -->
