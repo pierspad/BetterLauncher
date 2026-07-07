@@ -31,9 +31,9 @@ BetterLauncher offers a highly customizable, feature-rich interface compared to 
 You can easily select and place any standard system widget directly on your home screen.
 
 <p align="left">
-  <img src="docs/Widget_Chooser.jpg" width="320" alt="Widget Chooser Dialog" />
+  <img src="./widget_chooser.png" width="320" alt="Widget Chooser Dialog" />
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/Widget_Added.jpg" width="320" alt="Widget Added on Home Screen" />
+  <img src="./widget_added.png" width="320" alt="Widget Added on Home Screen" />
 </p>
 
 ---
