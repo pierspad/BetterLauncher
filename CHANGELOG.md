@@ -1,3 +1,11 @@
+## [1.0.2](https://github.com/pierspad/BetterLauncher/compare/v1.0.1...v1.0.2) (2026-07-07)
+
+
+### Bug Fixes
+
+* implement exact row-based alignment and separate icons settings section ([8aedc46](https://github.com/pierspad/BetterLauncher/commit/8aedc466f8f072f253cd3d4a331bb5455415f136))
+* minimal icons added ([0833063](https://github.com/pierspad/BetterLauncher/commit/08330630a289035b5604d2371f9878c691aec601))
+
 ## [1.0.1](https://github.com/pierspad/BetterLauncher/compare/v1.0.0...v1.0.1) (2026-07-06)
 
 
