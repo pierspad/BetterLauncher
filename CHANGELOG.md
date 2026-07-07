@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/pierspad/BetterLauncher/compare/v1.0.3...v1.0.4) (2026-07-07)
+
+
+### Bug Fixes
+
+* update only icons switch translation text and escape special XML characters ([2e38ed9](https://github.com/pierspad/BetterLauncher/commit/2e38ed92c1640fe14b4df363ff4b2d00c82c9ddf))
+
 ## [1.0.3](https://github.com/pierspad/BetterLauncher/compare/v1.0.2...v1.0.3) (2026-07-07)
 
 
