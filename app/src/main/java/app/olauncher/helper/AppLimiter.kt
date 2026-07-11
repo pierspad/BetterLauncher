@@ -59,6 +59,14 @@ object AppLimiter {
     }
 
     /**
+     * Day counter that rolls over at *local* midnight (a plain `now / 86_400_000`
+     * would roll over at UTC midnight — 1–2 AM in Italy). Used for the daily
+     * severity decay, both here and in MainActivity.
+     */
+    fun localDayNumber(now: Long): Long =
+        (now + java.util.TimeZone.getDefault().getOffset(now)) / (24 * 3600 * 1000L)
+
+    /**
      * Evaluates — and persists — the cooldown state for [key] at time [now].
      * Returns [Decision.Allow] (state already updated for a clean open) or
      * [Decision.Block] with the moment the app becomes available again.
@@ -110,7 +118,7 @@ object AppLimiter {
 
         // 2) No cooldown active (either it elapsed or was never set).
         // Check daily decay first (Tier 2):
-        val today = now / (24 * 3600 * 1000)
+        val today = localDayNumber(now)
         val lastDay = prefs.limitLastOpenDay(key)
         var currentLevel = level
         if (lastDay > 0 && today > lastDay) {

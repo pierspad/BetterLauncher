@@ -506,33 +506,25 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         negativeBtnRes: Int? = null,
         onPositiveClick: (() -> Unit)? = null
     ) {
-        val ctx = requireContext()
-        val view = layoutInflater.inflate(R.layout.dialog_message, null)
-        val titleView = view.findViewById<TextView>(R.id.dialogTitle)
-        val messageView = view.findViewById<TextView>(R.id.dialogMessage)
-        val positiveButton = view.findViewById<TextView>(R.id.dialogPositiveButton)
-        val negativeButton = view.findViewById<TextView>(R.id.dialogNegativeButton)
+        val dialogBinding = app.olauncher.databinding.DialogMessageBinding.inflate(layoutInflater)
+        dialogBinding.dialogTitle.setText(titleRes)
+        dialogBinding.dialogMessage.setText(messageRes)
+        dialogBinding.dialogPositiveButton.setText(positiveBtnRes)
 
-        titleView.setText(titleRes)
-        messageView.setText(messageRes)
-        positiveButton.setText(positiveBtnRes)
-
-        val dialog = AlertDialog.Builder(ctx).setView(view).create()
+        val dialog = AlertDialog.Builder(requireContext()).setView(dialogBinding.root).create()
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-        positiveButton.setOnClickListener {
+        dialogBinding.dialogPositiveButton.setOnClickListener {
             onPositiveClick?.invoke()
             dialog.dismiss()
         }
 
         if (negativeBtnRes != null) {
-            negativeButton.visibility = View.VISIBLE
-            negativeButton.setText(negativeBtnRes)
-            negativeButton.setOnClickListener {
-                dialog.dismiss()
-            }
+            dialogBinding.dialogNegativeButton.visibility = View.VISIBLE
+            dialogBinding.dialogNegativeButton.setText(negativeBtnRes)
+            dialogBinding.dialogNegativeButton.setOnClickListener { dialog.dismiss() }
         } else {
-            negativeButton.visibility = View.GONE
+            dialogBinding.dialogNegativeButton.visibility = View.GONE
         }
 
         dialog.show()
@@ -697,6 +689,20 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     // ---- Sliders: apps-on-home (1..6) and text size (0.8..1.5) ----
 
+    // Single adapter for the five sliders below: SeekBar's three-method listener
+    // collapses to the two or three lambdas each slider actually needs.
+    private fun SeekBar.onChange(
+        onStart: (progress: Int) -> Unit = {},
+        onProgress: (progress: Int, fromUser: Boolean) -> Unit,
+        onStop: (progress: Int) -> Unit,
+    ) = setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) =
+            onProgress(progress, fromUser)
+
+        override fun onStartTrackingTouch(seekBar: SeekBar) = onStart(seekBar.progress)
+        override fun onStopTrackingTouch(seekBar: SeekBar) = onStop(seekBar.progress)
+    })
+
     private fun setupSliders() {
         // Mutate drawables to prevent shared state highlights
         val seekBars = listOf(
@@ -717,17 +723,10 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.appsNumSeekBar.max = APPS_NUM_MAX - APPS_NUM_MIN
         binding.appsNumSeekBar.progress = appsNum - APPS_NUM_MIN
         binding.homeAppsNum.text = appsNum.toString()
-        binding.appsNumSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                binding.homeAppsNum.text = (progress + APPS_NUM_MIN).toString()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                updateHomeAppsNum(seekBar.progress + APPS_NUM_MIN)
-            }
-        })
+        binding.appsNumSeekBar.onChange(
+            onProgress = { progress, _ -> binding.homeAppsNum.text = (progress + APPS_NUM_MIN).toString() },
+            onStop = { progress -> updateHomeAppsNum(progress + APPS_NUM_MIN) },
+        )
 
         // Favorite icons count: progress 0..(MAX-MIN) maps to MIN..MAX shortcut icons.
         val iconsNum = prefs.homeShortcutIconsNum.coerceIn(ICONS_NUM_MIN, ICONS_NUM_MAX)
@@ -735,32 +734,18 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.iconsNumSeekBar.max = ICONS_NUM_MAX - ICONS_NUM_MIN
         binding.iconsNumSeekBar.progress = iconsNum - ICONS_NUM_MIN
         binding.homeIconsNum.text = iconsNum.toString()
-        binding.iconsNumSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                binding.homeIconsNum.text = (progress + ICONS_NUM_MIN).toString()
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                updateHomeIconsNum(seekBar.progress + ICONS_NUM_MIN)
-            }
-        })
+        binding.iconsNumSeekBar.onChange(
+            onProgress = { progress, _ -> binding.homeIconsNum.text = (progress + ICONS_NUM_MIN).toString() },
+            onStop = { progress -> updateHomeIconsNum(progress + ICONS_NUM_MIN) },
+        )
 
         // Text size: progress 0..TEXT_SIZE_STEPS maps to TEXT_SIZE_MIN..TEXT_SIZE_MAX (step 0.1).
         binding.textSizeSeekBar.max = TEXT_SIZE_STEPS
         binding.textSizeSeekBar.progress = scaleToProgress(prefs.textSizeScale)
-        binding.textSizeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                binding.textSizeValue.text = String.format("%.1f", progressToScale(progress))
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                applyTextSizeScale(progressToScale(seekBar.progress))
-            }
-        })
+        binding.textSizeSeekBar.onChange(
+            onProgress = { progress, _ -> binding.textSizeValue.text = formatScale(progressToScale(progress)) },
+            onStop = { progress -> applyTextSizeScale(progressToScale(progress)) },
+        )
 
         setupOpacitySliders()
     }
@@ -774,46 +759,35 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.homeOpacitySeekBar.max = OPACITY_STEPS
         binding.homeOpacitySeekBar.progress = opacityToProgress(prefs.opacityHome)
         binding.homeOpacityValue.text = "${binding.homeOpacitySeekBar.progress * OPACITY_STEP_PERCENT}%"
-        binding.homeOpacitySeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+        binding.homeOpacitySeekBar.onChange(
+            onStart = { progress -> updateOpacityPreview(progress, getString(R.string.opacity_home)) },
+            onProgress = { progress, fromUser ->
                 binding.homeOpacityValue.text = "${progress * OPACITY_STEP_PERCENT}%"
                 updateOpacityPreview(progress, getString(R.string.opacity_home))
-                if (fromUser) {
-                    prefs.opacityHome = progress.toFloat() / OPACITY_STEPS
-                    (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = false)
-                }
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                updateOpacityPreview(seekBar.progress, getString(R.string.opacity_home))
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                prefs.opacityHome = seekBar.progress.toFloat() / OPACITY_STEPS
-                (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = false)
-            }
-        })
+                if (fromUser) applyHomeOpacity(progress)
+            },
+            onStop = { progress -> applyHomeOpacity(progress) },
+        )
 
         binding.drawerOpacitySeekBar.max = OPACITY_STEPS
         binding.drawerOpacitySeekBar.progress = opacityToProgress(prefs.opacityDrawer)
         binding.drawerOpacityValue.text = "${binding.drawerOpacitySeekBar.progress * OPACITY_STEP_PERCENT}%"
-        binding.drawerOpacitySeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+        binding.drawerOpacitySeekBar.onChange(
+            onStart = { progress -> updateOpacityPreview(progress, getString(R.string.opacity_drawer)) },
+            onProgress = { progress, _ ->
                 binding.drawerOpacityValue.text = "${progress * OPACITY_STEP_PERCENT}%"
                 updateOpacityPreview(progress, getString(R.string.opacity_drawer))
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                updateOpacityPreview(seekBar.progress, getString(R.string.opacity_drawer))
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                prefs.opacityDrawer = seekBar.progress.toFloat() / OPACITY_STEPS
-            }
-        })
+            },
+            onStop = { progress -> prefs.opacityDrawer = progress.toFloat() / OPACITY_STEPS },
+        )
 
         // Initial preview reflects the home slider.
         updateOpacityPreview(binding.homeOpacitySeekBar.progress, getString(R.string.opacity_home))
+    }
+
+    private fun applyHomeOpacity(progress: Int) {
+        prefs.opacityHome = progress.toFloat() / OPACITY_STEPS
+        (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = false)
     }
 
     // Mirrors the real home/drawer effect over the live wallpaper revealed by the hole:
@@ -903,8 +877,12 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun populateTextSize() {
-        binding.textSizeValue.text = String.format("%.1f", prefs.textSizeScale)
+        binding.textSizeValue.text = formatScale(prefs.textSizeScale)
     }
+
+    // Display-only value ("1.2"); ROOT keeps the dot regardless of device locale so it
+    // always matches the neutral, code-like look of the slider row.
+    private fun formatScale(scale: Float): String = "%.1f".format(java.util.Locale.ROOT, scale)
 
     // ---- Font ----
     // Predefined options map to built-in Android font families (no bundled files, no

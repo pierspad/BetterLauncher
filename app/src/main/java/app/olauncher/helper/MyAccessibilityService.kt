@@ -10,6 +10,8 @@ import app.olauncher.data.Prefs
 
 class MyAccessibilityService : AccessibilityService() {
 
+    private val prefs by lazy { Prefs(applicationContext) }
+
     // A single app open fires several TYPE_WINDOW_STATE_CHANGED events (splash →
     // main activity, dialogs…). Without this guard each event would escalate the
     // penalty again, stacking +15/+30/+60 within milliseconds for one violation.
@@ -25,7 +27,7 @@ class MyAccessibilityService : AccessibilityService() {
     }
 
     override fun onServiceConnected() {
-        Prefs(applicationContext).lockModeOn = true
+        prefs.lockModeOn = true
         val info = serviceInfo
         info.packageNames = null // Monitor all packages for app limit enforcement
         serviceInfo = info
@@ -38,7 +40,6 @@ class MyAccessibilityService : AccessibilityService() {
             if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
                 val pkgName = event.packageName?.toString()
                 if (pkgName != null) {
-                    val prefs = Prefs(applicationContext)
                     val now = System.currentTimeMillis()
 
                     // 1. Check if the user just exited the last opened limited app

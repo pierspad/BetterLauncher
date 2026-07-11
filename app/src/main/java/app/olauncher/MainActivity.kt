@@ -157,9 +157,9 @@ class MainActivity : AppCompatActivity() {
         isResumed = true
         viewModel.isPrivateSpaceToggling = false
 
-        // Decay check for all limited apps once per day:
+        // Decay check for all limited apps once per (local) day:
         val now = System.currentTimeMillis()
-        val today = now / (24 * 3600 * 1000)
+        val today = AppLimiter.localDayNumber(now)
         val lastDecay = prefs.lastDecayDay
         if (lastDecay == 0L) {
             prefs.lastDecayDay = today
@@ -278,15 +278,10 @@ class MainActivity : AppCompatActivity() {
         cooldownDialog?.dismiss()
 
         val label = resolveAppLabel(block.packageName, block.user)
-        val view = layoutInflater.inflate(R.layout.dialog_app_cooldown, null)
-        val iconView = view.findViewById<android.widget.ImageView>(R.id.cooldownIcon)
-        val titleView = view.findViewById<android.widget.TextView>(R.id.cooldownTitle)
-        val messageView = view.findViewById<android.widget.TextView>(R.id.cooldownMessage)
-        val timerView = view.findViewById<android.widget.TextView>(R.id.cooldownTimer)
-        val buttonView = view.findViewById<android.widget.TextView>(R.id.cooldownButton)
+        val binding = app.olauncher.databinding.DialogAppCooldownBinding.inflate(layoutInflater)
 
-        titleView.text = getString(R.string.app_limit_cooldown_title_new, label)
-        val messageText = buildString {
+        binding.cooldownTitle.text = getString(R.string.app_limit_cooldown_title_new, label)
+        binding.cooldownMessage.text = buildString {
             append(getString(R.string.app_limit_cooldown_message_new))
             append("\n\n")
             if (block.isSevere) {
@@ -295,50 +290,50 @@ class MainActivity : AppCompatActivity() {
                 append(getString(R.string.app_limit_cooldown_reason_compulsiveness, block.compulsivenessLevel, block.totalBanMinutes))
             }
         }
-        messageView.text = messageText
 
         // Severe block (ban violated): red "no entry" icon and red accents instead of the
         // plain white hourglass, so the two situations are unmistakable at a glance.
         if (block.isSevere) {
             val severe = ContextCompat.getColor(this, R.color.cooldownSevere)
-            iconView.setImageResource(R.drawable.ic_block)
-            iconView.imageTintList = android.content.res.ColorStateList.valueOf(severe)
-            titleView.setTextColor(severe)
-            timerView.setTextColor(severe)
+            binding.cooldownIcon.setImageResource(R.drawable.ic_block)
+            binding.cooldownIcon.imageTintList = android.content.res.ColorStateList.valueOf(severe)
+            binding.cooldownTitle.setTextColor(severe)
+            binding.cooldownTimer.setTextColor(severe)
         }
 
         val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
-            .setView(view)
+            .setView(binding.root)
             .create()
         // Transparent window so the rounded surface (not a square frame) is what shows.
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         cooldownDialog = dialog
         dialog.setOnDismissListener { cooldownJob?.cancel() }
-        buttonView.setOnClickListener { dialog.dismiss() }
+        binding.cooldownButton.setOnClickListener { dialog.dismiss() }
         dialog.show()
 
         cooldownJob = lifecycleScope.launch {
             while (true) {
                 val remaining = block.untilMillis - System.currentTimeMillis()
                 if (remaining <= 0) {
-                    timerView.text = "00:00"
-                    messageView.text = getString(R.string.app_limit_cooldown_over)
+                    binding.cooldownTimer.text = getString(R.string.cooldown_timer_zero)
+                    binding.cooldownMessage.text = getString(R.string.app_limit_cooldown_over)
                     break
                 }
-                val totalSec = (remaining + 999) / 1000
-                if (totalSec >= 3600) {
-                    val hours = totalSec / 3600
-                    val minutes = (totalSec % 3600) / 60
-                    val seconds = totalSec % 60
-                    timerView.text = String.format("%02d:%02d:%02d", hours, minutes, seconds)
-                } else {
-                    val minutes = totalSec / 60
-                    val seconds = totalSec % 60
-                    timerView.text = String.format("%02d:%02d", minutes, seconds)
-                }
+                binding.cooldownTimer.text = formatCountdown(remaining)
                 delay(500)
             }
         }
+    }
+
+    // mm:ss below one hour, hh:mm:ss above. Locale-invariant digits on purpose:
+    // the countdown pairs with the monospace-looking 48sp timer style.
+    private fun formatCountdown(remainingMillis: Long): String {
+        val totalSec = (remainingMillis + 999) / 1000
+        val hours = totalSec / 3600
+        val minutes = (totalSec % 3600) / 60
+        val seconds = totalSec % 60
+        return if (hours > 0) "%02d:%02d:%02d".format(java.util.Locale.ROOT, hours, minutes, seconds)
+        else "%02d:%02d".format(java.util.Locale.ROOT, minutes, seconds)
     }
 
     private fun resolveAppLabel(packageName: String, user: android.os.UserHandle): String {

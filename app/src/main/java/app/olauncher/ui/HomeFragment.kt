@@ -196,14 +196,13 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     override fun onLongClick(view: View): Boolean {
         if (reorderMode) return true
         when (view.id) {
-            R.id.homeApp1 -> showAppList(Constants.FLAG_SET_HOME_APP_1, prefs.appName1.isNotEmpty(), true)
-            R.id.homeApp2 -> showAppList(Constants.FLAG_SET_HOME_APP_2, prefs.appName2.isNotEmpty(), true)
-            R.id.homeApp3 -> showAppList(Constants.FLAG_SET_HOME_APP_3, prefs.appName3.isNotEmpty(), true)
-            R.id.homeApp4 -> showAppList(Constants.FLAG_SET_HOME_APP_4, prefs.appName4.isNotEmpty(), true)
-            R.id.homeApp5 -> showAppList(Constants.FLAG_SET_HOME_APP_5, prefs.appName5.isNotEmpty(), true)
-            R.id.homeApp6 -> showAppList(Constants.FLAG_SET_HOME_APP_6, prefs.appName6.isNotEmpty(), true)
-            R.id.homeApp7 -> showAppList(Constants.FLAG_SET_HOME_APP_7, prefs.appName7.isNotEmpty(), true)
-            R.id.homeApp8 -> showAppList(Constants.FLAG_SET_HOME_APP_8, prefs.appName8.isNotEmpty(), true)
+            R.id.homeApp1, R.id.homeApp2, R.id.homeApp3, R.id.homeApp4,
+            R.id.homeApp5, R.id.homeApp6, R.id.homeApp7, R.id.homeApp8,
+            -> {
+                // FLAG_SET_HOME_APP_n == n: the slot index doubles as the flag.
+                val location = homeAppViews().indexOfFirst { it.id == view.id } + 1
+                showAppList(location, prefs.getAppName(location).isNotEmpty(), true)
+            }
             R.id.clock -> {
                 showAppList(Constants.FLAG_SET_CLOCK_APP)
                 prefs.clockAppPackage = ""
@@ -274,14 +273,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     private fun initSwipeTouchListener() {
         val context = requireContext()
         binding.mainLayout.setOnTouchListener(getSwipeGestureListener(context))
-        binding.homeApp1.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp1))
-        binding.homeApp2.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp2))
-        binding.homeApp3.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp3))
-        binding.homeApp4.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp4))
-        binding.homeApp5.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp5))
-        binding.homeApp6.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp6))
-        binding.homeApp7.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp7))
-        binding.homeApp8.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp8))
+        homeAppViews().forEach { it.setOnTouchListener(getViewSwipeTouchListener(context, it)) }
     }
 
     private fun initClickListeners() {
@@ -315,14 +307,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
 
         // Home apps — independent horizontal + shared vertical alignment
         binding.homeAppsLayout.gravity = appsH or vertical
-        binding.homeApp1.gravity = appsH
-        binding.homeApp2.gravity = appsH
-        binding.homeApp3.gravity = appsH
-        binding.homeApp4.gravity = appsH
-        binding.homeApp5.gravity = appsH
-        binding.homeApp6.gravity = appsH
-        binding.homeApp7.gravity = appsH
-        binding.homeApp8.gravity = appsH
+        homeAppViews().forEach { it.gravity = appsH }
 
         // Shortcut icons column — independent horizontal + shared vertical alignment
         binding.shortcutIconsLayout.gravity = prefs.shortcutIconsAlignment or vertical
@@ -649,16 +634,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         return false
     }
 
-    private fun hideHomeApps() {
-        binding.homeApp1.visibility = View.GONE
-        binding.homeApp2.visibility = View.GONE
-        binding.homeApp3.visibility = View.GONE
-        binding.homeApp4.visibility = View.GONE
-        binding.homeApp5.visibility = View.GONE
-        binding.homeApp6.visibility = View.GONE
-        binding.homeApp7.visibility = View.GONE
-        binding.homeApp8.visibility = View.GONE
-    }
+    private fun hideHomeApps() = homeAppViews().forEach { it.visibility = View.GONE }
 
     private fun launchAppOrShortcut(
         appName: String,

@@ -448,86 +448,42 @@ fun expandNotificationDrawer(context: Context) {
     }
 }
 
-fun openDialerApp(context: Context) {
-    try {
-        val sendIntent = Intent(Intent.ACTION_DIAL)
-        context.startActivity(sendIntent)
-    } catch (e: Exception) {
-        e.printStackTrace()
+// Tries each intent in order, stopping at the first activity that resolves.
+// System "open the default X app" actions vary per OEM, hence the fallbacks.
+private fun Context.startFirstResolvable(vararg intents: Intent) {
+    for (intent in intents) {
+        runCatching { startActivity(intent) }.onSuccess { return }
     }
 }
 
-fun openCameraApp(context: Context) {
-    try {
-        val sendIntent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
-        context.startActivity(sendIntent)
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-}
+fun openDialerApp(context: Context) =
+    context.startFirstResolvable(Intent(Intent.ACTION_DIAL))
 
-fun openBrowserApp(context: Context) {
-    try {
-        context.startActivity(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_APP_BROWSER))
-    } catch (e: Exception) {
-        try {
-            context.startActivity(Intent(Intent.ACTION_VIEW, "https://".toUri()))
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-}
+fun openCameraApp(context: Context) =
+    context.startFirstResolvable(Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA))
 
-fun openGalleryApp(context: Context) {
-    try {
-        context.startActivity(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_APP_GALLERY))
-    } catch (e: Exception) {
-        try {
-            context.startActivity(Intent(Intent.ACTION_VIEW).setType("image/*"))
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-}
+fun openBrowserApp(context: Context) = context.startFirstResolvable(
+    Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_APP_BROWSER),
+    Intent(Intent.ACTION_VIEW, "https://".toUri()),
+)
 
-fun openMessagingApp(context: Context) {
-    try {
-        context.startActivity(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_APP_MESSAGING))
-    } catch (e: Exception) {
-        try {
-            context.startActivity(Intent(Intent.ACTION_VIEW, "sms:".toUri()))
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-}
+fun openGalleryApp(context: Context) = context.startFirstResolvable(
+    Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_APP_GALLERY),
+    Intent(Intent.ACTION_VIEW).setType("image/*"),
+)
 
-fun openAlarmApp(context: Context) {
-    try {
-        val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
-        context.startActivity(intent)
-    } catch (e: Exception) {
-        Log.d("TAG", e.toString())
-    }
-}
+fun openMessagingApp(context: Context) = context.startFirstResolvable(
+    Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_APP_MESSAGING),
+    Intent(Intent.ACTION_VIEW, "sms:".toUri()),
+)
 
-fun openCalendar(context: Context) {
-    try {
-        val calendarUri = CalendarContract.CONTENT_URI
-            .buildUpon()
-            .appendPath("time")
-            .build()
-        context.startActivity(Intent(Intent.ACTION_VIEW, calendarUri))
-    } catch (e: Exception) {
-        try {
-            val intent = Intent(Intent.ACTION_MAIN)
-            intent.addCategory(Intent.CATEGORY_APP_CALENDAR)
-            context.startActivity(intent)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-}
+fun openAlarmApp(context: Context) =
+    context.startFirstResolvable(Intent(AlarmClock.ACTION_SHOW_ALARMS))
+
+fun openCalendar(context: Context) = context.startFirstResolvable(
+    Intent(Intent.ACTION_VIEW, CalendarContract.CONTENT_URI.buildUpon().appendPath("time").build()),
+    Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_APP_CALENDAR),
+)
 
 fun isAccessServiceEnabled(context: Context): Boolean {
     val enabled = try {
