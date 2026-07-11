@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/pierspad/BetterLauncher/compare/v1.1.2...v1.1.3) (2026-07-11)
+
+
+### Bug Fixes
+
+* refactoring and cleaning of the code ([8c74e73](https://github.com/pierspad/BetterLauncher/commit/8c74e73b7de2159cbb82313a235e525d34a303f2))
+
 ## [1.1.2](https://github.com/pierspad/BetterLauncher/compare/v1.1.1...v1.1.2) (2026-07-11)
 
 
