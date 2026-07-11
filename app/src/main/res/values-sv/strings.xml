@@ -168,8 +168,6 @@
     <string name="instagram">Instagram</string>
     <string name="clock_alignment">Horisontell klockinställning</string>
     <string name="icons_alignment">Horisontella ikoner justering</string>
-    <string name="vertical_alignment">Vertikal appjustering</string>
-    <string name="up">Upp</string>
     <string name="down">Ner</string>
     <string name="unable_to_open_app_info">Det gick inte att öppna appinformation</string>
     <string name="private_space">Privat utrymme</string>

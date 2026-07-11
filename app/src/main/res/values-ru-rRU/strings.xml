@@ -171,8 +171,6 @@
     <string name="instagram">Инстаграм</string>
     <string name="clock_alignment">Горизонтальное выравнивание часов</string>
     <string name="icons_alignment">Горизонтальное выравнивание значков</string>
-    <string name="vertical_alignment">Вертикальное выравнивание приложений</string>
-    <string name="up">Вверх</string>
     <string name="down">Вниз</string>
     <string name="unable_to_open_app_info">Невозможно открыть информацию о приложении</string>
     <string name="private_space">Личное пространство</string>

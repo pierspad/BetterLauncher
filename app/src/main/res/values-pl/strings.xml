@@ -168,8 +168,6 @@
     <string name="instagram">Instagrama</string>
     <string name="clock_alignment">Poziome ustawienie zegara</string>
     <string name="icons_alignment">Wyrównanie ikon w poziomie</string>
-    <string name="vertical_alignment">Wyrównanie aplikacji w pionie</string>
-    <string name="up">W górę</string>
     <string name="down">W dół</string>
     <string name="unable_to_open_app_info">Nie można otworzyć informacji o aplikacji</string>
     <string name="private_space">Prywatna przestrzeń</string>

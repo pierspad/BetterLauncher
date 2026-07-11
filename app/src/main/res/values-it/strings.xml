@@ -37,8 +37,6 @@
     <string name="home_layout_alignment">Allinea orizzontalmente le app</string>
     <string name="clock_alignment">Allinea orizzontalmente orario</string>
     <string name="icons_alignment">Allinea orizzontalmente le icone</string>
-    <string name="vertical_alignment">Allinea verticalmente le app</string>
-    <string name="up">Su</string>
     <string name="down">Giù</string>
     <string name="swipe_left_app">Scorri verso sinistra</string>
     <string name="swipe_right_app">Scorri verso destra l\'app</string>

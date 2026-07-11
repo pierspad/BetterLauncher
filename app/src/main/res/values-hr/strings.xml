@@ -169,8 +169,6 @@
     <string name="instagram">Instagram</string>
     <string name="clock_alignment">Horizontalno poravnanje sata</string>
     <string name="icons_alignment">Horizontalno poravnanje ikona</string>
-    <string name="vertical_alignment">Okomito poravnanje aplikacije</string>
-    <string name="up">Gore</string>
     <string name="down">dolje</string>
     <string name="unable_to_open_app_info">Nije moguće otvoriti informacije o aplikaciji</string>
     <string name="private_space">Privatni prostor</string>

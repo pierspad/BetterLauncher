@@ -170,8 +170,6 @@
     <string name="instagram">instagram</string>
     <string name="clock_alignment">Yatay saat hizalaması</string>
     <string name="icons_alignment">Yatay simgeler hizalaması</string>
-    <string name="vertical_alignment">Dikey uygulama hizalaması</string>
-    <string name="up">Yukarı</string>
     <string name="down">Aşağı</string>
     <string name="unable_to_open_app_info">Uygulama bilgileri açılamıyor</string>
     <string name="private_space">Özel alan</string>

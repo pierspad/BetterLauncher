@@ -169,8 +169,6 @@
     <string name="instagram">インスタグラム</string>
     <string name="clock_alignment">水平方向のクロック調整</string>
     <string name="icons_alignment">アイコンの水平方向の配置</string>
-    <string name="vertical_alignment">アプリの垂直配置</string>
-    <string name="up">上</string>
     <string name="down">下</string>
     <string name="unable_to_open_app_info">アプリ情報を開けません</string>
     <string name="private_space">プライベートスペース</string>

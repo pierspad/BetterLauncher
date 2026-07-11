@@ -168,8 +168,6 @@
     <string name="instagram">Instagram</string>
     <string name="clock_alignment">Penyelarasan jam horizontal</string>
     <string name="icons_alignment">Penjajaran ikon horizontal</string>
-    <string name="vertical_alignment">Penyelarasan aplikasi vertikal</string>
-    <string name="up">Ke atas</string>
     <string name="down">Turun</string>
     <string name="unable_to_open_app_info">Tidak dapat membuka info aplikasi</string>
     <string name="private_space">Ruang pribadi</string>

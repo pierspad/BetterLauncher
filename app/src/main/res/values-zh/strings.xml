@@ -171,8 +171,6 @@
     <string name="instagram">Instagram</string>
     <string name="clock_alignment">水平时钟对齐</string>
     <string name="icons_alignment">水平图标对齐</string>
-    <string name="vertical_alignment">垂直应用对齐</string>
-    <string name="up">向上</string>
     <string name="down">向下</string>
     <string name="unable_to_open_app_info">无法打开应用程序信息</string>
     <string name="private_space">私人空间</string>

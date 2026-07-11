@@ -162,8 +162,6 @@
     <string name="instagram">אינסטגרם</string>
     <string name="clock_alignment">יישור שעון אופקי</string>
     <string name="icons_alignment">יישור סמלים אופקיים</string>
-    <string name="vertical_alignment">יישור אפליקציה אנכי</string>
-    <string name="up">לְמַעלָה</string>
     <string name="down">לְמַטָה</string>
     <string name="unable_to_open_app_info">לא ניתן לפתוח את פרטי האפליקציה</string>
     <string name="private_space">חלל פרטי</string>

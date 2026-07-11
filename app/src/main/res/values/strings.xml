@@ -63,8 +63,6 @@
     <string name="home_layout_alignment">Horizontal app alignment</string>
     <string name="clock_alignment">Horizontal clock alignment</string>
     <string name="icons_alignment">Horizontal icons alignment</string>
-    <string name="vertical_alignment">Vertical app alignment</string>
-    <string name="up">Up</string>
     <string name="down">Down</string>
     <string name="swipe_left_app">Swipe left app</string>
     <string name="swipe_right_app">Swipe right app</string>

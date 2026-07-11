@@ -340,7 +340,7 @@ class Prefs(private val context: Context) {
 
     // Vertical alignment (Gravity.TOP / CENTER_VERTICAL / BOTTOM) for apps + icons block
     var homeVerticalAlignment: Int
-        get() = prefs.getInt(HOME_VERTICAL_ALIGNMENT, Gravity.BOTTOM)
+        get() = Gravity.BOTTOM
         set(value) = prefs.edit { putInt(HOME_VERTICAL_ALIGNMENT, value).apply() }
 
     var appLabelAlignment: Int

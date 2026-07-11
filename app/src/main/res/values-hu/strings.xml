@@ -172,8 +172,6 @@
     <string name="instagram">Instagram</string>
     <string name="clock_alignment">Vízszintes órabeállítás</string>
     <string name="icons_alignment">Vízszintes ikonok igazítása</string>
-    <string name="vertical_alignment">Függőleges alkalmazásigazítás</string>
-    <string name="up">Fel</string>
     <string name="down">Le</string>
     <string name="unable_to_open_app_info">Nem sikerült megnyitni az alkalmazás adatait</string>
     <string name="private_space">Privát tér</string>

@@ -170,8 +170,6 @@
     <string name="instagram">Instagram</string>
     <string name="clock_alignment">Alignement horizontal de l\'horloge</string>
     <string name="icons_alignment">Alignement des icônes horizontales</string>
-    <string name="vertical_alignment">Alignement vertical des applications</string>
-    <string name="up">En haut</string>
     <string name="down">Vers le bas</string>
     <string name="unable_to_open_app_info">Impossible d\'ouvrir les informations sur l\'application</string>
     <string name="private_space">Espace privé</string>

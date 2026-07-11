@@ -234,8 +234,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.alignHomeLeft -> updateHomeHorizontalAlignment(Gravity.START)
             R.id.alignHomeCenter -> updateHomeHorizontalAlignment(Gravity.CENTER)
             R.id.alignHomeRight -> updateHomeHorizontalAlignment(Gravity.END)
-            R.id.alignVertUp -> updateVerticalAlignment(Gravity.TOP)
-            R.id.alignVertDown -> updateVerticalAlignment(Gravity.BOTTOM)
+
             R.id.alignClockLeft -> updateClockAlignment(Gravity.START)
             R.id.alignClockCenter -> updateClockAlignment(Gravity.CENTER)
             R.id.alignClockRight -> updateClockAlignment(Gravity.END)
@@ -316,8 +315,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.alignHomeLeft.setOnClickListener(this)
         binding.alignHomeCenter.setOnClickListener(this)
         binding.alignHomeRight.setOnClickListener(this)
-        binding.alignVertUp.setOnClickListener(this)
-        binding.alignVertDown.setOnClickListener(this)
+
         binding.alignClockLeft.setOnClickListener(this)
         binding.alignClockCenter.setOnClickListener(this)
         binding.alignClockRight.setOnClickListener(this)
@@ -1046,8 +1044,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         highlightHorizontal(prefs.clockAlignment, binding.alignClockLeft, binding.alignClockCenter, binding.alignClockRight)
         highlightHorizontal(prefs.shortcutIconsAlignment, binding.alignIconsLeft, binding.alignIconsCenter, binding.alignIconsRight)
         highlightHorizontal(prefs.screenTimeAlignment, binding.alignScreenTimeLeft, binding.alignScreenTimeCenter, binding.alignScreenTimeRight)
-        val verticalSelected = if (prefs.homeVerticalAlignment == Gravity.TOP) binding.alignVertUp else binding.alignVertDown
-        highlightSegment(verticalSelected, binding.alignVertUp, binding.alignVertDown)
+
         applyAlignmentExclusion()
     }
 
@@ -1112,11 +1109,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             segment.setColorFilter(if (isSelected) active else inactive)
             segment.setBackgroundResource(if (isSelected) R.drawable.segmented_thumb else 0)
         }
-    }
-
-    private fun updateVerticalAlignment(gravity: Int) {
-        prefs.homeVerticalAlignment = gravity
-        viewModel.updateHomeAlignment(prefs.homeAlignment)
     }
 
     private fun updateClockAlignment(gravity: Int) {

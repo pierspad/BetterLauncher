@@ -168,8 +168,6 @@
     <string name="instagram">انستغرام</string>
     <string name="clock_alignment">محاذاة الساعة الأفقية</string>
     <string name="icons_alignment">محاذاة الرموز الأفقية</string>
-    <string name="vertical_alignment">محاذاة التطبيق عموديًا</string>
-    <string name="up">أعلى</string>
     <string name="down">تحت</string>
     <string name="unable_to_open_app_info">غير قادر على فتح معلومات التطبيق</string>
     <string name="private_space">مساحة خاصة</string>
