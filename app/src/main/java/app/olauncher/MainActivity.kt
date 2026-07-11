@@ -279,6 +279,7 @@ class MainActivity : AppCompatActivity() {
 
         val label = resolveAppLabel(block.packageName, block.user)
         val view = layoutInflater.inflate(R.layout.dialog_app_cooldown, null)
+        val iconView = view.findViewById<android.widget.ImageView>(R.id.cooldownIcon)
         val titleView = view.findViewById<android.widget.TextView>(R.id.cooldownTitle)
         val messageView = view.findViewById<android.widget.TextView>(R.id.cooldownMessage)
         val timerView = view.findViewById<android.widget.TextView>(R.id.cooldownTimer)
@@ -295,6 +296,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
         messageView.text = messageText
+
+        // Severe block (ban violated): red "no entry" icon and red accents instead of the
+        // plain white hourglass, so the two situations are unmistakable at a glance.
+        if (block.isSevere) {
+            val severe = ContextCompat.getColor(this, R.color.cooldownSevere)
+            iconView.setImageResource(R.drawable.ic_block)
+            iconView.imageTintList = android.content.res.ColorStateList.valueOf(severe)
+            titleView.setTextColor(severe)
+            timerView.setTextColor(severe)
+        }
 
         val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
             .setView(view)

@@ -10,6 +10,16 @@ import app.olauncher.data.Prefs
 
 class MyAccessibilityService : AccessibilityService() {
 
+    // A single app open fires several TYPE_WINDOW_STATE_CHANGED events (splash →
+    // main activity, dialogs…). Without this guard each event would escalate the
+    // penalty again, stacking +15/+30/+60 within milliseconds for one violation.
+    private var lastEscalatedKey: String? = null
+    private var lastEscalatedAt: Long = 0L
+
+    private companion object {
+        const val ESCALATION_DEBOUNCE_MS = 5_000L
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return START_STICKY
     }
@@ -53,8 +63,15 @@ class MyAccessibilityService : AccessibilityService() {
                             if (key != null) {
                                 val until = prefs.limitUntil(key)
                                 if (until > now) {
-                                    // App is banned! Escalate cooldown
-                                    AppLimiter.evaluate(prefs, key, now)
+                                    // App is banned! Escalate cooldown — at most once per
+                                    // burst of window events (see fields above).
+                                    val isDuplicateBurst =
+                                        key == lastEscalatedKey && now - lastEscalatedAt < ESCALATION_DEBOUNCE_MS
+                                    if (!isDuplicateBurst) {
+                                        lastEscalatedKey = key
+                                        lastEscalatedAt = now
+                                        AppLimiter.evaluate(prefs, key, now)
+                                    }
 
                                     // Send home immediately
                                     performGlobalAction(GLOBAL_ACTION_HOME)

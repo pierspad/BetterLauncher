@@ -211,8 +211,6 @@
     <string name="limit_apps">Используйте меньше (перезарядка)</string>
     <string name="app_limited_toast">Время восстановления включено</string>
     <string name="app_unlimited_toast">Время восстановления удалено.</string>
-    <string name="app_limit_cooldown_title">%1$s · замедлиться</string>
-    <string name="app_limit_cooldown_message">Вы открыли это недавно. Сделайте передышку.</string>
     <string name="app_limit_cooldown_over">Вы можете открыть его сейчас.</string>
     <string name="backup_saved">Настройки успешно экспортированы</string>
     <string name="backup_failed">Экспорт не удался</string>
@@ -275,11 +273,10 @@
     <string name="cannot_remove_limit_compulsiveness">Невозможно удалить ограничение!
 Ваш уровень компульсивности: %1$d
 Для удаления он должен быть ≤ 2</string>
-    <string name="app_limit_cooldown_penalty_message">Открытие во время ожидания запрещено. Штраф: добавлено +%1$d мин.</string>
     <string name="app_limit_cooldown_title_new">%1$s - замедлиться</string>
-    <string name="app_limit_cooldown_message_new">Невозможно открыть приложение во время ожидания</string>
-    <string name="app_limit_cooldown_reason_severe">Серьезное наказание!\nВы открыли приложение во время блокировки: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">Наказание за компульсивность!\nВы открыли приложение %1$d-й раз за сегодня, блокировка: + %2$d мин.</string>
+    <string name="app_limit_cooldown_message_new">Невозможно открыть приложение во время таймера ожидания</string>
+    <string name="app_limit_cooldown_reason_severe">Серьёзное наказание!\nВы открыли приложение во время блокировки:\n+%1$d мин добавлено к таймеру</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Наказание за компульсивность!\nОткрытие №%1$d за сегодня:\nблокировка на %2$d мин</string>
     <string name="invalid_pin_request">Неверный запрос PIN-кода</string>
     <string name="widgets_not_supported">Виджеты не поддерживаются</string>
     <string name="unknown_action_not_supported">Неизвестное действие не поддерживается</string>

@@ -209,8 +209,6 @@
     <string name="limit_apps">Koristite manje (hlađenje)</string>
     <string name="app_limited_toast">Hlađenje omogućeno</string>
     <string name="app_unlimited_toast">Hlađenje uklonjeno</string>
-    <string name="app_limit_cooldown_title">%1$s · uspori</string>
-    <string name="app_limit_cooldown_message">Ovo ste nedavno otvorili. Odahnite.</string>
     <string name="app_limit_cooldown_over">Sada ga možete otvoriti.</string>
     <string name="backup_saved">Postavke su uspješno izvezene</string>
     <string name="backup_failed">Izvoz nije uspio</string>
@@ -273,11 +271,10 @@ Aplikacija je trenutno u hlađenju/blokirana!</string>
     <string name="cannot_remove_limit_compulsiveness">Nije moguće ukloniti ograničenje!
 Razina kompulzivnosti vam je %1$d
 Za uklanjanje mora biti ≤ 2</string>
-    <string name="app_limit_cooldown_penalty_message">Otvaranje tijekom hlađenja nije dopušteno. Kazna: dodano +%1$d minuta.</string>
     <string name="app_limit_cooldown_title_new">%1$s - uspori</string>
-    <string name="app_limit_cooldown_message_new">Nije moguće otvoriti aplikaciju tijekom hlađenja</string>
-    <string name="app_limit_cooldown_reason_severe">Ozbiljna kazna!\nOtvorili ste aplikaciju tijekom blokade: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">Kompulzivna kazna!\nOtvorili ste aplikaciju %1$d. put danas, blokada: + %2$d minuta</string>
+    <string name="app_limit_cooldown_message_new">Aplikaciju nije moguće otvoriti dok traje hlađenje</string>
+    <string name="app_limit_cooldown_reason_severe">Ozbiljna kazna!\nOtvorili ste aplikaciju tijekom blokade:\n+%1$d minuta dodano na tajmer</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Kazna za kompulzivnost!\nOtvaranje br. %1$d danas:\nblokada od %2$d minuta</string>
     <string name="invalid_pin_request">Nevaljani zahtjev za PIN</string>
     <string name="widgets_not_supported">Widgeti nisu podržani</string>
     <string name="unknown_action_not_supported">Nepoznata radnja nije podržana</string>

@@ -209,8 +209,6 @@
     <string name="limit_apps">Use menos (recarga)</string>
     <string name="app_limited_toast">Recarga ativada</string>
     <string name="app_unlimited_toast">Recarga removida</string>
-    <string name="app_limit_cooldown_title">%1$s · desacelere</string>
-    <string name="app_limit_cooldown_message">Você abriu isso recentemente. Faça uma pausa.</string>
     <string name="app_limit_cooldown_over">Você pode abri-lo agora.</string>
     <string name="backup_saved">Configurações exportadas com sucesso</string>
     <string name="backup_failed">Falha na exportação</string>
@@ -273,11 +271,10 @@ O aplicativo está em cooldown/bloqueado!</string>
     <string name="cannot_remove_limit_compulsiveness">Não é possível remover o limite!
 Seu nível de compulsividade é %1$d
 Para remover, deve ser ≤ 2</string>
-    <string name="app_limit_cooldown_penalty_message">Não é permitido abrir durante o cooldown. Penalidade: +%1$d minutos adicionados.</string>
     <string name="app_limit_cooldown_title_new">%1$s - desacelere</string>
     <string name="app_limit_cooldown_message_new">Não é possível abrir o aplicativo durante o cooldown</string>
-    <string name="app_limit_cooldown_reason_severe">Penalidade Grave!\nVocê abriu o aplicativo durante um bloqueio: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">Penalidade de Compulsividade!\nVocê abriu o aplicativo pela %1$dª vez hoje, bloqueio: + %2$d minutos</string>
+    <string name="app_limit_cooldown_reason_severe">Penalidade grave!\nVocê abriu o aplicativo durante um bloqueio:\n+%1$d minutos adicionados ao cronômetro</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Penalidade de compulsividade!\nAbertura nº %1$d de hoje:\nbloqueio de %2$d minutos</string>
     <string name="invalid_pin_request">Solicitação de PIN inválida</string>
     <string name="widgets_not_supported">Widgets não são suportados</string>
     <string name="unknown_action_not_supported">Ação desconhecida não suportada</string>

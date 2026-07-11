@@ -208,8 +208,6 @@
     <string name="limit_apps">Använd mindre (nedkylning)</string>
     <string name="app_limited_toast">Nedkylning aktiverad</string>
     <string name="app_unlimited_toast">Cooldown har tagits bort</string>
-    <string name="app_limit_cooldown_title">%1$s · sakta ner</string>
-    <string name="app_limit_cooldown_message">Du öppnade den här nyligen. Ta en andningspaus.</string>
     <string name="app_limit_cooldown_over">Du kan öppna den nu.</string>
     <string name="backup_saved">Inställningarna har exporterats</string>
     <string name="backup_failed">Exporten misslyckades</string>
@@ -272,11 +270,10 @@ Appen är i nedkylning/blockerad!</string>
     <string name="cannot_remove_limit_compulsiveness">Kan inte ta bort gränsen!
 Din tvångsmässighet är på nivå %1$d
 För att ta bort måste den vara ≤ 2</string>
-    <string name="app_limit_cooldown_penalty_message">Öppning under nedkylning är inte tillåten. Straff: +%1$d minuter har lagts till.</string>
     <string name="app_limit_cooldown_title_new">%1$s - sakta ner</string>
-    <string name="app_limit_cooldown_message_new">Det går inte att öppna appen under nedkylningen</string>
-    <string name="app_limit_cooldown_reason_severe">Allvarligt straff!\nDu öppnade appen under en blockering: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">Tvångsmässigt straff!\nDu öppnade appen för %1$d:e gången idag, blockering: + %2$d minuter</string>
+    <string name="app_limit_cooldown_message_new">Appen kan inte öppnas medan nedkylningen pågår</string>
+    <string name="app_limit_cooldown_reason_severe">Allvarligt straff!\nDu öppnade appen under en blockering:\n+%1$d minuter läggs till på timern</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Tvångsmässighetsstraff!\nÖppning nr %1$d idag:\nblockering i %2$d minuter</string>
     <string name="invalid_pin_request">Ogiltig PIN-begäran</string>
     <string name="widgets_not_supported">Widgetar stöds inte</string>
     <string name="unknown_action_not_supported">Okänd åtgärd stöds inte</string>

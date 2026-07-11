@@ -208,8 +208,6 @@
     <string name="limit_apps">Używaj mniej (odnawianie)</string>
     <string name="app_limited_toast">Włączono czas odnowienia</string>
     <string name="app_unlimited_toast">Usunięto czas odnowienia</string>
-    <string name="app_limit_cooldown_title">%1$s · zwolnij</string>
-    <string name="app_limit_cooldown_message">Niedawno to otworzyłeś. Odetchnij.</string>
     <string name="app_limit_cooldown_over">Możesz go teraz otworzyć.</string>
     <string name="backup_saved">Ustawienia zostały pomyślnie wyeksportowane</string>
     <string name="backup_failed">Eksport nie powiódł się</string>
@@ -272,11 +270,10 @@ Aplikacja jest w okresie schładzania/zablokowana!</string>
     <string name="cannot_remove_limit_compulsiveness">Nie można usunąć limitu!
 Twój poziom kompulsywności wynosi %1$d
 Aby go usunąć, musi wynosić ≤ 2</string>
-    <string name="app_limit_cooldown_penalty_message">Otwieranie w trakcie schładzania jest niedozwolone. Kara: dodano +%1$d minut.</string>
     <string name="app_limit_cooldown_title_new">%1$s - zwolnij</string>
-    <string name="app_limit_cooldown_message_new">Nie można otworzyć aplikacji w okresie schładzania</string>
-    <string name="app_limit_cooldown_reason_severe">Surowa kara!\nOtwarto aplikację podczas blokady: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">Kara za kompulsywność!\nOtwarto aplikację po raz %1$d dzisiaj, blokada: + %2$d minut</string>
+    <string name="app_limit_cooldown_message_new">Nie można otworzyć aplikacji w trakcie odliczania</string>
+    <string name="app_limit_cooldown_reason_severe">Surowa kara!\nAplikacja została otwarta podczas blokady:\n+%1$d min dodano do licznika</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Kara za kompulsywność!\nOtwarcie nr %1$d dzisiaj:\nblokada na %2$d min</string>
     <string name="invalid_pin_request">Nieprawidłowe żądanie PIN</string>
     <string name="widgets_not_supported">Widżety nie są obsługiwane</string>
     <string name="unknown_action_not_supported">Nieznana akcja nie jest obsługiwana</string>

@@ -210,8 +210,6 @@
     <string name="limit_apps">Weniger verbrauchen (Abklingzeit)</string>
     <string name="app_limited_toast">Abklingzeit aktiviert</string>
     <string name="app_unlimited_toast">Abklingzeit entfernt</string>
-    <string name="app_limit_cooldown_title">%1$s · langsamer</string>
-    <string name="app_limit_cooldown_message">Sie haben dies kürzlich geöffnet. Machen Sie eine Verschnaufpause.</string>
     <string name="app_limit_cooldown_over">Sie können es jetzt öffnen.</string>
     <string name="backup_saved">Einstellungen erfolgreich exportiert</string>
     <string name="backup_failed">Der Export ist fehlgeschlagen</string>
@@ -274,11 +272,10 @@ Die App befindet sich in der Abklingzeit/ist gesperrt!</string>
     <string name="cannot_remove_limit_compulsiveness">Limit kann nicht entfernt werden!
 Dein Zwanghaftigkeitsgrad ist %1$d
 Zum Entfernen muss er ≤ 2 sein</string>
-    <string name="app_limit_cooldown_penalty_message">Das Öffnen während der Abklingzeit ist nicht gestattet. Strafe: +%1$d Minuten hinzugefügt.</string>
     <string name="app_limit_cooldown_title_new">%1$s - langsamer</string>
-    <string name="app_limit_cooldown_message_new">Es ist nicht möglich, die App während der Abklingzeit zu öffnen</string>
-    <string name="app_limit_cooldown_reason_severe">Harte Strafe!\nSie haben die App während einer Sperre geöffnet: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">Zwanghaftigkeitsstrafe!\nSie haben die App heute zum %1$d. Mal geöffnet, Sperre: + %2$d Minuten</string>
+    <string name="app_limit_cooldown_message_new">Diese App kann während der Abklingzeit nicht geöffnet werden</string>
+    <string name="app_limit_cooldown_reason_severe">Harte Strafe!\nSie haben die App während einer Sperre geöffnet:\n+%1$d Minuten zum Timer hinzugefügt</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Zwanghaftigkeitsstrafe!\n%1$d. Öffnung heute:\nAbklingzeit von %2$d Minuten</string>
     <string name="invalid_pin_request">Ungültige PIN-Anfrage</string>
     <string name="widgets_not_supported">Widgets werden nicht unterstützt</string>
     <string name="unknown_action_not_supported">Unbekannte Aktion wird nicht unterstützt</string>

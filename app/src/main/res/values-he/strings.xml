@@ -202,8 +202,6 @@
     <string name="limit_apps">השתמש בפחות (התקררות)</string>
     <string name="app_limited_toast">צינון מופעל</string>
     <string name="app_unlimited_toast">הקירור הוסר</string>
-    <string name="app_limit_cooldown_title">%1$s · האטה</string>
-    <string name="app_limit_cooldown_message">פתחת את זה לאחרונה. קח אוויר.</string>
     <string name="app_limit_cooldown_over">אתה יכול לפתוח אותו עכשיו.</string>
     <string name="backup_saved">ההגדרות יוצאו בהצלחה</string>
     <string name="backup_failed">הייצוא נכשל</string>
@@ -266,11 +264,10 @@
     <string name="cannot_remove_limit_compulsiveness">לא ניתן להסיר את המגבלה!
 רמת האימפולסיביות שלך היא %1$d
 כדי להסיר, עליה להיות ≤ 2</string>
-    <string name="app_limit_cooldown_penalty_message">פתיחה במהלך תקופת ההשהיה אינה מותרת. קנס: נוספו +%1$d דקות.</string>
     <string name="app_limit_cooldown_title_new">%1$s - האטה</string>
-    <string name="app_limit_cooldown_message_new">לא ניתן לפתוח את האפліקציה במהלך תקופת ההשהיה</string>
-    <string name="app_limit_cooldown_reason_severe">קנס חמור!\nפתחת את האפליקציה במהלך חסימה: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">קנס על אימפולсиביות!\nפתחת את האפליקציה בפעם ה-%1$d היום, חסיма: + %2$d דקות</string>
+    <string name="app_limit_cooldown_message_new">לא ניתן לפתוח את האפליקציה בזמן תקופת הצינון</string>
+    <string name="app_limit_cooldown_reason_severe">עונש חמור!\nפתחת את האפליקציה במהלך חסימה:\nנוספו %1$d דקות לטיימר</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">עונש כפייתיות!\nפתיחה מס\' %1$d היום:\nחסימה של %2$d דקות</string>
     <string name="invalid_pin_request">בקשת PIN לא חוקית</string>
     <string name="widgets_not_supported">ווידג\'טים אינם נתמכים</string>
     <string name="unknown_action_not_supported">פעולה לא ידועה אינה נתמכת</string>

@@ -5,6 +5,8 @@
     <color name="colorPrimary">@android:color/white</color>
     <color name="colorPrimaryDark">@android:color/darker_gray</color>
     <color name="colorAccent">#FFEB3B</color>
+    <!-- Severe cooldown block (ban violated): darker red on light, lighter on dark. -->
+    <color name="cooldownSevere">#D32F2F</color>
 
     <!--White-->
     <color name="white">#FFFFFF</color>

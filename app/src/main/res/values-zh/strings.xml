@@ -211,8 +211,6 @@
     <string name="limit_apps">减少使用（冷却时间）</string>
     <string name="app_limited_toast">已启用冷却时间</string>
     <string name="app_unlimited_toast">冷却时间已移除</string>
-    <string name="app_limit_cooldown_title">%1$s·放慢速度</string>
-    <string name="app_limit_cooldown_message">你最近打开了这个。喘口气。</string>
     <string name="app_limit_cooldown_over">您现在可以打开它。</string>
     <string name="backup_saved">设置导出成功</string>
     <string name="backup_failed">导出失败</string>
@@ -275,11 +273,10 @@
     <string name="cannot_remove_limit_compulsiveness">无法移除限制！
 您的强迫性级别为 %1$d
 移除限制需要该级别 ≤ 2</string>
-    <string name="app_limit_cooldown_penalty_message">冷却期间不允许打开。处罚：增加 +%1$d 分钟。</string>
     <string name="app_limit_cooldown_title_new">%1$s - 放慢速度</string>
-    <string name="app_limit_cooldown_message_new">冷却期间无法打开应用</string>
-    <string name="app_limit_cooldown_reason_severe">严重处罚！\n您在禁止期间打开了应用：+ %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">强迫性处罚！\n您今天第 %1$d 次打开该应用，禁止：+ %2$d 分钟</string>
+    <string name="app_limit_cooldown_message_new">冷却期间无法打开此应用</string>
+    <string name="app_limit_cooldown_reason_severe">严重处罚！\n您在禁止期间打开了应用：\n计时器增加 %1$d 分钟</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">强迫性处罚！\n今天第 %1$d 次打开：\n冷却 %2$d 分钟</string>
     <string name="invalid_pin_request">无效的 PIN 请求</string>
     <string name="widgets_not_supported">不支持小部件</string>
     <string name="unknown_action_not_supported">不支持未知操作</string>

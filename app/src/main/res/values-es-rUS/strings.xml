@@ -208,8 +208,6 @@
     <string name="limit_apps">Usar menos (enfriamiento)</string>
     <string name="app_limited_toast">Enfriamiento habilitado</string>
     <string name="app_unlimited_toast">Enfriamiento eliminado</string>
-    <string name="app_limit_cooldown_title">%1$s · ralentizar</string>
-    <string name="app_limit_cooldown_message">Abriste esto recientemente. Toma un respiro.</string>
     <string name="app_limit_cooldown_over">Puedes abrirlo ahora.</string>
     <string name="backup_saved">Configuración exportada correctamente</string>
     <string name="backup_failed">Exportación fallida</string>
@@ -272,11 +270,10 @@ La aplicación está en cooldown/bloqueada!</string>
     <string name="cannot_remove_limit_compulsiveness">¡No se puede eliminar el límite!
 Tu nivel de compulsividad es %1$d
 Para eliminarlo debe ser ≤ 2</string>
-    <string name="app_limit_cooldown_penalty_message">No se permite abrir durante el cooldown. Penalización: +%1$d minutos añadidos.</string>
     <string name="app_limit_cooldown_title_new">%1$s - ralentizar</string>
     <string name="app_limit_cooldown_message_new">No es posible abrir la aplicación durante el cooldown</string>
-    <string name="app_limit_cooldown_reason_severe">¡Penalización grave!\nAbriste la aplicación durante un bloqueo: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">¡Penalización por compulsividad!\nAbriste la aplicación por %1$d.ª vez hoy, bloqueo: + %2$d minutos</string>
+    <string name="app_limit_cooldown_reason_severe">¡Penalización grave!\nAbriste la aplicación durante un bloqueo:\n+%1$d minutos agregados al temporizador</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">¡Penalización por compulsividad!\nApertura n.º %1$d de hoy:\nbloqueo de %2$d minutos</string>
     <string name="invalid_pin_request">Solicitud de PIN no válida</string>
     <string name="widgets_not_supported">Los widgets no son compatibles</string>
     <string name="unknown_action_not_supported">Acción desconocida no compatible</string>

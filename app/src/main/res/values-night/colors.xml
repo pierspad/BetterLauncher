@@ -2,4 +2,5 @@
 <resources>
     <!-- Opaque surface for dialogs (dark theme). -->
     <color name="dialogSurface">#FF1C1C1E</color>
+    <color name="cooldownSevere">#FF5252</color>
 </resources>

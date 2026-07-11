@@ -208,8 +208,6 @@
     <string name="limit_apps">استخدم أقل (فترة التهدئة)</string>
     <string name="app_limited_toast">تم تمكين فترة التهدئة</string>
     <string name="app_unlimited_toast">تمت إزالة فترة التهدئة</string>
-    <string name="app_limit_cooldown_title">%1$s · أبطأ</string>
-    <string name="app_limit_cooldown_message">لقد فتحت هذا مؤخرا. خذ نفسا.</string>
     <string name="app_limit_cooldown_over">يمكنك فتحه الآن.</string>
     <string name="backup_saved">تم تصدير الإعدادات بنجاح</string>
     <string name="backup_failed">فشل التصدير</string>
@@ -272,11 +270,10 @@
     <string name="cannot_remove_limit_compulsiveness">لا يمكن إزالة الحد!
 مستوى القهرية لديك هو %1$d
 للإزالة يجب أن يكون ≤ 2</string>
-    <string name="app_limit_cooldown_penalty_message">لا يُسمح بالفتح أثناء فترة التهدئة. عقوبة: تم إضافة +%1$d دقيقة.</string>
     <string name="app_limit_cooldown_title_new">%1$s - أبطأ</string>
     <string name="app_limit_cooldown_message_new">لا يمكن فتح التطبيق أثناء فترة التهدئة</string>
-    <string name="app_limit_cooldown_reason_severe">عقوبة شديدة!\nلقد فتحت التطبيق أثناء الحظر: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">عقوبة القهرية!\nلقد فتحت التطبيق للمرة %1$d اليوم، الحظر: + %2$d دقيقة</string>
+    <string name="app_limit_cooldown_reason_severe">عقوبة شديدة!\nلقد فتحت التطبيق أثناء الحظر:\nتمت إضافة %1$d دقيقة إلى المؤقت</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">عقوبة القهرية!\nالفتح رقم %1$d اليوم:\nحظر لمدة %2$d دقيقة</string>
     <string name="invalid_pin_request">طلب رمز PIN غير صالح</string>
     <string name="widgets_not_supported">الأدوات غير مدعومة</string>
     <string name="unknown_action_not_supported">الإجراء غير المعروف غير مدعوم</string>

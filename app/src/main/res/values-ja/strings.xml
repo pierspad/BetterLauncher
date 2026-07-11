@@ -209,8 +209,6 @@
     <string name="limit_apps">使用量を減らす（クールダウン）</string>
     <string name="app_limited_toast">クールダウン有効</string>
     <string name="app_unlimited_toast">クールダウンが削除されました</string>
-    <string name="app_limit_cooldown_title">%1$s · 速度を落としてください</string>
-    <string name="app_limit_cooldown_message">最近これを開いたんですね。ほっと一息つきましょう。</string>
     <string name="app_limit_cooldown_over">今すぐ開けます。</string>
     <string name="backup_saved">設定は正常にエクスポートされました</string>
     <string name="backup_failed">エクスポートに失敗しました</string>
@@ -273,11 +271,10 @@
     <string name="cannot_remove_limit_compulsiveness">制限を削除できません！
 あなたの強迫行為レベルは %1$d です
 削除するには ≤ 2 である必要があります</string>
-    <string name="app_limit_cooldown_penalty_message">クールダウン中の起動は許可されていません。ペナルティ：+%1$d 分が追加されました。</string>
     <string name="app_limit_cooldown_title_new">%1$s - 速度を落としてください</string>
-    <string name="app_limit_cooldown_message_new">クールダウン中はアプリを開くことができません</string>
-    <string name="app_limit_cooldown_reason_severe">重いペナルティ！\n禁止期間中にアプリを開きました：+ %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">強迫行為ペナルティ！\n今日 %1$d 回目にアプリを開きました。禁止：+ %2$d 分</string>
+    <string name="app_limit_cooldown_message_new">クールダウン中はアプリを開けません</string>
+    <string name="app_limit_cooldown_reason_severe">重大なペナルティ！\n禁止中にアプリを開きました：\nタイマーに %1$d 分追加</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">強迫的ペナルティ！\n本日 %1$d 回目の起動：\n%2$d 分間のクールダウン</string>
     <string name="invalid_pin_request">無効なPINリクエスト</string>
     <string name="widgets_not_supported">ウィジェットはサポートされていません</string>
     <string name="unknown_action_not_supported">不明なアクションはサポートされていません</string>

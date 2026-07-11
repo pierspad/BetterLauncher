@@ -210,8 +210,6 @@
     <string name="limit_apps">Використовуйте менше (кулдаун)</string>
     <string name="app_limited_toast">Відновлення ввімкнено</string>
     <string name="app_unlimited_toast">Відновлення видалено</string>
-    <string name="app_limit_cooldown_title">%1$s · уповільнення</string>
-    <string name="app_limit_cooldown_message">Ви нещодавно відкривали це. Зробіть передих.</string>
     <string name="app_limit_cooldown_over">Ви можете відкрити його зараз.</string>
     <string name="backup_saved">Налаштування успішно експортовано</string>
     <string name="backup_failed">Помилка експорту</string>
@@ -274,11 +272,10 @@
     <string name="cannot_remove_limit_compulsiveness">Неможливо видалити обмеження!
 Ваш рівень компульсивності: %1$d
 Для видалення він має бути ≤ 2</string>
-    <string name="app_limit_cooldown_penalty_message">Відкриття під час очікування заборонено. Штраф: додано +%1$d хв.</string>
     <string name="app_limit_cooldown_title_new">%1$s - уповільнення</string>
-    <string name="app_limit_cooldown_message_new">Неможливо відкрити додаток під час очікування</string>
-    <string name="app_limit_cooldown_reason_severe">Суворе покарання!\nВи відкрили додаток під час блокування: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">Покарання за компульсивність!\nВи відкрили додаток %1$d-й раз за сьогодні, блокування: + %2$d хв.</string>
+    <string name="app_limit_cooldown_message_new">Неможливо відкрити додаток, поки триває таймер очікування</string>
+    <string name="app_limit_cooldown_reason_severe">Суворе покарання!\nВи відкрили додаток під час блокування:\n+%1$d хв додано до таймера</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Покарання за компульсивність!\nВідкриття №%1$d за сьогодні:\nблокування на %2$d хв</string>
     <string name="invalid_pin_request">Недійсний запит PIN-коду</string>
     <string name="widgets_not_supported">Віджети не підтримуються</string>
     <string name="unknown_action_not_supported">Невідома дія не підтримується</string>

@@ -516,15 +516,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     user = user,
                     untilMillis = until,
                     isSevere = retries > 1,
-                    penaltyMinutes = if (retries > 1) {
-                        when (retries) {
-                            2 -> 15
-                            3 -> 30
-                            4 -> 60
-                            5 -> 120
-                            else -> 240
-                        }
-                    } else 0,
+                    penaltyMinutes = if (retries > 1) AppLimiter.penaltyMinutesForRetry(retries) else 0,
                     compulsivenessLevel = level,
                     totalBanMinutes = totalBanMinutes
                 )

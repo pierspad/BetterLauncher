@@ -212,8 +212,6 @@
     <string name="limit_apps">Használjon kevesebbet (hűtés)</string>
     <string name="app_limited_toast">Lehűtés engedélyezve</string>
     <string name="app_unlimited_toast">Lehűtés eltávolítva</string>
-    <string name="app_limit_cooldown_title">%1$s · lassíts</string>
-    <string name="app_limit_cooldown_message">Nemrég nyitottad meg ezt. Vegyünk egy levegőt.</string>
     <string name="app_limit_cooldown_over">Most már kinyithatod.</string>
     <string name="backup_saved">A beállítások exportálva sikeresen</string>
     <string name="backup_failed">Nem sikerült exportálni</string>
@@ -276,11 +274,10 @@ Az alkalmazás lehűlési időszakban van/tiltva van!</string>
     <string name="cannot_remove_limit_compulsiveness">Nem távolítható el a korlát!
 A kompulzivitási szinted %1$d
 Az eltávolításhoz ≤ 2-nek kell lennie</string>
-    <string name="app_limit_cooldown_penalty_message">A lehűlési időszak alatti megnyitás nem engedélyezett. Büntetés: +%1$d perc hozzáadva.</string>
     <string name="app_limit_cooldown_title_new">%1$s - lassíts</string>
-    <string name="app_limit_cooldown_message_new">A lehűlési időszak alatt nem lehetséges az alkalmazás megnyitása</string>
-    <string name="app_limit_cooldown_reason_severe">Súlyos büntetés!\nMegnyitottad az alkalmazást a tiltás alatt: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">Kompulzivitási büntetés!\nA mai napon %1$d. alkalommal nyitottad meg az alkalmazást, tiltás: + %2$d perc</string>
+    <string name="app_limit_cooldown_message_new">Az alkalmazás nem nyitható meg a lehűlési idő alatt</string>
+    <string name="app_limit_cooldown_reason_severe">Súlyos büntetés!\nA tiltás alatt nyitottad meg az alkalmazást:\n+%1$d perc hozzáadva az időzítőhöz</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Kompulzivitási büntetés!\nMa %1$d. megnyitás:\n%2$d perces tiltás</string>
     <string name="invalid_pin_request">Érvénytelen PIN-kérés</string>
     <string name="widgets_not_supported">A widgetek nem támogatottak</string>
     <string name="unknown_action_not_supported">Ismeretlen művelet nem támogatott</string>

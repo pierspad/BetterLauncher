@@ -210,8 +210,6 @@
     <string name="limit_apps">Daha az kullanın (bekleme süresi)</string>
     <string name="app_limited_toast">Bekleme süresi etkinleştirildi</string>
     <string name="app_unlimited_toast">Bekleme süresi kaldırıldı</string>
-    <string name="app_limit_cooldown_title">%1$s · yavaşla</string>
-    <string name="app_limit_cooldown_message">Bunu yakın zamanda açtın. Biraz nefes alın.</string>
     <string name="app_limit_cooldown_over">Artık açabilirsiniz.</string>
     <string name="backup_saved">Ayarlar başarıyla dışa aktarıldı</string>
     <string name="backup_failed">Dışa aktarma başarısız oldu</string>
@@ -274,11 +272,10 @@ Uygulama bekleme süresinde/engellendi!</string>
     <string name="cannot_remove_limit_compulsiveness">Sınır kaldırılamıyor!
 Zorlayıcılık düzeyiniz %1$d
 Kaldırmak için ≤ 2 olmalıdır</string>
-    <string name="app_limit_cooldown_penalty_message">Bekleme süresi boyunca açılmasına izin verilmez. Ceza: +%1$d dakika eklendi.</string>
     <string name="app_limit_cooldown_title_new">%1$s - yavaşla</string>
-    <string name="app_limit_cooldown_message_new">Bekleme süresi boyunca uygulamanın açılması mümkün değildir</string>
-    <string name="app_limit_cooldown_reason_severe">Ağır Ceza!\nEngelleme sırasında uygulamayı açtınız: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">Zorlayıcılık Cezası!\nUygulamayı bugün %1$d. kez açtınız, engelleme: + %2$d dakika</string>
+    <string name="app_limit_cooldown_message_new">Bekleme süresi boyunca uygulama açılamaz</string>
+    <string name="app_limit_cooldown_reason_severe">Ağır ceza!\nUygulamayı engelleme sırasında açtınız:\nsayaca +%1$d dakika eklendi</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Kompulsiflik cezası!\nBugünkü %1$d. açılış:\n%2$d dakikalık engelleme</string>
     <string name="invalid_pin_request">Geçersiz PIN isteği</string>
     <string name="widgets_not_supported">Widget\'lar desteklenmiyor</string>
     <string name="unknown_action_not_supported">Bilinmeyen eylem desteklenmiyor</string>

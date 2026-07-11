@@ -208,8 +208,6 @@
     <string name="limit_apps">Gunakan lebih sedikit (cooldown)</string>
     <string name="app_limited_toast">Masa tenang diaktifkan</string>
     <string name="app_unlimited_toast">Cooldown dihapus</string>
-    <string name="app_limit_cooldown_title">%1$s · pelan-pelan</string>
-    <string name="app_limit_cooldown_message">Anda membuka ini baru-baru ini. Ambil nafas.</string>
     <string name="app_limit_cooldown_over">Anda dapat membukanya sekarang.</string>
     <string name="backup_saved">Pengaturan berhasil diekspor</string>
     <string name="backup_failed">Ekspor gagal</string>
@@ -272,11 +270,10 @@ Aplikasi sedang dalam cooldown/diblokir!</string>
     <string name="cannot_remove_limit_compulsiveness">Tidak dapat menghapus batasan!
 Tingkat kompulsif Anda adalah %1$d
 Untuk menghapus harus ≤ 2</string>
-    <string name="app_limit_cooldown_penalty_message">Membuka aplikasi selama cooldown tidak diperbolehkan. Penalti: +%1$d menit ditambahkan.</string>
     <string name="app_limit_cooldown_title_new">%1$s - pelan-pelan</string>
-    <string name="app_limit_cooldown_message_new">Tidak dapat membuka aplikasi selama cooldown</string>
-    <string name="app_limit_cooldown_reason_severe">Penalti Berat!\nAnda membuka aplikasi saat diblokir: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">Penalti Kompulsif!\nAnda membuka aplikasi untuk ke-%1$d kalinya hari ini, pemblokiran: + %2$d menit</string>
+    <string name="app_limit_cooldown_message_new">Aplikasi tidak dapat dibuka selama cooldown berlangsung</string>
+    <string name="app_limit_cooldown_reason_severe">Penalti berat!\nAnda membuka aplikasi saat diblokir:\n+%1$d menit ditambahkan ke penghitung</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Penalti kompulsif!\nPembukaan ke-%1$d hari ini:\npemblokiran %2$d menit</string>
     <string name="invalid_pin_request">Permintaan PIN tidak valid</string>
     <string name="widgets_not_supported">Widget tidak didukung</string>
     <string name="unknown_action_not_supported">Tindakan tidak dikenal tidak didukung</string>

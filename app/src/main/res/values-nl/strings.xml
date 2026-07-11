@@ -209,8 +209,6 @@
     <string name="limit_apps">Minder gebruiken (cooldown)</string>
     <string name="app_limited_toast">Cooldown ingeschakeld</string>
     <string name="app_unlimited_toast">Cooldown verwijderd</string>
-    <string name="app_limit_cooldown_title">%1$s · langzamer</string>
-    <string name="app_limit_cooldown_message">Je hebt dit onlangs geopend. Neem een ​​adempauze.</string>
     <string name="app_limit_cooldown_over">Je kunt het nu openen.</string>
     <string name="backup_saved">Instellingen succesvol geëxporteerd</string>
     <string name="backup_failed">Exporteren is mislukt</string>
@@ -273,11 +271,10 @@ De app is momenteel in afkoeltijd/is geblokkeerd!</string>
     <string name="cannot_remove_limit_compulsiveness">Kan limiet niet verwijderen!
 Je dwangmatigheidsniveau is %1$d
 Om te verwijderen moet dit ≤ 2 zijn</string>
-    <string name="app_limit_cooldown_penalty_message">Openen tijdens afkoelperiode is niet toegestaan. Straf: +%1$d minuten toegevoegd.</string>
     <string name="app_limit_cooldown_title_new">%1$s - langzamer</string>
-    <string name="app_limit_cooldown_message_new">Het is niet mogelijk om de app te openen tijdens de afkoelperiode</string>
-    <string name="app_limit_cooldown_reason_severe">Zware straf!\nU hebt de app geopend tijdens een blokkade: + %1$d</string>
-    <string name="app_limit_cooldown_reason_compulsiveness">Dwangmatigheidsstraf!\nU hebt de app vandaag voor de %1$de keer geopend, blokkade: + %2$d minuten</string>
+    <string name="app_limit_cooldown_message_new">De app kan niet worden geopend tijdens de afkoelperiode</string>
+    <string name="app_limit_cooldown_reason_severe">Zware straf!\nU hebt de app tijdens een blokkade geopend:\n+%1$d minuten aan de timer toegevoegd</string>
+    <string name="app_limit_cooldown_reason_compulsiveness">Dwangmatigheidsstraf!\nOpening nr. %1$d vandaag:\nblokkade van %2$d minuten</string>
     <string name="invalid_pin_request">Ongeldig PIN-verzoek</string>
     <string name="widgets_not_supported">Widgets worden niet ondersteund</string>
     <string name="unknown_action_not_supported">Onbekende actie wordt niet ondersteund</string>

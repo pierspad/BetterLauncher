@@ -46,6 +46,19 @@ object AppLimiter {
     }
 
     /**
+     * Minutes added to a running cooldown for the [retryCount]-th impatient retry.
+     * Single source of truth — also used by MainViewModel to re-derive the penalty
+     * when the dialog is triggered from the accessibility service.
+     */
+    fun penaltyMinutesForRetry(retryCount: Int): Int = when (retryCount) {
+        2 -> 15
+        3 -> 30
+        4 -> 60
+        5 -> 120
+        else -> 240
+    }
+
+    /**
      * Evaluates — and persists — the cooldown state for [key] at time [now].
      * Returns [Decision.Allow] (state already updated for a clean open) or
      * [Decision.Block] with the moment the app becomes available again.
@@ -76,13 +89,7 @@ object AppLimiter {
                 prefs.setLimitRetryCount(key, newRetries)
 
                 // Tier 1 Punishment: Add progressive penalty minutes to existing cooldown.
-                val penaltyMin = when (newRetries) {
-                    2 -> 15
-                    3 -> 30
-                    4 -> 60
-                    5 -> 120
-                    else -> 240
-                }
+                val penaltyMin = penaltyMinutesForRetry(newRetries)
                 val penaltyMs = penaltyMin * 60_000L
                 val newUntil = minOf(now + 24 * 3600 * 1000L, until + penaltyMs)
                 prefs.setLimitUntil(key, newUntil)
