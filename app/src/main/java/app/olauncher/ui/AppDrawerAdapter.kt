@@ -24,9 +24,10 @@ import app.olauncher.data.Folder
 import app.olauncher.databinding.AdapterAppDrawerBinding
 import app.olauncher.databinding.AdapterFolderHeaderBinding
 import app.olauncher.databinding.AdapterPrivateSpaceHeaderBinding
-import app.olauncher.helper.FuzzySearch
 import app.olauncher.data.Prefs
+import app.olauncher.helper.FuzzySearch
 import app.olauncher.helper.IconManager
+import app.olauncher.helper.SearchMode
 import app.olauncher.helper.hideKeyboard
 import app.olauncher.helper.isSystemApp
 import app.olauncher.helper.showKeyboard
@@ -49,6 +50,7 @@ class AppDrawerAdapter(
     private val privateSpaceSettingsListener: () -> Unit = {},
     // Per-item launch count, used to rank search results by frequency of use.
     private val usageProvider: (AppModel) -> Int = { 0 },
+    private val searchModeProvider: () -> Int = { 0 },
 ) : ListAdapter<AppModel, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -192,14 +194,15 @@ class AppDrawerAdapter(
             // (settings tiles, contacts) use the strict matcher so a loose subsequence like
             // "pint" can't drag in "Opzioni sviluppatore". Then rank by match quality,
             // then usage, then name.
+            val mode = SearchMode.fromValue(searchModeProvider())
             val scored = ArrayList<Pair<AppModel, Int>>(appsList.size + searchOnly.size)
             for (item in appsList) {
                 if (item is AppModel.PrivateSpaceHeader || item is AppModel.FolderHeader) continue
-                val s = FuzzySearch.score(item.appLabel, q)
+                val s = FuzzySearch.score(item.appLabel, q, mode)
                 if (s >= 0) scored.add(item to s)
             }
             for (item in searchOnly) {
-                val s = FuzzySearch.scoreStrict(item.appLabel, q)
+                val s = FuzzySearch.scoreStrict(item.appLabel, q, mode)
                 if (s >= 0) scored.add(item to s)
             }
 

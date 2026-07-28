@@ -39,6 +39,7 @@ import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentAppDrawerBinding
 import app.olauncher.helper.AndroidSettingsCatalog
 import app.olauncher.helper.ContactsHelper
+import app.olauncher.helper.SearchMode
 import app.olauncher.helper.deletePinnedShortcut
 import app.olauncher.helper.dpToPx
 import app.olauncher.helper.hideKeyboard
@@ -142,10 +143,17 @@ class AppDrawerFragment : Fragment() {
         val content = layoutInflater.inflate(R.layout.popup_search_options, null)
         val settingsCheck = content.findViewById<View>(R.id.optSettingsCheck)
         val contactsCheck = content.findViewById<View>(R.id.optContactsCheck)
+        val searchModeSub = content.findViewById<TextView>(R.id.optSearchModeSub)
 
         fun render() {
             settingsCheck.visibility = if (prefs.searchSettingsEnabled) View.VISIBLE else View.INVISIBLE
             contactsCheck.visibility = if (prefs.searchContactsEnabled) View.VISIBLE else View.INVISIBLE
+            val currentMode = SearchMode.fromValue(prefs.searchMode)
+            searchModeSub.text = when (currentMode) {
+                SearchMode.SMART -> getString(R.string.search_mode_smart)
+                SearchMode.STRICT_PREFIX -> getString(R.string.search_mode_strict)
+                SearchMode.LOOSE_FUZZY -> getString(R.string.search_mode_loose)
+            }
         }
         render()
 
@@ -170,11 +178,34 @@ class AppDrawerFragment : Fragment() {
             render()
             refreshContacts()
         }
+        content.findViewById<View>(R.id.optSearchMode).setOnClickListener {
+            popup.dismiss()
+            showSearchModeDialog()
+        }
 
         // Right-align the popup with the anchor so it expands to the left, on-screen.
         content.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         val xOffset = binding.searchOptions.width - content.measuredWidth
         popup.showAsDropDown(binding.searchOptions, xOffset, 0)
+    }
+
+    private fun showSearchModeDialog() {
+        val options = arrayOf(
+            getString(R.string.search_mode_smart) + " — " + getString(R.string.search_mode_smart_desc),
+            getString(R.string.search_mode_strict) + " — " + getString(R.string.search_mode_strict_desc),
+            getString(R.string.search_mode_loose) + " — " + getString(R.string.search_mode_loose_desc)
+        )
+        val currentSelected = SearchMode.fromValue(prefs.searchMode).value
+
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.search_mode_title)
+            .setSingleChoiceItems(options, currentSelected) { dialog, which ->
+                prefs.searchMode = which
+                adapter.applyFilter(binding.search.query?.toString() ?: "")
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
     private fun updateSearchSources() {
@@ -380,6 +411,7 @@ class AppDrawerFragment : Fragment() {
                 if (model.appPackage.isEmpty()) 0
                 else prefs.getUsageCount(model.appPackage + "|" + model.user.toString())
             },
+            searchModeProvider = { prefs.searchMode },
         )
 
         linearLayoutManager = object : LinearLayoutManager(requireContext()) {

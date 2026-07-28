@@ -5,21 +5,16 @@ Hard fork of [Olauncher](https://github.com/tanujnotes/olauncher) featuring addi
 ### BetterLauncher vs. Olauncher
 
 #### BetterLauncher (Home Screen & Settings)
-![BetterLauncher](./BetterLauncher.png)
+![BetterLauncher](./docs/BetterLauncher.png)
 
 #### Olauncher (Original Home Screen & Settings)
-![Olauncher](./Olauncher.png)
-
-<!--[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-alt="Get it on F-Droid"
-height="80">](https://f-droid.org/packages/app.olauncher)-->
+![Olauncher](./docs/Olauncher.png)
 
 [<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
 alt="Get it on Play Store"
 height="80">](https://play.google.com/store/apps/details?id=app.olauncher)
 
 ### Install using 
-<!--[F-Droid](https://f-droid.org/packages/app.olauncher),-->
 [Play Store](https://play.google.com/store/apps/details?id=app.olauncher) or the [latest APK](https://github.com/pierspad/BetterLauncher/releases/).
 
 ## What you can do now (that was not possible in Olauncher)
@@ -28,7 +23,7 @@ height="80">](https://play.google.com/store/apps/details?id=app.olauncher)
 - Organize apps into custom folders and groups.
 - Lock sensitive apps using a PIN, pattern, password, or biometrics.
 - Set escalating timers and cooldowns on distracting apps.
-- Search for contacts and Android system settings directly from the app drawer, using fuzzy matching.
+- Search for contacts and Android system settings directly from the app drawer, using customizable search algorithms.
 - Drag to reorder home screen apps and shortcuts instead of using a settings dialog.
 - Import custom fonts (.ttf/.otf) and set the language independently of the system.
 - Export and import your settings via file or clipboard.
@@ -45,20 +40,20 @@ height="80">](https://play.google.com/store/apps/details?id=app.olauncher)
 You can easily select and place any standard system widget directly on your home screen.
 
 <p align="left">
-  <img src="./widget_chooser.png" width="320" alt="Widget Chooser Dialog" />
+  <img src="./docs/widget_chooser.png" width="320" alt="Widget Chooser Dialog" />
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./widget_added.png" width="320" alt="Widget Added on Home Screen" />
+  <img src="./docs/widget_added.png" width="320" alt="Widget Added on Home Screen" />
 </p>
-
 
 ### Secure App Locking
 Protect sensitive applications using your device's native lock credentials.
 
 <p align="left">
-  <img src="./lock_apps.png" width="320" alt="Secure App Locking Screen" />
+  <img src="./docs/lock_apps.png" width="320" alt="Secure App Locking Screen" />
 </p>
 
-### Types of apps search in the drawer
+### Configurable App Search Modes
+BetterLauncher includes an intelligent app drawer search engine with 3 customizable search modes (accessible via the search options icon in the app drawer):
 
 - **Smart (Default)**:
   - **Multi-word queries (with spaces)**: Space-separated terms match word prefixes (e.g. `Proton M` matches *Proton Mail*, while `Proton L` avoids false positives like *Proton Mail* or *Proton Calendar*).
@@ -69,7 +64,7 @@ Protect sensitive applications using your device's native lock credentials.
 | Query | Target App | Smart Mode | Word Prefix | Loose Fuzzy |
 | :--- | :--- | :---: | :---: | :---: |
 | `Proton M` | **Proton Mail** | ✅ Match | ✅ Match | ✅ Match |
-| `Proton L` | **Proton Mail** | ❌ Excluded | ❌ Excluded | ✅ Matches `l` in Mail |
+| `Proton L` | **Proton Mail** | ❌ Excluded | ❌ Excluded | ✅ Match ('l' in Mail) |
 | `pm` | **Proton Mail** | ✅ Match (Initials) | ❌ Excluded | ✅ Match |
 | `rdd` | **Reddit** | ✅ Match (Fuzzy) | ❌ Excluded | ✅ Match |
 

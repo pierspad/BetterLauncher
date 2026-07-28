@@ -287,6 +287,13 @@ To remove, it must be ≤ 2</string>
     <string name="search_settings_category">Search Android settings</string>
     <string name="search_contacts_category">Search contacts</string>
     <string name="search_contacts_permission_needed">Contacts permission is required</string>
+    <string name="search_mode_title">Search mode</string>
+    <string name="search_mode_smart">Smart</string>
+    <string name="search_mode_smart_desc">Word prefixes for space queries, fuzzy for single words</string>
+    <string name="search_mode_strict">Word prefix</string>
+    <string name="search_mode_strict_desc">Every query term must match word prefixes</string>
+    <string name="search_mode_loose">Loose fuzzy</string>
+    <string name="search_mode_loose_desc">Matches characters anywhere in the app label</string>
 
     <!-- Settings shortcuts (searchable from the drawer) -->
     <string name="settings">Settings</string>
