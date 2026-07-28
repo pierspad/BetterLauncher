@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdk 35
+    compileSdk 36
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -16,7 +16,7 @@ android {
     defaultConfig {
         applicationId "com.pierspad.betterlauncher"
         minSdkVersion 24
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode project.hasProperty('versionCode') ? project.property('versionCode').toInteger() : 117
         versionName project.hasProperty('versionName') ? project.property('versionName').toString() : "1.0.4"
 
