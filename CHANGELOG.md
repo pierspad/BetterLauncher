@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/pierspad/BetterLauncher/compare/v1.1.3...v1.2.0) (2026-07-28)
+
+### Features
+
+* **search:** add configurable app drawer search modes ([ec7e1c1](https://github.com/pierspad/BetterLauncher/commit/ec7e1c1888a93f7299a9ea451179a9c1db33b56a))
+
 ## [1.1.3](https://github.com/pierspad/BetterLauncher/compare/v1.1.2...v1.1.3) (2026-07-11)
 
 
