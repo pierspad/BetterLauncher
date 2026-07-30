@@ -80,6 +80,13 @@ class MainActivity : AppCompatActivity() {
         IconManager.init(this)
         if (isEinkDisplay()) prefs.appTheme = AppCompatDelegate.MODE_NIGHT_NO
         AppCompatDelegate.setDefaultNightMode(prefs.appTheme)
+        if (prefs.appLanguageTag.isNotEmpty()) {
+            val current = AppCompatDelegate.getApplicationLocales()
+            val tag = if (current.isEmpty) "" else current.get(0)?.toLanguageTag() ?: ""
+            if (tag != prefs.appLanguageTag) {
+                AppCompatDelegate.setApplicationLocales(androidx.core.os.LocaleListCompat.forLanguageTags(prefs.appLanguageTag))
+            }
+        }
         // Resolve the selected font and install the typeface factory *before*
         // super.onCreate(), so AppCompat chains through it instead of claiming
         // the LayoutInflater's factory for itself.

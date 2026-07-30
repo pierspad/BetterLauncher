@@ -48,6 +48,20 @@
             app:searchIcon="@null"
             app:theme="@style/AppSearchText" />
 
+        <ImageView
+            android:id="@+id/btnClearSearch"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/circle_shade_color_glass"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/close"
+            android:padding="10dp"
+            android:src="@drawable/ic_close"
+            android:visibility="gone"
+            app:tint="?attr/primaryColor" />
+
         <!-- Drawer-local search options (Android settings / contacts). Shown only in the
              main launch drawer; replaces the toggles that used to live in Settings. -->
         <ImageView

@@ -575,6 +575,86 @@
                 </LinearLayout>
 
                 <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="6dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Clock App row -->
+                <LinearLayout
+                    android:id="@+id/clockAppRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="10dp">
+
+                    <TextView
+                        style="@style/TextSmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableStart="@drawable/ic_sc_clock"
+                        android:drawablePadding="12dp"
+                        android:text="@string/clock_app_setting"
+                        android:textColor="?attr/primaryColor"
+                        app:drawableTint="?attr/primaryColor" />
+
+                    <TextView
+                        android:id="@+id/clockAppValue"
+                        style="@style/TextSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="?attr/primaryColorTrans80"
+                        tools:text="Orologio" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="6dp"
+                    android:background="@drawable/divider_light" />
+
+                <!-- Date / Calendar App row -->
+                <LinearLayout
+                    android:id="@+id/calendarAppRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="10dp">
+
+                    <TextView
+                        style="@style/TextSmall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableStart="@drawable/ic_sc_calendar"
+                        android:drawablePadding="12dp"
+                        android:text="@string/calendar_app_setting"
+                        android:textColor="?attr/primaryColor"
+                        app:drawableTint="?attr/primaryColor" />
+
+                    <TextView
+                        android:id="@+id/calendarAppValue"
+                        style="@style/TextSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="?attr/primaryColorTrans80"
+                        tools:text="Calendario" />
+                </LinearLayout>
+
+                <View
                     android:id="@+id/screenTimeAlignmentDivider"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"

@@ -225,16 +225,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             else -> return
         }
         if (isLeft) {
-            prefs.appNameSwipeLeft = appModel.appLabel
+            prefs.appNameSwipeLeft = if (appModel.appPackage.isEmpty()) "" else appModel.appLabel
             prefs.appPackageSwipeLeft = appModel.appPackage
-            prefs.appUserSwipeLeft = appModel.user.toString()
+            prefs.appUserSwipeLeft = if (appModel.appPackage.isEmpty()) "" else appModel.user.toString()
             prefs.appActivityClassNameSwipeLeft = cls
             prefs.isShortcutSwipeLeft = isShortcut
             prefs.shortcutIdSwipeLeft = shortcutId
         } else {
-            prefs.appNameSwipeRight = appModel.appLabel
+            prefs.appNameSwipeRight = if (appModel.appPackage.isEmpty()) "" else appModel.appLabel
             prefs.appPackageSwipeRight = appModel.appPackage
-            prefs.appUserSwipeRight = appModel.user.toString()
+            prefs.appUserSwipeRight = if (appModel.appPackage.isEmpty()) "" else appModel.user.toString()
             prefs.appActivityClassNameRight = cls
             prefs.isShortcutSwipeRight = isShortcut
             prefs.shortcutIdSwipeRight = shortcutId
@@ -244,25 +244,46 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun saveClockApp(appModel: AppModel) {
         if (appModel is AppModel.App) {
-            prefs.clockAppPackage = appModel.appPackage
-            prefs.clockAppUser = appModel.user.toString()
-            prefs.clockAppClassName = appModel.activityClassName
+            if (appModel.appPackage.isEmpty()) {
+                prefs.clockAppPackage = ""
+                prefs.clockAppUser = ""
+                prefs.clockAppClassName = ""
+            } else {
+                prefs.clockAppPackage = appModel.appPackage
+                prefs.clockAppUser = appModel.user.toString()
+                prefs.clockAppClassName = appModel.activityClassName
+            }
+            refreshHome(false)
         }
     }
 
     private fun saveCalendarApp(appModel: AppModel) {
         if (appModel is AppModel.App) {
-            prefs.calendarAppPackage = appModel.appPackage
-            prefs.calendarAppUser = appModel.user.toString()
-            prefs.calendarAppClassName = appModel.activityClassName
+            if (appModel.appPackage.isEmpty()) {
+                prefs.calendarAppPackage = ""
+                prefs.calendarAppUser = ""
+                prefs.calendarAppClassName = ""
+            } else {
+                prefs.calendarAppPackage = appModel.appPackage
+                prefs.calendarAppUser = appModel.user.toString()
+                prefs.calendarAppClassName = appModel.activityClassName
+            }
+            refreshHome(false)
         }
     }
 
     private fun saveScreenTimeApp(appModel: AppModel) {
         if (appModel is AppModel.App) {
-            prefs.screenTimeAppPackage = appModel.appPackage
-            prefs.screenTimeAppUser = appModel.user.toString()
-            prefs.screenTimeAppClassName = appModel.activityClassName
+            if (appModel.appPackage.isEmpty()) {
+                prefs.screenTimeAppPackage = ""
+                prefs.screenTimeAppUser = ""
+                prefs.screenTimeAppClassName = ""
+            } else {
+                prefs.screenTimeAppPackage = appModel.appPackage
+                prefs.screenTimeAppUser = appModel.user.toString()
+                prefs.screenTimeAppClassName = appModel.activityClassName
+            }
+            refreshHome(false)
         }
     }
 

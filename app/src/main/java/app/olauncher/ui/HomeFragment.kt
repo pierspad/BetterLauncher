@@ -81,6 +81,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
 
     // ---- Reorder mode ----
     private var reorderMode = false
+    private var reorderHasChanges = false
     private var appsReorder: ReorderController? = null
     private var iconsReorder: ReorderController? = null
     private val wiggleAnimators = HashMap<View, ObjectAnimator>()
@@ -205,16 +206,10 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             }
             R.id.clock -> {
                 showAppList(Constants.FLAG_SET_CLOCK_APP)
-                prefs.clockAppPackage = ""
-                prefs.clockAppClassName = ""
-                prefs.clockAppUser = ""
             }
 
             R.id.date -> {
                 showAppList(Constants.FLAG_SET_CALENDAR_APP)
-                prefs.calendarAppPackage = ""
-                prefs.calendarAppClassName = ""
-                prefs.calendarAppUser = ""
             }
 
             R.id.tvScreenTime -> {
@@ -516,14 +511,39 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             ctx.showToast(getString(R.string.folder_is_empty))
             return
         }
-        val labels = members.map { it.label }.toTypedArray()
-        AlertDialog.Builder(ctx)
-            .setTitle(folder.name)
-            .setItems(labels) { _, which ->
-                val member = members[which]
-                launchApp(member.label, member.pkg, null, member.userString)
+        val view = layoutInflater.inflate(R.layout.dialog_list_picker, null)
+        val titleView = view.findViewById<TextView>(R.id.pickerTitle)
+        val list = view.findViewById<LinearLayout>(R.id.pickerList)
+        titleView.text = folder.name
+        titleView.visibility = View.VISIBLE
+
+        val dialog = AlertDialog.Builder(ctx)
+            .setView(view)
+            .create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val padV = 14.dpToPx()
+        val padH = 10.dpToPx()
+        val rippleBg = TypedValue().also {
+            ctx.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
+        }.resourceId
+
+        members.forEach { member ->
+            val itemView = TextView(ctx).apply {
+                text = member.label
+                textSize = 18f
+                setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
+                gravity = Gravity.CENTER_VERTICAL
+                setPadding(padH, padV, padH, padV)
+                setBackgroundResource(rippleBg)
+                setOnClickListener {
+                    dialog.dismiss()
+                    launchApp(member.label, member.pkg, null, member.userString)
+                }
             }
-            .show()
+            list.addView(itemView)
+        }
+        dialog.show()
     }
 
     private fun setHomeAppText(
@@ -938,13 +958,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     )
 
     private fun initShortcutIcons() {
-        shortcutIconViews().forEachIndexed { slot, imageView ->
-            imageView.setOnClickListener { launchShortcutSlot(slot) }
-            imageView.setOnLongClickListener {
-                showShortcutOptionsDialog(slot)
-                true
-            }
-        }
+        // Click listeners are dynamically bound to the bottom-aligned icon slots in populateShortcutIcons()
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -975,8 +989,10 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     private fun enterReorderMode() {
         if (reorderMode || _binding == null) return
         reorderMode = true
+        reorderHasChanges = false
         binding.firstRunTips.visibility = View.GONE
         binding.setDefaultLauncher.visibility = View.GONE
+        binding.reorderDone.text = getString(R.string.reorder_done)
         binding.reorderDone.visibility = View.VISIBLE
         reorderBackCallback?.isEnabled = true
         requireContext().showToast(getString(R.string.reorder_mode_hint), Toast.LENGTH_LONG)
@@ -995,7 +1011,8 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         // The controllers replaced the row touch listeners; restore the normal interactions.
         initSwipeTouchListener()
         initShortcutIcons()
-        if (announce) requireContext().showToast(getString(R.string.reorder_completed))
+        if (announce && reorderHasChanges) requireContext().showToast(getString(R.string.reorder_completed))
+        reorderHasChanges = false
     }
 
     // (Re)arms wiggle + drag handling. Posted after layout so row tops/heights are valid.
@@ -1015,6 +1032,8 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     private fun commitAppsOrder(newOrder: List<Int>) {
         val snapshot = newOrder.indices.map { prefs.readHomeSlot(it + 1) }
         newOrder.forEachIndexed { dest, src -> prefs.writeHomeSlot(dest + 1, snapshot[src]) }
+        reorderHasChanges = true
+        _binding?.reorderDone?.text = getString(R.string.reorder_save)
         refreshAndKeepReorder()
     }
 
@@ -1022,12 +1041,24 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     private fun commitIconsOrder(newOrder: List<Int>) {
         val snapshot = newOrder.indices.map { prefs.readIconSlot(it) }
         newOrder.forEachIndexed { dest, src -> prefs.writeIconSlot(dest, snapshot[src]) }
+        reorderHasChanges = true
+        _binding?.reorderDone?.text = getString(R.string.reorder_save)
         refreshAndKeepReorder()
     }
 
     private fun liftRow(view: View) {
         stopWiggle(view)
-        view.animate().scaleX(1.08f).scaleY(1.08f).alpha(0.95f).setDuration(120).start()
+        val isIcon = shortcutIconViews().contains(view)
+        if (!isIcon) {
+            val align = prefs.homeAlignment
+            view.pivotX = when (align) {
+                Gravity.START -> 0f
+                Gravity.END -> view.width.toFloat()
+                else -> view.width / 2f
+            }
+            view.pivotY = view.height / 2f
+        }
+        view.animate().scaleX(1.04f).scaleY(1.04f).alpha(0.95f).setDuration(120).start()
     }
 
     private fun dropRow(view: View) {
@@ -1093,6 +1124,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         val count = prefs.homeShortcutIconsNum.coerceIn(1, Constants.SHORTCUT_COUNT)
         val appCount = prefs.homeAppsNum
         val maxCount = maxOf(count, appCount)
+        val topGap = maxCount - count
         val textSizeScale = prefs.textSizeScale
         val iconScale = 1.0f + (textSizeScale - 1.0f) / 2.0f
         val targetWidth = (48 * iconScale).toInt().dpToPx()
@@ -1111,14 +1143,20 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                 }
                 imageView.layoutParams = lp
 
-                if (location <= count) {
+                if (location <= topGap) {
+                    imageView.visibility = View.INVISIBLE
+                } else {
                     imageView.visibility = View.VISIBLE
-                    val iconIndex = prefs.getShortcutIconIndex(slot)
+                    val iconSlot = location - topGap - 1
+                    val iconIndex = prefs.getShortcutIconIndex(iconSlot)
                         .coerceIn(0, Constants.SHORTCUT_ICONS.size - 1)
                     imageView.setImageResource(Constants.SHORTCUT_ICONS[iconIndex])
                     imageView.setPadding(targetPadding, targetPadding, targetPadding, targetPadding)
-                } else {
-                    imageView.visibility = View.INVISIBLE
+                    imageView.setOnClickListener { launchShortcutSlot(iconSlot) }
+                    imageView.setOnLongClickListener {
+                        showShortcutOptionsDialog(iconSlot)
+                        true
+                    }
                 }
             } else {
                 imageView.visibility = View.GONE

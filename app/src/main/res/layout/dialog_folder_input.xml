@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_dialog_surface"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="26dp"
+    android:paddingBottom="16dp">
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        style="@style/TextSectionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/new_folder" />
+
+    <EditText
+        android:id="@+id/dialogInput"
+        style="@style/TextMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle_shade_color_glass"
+        android:hint="@string/folder_name"
+        android:imeOptions="actionDone"
+        android:inputType="textCapWords"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp"
+        android:singleLine="true"
+        android:textColor="?attr/primaryColor"
+        android:textColorHint="?attr/primaryColorTrans50" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btnCancel"
+            style="@style/TextSmallBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:text="@string/close"
+            android:textAllCaps="true"
+            android:textColor="?attr/primaryColorTrans80" />
+
+        <TextView
+            android:id="@+id/btnConfirm"
+            style="@style/TextSmallBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:text="@string/create"
+            android:textAllCaps="true"
+            android:textColor="?attr/primaryColor" />
+
+    </LinearLayout>
+</LinearLayout>

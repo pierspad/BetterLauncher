@@ -119,7 +119,8 @@ class BackupRestoreFragment : Fragment() {
 
         // Save File button
         binding.btnExportFile.setOnClickListener {
-            createBackupLauncher.launch("betterlauncher-backup.json")
+            val dateStr = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(java.util.Date())
+            createBackupLauncher.launch("betterlauncher-backup-$dateStr.json")
         }
 
         // Import File button
@@ -132,6 +133,9 @@ class BackupRestoreFragment : Fragment() {
             if (isModified) {
                 val jsonToApply = binding.etSettingsJson.text.toString()
                 if (prefs.importFromJson(jsonToApply)) {
+                    val lang = prefs.appLanguageTag
+                    val localeList = if (lang.isEmpty()) androidx.core.os.LocaleListCompat.getEmptyLocaleList() else androidx.core.os.LocaleListCompat.forLanguageTags(lang)
+                    AppCompatDelegate.setApplicationLocales(localeList)
                     requireContext().showToast(getString(R.string.restore_done))
                     isModified = false
                     originalJson = jsonToApply

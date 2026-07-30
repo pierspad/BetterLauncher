@@ -3,11 +3,14 @@ package app.olauncher.ui
 import android.content.Context
 import android.content.pm.LauncherApps
 import android.os.UserHandle
+import android.graphics.Typeface
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.LeadingMarginSpan
+import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
 import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +33,7 @@ import app.olauncher.helper.IconManager
 import app.olauncher.helper.SearchMode
 import app.olauncher.helper.hideKeyboard
 import app.olauncher.helper.isSystemApp
+import app.olauncher.helper.showToast
 import app.olauncher.helper.showKeyboard
 
 class AppDrawerAdapter(
@@ -45,6 +49,7 @@ class AppDrawerAdapter(
     private val appHideListener: (AppModel, Int) -> Unit,
     private val appRenameListener: (AppModel, String) -> Unit,
     private val appFolderListener: (AppModel) -> Unit = {},
+    private val appAddToHomeListener: (AppModel) -> Unit = {},
     private val folderManageListener: (String) -> Unit = {},
     private val privateSpaceToggleListener: () -> Unit = {},
     private val privateSpaceSettingsListener: () -> Unit = {},
@@ -218,6 +223,7 @@ class AppDrawerAdapter(
 
         appFilteredList = result
         submitList(result) {
+            notifyDataSetChanged()
             autoLaunch()
             if (!firstNonEmptyCommitDone && result.isNotEmpty()) {
                 firstNonEmptyCommitDone = true
@@ -335,7 +341,7 @@ class AppDrawerAdapter(
         }
     }
 
-    class ViewHolder(private val binding: AdapterAppDrawerBinding) :
+    inner class ViewHolder(private val binding: AdapterAppDrawerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
             flag: Int,
@@ -359,6 +365,33 @@ class AppDrawerAdapter(
 
             // Show indicators in title based on app type and state
             val builder = SpannableStringBuilder(appModel.appLabel)
+
+            // Highlight search query matches
+            val queryText = lastQuery.trim()
+            if (queryText.isNotEmpty()) {
+                val labelLower = appModel.appLabel.lowercase()
+                var startIdx = labelLower.indexOf(queryText.lowercase())
+                if (startIdx >= 0) {
+                    while (startIdx >= 0) {
+                        val endIdx = startIdx + queryText.length
+                        builder.setSpan(StyleSpan(Typeface.BOLD), startIdx, endIdx, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        builder.setSpan(UnderlineSpan(), startIdx, endIdx, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        startIdx = labelLower.indexOf(queryText.lowercase(), endIdx)
+                    }
+                } else {
+                    val tokens = queryText.lowercase().split(Regex("\\s+")).filter { it.isNotEmpty() }
+                    for (token in tokens) {
+                        var idx = labelLower.indexOf(token)
+                        while (idx >= 0) {
+                            val end = idx + token.length
+                            builder.setSpan(StyleSpan(Typeface.BOLD), idx, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                            builder.setSpan(UnderlineSpan(), idx, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                            idx = labelLower.indexOf(token, end)
+                        }
+                    }
+                }
+            }
+
             if (appModel.isNew) builder.append(" ✦")
 
             val showLock = isAppLocked(appModel) &&
@@ -465,10 +498,44 @@ class AppDrawerAdapter(
                     appHideLayout.visibility = View.VISIBLE
                     // Only allow renaming non hidden apps
                     appRename.isVisible = flag != Constants.FLAG_HIDDEN_APPS
-                    // Grouping is only meaningful in the main launch drawer, for real apps.
+                    // Grouping and home assignment are only meaningful in the main launch drawer, for real apps.
                     appFolder.isVisible = flag == Constants.FLAG_LAUNCH_APP && appModel is AppModel.App
+                    appAddToHome.isVisible = flag == Constants.FLAG_LAUNCH_APP && appModel.appPackage.isNotEmpty()
+                    val p = Prefs(root.context)
+                    val maxC = p.homeAppsNum.coerceIn(1, 8)
+                    val freeS = (1..maxC).firstOrNull { p.getAppName(it).isEmpty() && !p.getIsFolder(it) }
+                        ?: if (p.homeAppsNum < 8) p.homeAppsNum + 1 else 0
+                    if (freeS > 0) {
+                        appAddToHome.text = root.context.getString(R.string.add_to_home_slot, freeS)
+                    } else {
+                        appAddToHome.text = root.context.getString(R.string.add_to_home)
+                    }
                 }
                 true
+            }
+
+            appAddToHome.setOnClickListener {
+                appHideLayout.visibility = View.GONE
+                appTitle.visibility = View.VISIBLE
+                val ctx = root.context
+                val currentPrefs = Prefs(ctx)
+                val currentMax = currentPrefs.homeAppsNum.coerceIn(1, 8)
+                val targetSlot = (1..currentMax).firstOrNull { currentPrefs.getAppName(it).isEmpty() && !currentPrefs.getIsFolder(it) }
+                    ?: if (currentPrefs.homeAppsNum < 8) {
+                        currentPrefs.homeAppsNum = currentPrefs.homeAppsNum + 1
+                        currentPrefs.homeAppsNum
+                    } else 0
+
+                if (targetSlot > 0) {
+                    currentPrefs.setAppName(targetSlot, appModel.appLabel)
+                    currentPrefs.setAppPackage(targetSlot, appModel.appPackage)
+                    currentPrefs.setAppUser(targetSlot, appModel.user.toString())
+                    if (appModel is AppModel.App) {
+                        currentPrefs.setAppActivityClassName(targetSlot, appModel.activityClassName)
+                    }
+                    ctx.showToast(ctx.getString(R.string.added_to_home, targetSlot))
+                }
+                appAddToHomeListener(appModel)
             }
 
             appFolder.setOnClickListener {

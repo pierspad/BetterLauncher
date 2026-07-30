@@ -251,6 +251,7 @@ class LanguagePickerFragment : Fragment() {
     private fun applyLanguageChanges() {
         prefs.settingsScrollY = 0
         prefs.reopenSettingsAfterRestart = true
+        prefs.appLanguageTag = selectedLanguageCode
 
         val localeList = if (selectedLanguageCode.isEmpty()) {
             LocaleListCompat.getEmptyLocaleList()

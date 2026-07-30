@@ -147,6 +147,8 @@ class Prefs(private val context: Context) {
         remove("LIMIT_LAST_OPEN_DAY_$key")
     }
 
+    var appLanguageTag by string("APP_LANGUAGE_TAG")
+
     // ---- Drawer search ----
     var searchSettingsEnabled by bool("SEARCH_SETTINGS_ENABLED", true)
     var searchContactsEnabled by bool("SEARCH_CONTACTS_ENABLED")
@@ -448,6 +450,7 @@ class Prefs(private val context: Context) {
                     LOCK_MODE -> putBoolean(key, false)
                     SCREEN_TIME_APP_PACKAGE, SCREEN_TIME_APP_USER, SCREEN_TIME_APP_CLASS_NAME ->
                         putString(key, "")
+                    "APP_LIST_CACHE" -> putString(key, "")
 
                     else -> runCatching {
                         val entry = root.getJSONObject(key)

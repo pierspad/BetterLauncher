@@ -37,10 +37,17 @@ import app.olauncher.data.Constants
 import app.olauncher.data.Folder
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentAppDrawerBinding
+import android.util.TypedValue
+import android.view.Gravity
+import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import app.olauncher.helper.AndroidSettingsCatalog
 import app.olauncher.helper.ContactsHelper
 import app.olauncher.helper.SearchMode
 import app.olauncher.helper.deletePinnedShortcut
+import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.dpToPx
 import app.olauncher.helper.hideKeyboard
 import app.olauncher.helper.isEinkDisplay
@@ -190,22 +197,38 @@ class AppDrawerFragment : Fragment() {
     }
 
     private fun showSearchModeDialog() {
-        val options = arrayOf(
-            getString(R.string.search_mode_smart) + " — " + getString(R.string.search_mode_smart_desc),
-            getString(R.string.search_mode_strict) + " — " + getString(R.string.search_mode_strict_desc),
-            getString(R.string.search_mode_loose) + " — " + getString(R.string.search_mode_loose_desc)
-        )
-        val currentSelected = SearchMode.fromValue(prefs.searchMode).value
+        if (!isAdded) return
+        val view = layoutInflater.inflate(R.layout.dialog_search_mode, null)
+        val checkSmart = view.findViewById<View>(R.id.checkSmart)
+        val checkStrict = view.findViewById<View>(R.id.checkStrict)
+        val checkLoose = view.findViewById<View>(R.id.checkLoose)
+        val btnCancel = view.findViewById<View>(R.id.btnCancel)
 
-        com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.search_mode_title)
-            .setSingleChoiceItems(options, currentSelected) { dialog, which ->
-                prefs.searchMode = which
+        val currentMode = SearchMode.fromValue(prefs.searchMode)
+        checkSmart.visibility = if (currentMode == SearchMode.SMART) View.VISIBLE else View.INVISIBLE
+        checkStrict.visibility = if (currentMode == SearchMode.STRICT_PREFIX) View.VISIBLE else View.INVISIBLE
+        checkLoose.visibility = if (currentMode == SearchMode.LOOSE_FUZZY) View.VISIBLE else View.INVISIBLE
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(view)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        fun selectMode(mode: SearchMode) {
+            prefs.searchMode = mode.value
+            if (_binding != null) {
                 adapter.applyFilter(binding.search.query?.toString() ?: "")
-                dialog.dismiss()
             }
-            .setNegativeButton(android.R.string.cancel, null)
-            .show()
+            dialog.dismiss()
+        }
+
+        view.findViewById<View>(R.id.modeSmart).setOnClickListener { selectMode(SearchMode.SMART) }
+        view.findViewById<View>(R.id.modeStrict).setOnClickListener { selectMode(SearchMode.STRICT_PREFIX) }
+        view.findViewById<View>(R.id.modeLoose).setOnClickListener { selectMode(SearchMode.LOOSE_FUZZY) }
+        btnCancel.setOnClickListener { dialog.dismiss() }
+
+        dialog.show()
     }
 
     private fun updateSearchSources() {
@@ -238,6 +261,9 @@ class AppDrawerFragment : Fragment() {
     }
 
     private fun initSearch() {
+        binding.btnClearSearch?.setOnClickListener {
+            binding.search.setQuery("", false)
+        }
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query?.startsWith("!") == true)
@@ -251,6 +277,7 @@ class AppDrawerFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 try {
+                    binding.btnClearSearch?.isVisible = newText.isNotEmpty()
                     adapter.allowAutoLaunch = !isSearchComposing()
                     adapter.applyFilter(newText)
                     binding.appRename.visibility =
@@ -319,6 +346,9 @@ class AppDrawerFragment : Fragment() {
                     }
                 } else {
                     viewModel.selectedApp(appModel, flag)
+                    if (appModel.appPackage.isEmpty() && flag != Constants.FLAG_LAUNCH_APP) {
+                        requireContext().showToast(getString(R.string.default_app_restored))
+                    }
                     if (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_HIDDEN_APPS)
                         findNavController().popBackStack(R.id.mainFragment, false)
                     else
@@ -399,6 +429,7 @@ class AppDrawerFragment : Fragment() {
                 viewModel.getAppList()
             },
             appFolderListener = { appModel -> showFolderAssignDialog(appModel) },
+            appAddToHomeListener = { _ -> viewModel.refreshHome(false) },
             folderManageListener = { folderId -> showFolderManageDialog(folderId) },
             privateSpaceToggleListener = {
                 viewModel.togglePrivateSpaceLock()
@@ -489,6 +520,59 @@ class AppDrawerFragment : Fragment() {
         val apps = currentAppList ?: return
         val combined = apps.toMutableList()
 
+        when (flag) {
+            Constants.FLAG_SET_CLOCK_APP -> {
+                combined.add(0, AppModel.App(
+                    appLabel = getString(R.string.default_clock_app_option),
+                    key = null,
+                    appPackage = "",
+                    activityClassName = null,
+                    isNew = false,
+                    user = Process.myUserHandle()
+                ))
+            }
+            Constants.FLAG_SET_CALENDAR_APP -> {
+                combined.add(0, AppModel.App(
+                    appLabel = getString(R.string.default_calendar_app_option),
+                    key = null,
+                    appPackage = "",
+                    activityClassName = null,
+                    isNew = false,
+                    user = Process.myUserHandle()
+                ))
+            }
+            Constants.FLAG_SET_SCREEN_TIME_APP -> {
+                combined.add(0, AppModel.App(
+                    appLabel = getString(R.string.default_screentime_app_option),
+                    key = null,
+                    appPackage = "",
+                    activityClassName = null,
+                    isNew = false,
+                    user = Process.myUserHandle()
+                ))
+            }
+            Constants.FLAG_SET_SWIPE_LEFT_APP -> {
+                combined.add(0, AppModel.App(
+                    appLabel = getString(R.string.default_swipe_left_option),
+                    key = null,
+                    appPackage = "",
+                    activityClassName = null,
+                    isNew = false,
+                    user = Process.myUserHandle()
+                ))
+            }
+            Constants.FLAG_SET_SWIPE_RIGHT_APP -> {
+                combined.add(0, AppModel.App(
+                    appLabel = getString(R.string.default_swipe_right_option),
+                    key = null,
+                    appPackage = "",
+                    activityClassName = null,
+                    isNew = false,
+                    user = Process.myUserHandle()
+                ))
+            }
+        }
+
         if (flag == Constants.FLAG_LAUNCH_APP && currentPrivateSpaceAvailable) {
             combined.add(AppModel.PrivateSpaceHeader(isLocked = currentPrivateSpaceLocked))
             if (!currentPrivateSpaceLocked) {
@@ -521,42 +605,78 @@ class AppDrawerFragment : Fragment() {
 
     // ---- Folder management (manual, via long-press) ----
 
-    // Long-pressing an app row → "Group": toggle its membership across groups (or create one).
-    private fun showFolderAssignDialog(appModel: AppModel) {
-        if (appModel !is AppModel.App || appModel.appPackage.isEmpty()) return
-        val key = appModel.appPackage + "|" + appModel.user.toString()
-        val folders = prefs.folders
-        if (folders.isEmpty()) {
-            showCreateFolderDialog(key)
-            return
+    private fun showFolderInputDialog(
+        titleRes: Int,
+        prefill: String?,
+        buttonTextRes: Int,
+        onConfirm: (String) -> Unit
+    ) {
+        val ctx = requireContext()
+        val view = layoutInflater.inflate(R.layout.dialog_folder_input, null)
+        val titleView = view.findViewById<TextView>(R.id.dialogTitle)
+        val inputView = view.findViewById<EditText>(R.id.dialogInput)
+        val btnCancel = view.findViewById<TextView>(R.id.btnCancel)
+        val btnConfirm = view.findViewById<TextView>(R.id.btnConfirm)
+
+        titleView.setText(titleRes)
+        btnConfirm.setText(buttonTextRes)
+
+        if (prefill != null) {
+            inputView.setText(prefill)
+            inputView.setSelection(prefill.length)
         }
-        val names = folders.map { it.name }.toTypedArray()
-        val checked = BooleanArray(folders.size) { folders[it].apps.contains(key) }
-        AlertDialog.Builder(requireContext())
-            .setTitle(R.string.add_to_group)
-            .setMultiChoiceItems(names, checked) { _, which, isChecked -> checked[which] = isChecked }
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                folders.forEachIndexed { i, folder ->
-                    val has = folder.apps.contains(key)
-                    if (checked[i] && !has) folder.apps.add(key)
-                    else if (!checked[i] && has) folder.apps.remove(key)
-                }
-                prefs.folders = folders
-                updateCombinedAppList()
+
+        val cancelIcon = ContextCompat.getDrawable(ctx, R.drawable.ic_close)?.apply {
+            val size = (16 * resources.displayMetrics.density).toInt()
+            setBounds(0, 0, size, size)
+            setTint(ctx.getColorFromAttr(R.attr.primaryColorTrans80))
+        }
+        btnCancel.setCompoundDrawablesRelative(cancelIcon, null, null, null)
+        btnCancel.compoundDrawablePadding = (8 * resources.displayMetrics.density).toInt()
+
+        val confirmIcon = ContextCompat.getDrawable(ctx, R.drawable.ic_check)?.apply {
+            val size = (16 * resources.displayMetrics.density).toInt()
+            setBounds(0, 0, size, size)
+            setTint(ctx.getColorFromAttr(R.attr.primaryColor))
+        }
+        btnConfirm.setCompoundDrawablesRelative(confirmIcon, null, null, null)
+        btnConfirm.compoundDrawablePadding = (8 * resources.displayMetrics.density).toInt()
+
+        val dialog = AlertDialog.Builder(ctx)
+            .setView(view)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        btnCancel.setOnClickListener { dialog.dismiss() }
+
+        fun submit() {
+            val name = inputView.text.toString().trim()
+            if (name.isNotEmpty()) {
+                onConfirm(name)
+                dialog.dismiss()
             }
-            .setNeutralButton(R.string.new_folder) { _, _ -> showCreateFolderDialog(key) }
-            .setNegativeButton(R.string.close, null)
-            .show()
+        }
+
+        btnConfirm.setOnClickListener { submit() }
+
+        inputView.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                submit()
+                true
+            } else false
+        }
+
+        dialog.show()
+        inputView.showKeyboard()
     }
 
     private fun showCreateFolderDialog(appKey: String?) {
-        val (input, container) = folderNameInput(null)
-        AlertDialog.Builder(requireContext())
-            .setTitle(R.string.new_folder)
-            .setView(container)
-            .setPositiveButton(R.string.create) { _, _ ->
-                val name = input.text.toString().trim()
-                if (name.isEmpty()) return@setPositiveButton
+        showFolderInputDialog(
+            titleRes = R.string.new_folder,
+            prefill = null,
+            buttonTextRes = R.string.create,
+            onConfirm = { name ->
                 val folder = Folder(
                     id = UUID.randomUUID().toString(),
                     name = name,
@@ -565,86 +685,201 @@ class AppDrawerFragment : Fragment() {
                 prefs.upsertFolder(folder)
                 updateCombinedAppList()
             }
-            .setNegativeButton(R.string.close, null)
-            .show()
-        input.showKeyboard()
-    }
-
-    // Tapping a folder section header → rename / add-to-home / delete.
-    private fun showFolderManageDialog(folderId: String) {
-        val folder = prefs.getFolder(folderId) ?: return
-        val items = arrayOf(
-            getString(R.string.rename_folder),
-            getString(R.string.add_to_home),
-            getString(R.string.delete_folder),
         )
-        AlertDialog.Builder(requireContext())
-            .setTitle(folder.name)
-            .setItems(items) { _, which ->
-                when (which) {
-                    0 -> showRenameFolderDialog(folder)
-                    1 -> showAddFolderToHomeDialog(folder)
-                    2 -> {
-                        prefs.deleteFolder(folderId)
-                        requireContext().showToast(getString(R.string.folder_deleted))
-                        viewModel.refreshHome(false)
-                        updateCombinedAppList()
-                    }
-                }
-            }
-            .show()
     }
 
     private fun showRenameFolderDialog(folder: Folder) {
-        val (input, container) = folderNameInput(folder.name)
-        AlertDialog.Builder(requireContext())
-            .setTitle(R.string.rename_folder)
-            .setView(container)
-            .setPositiveButton(R.string.rename) { _, _ ->
-                val name = input.text.toString().trim()
-                if (name.isEmpty()) return@setPositiveButton
+        showFolderInputDialog(
+            titleRes = R.string.rename_folder,
+            prefill = folder.name,
+            buttonTextRes = R.string.rename,
+            onConfirm = { name ->
                 folder.name = name
                 prefs.upsertFolder(folder)
-                // Keep any home slot that shows this folder in sync with the new name.
-                for (i in 1..8)
-                    if (prefs.getIsFolder(i) && prefs.getFolderIdAt(i) == folder.id) prefs.setAppName(i, name)
+                for (i in 1..8) {
+                    if (prefs.getIsFolder(i) && prefs.getFolderIdAt(i) == folder.id) {
+                        prefs.setAppName(i, name)
+                    }
+                }
                 viewModel.refreshHome(false)
                 updateCombinedAppList()
             }
-            .setNegativeButton(R.string.close, null)
-            .show()
-        input.showKeyboard()
+        )
+    }
+
+    private fun showFolderAssignDialog(appModel: AppModel) {
+        if (appModel !is AppModel.App || appModel.appPackage.isEmpty()) return
+        val key = appModel.appPackage + "|" + appModel.user.toString()
+        val currentFolders = prefs.folders
+        if (currentFolders.isEmpty()) {
+            showCreateFolderDialog(key)
+            return
+        }
+
+        val ctx = requireContext()
+        val view = layoutInflater.inflate(R.layout.dialog_list_picker, null)
+        val titleView = view.findViewById<TextView>(R.id.pickerTitle)
+        val list = view.findViewById<LinearLayout>(R.id.pickerList)
+
+        titleView.setText(R.string.add_to_group)
+        titleView.visibility = View.VISIBLE
+
+        val dialog = AlertDialog.Builder(ctx).setView(view).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val padV = 14.dpToPx()
+        val padH = 10.dpToPx()
+        val rippleBg = TypedValue().also {
+            ctx.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
+        }.resourceId
+
+        val checkedState = currentFolders.map { it.apps.contains(key) }.toMutableList()
+
+        currentFolders.forEachIndexed { idx, folder ->
+            val row = TextView(ctx).apply {
+                text = (if (checkedState[idx]) "✓  " else "    ") + folder.name
+                textSize = 18f
+                setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
+                gravity = Gravity.CENTER_VERTICAL
+                setPadding(padH, padV, padH, padV)
+                setBackgroundResource(rippleBg)
+                val icon = ContextCompat.getDrawable(ctx, R.drawable.ic_sc_folder)?.apply {
+                    val size = (20 * resources.displayMetrics.density).toInt()
+                    setBounds(0, 0, size, size)
+                    setTint(ctx.getColorFromAttr(R.attr.primaryColor))
+                }
+                setCompoundDrawablesRelative(icon, null, null, null)
+                compoundDrawablePadding = 14.dpToPx()
+                setOnClickListener {
+                    checkedState[idx] = !checkedState[idx]
+                    text = (if (checkedState[idx]) "✓  " else "    ") + folder.name
+                    if (checkedState[idx] && !folder.apps.contains(key)) folder.apps.add(key)
+                    else if (!checkedState[idx] && folder.apps.contains(key)) folder.apps.remove(key)
+                    prefs.folders = currentFolders
+                    updateCombinedAppList()
+                }
+            }
+            list.addView(row)
+        }
+
+        val newFolderRow = TextView(ctx).apply {
+            text = getString(R.string.new_folder)
+            textSize = 18f
+            setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(padH, padV, padH, padV)
+            setBackgroundResource(rippleBg)
+            val icon = ContextCompat.getDrawable(ctx, R.drawable.ic_check)?.apply {
+                val size = (20 * resources.displayMetrics.density).toInt()
+                setBounds(0, 0, size, size)
+                setTint(ctx.getColorFromAttr(R.attr.primaryColor))
+            }
+            setCompoundDrawablesRelative(icon, null, null, null)
+            compoundDrawablePadding = 14.dpToPx()
+            setOnClickListener {
+                dialog.dismiss()
+                showCreateFolderDialog(key)
+            }
+        }
+        list.addView(newFolderRow)
+
+        dialog.show()
+    }
+
+    private fun showFolderManageDialog(folderId: String) {
+        val folder = prefs.getFolder(folderId) ?: return
+        val ctx = requireContext()
+        val view = layoutInflater.inflate(R.layout.dialog_list_picker, null)
+        val titleView = view.findViewById<TextView>(R.id.pickerTitle)
+        val list = view.findViewById<LinearLayout>(R.id.pickerList)
+
+        titleView.text = folder.name
+        titleView.visibility = View.VISIBLE
+
+        val items = listOf(
+            Triple(getString(R.string.rename_folder), R.drawable.ic_rename) { showRenameFolderDialog(folder) },
+            Triple(getString(R.string.add_to_home), R.drawable.ic_sc_grid) { showAddFolderToHomeDialog(folder) },
+            Triple(getString(R.string.delete_folder), R.drawable.ic_delete) {
+                prefs.deleteFolder(folderId)
+                ctx.showToast(getString(R.string.folder_deleted))
+                viewModel.refreshHome(false)
+                updateCombinedAppList()
+            }
+        )
+
+        val dialog = AlertDialog.Builder(ctx).setView(view).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val padV = 14.dpToPx()
+        val padH = 10.dpToPx()
+        val rippleBg = TypedValue().also {
+            ctx.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
+        }.resourceId
+
+        for ((label, iconRes, action) in items) {
+            val row = TextView(ctx).apply {
+                text = label
+                textSize = 18f
+                setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
+                gravity = Gravity.CENTER_VERTICAL
+                setPadding(padH, padV, padH, padV)
+                setBackgroundResource(rippleBg)
+                val icon = ContextCompat.getDrawable(ctx, iconRes)?.apply {
+                    val size = (20 * resources.displayMetrics.density).toInt()
+                    setBounds(0, 0, size, size)
+                    setTint(ctx.getColorFromAttr(R.attr.primaryColor))
+                }
+                setCompoundDrawablesRelative(icon, null, null, null)
+                compoundDrawablePadding = 14.dpToPx()
+                setOnClickListener {
+                    dialog.dismiss()
+                    action()
+                }
+            }
+            list.addView(row)
+        }
+
+        dialog.show()
     }
 
     private fun showAddFolderToHomeDialog(folder: Folder) {
-        val count = prefs.homeAppsNum.coerceIn(1, 8)
-        val positions = (1..count).map { it.toString() }.toTypedArray()
-        AlertDialog.Builder(requireContext())
-            .setTitle(R.string.choose_home_position)
-            .setItems(positions) { _, which ->
-                prefs.assignFolderToHome(which + 1, folder)
-                viewModel.refreshHome(false)
-            }
-            .show()
-    }
-
-    // Builds an EditText (optionally pre-filled) wrapped in a padded container for dialogs.
-    private fun folderNameInput(prefill: String?): Pair<EditText, FrameLayout> {
         val ctx = requireContext()
-        val input = EditText(ctx).apply {
-            setSingleLine()
-            setHint(R.string.folder_name)
-            if (prefill != null) {
-                setText(prefill)
-                setSelectAllOnFocus(true)
+        val count = prefs.homeAppsNum.coerceIn(1, 8)
+        val view = layoutInflater.inflate(R.layout.dialog_list_picker, null)
+        val titleView = view.findViewById<TextView>(R.id.pickerTitle)
+        val list = view.findViewById<LinearLayout>(R.id.pickerList)
+
+        titleView.setText(R.string.choose_home_position)
+        titleView.visibility = View.VISIBLE
+
+        val dialog = AlertDialog.Builder(ctx).setView(view).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val padV = 14.dpToPx()
+        val padH = 10.dpToPx()
+        val rippleBg = TypedValue().also {
+            ctx.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
+        }.resourceId
+
+        for (pos in 1..count) {
+            val currentTarget = prefs.getAppName(pos).ifEmpty { getString(R.string.app) }
+            val row = TextView(ctx).apply {
+                text = "$pos.  $currentTarget"
+                textSize = 18f
+                setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
+                gravity = Gravity.CENTER_VERTICAL
+                setPadding(padH, padV, padH, padV)
+                setBackgroundResource(rippleBg)
+                setOnClickListener {
+                    prefs.assignFolderToHome(pos, folder)
+                    viewModel.refreshHome(false)
+                    dialog.dismiss()
+                }
             }
+            list.addView(row)
         }
-        val pad = 24.dpToPx()
-        val container = FrameLayout(ctx).apply {
-            setPadding(pad, pad / 2, pad, 0)
-            addView(input)
-        }
-        return input to container
+
+        dialog.show()
     }
 
     private fun getRecyclerViewOnScrollListener(): RecyclerView.OnScrollListener {
@@ -730,6 +965,12 @@ class AppDrawerFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        try {
+            searchOptionsPopup?.dismiss()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        searchOptionsPopup = null
         super.onDestroyView()
         _binding = null
     }

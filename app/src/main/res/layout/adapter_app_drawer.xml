@@ -74,6 +74,22 @@
             app:drawableTint="?attr/primaryColor" />
 
         <TextView
+            android:id="@+id/appAddToHome"
+            style="@style/TextSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="2dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingHorizontal="4dp"
+            android:text="@string/add_to_home"
+            android:textSize="11sp"
+            app:drawableTopCompat="@drawable/ic_sc_grid"
+            app:drawableTint="?attr/primaryColor" />
+
+        <TextView
             android:id="@+id/appFolder"
             style="@style/TextSmall"
             android:layout_width="0dp"
@@ -83,9 +99,9 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:paddingHorizontal="8dp"
+            android:paddingHorizontal="4dp"
             android:text="@string/group"
-            android:textSize="12sp"
+            android:textSize="11sp"
             app:drawableTopCompat="@drawable/ic_sc_folder"
             app:drawableTint="?attr/primaryColor" />
 

@@ -48,6 +48,7 @@ import app.olauncher.helper.FontHelper
 import app.olauncher.helper.animateAlpha
 import app.olauncher.helper.appUsagePermissionGranted
 import app.olauncher.helper.dpToPx
+import app.olauncher.helper.getAppLabel
 import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.isAccessServiceEnabled
 import app.olauncher.helper.isCountryIn
@@ -164,6 +165,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             }
         }
         populateAlignment()
+        populateClockCalendarApps()
         (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = true)
     }
 
@@ -201,6 +203,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateSwipeDownAction()
         populateWidget()
         populateIconsSettings()
+        populateClockCalendarApps()
         initClickListeners()
         initObservers()
 
@@ -252,6 +255,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.switchColorfulIcons -> toggleColorfulIcons()
             R.id.dateTimeSwitch -> toggleDateTimeEnabled()
             R.id.dateOnlySwitch -> toggleDateOnly()
+            R.id.clockAppRow -> showAppListIfEnabled(Constants.FLAG_SET_CLOCK_APP)
+            R.id.calendarAppRow -> showAppListIfEnabled(Constants.FLAG_SET_CALENDAR_APP)
             R.id.fontText -> findNavController().navigate(R.id.action_settingsFragment_to_fontPickerFragment)
             R.id.themeChooseRow -> cycleTheme()
             R.id.actionAccessibility -> openAccessibilityService()
@@ -347,6 +352,25 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.widgetChooseRow.setOnClickListener(this)
         binding.widgetChooseRow.setOnLongClickListener(this)
 
+        binding.clockAppRow?.setOnClickListener(this)
+        binding.calendarAppRow?.setOnClickListener(this)
+        binding.clockAppRow?.setOnLongClickListener {
+            prefs.clockAppPackage = ""
+            prefs.clockAppClassName = ""
+            prefs.clockAppUser = ""
+            populateClockCalendarApps()
+            requireContext().showToast(getString(R.string.default_app_restored))
+            true
+        }
+        binding.calendarAppRow?.setOnLongClickListener {
+            prefs.calendarAppPackage = ""
+            prefs.calendarAppClassName = ""
+            prefs.calendarAppUser = ""
+            populateClockCalendarApps()
+            requireContext().showToast(getString(R.string.default_app_restored))
+            true
+        }
+
         binding.share.setOnClickListener(this)
         binding.rate.setOnClickListener(this)
         binding.website.setOnClickListener(this)
@@ -358,6 +382,16 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.swipeLeftApp.setOnLongClickListener(this)
         binding.swipeRightApp.setOnLongClickListener(this)
         binding.toggleLock.setOnLongClickListener(this)
+    }
+
+    private fun populateClockCalendarApps() {
+        val clockLabel = requireContext().getAppLabel(prefs.clockAppPackage)
+            .ifEmpty { getString(R.string.default_app_setting) }
+        binding.clockAppValue?.text = clockLabel
+
+        val calendarLabel = requireContext().getAppLabel(prefs.calendarAppPackage)
+            .ifEmpty { getString(R.string.default_app_setting) }
+        binding.calendarAppValue?.text = calendarLabel
     }
 
     private fun initObservers() {
@@ -1248,16 +1282,45 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             return
         }
         val pm = requireContext().packageManager
-        val labels = providers.map { it.loadLabel(pm) }.toTypedArray()
-        AlertDialog.Builder(requireContext())
-            .setTitle(R.string.widget_choose)
-            .setItems(labels) { _, which -> bindWidget(appWidgetId, providers[which].provider) }
-            .setOnCancelListener {
-                appWidgetHost.deleteAppWidgetId(appWidgetId)
-                pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
-                prefs.pendingWidgetId = -1
+        val view = layoutInflater.inflate(R.layout.dialog_list_picker, null)
+        val titleView = view.findViewById<TextView>(R.id.pickerTitle)
+        val list = view.findViewById<LinearLayout>(R.id.pickerList)
+        titleView.setText(R.string.widget_choose)
+        titleView.visibility = View.VISIBLE
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(view)
+            .create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setOnCancelListener {
+            appWidgetHost.deleteAppWidgetId(appWidgetId)
+            pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+            prefs.pendingWidgetId = -1
+        }
+
+        val ctx = requireContext()
+        val padV = 14.dpToPx()
+        val padH = 10.dpToPx()
+        val rippleBg = TypedValue().also {
+            ctx.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
+        }.resourceId
+
+        providers.forEach { info ->
+            val itemView = TextView(ctx).apply {
+                text = info.loadLabel(pm)
+                textSize = 18f
+                setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
+                gravity = Gravity.CENTER_VERTICAL
+                setPadding(padH, padV, padH, padV)
+                setBackgroundResource(rippleBg)
+                setOnClickListener {
+                    dialog.dismiss()
+                    bindWidget(appWidgetId, info.provider)
+                }
             }
-            .show()
+            list.addView(itemView)
+        }
+        dialog.show()
     }
 
     private fun bindWidget(appWidgetId: Int, provider: ComponentName) {

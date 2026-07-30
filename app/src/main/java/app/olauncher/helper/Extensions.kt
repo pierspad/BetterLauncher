@@ -65,8 +65,10 @@ fun Context.resetDefaultLauncher() {
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
             PackageManager.DONT_KILL_APP
         )
-        val selector = Intent(Intent.ACTION_MAIN)
-        selector.addCategory(Intent.CATEGORY_HOME)
+        val selector = Intent(Intent.ACTION_MAIN).apply {
+            addCategory(Intent.CATEGORY_HOME)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
         startActivity(selector)
         packageManager.setComponentEnabledSetting(
             componentName,
@@ -85,8 +87,16 @@ fun Context.isDefaultLauncher(): Boolean {
 
 fun Context.resetLauncherViaFakeActivity() {
     resetDefaultLauncher()
-    if (getDefaultLauncherPackage(this).contains("."))
-        startActivity(Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS))
+    try {
+        if (getDefaultLauncherPackage(this).contains(".")) {
+            val intent = Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+            startActivity(intent)
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 }
 
 fun Context.openSearch(query: String? = null) {
@@ -210,4 +220,14 @@ fun Context.scrimColor(alpha: Int): Int {
             Configuration.UI_MODE_NIGHT_YES
     val channel = if (night) 0 else 255
     return android.graphics.Color.argb(alpha.coerceIn(0, 255), channel, channel, channel)
+}
+
+fun Context.getAppLabel(packageName: String): String {
+    if (packageName.isBlank()) return ""
+    return try {
+        val appInfo = packageManager.getApplicationInfo(packageName, 0)
+        packageManager.getApplicationLabel(appInfo).toString()
+    } catch (e: Exception) {
+        ""
+    }
 }
