@@ -1,3 +1,13 @@
+## [1.3.0](https://github.com/pierspad/BetterLauncher/compare/v1.2.0...v1.3.0) (2026-07-31)
+
+### Features
+
+* **drawer:** add custom search mode dialog, folder management and UI settings enhancements ([af5ad60](https://github.com/pierspad/BetterLauncher/commit/af5ad605075787c5c31ee24553b6c8f0dcb59c62))
+
+### Bug Fixes
+
+* **edge-to-edge:** support Android 15 edge-to-edge and remove orientation restrictions ([cc33dee](https://github.com/pierspad/BetterLauncher/commit/cc33deeb248c23860c69e670102eb62fbf089a6e))
+
 ## [1.2.0](https://github.com/pierspad/BetterLauncher/compare/v1.1.3...v1.2.0) (2026-07-28)
 
 ### Features
