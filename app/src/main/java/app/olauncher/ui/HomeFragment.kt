@@ -19,6 +19,8 @@ import android.view.ViewGroup
 import android.view.WindowInsets
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.FrameLayout
@@ -801,24 +803,13 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     private fun showStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            requireActivity().window.insetsController?.show(WindowInsets.Type.statusBars())
-        else
-            @Suppress("DEPRECATION", "InlinedApi")
-            requireActivity().window.decorView.apply {
-                systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            }
+        WindowCompat.getInsetsController(requireActivity().window, requireActivity().window.decorView)
+            .show(WindowInsetsCompat.Type.statusBars())
     }
 
     private fun hideStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            requireActivity().window.insetsController?.hide(WindowInsets.Type.statusBars())
-        else {
-            @Suppress("DEPRECATION")
-            requireActivity().window.decorView.apply {
-                systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_FULLSCREEN
-            }
-        }
+        WindowCompat.getInsetsController(requireActivity().window, requireActivity().window.decorView)
+            .hide(WindowInsetsCompat.Type.statusBars())
     }
 
     private fun openScreenTimeDigitalWellbeing() {

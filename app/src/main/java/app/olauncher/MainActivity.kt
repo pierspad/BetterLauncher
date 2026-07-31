@@ -12,8 +12,8 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         prefs = Prefs(this)
         IconManager.init(this)
         if (isEinkDisplay()) prefs.appTheme = AppCompatDelegate.MODE_NIGHT_NO
@@ -135,8 +136,6 @@ class MainActivity : AppCompatActivity() {
         initObservers(viewModel)
         viewModel.getAppList()
         setupOrientation()
-
-        window.addFlags(FLAG_LAYOUT_NO_LIMITS)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             profileReceiver = object : BroadcastReceiver() {
@@ -415,12 +414,8 @@ class MainActivity : AppCompatActivity() {
             prefs.firstOpenTime = System.currentTimeMillis()
     }
 
-    @SuppressLint("SourceLockedOrientationActivity")
     private fun setupOrientation() {
-        if (isTablet(this) || Build.VERSION.SDK_INT == Build.VERSION_CODES.O)
-            return
-        // In Android 8.0, windowIsTranslucent cannot be used with screenOrientation=portrait
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        // Allow free screen orientation to support large screens, foldables, and Android 16+ resizability
     }
 
     private fun backToHomeScreen() {
