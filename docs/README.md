@@ -4,10 +4,10 @@ Hard fork of [Olauncher](https://github.com/tanujnotes/olauncher) featuring addi
 
 ### BetterLauncher vs. Olauncher
 
-#### BetterLauncher (Home Screen & Settings)
+#### BetterLauncher Settings
 ![BetterLauncher](./BetterLauncher.png)
 
-#### Olauncher (Original Home Screen & Settings)
+#### Olauncher Settings
 ![Olauncher](./Olauncher.png)
 
 <!--[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
