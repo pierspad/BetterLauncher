@@ -1,6 +1,8 @@
 Categories:
-  - System
+  - Launcher
 License: GPL-3.0-only
+AuthorName: Pierpaolo Spadafora
+AuthorEmail: pierpaolospadafora@proton.me
 SourceCode: https://github.com/pierspad/BetterLauncher
 IssueTracker: https://github.com/pierspad/BetterLauncher/issues
 
@@ -12,7 +14,7 @@ Repo: https://github.com/pierspad/BetterLauncher.git
 Builds:
   - versionName: 1.3.1
     versionCode: 127
-    commit: v1.3.1
+    commit: 0e9c6b7529f14b72c1ffba2a81e7c8ff3a9c4671
     subdir: app
     gradle:
       - yes
