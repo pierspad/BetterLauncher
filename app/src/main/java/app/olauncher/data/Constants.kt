@@ -138,7 +138,7 @@ object Constants {
     const val MIN_ANIM_REFRESH_RATE = 30f
 
     const val URL_ABOUT_OLAUNCHER = "https://github.com/pierspad/BetterLauncher"
-    const val URL_OLAUNCHER_PRIVACY = "https://github.com/pierspad/BetterLauncher#privacy-policy"
+    const val URL_OLAUNCHER_PRIVACY = "https://pierspad.com/en/17.0.0.0/2026-07-05-betterlauncher-privacy-policy/"
     const val URL_DOUBLE_TAP = "https://github.com/pierspad/BetterLauncher#double-tap-to-lock"
     const val URL_OLAUNCHER_GITHUB = "https://github.com/pierspad/BetterLauncher"
     const val URL_PIERSPAD = "https://pierspad.com"
