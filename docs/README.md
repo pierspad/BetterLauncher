@@ -10,17 +10,21 @@ Hard fork of [Olauncher](https://github.com/tanujnotes/olauncher) featuring addi
 #### Olauncher Settings
 ![Olauncher](./Olauncher.png)
 
-<!--[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+<!--
+
+### Install using 
+
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
 alt="Get it on F-Droid"
-height="80">](https://f-droid.org/packages/app.olauncher)-->
+height="80">](https://f-droid.org/packages/app.olauncher)
 
 [<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
 alt="Get it on Play Store"
 height="80">](https://play.google.com/store/apps/details?id=app.olauncher)
 
-### Install using 
-<!--[F-Droid](https://f-droid.org/packages/app.olauncher),-->
-[Play Store](https://play.google.com/store/apps/details?id=app.olauncher) or the [latest APK](https://github.com/pierspad/BetterLauncher/releases/).
+[Play Store](https://play.google.com/store/apps/details?id=app.betterlauncher) or the [latest APK](https://github.com/pierspad/BetterLauncher/releases/).
+
+-->
 
 ## What you can do now (that was not possible in Olauncher)
 - Add a row of customizable shortcut icons on the home screen.
