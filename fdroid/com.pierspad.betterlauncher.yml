@@ -5,9 +5,6 @@ SourceCode: https://github.com/pierspad/BetterLauncher
 IssueTracker: https://github.com/pierspad/BetterLauncher/issues
 
 AutoName: BetterLauncher
-Summary: Minimalist, open-source launcher for productivity
-Description: BetterLauncher is a clean, lightweight, and fast Android launcher designed
-  for productivity and focus.
 
 RepoType: git
 Repo: https://github.com/pierspad/BetterLauncher.git
