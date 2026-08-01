@@ -77,6 +77,21 @@ Protect sensitive applications using your device's native lock credentials.
 | `pm` | **Proton Mail** | ✅ Match (Initials) | ❌ Excluded | ✅ Match |
 | `rdd` | **Reddit** | ✅ Match (Fuzzy) | ❌ Excluded | ✅ Match |
 
-License: [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html)
+---
 
-Personal website: [pierspad.com](https://www.pierspad.com)
+## Contributing
+
+Pull requests are welcome! For major changes, please open an issue first to discuss your ideas.
+
+---
+
+## AI Disclosure
+
+This project was developed with the assistance of Large Language Models, used to support code writing and documentation.
+
+---
+
+## License
+
+This project is licensed under the GPL v3 License — see the [LICENSE](../LICENSE) file for details.
+
