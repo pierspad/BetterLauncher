@@ -20,7 +20,6 @@ Builds:
     rm:
       - info
       - app/betterlauncher
-      - betterlauncher
     gradle:
       - yes
 
