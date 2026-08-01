@@ -17,13 +17,14 @@ Builds:
     versionCode: 127
     commit: v1.3.1
     subdir: app
+    gradle:
+      - yes
     rm:
       - info
       - app/betterlauncher
-    gradle:
-      - yes
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags
+UpdateCheckData: gradle.properties|versionCode=(\d+)|.|versionName=(.+)
 CurrentVersion: 1.3.1
 CurrentVersionCode: 127
