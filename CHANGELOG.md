@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/pierspad/BetterLauncher/compare/v1.3.0...v1.3.1) (2026-08-01)
+
+### Bug Fixes
+
+* updated link to privacy policy ([5549467](https://github.com/pierspad/BetterLauncher/commit/55494675b1c29848889e32092124861474035035))
+
 ## [1.3.0](https://github.com/pierspad/BetterLauncher/compare/v1.2.0...v1.3.0) (2026-07-31)
 
 ### Features
