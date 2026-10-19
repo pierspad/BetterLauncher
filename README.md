@@ -46,6 +46,14 @@ Download `betterlauncher-release.apk` from the [latest GitHub release](https://g
 
 F-Droid inclusion is being reviewed in [fdroiddata !44511](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/44511). See [how F-Droid updates work](docs/f-droid.md).
 
+## Settings backups
+
+Export or import a JSON file from Settings → Import / Export settings. Invalid
+values are rejected before replacing the saved configuration. Backups can include
+a custom font, but Android permissions and widget bindings must be configured
+again on the destination device. Keep exported files private: they contain your
+launcher configuration, including app choices and aliases.
+
 ## Search
 
 | Mode | Behavior | Example |
