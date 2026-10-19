@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/pierspad/BetterLauncher/compare/v1.5.0...v1.5.1) (2026-10-19)
+
+### Bug Fixes
+
+* hide review shortcut and share BetterLauncher instead of Olauncher ([2135f89](https://github.com/pierspad/BetterLauncher/commit/2135f895aee0077067c92f5331231f1c81ab7772))
+* initialize settings ViewModel before restoring the fragment back stack ([7425f40](https://github.com/pierspad/BetterLauncher/commit/7425f40918053ffa9bf47605cdab9b02ea762b7d))
+
 ## [1.5.0](https://github.com/pierspad/BetterLauncher/compare/v1.4.4...v1.5.0) (2026-10-16)
 
 ### Features
