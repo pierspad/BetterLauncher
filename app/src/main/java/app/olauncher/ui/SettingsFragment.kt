@@ -138,6 +138,14 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // onDestroy can run for a restored fragment before it ever creates a view.
+        // Initialize this activity-scoped dependency before any lifecycle callback
+        // that may use it, rather than waiting for onViewCreated.
+        viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+    }
+
     override fun onResume() {
         super.onResume()
         val wasScreenTimeOn = binding.screenTimeAlignmentRow.isVisible
@@ -160,9 +168,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             pendingWidgetId = it.getInt(KEY_PENDING_WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
         }
         prefs = Prefs(requireContext())
-        viewModel = activity?.run {
-            ViewModelProvider(this)[MainViewModel::class.java]
-        } ?: throw Exception("Invalid Activity")
         viewModel.isOlauncherDefault()
 
         deviceManager = requireContext().getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager

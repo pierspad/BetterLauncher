@@ -151,6 +151,20 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
                     actual.lockedApps = originalLocks
                 }
             }
+            test("settings fragment can be destroyed before creating its view") {
+                val activity = startActivitySync(android.content.Intent(
+                    targetContext, SettingsLifecycleHostActivity::class.java
+                ).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))
+                try {
+                    check(!activity.isFinishing)
+                    check(SettingsLifecycleHostActivity.wasDestroyedWithoutView) {
+                        "SettingsFragment was not destroyed before onCreateView"
+                    }
+                } finally {
+                    activity.finish()
+                    waitForIdleSync()
+                }
+            }
             test("drawer snapshots do not mutate caller lists; hide removes all occurrences") {
                 onMain {
                     val one = AppModel.App("One", null, "app.one", "First", user = Process.myUserHandle())
