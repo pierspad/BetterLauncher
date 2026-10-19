@@ -78,6 +78,18 @@ Il contatore viene scritto e committato in `gradle.properties`: compilare il tag
 non dipende dall’ora o dal numero di esecuzione della CI. F-Droid continua a
 seguire soltanto i tag stabili.
 
+## Collegamenti nell’app e revisione
+
+Il pulsante con la stellina è temporaneamente commentato nel layout e nei
+listener delle Impostazioni. Prima di ripristinarlo, verificare che la scheda
+pubblica di `com.pierspad.betterlauncher` sia disponibile e che l’etichetta
+spieghi che serve a recensire BetterLauncher su Google Play. L’helper usa già
+l’URL di questa app. Il pulsante Condividi rimanda al repository BetterLauncher.
+
+Il vecchio collegamento alla scheda di Olauncher non deve essere ripristinato:
+la prova allegata al rifiuto Play mostrava proprio quella destinazione. L’invio
+API completato non equivale all’approvazione della revisione Google.
+
 ## Riferimenti
 
 - [Accesso all’API](https://developers.google.com/android-publisher/getting_started)

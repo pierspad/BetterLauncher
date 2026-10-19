@@ -1705,6 +1705,8 @@
                     android:contentDescription="@string/share"
                     app:tint="?attr/primaryColor" />
 
+                <!-- Review shortcut disabled until BetterLauncher is available on Google Play.
+                     Restore this star together with its listener and click handler.
                 <ImageView
                     android:id="@+id/rate"
                     android:layout_width="wrap_content"
@@ -1715,6 +1717,7 @@
                     android:src="@drawable/ic_sc_star"
                     android:contentDescription="@string/rate"
                     app:tint="?attr/primaryColor" />
+                -->
 
                 <ImageView
                     android:id="@+id/github"
