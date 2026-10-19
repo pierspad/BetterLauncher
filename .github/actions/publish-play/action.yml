@@ -10,6 +10,9 @@ inputs:
   status:
     description: draft or completed
     default: draft
+  changes_not_sent_for_review:
+    description: Whether to commit without automatically sending for review
+    default: 'false'
 runs:
   using: composite
   steps:
@@ -34,9 +37,15 @@ runs:
         RELEASE_TAG: ${{ inputs.tag }}
         PLAY_TRACK: ${{ inputs.track }}
         PLAY_STATUS: ${{ inputs.status }}
+        PLAY_CHANGES_NOT_SENT_FOR_REVIEW: ${{ inputs.changes_not_sent_for_review }}
       run: |
+        EXTRA_ARGS=()
+        if [ "$PLAY_CHANGES_NOT_SENT_FOR_REVIEW" = "true" ]; then
+          EXTRA_ARGS+=(--changes-not-sent-for-review)
+        fi
         python scripts/publish_google_play.py \
           --bundle "$RUNNER_TEMP/play-artifact/betterlauncher-release.aab" \
           --version-name "$RELEASE_TAG" --track "$PLAY_TRACK" --status "$PLAY_STATUS" \
           --metadata-dir fastlane/metadata/android \
-          --metadata-locales en-US it-IT ca es-ES
+          --metadata-locales en-US it-IT ca es-ES \
+          "${EXTRA_ARGS[@]}"

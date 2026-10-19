@@ -30,6 +30,41 @@ class PublishTest(unittest.TestCase):
         self.assertEqual(calls[5].kwargs['params'], {'changesInReviewBehavior': 'CANCEL_IN_REVIEW_AND_SUBMIT'})
         self.assertFalse(any(call.args[0] == 'DELETE' for call in calls))
 
+    def test_rescues_changes_not_sent_for_review_error(self):
+        self.respond({'id': 'edit'}, {'tracks': [{'track': 'beta'}]}, {},
+                     {'versionCode': 134}, {})
+        failed = Mock(
+            ok=False,
+            status_code=400,
+            json=Mock(return_value={
+                'error': {
+                    'message': 'Changes cannot be sent for review automatically. '
+                               'Please set the query parameter changesNotSentForReview to true. '
+                               'Once committed, the changes in this edit can be sent for review '
+                               'from the Google Play Console UI.'
+                }
+            })
+        )
+        succeeded = Mock(ok=True, content=b'json', json=Mock(return_value={'id': 'edit'}))
+        self.session.request.side_effect = [*self.session.request.side_effect, failed, succeeded]
+        self.assertEqual(publish(self.session, self.bundle, 'beta', 'completed', 'v1.5.1-dev.1'), '134')
+        calls = self.session.request.call_args_list
+        self.assertEqual(calls[5].kwargs['params'], {'changesInReviewBehavior': 'CANCEL_IN_REVIEW_AND_SUBMIT'})
+        self.assertEqual(calls[6].kwargs['params'], {'changesNotSentForReview': 'true'})
+        self.assertFalse(any(call.args[0] == 'DELETE' for call in calls))
+
+    def test_explicit_changes_not_sent_for_review_flag(self):
+        self.respond({'id': 'edit'}, {'tracks': [{'track': 'beta'}]}, {},
+                     {'versionCode': 134}, {}, {})
+        self.assertEqual(
+            publish(self.session, self.bundle, 'beta', 'completed', 'v1.5.1-dev.1',
+                    changes_not_sent_for_review=True),
+            '134'
+        )
+        calls = self.session.request.call_args_list
+        self.assertEqual(calls[5].kwargs['params'], {'changesNotSentForReview': 'true'})
+        self.assertFalse(any(call.args[0] == 'DELETE' for call in calls))
+
     def test_promotes_uploaded_bundle_to_production_without_reupload(self):
         self.respond({'id': 'edit'}, {'tracks': [{'track': 'beta'}, {'track': 'production'}]},
                      {'bundles': [{'versionCode': 133, 'sha256': self.digest}]}, {}, {})

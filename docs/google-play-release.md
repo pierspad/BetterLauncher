@@ -46,8 +46,13 @@ possa mescolare produzione e test. Lo stato richiesto è `completed`.
 
 Per scelta del maintainer, se ci sono modifiche già in revisione, l’automazione
 annulla quella revisione e reinvia l’insieme delle modifiche con la nuova versione
-(`CANCEL_IN_REVIEW_AND_SUBMIT`). Restano applicabili i tempi di revisione e le
-impostazioni di pubblicazione gestita di Google.
+(`CANCEL_IN_REVIEW_AND_SUBMIT`). Se Google Play rifiuta l’invio automatico a
+revisione (ad esempio per restrizioni dell'account o modifiche alla scheda che
+richiedono conferma dalla console, errore `changesNotSentForReview`), lo script
+committa comunque l'edit con `changesNotSentForReview=true`. Le modifiche restano
+salvate e possono essere inviate a revisione dall'interfaccia di Google Play Console.
+Restano applicabili i tempi di revisione e le impostazioni di pubblicazione gestita
+di Google.
 
 L’approvazione della prima release pubblica non richiede di cambiare workflow:
 `main` è già configurato per produzione. La prima pubblicazione può comunque
@@ -59,7 +64,8 @@ Usa **Actions → Publish existing release to Google Play → Run workflow**:
 
 - `tag`: un tag GitHub già pubblicato, per esempio `v1.5.0`;
 - `track`: `production` oppure `beta`;
-- `status`: `completed`, oppure `draft` per preparare una bozza.
+- `status`: `completed`, oppure `draft` per preparare una bozza;
+- `changes_not_sent_for_review`: `false` per invio immediato (con recupero automatico), oppure `true` per preparare la release senza inviarla subito a revisione.
 
 Il workflow scarica l’AAB firmato dalla release GitHub. Se un bundle con lo stesso
 SHA-256 è già presente su Play, riutilizza il suo versionCode: permette di

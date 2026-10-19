@@ -22,6 +22,10 @@ on:
         options:
           - draft
           - completed
+      changes_not_sent_for_review:
+        description: Commit without sending for review (send from Console UI)
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -38,6 +42,7 @@ jobs:
           tag: ${{ inputs.tag }}
           track: ${{ inputs.track }}
           status: ${{ inputs.status }}
+          changes_not_sent_for_review: ${{ inputs.changes_not_sent_for_review }}
         env:
           GH_TOKEN: ${{ github.token }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}

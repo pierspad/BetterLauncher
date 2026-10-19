@@ -55,7 +55,7 @@ def read_listings(metadata_dir, locales):
 
 
 def publish(session, bundle, track, status, version_name, metadata_dir=None,
-            metadata_locales=()):
+            metadata_locales=(), changes_not_sent_for_review=False):
     if track not in ("production", "beta"):
         raise ValueError("Choose production or beta (open testing)")
     if track == "production" and "-" in version_name.removeprefix("v"):
@@ -105,8 +105,20 @@ def publish(session, bundle, track, status, version_name, metadata_dir=None,
             request(session, "PUT", f"{edit}/tracks/{quote(track, safe='')}",
                     json={"track": track, "releases": [release]})
         # The maintainer's policy: replace an older pending review with the latest release.
-        request(session, "POST", f"{edit}:commit",
-                params={"changesInReviewBehavior": "CANCEL_IN_REVIEW_AND_SUBMIT"})
+        commit_params = {}
+        if changes_not_sent_for_review:
+            commit_params["changesNotSentForReview"] = "true"
+        else:
+            commit_params["changesInReviewBehavior"] = "CANCEL_IN_REVIEW_AND_SUBMIT"
+        try:
+            request(session, "POST", f"{edit}:commit", params=commit_params)
+        except RuntimeError as error:
+            if not changes_not_sent_for_review and "changesNotSentForReview" in str(error):
+                print("Notice: Automatic review rejected by Google Play; committing with changesNotSentForReview=true.")
+                request(session, "POST", f"{edit}:commit",
+                        params={"changesNotSentForReview": "true"})
+            else:
+                raise
         committed = True
         return version_code
     finally:
@@ -125,6 +137,12 @@ def main():
     parser.add_argument("--version-name", required=True)
     parser.add_argument("--metadata-dir", type=Path)
     parser.add_argument("--metadata-locales", nargs="+", choices=PLAY_LOCALES, default=[])
+    parser.add_argument(
+        "--changes-not-sent-for-review",
+        action="store_true",
+        default=os.environ.get("PLAY_CHANGES_NOT_SENT_FOR_REVIEW", "").lower() in ("1", "true", "yes"),
+        help="Commit changes without automatically sending them for review (send from Console UI)",
+    )
     args = parser.parse_args()
     if bool(args.metadata_dir) != bool(args.metadata_locales):
         parser.error("Use --metadata-dir and --metadata-locales together")
@@ -140,7 +158,8 @@ def main():
     )
     with AuthorizedSession(credentials) as session:
         code = publish(session, args.bundle, args.track, args.status, args.version_name,
-                       args.metadata_dir, args.metadata_locales)
+                       args.metadata_dir, args.metadata_locales,
+                       changes_not_sent_for_review=args.changes_not_sent_for_review)
     print(f"Published {PACKAGE} versionCode {code} to {args.track} ({args.status}).")
     print("Google Play review and managed publishing settings still apply.")
 
