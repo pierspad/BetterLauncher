@@ -82,6 +82,93 @@ class PublishTest(unittest.TestCase):
             publish(self.session, self.bundle, 'beta', 'unexpected', 'v1.5.0')
         self.session.request.assert_not_called()
 
+    def metadata(self, locale='en-US'):
+        root = Path(self.temp.name) / 'metadata'
+        folder = root / locale
+        folder.mkdir(parents=True)
+        (folder / 'title.txt').write_text('Title')
+        (folder / 'short_description.txt').write_text('Short')
+        (folder / 'full_description.txt').write_text('Full')
+        return root
+
+    def test_invalid_listing_rejected_before_network(self):
+        root = self.metadata()
+        (root / 'en-US' / 'title.txt').write_text('x' * 31)
+        with self.assertRaisesRegex(ValueError, '30-character'):
+            publish(self.session, self.bundle, 'beta', 'draft', 'v1.5.0', root, ['en-US'])
+        self.session.request.assert_not_called()
+
+    def test_listing_update_merges_video_and_commits_even_if_release_same(self):
+        root = self.metadata()
+        self.respond({'id': 'edit'}, {'tracks': [{'track': 'beta', 'releases': [
+            {'versionCodes': ['134'], 'status': 'draft'}]}]},
+            {'bundles': [{'versionCode': 134, 'sha256': self.digest}]},
+            {'listings': [{'language': 'en-US', 'title': 'Old', 'shortDescription': 'Short',
+                           'fullDescription': 'Full', 'video': 'https://video', 'other': 'keep'}]},
+            {}, {})
+        self.assertEqual(publish(self.session, self.bundle, 'beta', 'draft', 'v1.5.0', root,
+                                 ['en-US']), '134')
+        calls = self.session.request.call_args_list
+        listing_put = next(call for call in calls if call.args[0] == 'PUT' and '/listings/' in call.args[1])
+        self.assertEqual(listing_put.kwargs['json'], {
+            'language': 'en-US', 'title': 'Title', 'shortDescription': 'Short',
+            'fullDescription': 'Full', 'video': 'https://video', 'other': 'keep'})
+        self.assertTrue(any(call.args[1].endswith(':commit') for call in calls))
+
+    def test_unchanged_listing_and_release_discards_edit(self):
+        root = self.metadata()
+        self.respond({'id': 'edit'}, {'tracks': [{'track': 'beta', 'releases': [
+            {'versionCodes': ['134'], 'status': 'draft'}]}]},
+            {'bundles': [{'versionCode': 134, 'sha256': self.digest}]},
+            {'listings': [{'language': 'en-US', 'title': 'Title', 'shortDescription': 'Short',
+                           'fullDescription': 'Full', 'video': 'https://video'}]}, {})
+        publish(self.session, self.bundle, 'beta', 'draft', 'v1.5.0', root, ['en-US'])
+        calls = self.session.request.call_args_list
+        self.assertEqual(calls[-1].args[0], 'DELETE')
+        self.assertFalse(any(call.args[0] == 'PUT' or call.args[1].endswith(':commit') for call in calls))
+
+    def test_all_selected_locales_validate_before_network(self):
+        root = self.metadata()
+        for content in (None, '', 'x' * 81):
+            with self.subTest(content=content):
+                folder = root / 'it-IT'
+                folder.mkdir(exist_ok=True)
+                (folder / 'title.txt').write_text('Titolo')
+                (folder / 'full_description.txt').write_text('Descrizione')
+                short = folder / 'short_description.txt'
+                if content is not None:
+                    short.write_text(content)
+                with self.assertRaises(ValueError):
+                    publish(self.session, self.bundle, 'beta', 'draft', 'v1.5.0',
+                            root, ['en-US', 'it-IT'])
+                self.session.request.assert_not_called()
+
+    def test_creates_selected_locale_without_touching_other_languages(self):
+        root = self.metadata('it-IT')
+        self.respond({'id': 'edit'}, {'tracks': [{'track': 'beta', 'releases': [
+            {'versionCodes': ['134'], 'status': 'draft'}]}]},
+            {'bundles': [{'versionCode': 134, 'sha256': self.digest}]},
+            {'listings': [{'language': 'de-DE', 'title': 'Existing German listing'}]}, {}, {})
+        publish(self.session, self.bundle, 'beta', 'draft', 'v1.5.0', root, ['it-IT'])
+        writes = [call for call in self.session.request.call_args_list if call.args[0] == 'PUT']
+        self.assertEqual(len(writes), 1)
+        self.assertTrue(writes[0].args[1].endswith('/listings/it-IT'))
+        self.assertEqual(writes[0].kwargs['json']['language'], 'it-IT')
+
+    def test_listing_failure_discards_edit(self):
+        root = self.metadata()
+        self.respond({'id': 'edit'}, {'tracks': [{'track': 'beta'}]},
+                     {'bundles': [{'versionCode': 134, 'sha256': self.digest}]}, {})
+        failed = Mock(ok=False, status_code=500,
+                      json=Mock(return_value={'error': {'message': 'Listing failed'}}))
+        self.session.request.side_effect = [*self.session.request.side_effect, failed,
+            Mock(ok=True, content=b'', json=Mock(return_value={}))]
+        with self.assertRaisesRegex(RuntimeError, 'Listing failed'):
+            publish(self.session, self.bundle, 'beta', 'draft', 'v1.5.0', root, ['en-US'])
+        calls = self.session.request.call_args_list
+        self.assertEqual(calls[-1].args[0], 'DELETE')
+        self.assertFalse(any(call.args[1].endswith(':commit') for call in calls))
+
 
 if __name__ == '__main__':
     unittest.main()

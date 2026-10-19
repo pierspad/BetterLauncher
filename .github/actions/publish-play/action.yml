@@ -37,4 +37,6 @@ runs:
       run: |
         python scripts/publish_google_play.py \
           --bundle "$RUNNER_TEMP/play-artifact/betterlauncher-release.aab" \
-          --version-name "$RELEASE_TAG" --track "$PLAY_TRACK" --status "$PLAY_STATUS"
+          --version-name "$RELEASE_TAG" --track "$PLAY_TRACK" --status "$PLAY_STATUS" \
+          --metadata-dir fastlane/metadata/android \
+          --metadata-locales en-US it-IT ca es-ES

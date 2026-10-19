@@ -23,13 +23,46 @@ def request(session, method, url, **kwargs):
     return response.json() if response.content else {}
 
 
-def publish(session, bundle, track, status, version_name):
+PLAY_LOCALES = ("en-US", "it-IT", "ca", "es-ES")
+LISTING_LIMITS = {"title.txt": 30, "short_description.txt": 80, "full_description.txt": 4000}
+
+
+def read_listings(metadata_dir, locales):
+    """Read and validate all requested listing files before opening an API edit."""
+    if not locales:
+        return {}
+    if metadata_dir is None:
+        raise ValueError("--metadata-dir is required with --metadata-locales")
+    listings = {}
+    for language in locales:
+        if language not in PLAY_LOCALES:
+            raise ValueError(f"Unsupported Play listing locale: {language}")
+        values = {}
+        for filename, limit in LISTING_LIMITS.items():
+            path = Path(metadata_dir) / language / filename
+            try:
+                value = path.read_text(encoding="utf-8").strip()
+            except (OSError, UnicodeError) as error:
+                raise ValueError(f"Cannot read Play listing file: {path}") from error
+            if not value:
+                raise ValueError(f"Play listing file is empty: {path}")
+            if len(value) > limit:
+                raise ValueError(f"{path} exceeds the {limit}-character Play limit ({len(value)})")
+            values[{"title.txt": "title", "short_description.txt": "shortDescription",
+                    "full_description.txt": "fullDescription"}[filename]] = value
+        listings[language] = values
+    return listings
+
+
+def publish(session, bundle, track, status, version_name, metadata_dir=None,
+            metadata_locales=()):
     if track not in ("production", "beta"):
         raise ValueError("Choose production or beta (open testing)")
     if track == "production" and "-" in version_name.removeprefix("v"):
         raise ValueError("Prereleases can only be published to beta")
     if status not in ("draft", "completed"):
         raise ValueError("Release status must be draft or completed")
+    desired_listings = read_listings(metadata_dir, metadata_locales) if metadata_locales else {}
     edit_id = request(session, "POST", f"{API}/edits", json={})["id"]
     edit = f"{API}/edits/{quote(edit_id, safe='')}"
     committed = False
@@ -51,11 +84,26 @@ def publish(session, bundle, track, status, version_name):
         version_code = str(uploaded["versionCode"])
         current = next(item for item in tracks if item["track"] == track)
         releases = current.get("releases", [])
-        if len(releases) == 1 and releases[0].get("versionCodes") == [version_code] and releases[0].get("status") == status:
+        track_changed = not (len(releases) == 1 and releases[0].get("versionCodes") == [version_code]
+                             and releases[0].get("status") == status)
+        listings_changed = False
+        if desired_listings:
+            existing_listings = request(session, "GET", f"{edit}/listings").get("listings", [])
+            by_language = {item["language"]: item for item in existing_listings}
+            for language, desired in desired_listings.items():
+                existing_listing = by_language.get(language, {})
+                if any(existing_listing.get(field) != value for field, value in desired.items()):
+                    merged = dict(existing_listing)
+                    merged.update(desired)
+                    merged["language"] = language
+                    request(session, "PUT", f"{edit}/listings/{quote(language, safe='')}", json=merged)
+                    listings_changed = True
+        if not track_changed and not listings_changed:
             return version_code  # Already published; finally discards the read-only edit.
-        release = {"name": version_name, "versionCodes": [version_code], "status": status}
-        request(session, "PUT", f"{edit}/tracks/{quote(track, safe='')}",
-                json={"track": track, "releases": [release]})
+        if track_changed:
+            release = {"name": version_name, "versionCodes": [version_code], "status": status}
+            request(session, "PUT", f"{edit}/tracks/{quote(track, safe='')}",
+                    json={"track": track, "releases": [release]})
         # The maintainer's policy: replace an older pending review with the latest release.
         request(session, "POST", f"{edit}:commit",
                 params={"changesInReviewBehavior": "CANCEL_IN_REVIEW_AND_SUBMIT"})
@@ -75,7 +123,11 @@ def main():
     parser.add_argument("--track", default="beta", choices=("production", "beta"), help="production or beta (open testing)")
     parser.add_argument("--status", choices=("draft", "completed"), default="draft")
     parser.add_argument("--version-name", required=True)
+    parser.add_argument("--metadata-dir", type=Path)
+    parser.add_argument("--metadata-locales", nargs="+", choices=PLAY_LOCALES, default=[])
     args = parser.parse_args()
+    if bool(args.metadata_dir) != bool(args.metadata_locales):
+        parser.error("Use --metadata-dir and --metadata-locales together")
     if not args.bundle.is_file() or args.bundle.suffix != ".aab":
         parser.error("--bundle must point to a signed .aab file")
     credentials_json = os.environ.get("GOOGLE_PLAY_SERVICE_ACCOUNT_JSON")
@@ -87,7 +139,8 @@ def main():
         json.loads(credentials_json), scopes=["https://www.googleapis.com/auth/androidpublisher"]
     )
     with AuthorizedSession(credentials) as session:
-        code = publish(session, args.bundle, args.track, args.status, args.version_name)
+        code = publish(session, args.bundle, args.track, args.status, args.version_name,
+                       args.metadata_dir, args.metadata_locales)
     print(f"Published {PACKAGE} versionCode {code} to {args.track} ({args.status}).")
     print("Google Play review and managed publishing settings still apply.")
 

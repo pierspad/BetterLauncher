@@ -64,8 +64,35 @@ Usa **Actions → Publish existing release to Google Play → Run workflow**:
 Il workflow scarica l’AAB firmato dalla release GitHub. Se un bundle con lo stesso
 SHA-256 è già presente su Play, riutilizza il suo versionCode: permette di
 promuovere beta → produzione senza un secondo upload. Se la stessa versione è
-già selezionata sul canale con lo stesso stato, non modifica né reinvia la release.
+già selezionata sul canale con lo stesso stato, aggiorna soltanto le descrizioni
+che differiscono. Se anche queste sono identiche, non reinvia la revisione.
 Una prerelease `-dev.N` viene rifiutata sul canale di produzione.
+
+## Descrizioni dello store versionate
+
+Titolo e descrizioni sono in `fastlane/metadata/android/<lingua>/`:
+
+- `title.txt`: titolo, massimo 30 caratteri;
+- `short_description.txt`: descrizione breve, massimo 80 caratteri;
+- `full_description.txt`: descrizione completa, massimo 4.000 caratteri.
+
+L’azione `publish-play` sincronizza `it-IT`, `en-US`, `ca` ed `es-ES` nello stesso
+edit Google Play usato per il bundle. Prima di contattare Google, controlla che
+tutti i file selezionati siano leggibili, non vuoti e nei limiti. La traduzione
+parziale `de` resta disponibile per F-Droid e non viene inviata a Play.
+
+Vengono modificati solo titolo e descrizioni delle lingue selezionate: video,
+immagini e altre lingue già presenti restano conservati. Le modifiche identiche
+non vengono inviate di nuovo. Una descrizione può essere aggiornata anche quando
+il bundle è già sul canale: il workflow manuale usa i testi del branch su cui
+viene eseguito, insieme all’AAB del tag scelto. Questo permette di correggere i
+testi senza creare un nuovo binario. Un push di soli testi non crea una release;
+in quel caso avvia il workflow manuale con il tag pubblicato.
+
+Per aggiungere una lingua a Play, prepara tutti e tre i file e aggiungila a
+`PLAY_LOCALES` nello script e a `--metadata-locales` nell’azione GitHub. Le
+modifiche alla scheda sono comuni ai canali dell’app e restano soggette alla
+revisione Google, anche quando il bundle viene inviato al canale beta.
 
 ## Versioni e riproducibilità
 
@@ -97,3 +124,5 @@ API completato non equivale all’approvazione della revisione Google.
 - [Bundle e SHA-256](https://developers.google.com/android-publisher/api-ref/rest/v3/edits.bundles)
 - [Conferma e gestione delle revisioni](https://developers.google.com/android-publisher/api-ref/rest/v3/edits/commit)
 - [Permessi Play Console](https://support.google.com/googleplay/android-developer/answer/9844686)
+
+- [Schede localizzate tramite API](https://developers.google.com/android-publisher/api-ref/rest/v3/edits.listings)
