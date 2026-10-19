@@ -1,0 +1,13 @@
+<p><b>BetterLauncher</b> è un launcher Android libero e open source basato su Olauncher. Mantieni una schermata Home testuale e semplice, aggiungendo le funzioni che ti servono, senza pubblicità o acquisti per sbloccare opzioni.</p>
+<ul>
+<li>Scegli e riordina fino a otto app in Home e otto icone di collegamento.</li>
+<li>Aggiungi un widget Android, cartelle e icone monocromatiche facoltative.</li>
+<li>Personalizza testo, font, allineamento, tema e opacità dello sfondo.</li>
+<li>Cerca le app per prefissi, iniziali o corrispondenze fuzzy. La ricerca dei contatti è facoltativa e richiede il relativo permesso.</li>
+<li>Proteggi gli avvii delle app effettuati da BetterLauncher con le credenziali o la biometria del dispositivo.</li>
+<li>Imposta limiti facoltativi per le app, con tempi di attesa progressivi.</li>
+<li>Esporta o importa le impostazioni in JSON. Il backup può includere un font personalizzato; su un altro dispositivo occorre configurare di nuovo i permessi Android e i widget.</li>
+</ul>
+<p><b>Servizio di accessibilità facoltativo:</b> il servizio Android consente di bloccare lo schermo con un doppio tocco e applica i cooldown che configuri. Per applicare le pause osserva i cambi di finestra e l’app in primo piano. Per riconoscere il gesto di blocco può leggere informazioni accessibili della finestra, come il tipo e l’etichetta di una vista. Queste informazioni vengono elaborate sul dispositivo. Puoi rifiutare o disattivare il servizio e continuare a usare le altre funzioni del launcher.</p>
+<p>BetterLauncher non richiede il permesso Internet di Android e non contiene pubblicità o analytics. Se scegli di esportare o condividere un backup, Android può passare il file all’app o al servizio che selezioni.</p>
+<p>Software libero con licenza GPL-3.0.</p>
