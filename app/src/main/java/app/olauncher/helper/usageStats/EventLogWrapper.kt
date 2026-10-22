@@ -16,6 +16,21 @@ class EventLogWrapper(private val context: Context) {
     private val guardian = UnmatchedCloseEventGuardian(usageStatsManager)
 
 
+    /** Replay the previous day to carry an actual session across midnight.
+     * Never infer historical use from currently running processes.
+     */
+    fun getScreenTime(start: Long, end: Long): Long {
+        if (end <= start) return 0L
+        val counter = ScreenTimeCounter(start, end, context.packageName)
+        val events = usageStatsManager.queryEvents(start - TimeUnit.DAYS.toMillis(1), end)
+        val event = UsageEvents.Event()
+        while (events.hasNextEvent()) {
+            events.getNextEvent(event)
+            counter.accept(event.timeStamp, event.eventType, event.packageName, event.className)
+        }
+        return counter.finish()
+    }
+
     /**
      * Collects event information from system to calculate and aggregate precise
      * foreground time statistics for the specified period.

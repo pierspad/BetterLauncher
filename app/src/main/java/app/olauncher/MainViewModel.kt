@@ -549,11 +549,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val startTime = calendar.timeInMillis
         val endTime = System.currentTimeMillis()
 
-        val timeSpent = eventLogWrapper.aggregateSimpleUsageStats(
-            eventLogWrapper.aggregateForegroundStats(
-                eventLogWrapper.getForegroundStatsByTimestamps(startTime, endTime)
-            )
-        )
+        val timeSpent = eventLogWrapper.getScreenTime(startTime, endTime)
         val viewTimeSpent = appContext.formattedTimeSpent(timeSpent)
         return viewTimeSpent to endTime
     }

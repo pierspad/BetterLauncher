@@ -197,6 +197,9 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
                     check(adapter.currentList.contains(one))
                 }
             }
+            test("screen time excludes overlap, screen-off and locked intervals") {
+                runScreenTimeRegression()
+            }
             test("search modes preserve their intended matching") {
                 runSearchMatchingRegression()
                 check(FuzzySearch.score("Proton Mail", "ton ail", SearchMode.PRECISE) >= 0)
