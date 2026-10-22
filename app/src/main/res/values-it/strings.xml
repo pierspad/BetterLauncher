@@ -355,4 +355,8 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="open_accessibility_settings">Apri impostazioni di accessibilità</string>
     <string name="gesture_help_title">Aiuto con il doppio tocco per bloccare</string>
     <string name="gesture_help_message">1. Nelle Impostazioni di Android → Accessibilità → App scaricate, seleziona BetterLauncher e attiva il servizio. I nomi possono cambiare in base al dispositivo.\n\n2. Torna in BetterLauncher e attiva Doppio tocco per bloccare nella sezione Gesti. Tocca due volte un’area vuota della schermata Home.\n\n3. Se Android segnala un’impostazione con restrizioni per un’installazione da APK, apri Impostazioni → App → BetterLauncher → Altre opzioni → Consenti impostazioni con restrizioni, poi riprova. Fallo solo se ti fidi dell’installazione.\n\n4. Se il servizio si interrompe dopo un riavvio, controlla che sia ancora attivo e verifica le restrizioni della batteria applicate dal dispositivo. Disattivare il servizio lascia disponibili le normali funzioni del launcher.</string>
+    <string name="search_mode_smart">Precisa</string>
+    <string name="search_mode_smart_desc">Frammenti consecutivi in parole distinte e in ordine: edd → Reddit; ton ail → Proton Mail</string>
+    <string name="search_mode_loose">Flessibile</string>
+    <string name="search_mode_loose_desc">Trova anche lettere non consecutive nel nome dell’app</string>
 </resources><!-- Italian -->

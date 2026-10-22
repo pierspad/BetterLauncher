@@ -270,11 +270,9 @@ Per eliminar-lo, ha de ser ≤ 2</string>
     <string name="search_contacts_category">Cerca contactes</string>
     <string name="search_contacts_permission_needed">Cal el permís de contactes</string>
     <string name="search_mode_title">Mode de cerca</string>
-    <string name="search_mode_smart">Intel·ligent</string>
-    <string name="search_mode_smart_desc">Prefixos de paraules per a consultes amb espais i cerca aproximada per a paraules soles</string>
-    <string name="search_mode_strict">Prefix de paraula</string>
-    <string name="search_mode_strict_desc">Tots els termes de la consulta han de coincidir amb prefixos de paraules</string>
-    <string name="search_mode_loose">Cerca aproximada flexible</string>
+    <string name="search_mode_smart">Precisa</string>
+    <string name="search_mode_smart_desc">Fragments consecutius en paraules diferents i en ordre: edd → Reddit; ton ail → Proton Mail</string>
+    <string name="search_mode_loose">Flexible</string>
     <string name="search_mode_loose_desc">Cerca els caràcters a qualsevol part de l\'etiqueta de l\'aplicació</string>
 
     <!-- Dreceres de configuració -->

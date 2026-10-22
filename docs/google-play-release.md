@@ -113,11 +113,10 @@ seguire soltanto i tag stabili.
 
 ## Collegamenti nell’app e revisione
 
-Il pulsante con la stellina è temporaneamente commentato nel layout e nei
-listener delle Impostazioni. Prima di ripristinarlo, verificare che la scheda
-pubblica di `com.pierspad.betterlauncher` sia disponibile e che l’etichetta
-spieghi che serve a recensire BetterLauncher su Google Play. L’helper usa già
-l’URL di questa app. Il pulsante Condividi rimanda al repository BetterLauncher.
+Il pulsante con la stellina nelle Impostazioni apre la scheda di BetterLauncher
+su Google Play (`com.pierspad.betterlauncher`) per consentire all’utente di lasciare
+una recensione. L’helper usa l’URL di questa app. Il pulsante Condividi rimanda al
+repository BetterLauncher.
 
 Il vecchio collegamento alla scheda di Olauncher non deve essere ripristinato:
 la prova allegata al rifiuto Play mostrava proprio quella destinazione. L’invio

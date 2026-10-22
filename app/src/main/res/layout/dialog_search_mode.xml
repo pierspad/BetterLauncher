@@ -27,7 +27,7 @@
             android:layout_marginBottom="18dp"
             android:text="@string/search_mode_title" />
 
-        <!-- Mode 0: SMART -->
+        <!-- Mode 0: PRECISE -->
         <LinearLayout
             android:id="@+id/modeSmart"
             android:layout_width="match_parent"
@@ -74,67 +74,6 @@
 
             <ImageView
                 android:id="@+id/checkSmart"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="12dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_check"
-                app:tint="?attr/primaryColor" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginHorizontal="8dp"
-            android:background="@drawable/divider_light" />
-
-        <!-- Mode 1: STRICT PREFIX -->
-        <LinearLayout
-            android:id="@+id/modeStrict"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="14dp"
-            android:paddingVertical="14dp">
-
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_align_left"
-                app:tint="?attr/primaryColor" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/TextSmallBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/search_mode_strict"
-                    android:textColor="?attr/primaryColor" />
-
-                <TextView
-                    style="@style/TextSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:alpha="0.65"
-                    android:text="@string/search_mode_strict_desc"
-                    android:textColor="?attr/primaryColor"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/checkStrict"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="12dp"

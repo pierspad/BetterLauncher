@@ -163,8 +163,7 @@ class AppDrawerFragment : Fragment() {
             contactsCheck.visibility = if (prefs.searchContactsEnabled) View.VISIBLE else View.INVISIBLE
             val currentMode = SearchMode.fromValue(prefs.searchMode)
             searchModeSub.text = when (currentMode) {
-                SearchMode.SMART -> getString(R.string.search_mode_smart)
-                SearchMode.STRICT_PREFIX -> getString(R.string.search_mode_strict)
+                SearchMode.PRECISE -> getString(R.string.search_mode_smart)
                 SearchMode.LOOSE_FUZZY -> getString(R.string.search_mode_loose)
             }
         }
@@ -206,13 +205,11 @@ class AppDrawerFragment : Fragment() {
         if (!isAdded) return
         val view = layoutInflater.inflate(R.layout.dialog_search_mode, null)
         val checkSmart = view.findViewById<View>(R.id.checkSmart)
-        val checkStrict = view.findViewById<View>(R.id.checkStrict)
         val checkLoose = view.findViewById<View>(R.id.checkLoose)
         val btnCancel = view.findViewById<View>(R.id.btnCancel)
 
         val currentMode = SearchMode.fromValue(prefs.searchMode)
-        checkSmart.visibility = if (currentMode == SearchMode.SMART) View.VISIBLE else View.INVISIBLE
-        checkStrict.visibility = if (currentMode == SearchMode.STRICT_PREFIX) View.VISIBLE else View.INVISIBLE
+        checkSmart.visibility = if (currentMode == SearchMode.PRECISE) View.VISIBLE else View.INVISIBLE
         checkLoose.visibility = if (currentMode == SearchMode.LOOSE_FUZZY) View.VISIBLE else View.INVISIBLE
 
         val dialog = AlertDialog.Builder(requireContext())
@@ -229,8 +226,7 @@ class AppDrawerFragment : Fragment() {
             dialog.dismiss()
         }
 
-        view.findViewById<View>(R.id.modeSmart).setOnClickListener { selectMode(SearchMode.SMART) }
-        view.findViewById<View>(R.id.modeStrict).setOnClickListener { selectMode(SearchMode.STRICT_PREFIX) }
+        view.findViewById<View>(R.id.modeSmart).setOnClickListener { selectMode(SearchMode.PRECISE) }
         view.findViewById<View>(R.id.modeLoose).setOnClickListener { selectMode(SearchMode.LOOSE_FUZZY) }
         btnCancel.setOnClickListener { dialog.dismiss() }
 

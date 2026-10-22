@@ -197,10 +197,7 @@ class AppDrawerAdapter(
                 addAll(appsList)
             }
         } else {
-            // Apps use the loose fuzzy matcher (subsequence ok). The secondary sources
-            // (settings tiles, contacts) use the strict matcher so a loose subsequence like
-            // "pint" can't drag in "Opzioni sviluppatore". Then rank by match quality,
-            // then usage, then name.
+            // Rank matching names by quality, usage, then name.
             val mode = SearchMode.fromValue(searchModeProvider())
             val scored = ArrayList<Pair<AppModel, Int>>(appsList.size + searchOnly.size)
             for (item in appsList) {

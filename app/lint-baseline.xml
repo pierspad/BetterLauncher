@@ -1178,8 +1178,8 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;search_mode_smart&quot; is not translated in &quot;de&quot; (German), &quot;sv&quot; (Swedish), &quot;in&quot; (Indonesian), &quot;hr&quot; (Croatian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;hu&quot; (Hungarian), &quot;iw&quot; (Hebrew), &quot;zh&quot; (Chinese), &quot;ar&quot; (Arabic), &quot;uk&quot; (Ukrainian), &quot;ja&quot; (Japanese), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew), &quot;nl&quot; (Dutch), &quot;tr&quot; (Turkish)"
-        errorLine1="    &lt;string name=&quot;search_mode_smart&quot;>Smart&lt;/string>"
+        message="&quot;search_mode_smart&quot; is not translated in &quot;de&quot; (German), &quot;sv&quot; (Swedish), &quot;in&quot; (Indonesian), &quot;hr&quot; (Croatian), &quot;fr&quot; (French), &quot;hu&quot; (Hungarian), &quot;iw&quot; (Hebrew), &quot;zh&quot; (Chinese), &quot;ar&quot; (Arabic), &quot;uk&quot; (Ukrainian), &quot;ja&quot; (Japanese), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew), &quot;nl&quot; (Dutch), &quot;tr&quot; (Turkish)"
+        errorLine1="    &lt;string name=&quot;search_mode_smart&quot;>Precise&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
@@ -1189,8 +1189,8 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;search_mode_smart_desc&quot; is not translated in &quot;de&quot; (German), &quot;sv&quot; (Swedish), &quot;in&quot; (Indonesian), &quot;hr&quot; (Croatian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;hu&quot; (Hungarian), &quot;iw&quot; (Hebrew), &quot;zh&quot; (Chinese), &quot;ar&quot; (Arabic), &quot;uk&quot; (Ukrainian), &quot;ja&quot; (Japanese), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew), &quot;nl&quot; (Dutch), &quot;tr&quot; (Turkish)"
-        errorLine1="    &lt;string name=&quot;search_mode_smart_desc&quot;>Word prefixes for space queries, fuzzy for single words&lt;/string>"
+        message="&quot;search_mode_smart_desc&quot; is not translated in &quot;de&quot; (German), &quot;sv&quot; (Swedish), &quot;in&quot; (Indonesian), &quot;hr&quot; (Croatian), &quot;fr&quot; (French), &quot;hu&quot; (Hungarian), &quot;iw&quot; (Hebrew), &quot;zh&quot; (Chinese), &quot;ar&quot; (Arabic), &quot;uk&quot; (Ukrainian), &quot;ja&quot; (Japanese), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew), &quot;nl&quot; (Dutch), &quot;tr&quot; (Turkish)"
+        errorLine1="    &lt;string name=&quot;search_mode_smart_desc&quot;>Consecutive fragments in separate words, in order: edd → Reddit; ton ail → Proton Mail&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
@@ -1198,32 +1198,14 @@
             column="13"/>
     </issue>
 
-    <issue
-        id="MissingTranslation"
-        message="&quot;search_mode_strict&quot; is not translated in &quot;de&quot; (German), &quot;sv&quot; (Swedish), &quot;in&quot; (Indonesian), &quot;hr&quot; (Croatian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;hu&quot; (Hungarian), &quot;iw&quot; (Hebrew), &quot;zh&quot; (Chinese), &quot;ar&quot; (Arabic), &quot;uk&quot; (Ukrainian), &quot;ja&quot; (Japanese), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew), &quot;nl&quot; (Dutch), &quot;tr&quot; (Turkish)"
-        errorLine1="    &lt;string name=&quot;search_mode_strict&quot;>Word prefix&lt;/string>"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="306"
-            column="13"/>
-    </issue>
+
+
+
 
     <issue
         id="MissingTranslation"
-        message="&quot;search_mode_strict_desc&quot; is not translated in &quot;de&quot; (German), &quot;sv&quot; (Swedish), &quot;in&quot; (Indonesian), &quot;hr&quot; (Croatian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;hu&quot; (Hungarian), &quot;iw&quot; (Hebrew), &quot;zh&quot; (Chinese), &quot;ar&quot; (Arabic), &quot;uk&quot; (Ukrainian), &quot;ja&quot; (Japanese), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew), &quot;nl&quot; (Dutch), &quot;tr&quot; (Turkish)"
-        errorLine1="    &lt;string name=&quot;search_mode_strict_desc&quot;>Every query term must match word prefixes&lt;/string>"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="307"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="MissingTranslation"
-        message="&quot;search_mode_loose&quot; is not translated in &quot;de&quot; (German), &quot;sv&quot; (Swedish), &quot;in&quot; (Indonesian), &quot;hr&quot; (Croatian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;hu&quot; (Hungarian), &quot;iw&quot; (Hebrew), &quot;zh&quot; (Chinese), &quot;ar&quot; (Arabic), &quot;uk&quot; (Ukrainian), &quot;ja&quot; (Japanese), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew), &quot;nl&quot; (Dutch), &quot;tr&quot; (Turkish)"
-        errorLine1="    &lt;string name=&quot;search_mode_loose&quot;>Loose fuzzy&lt;/string>"
+        message="&quot;search_mode_loose&quot; is not translated in &quot;de&quot; (German), &quot;sv&quot; (Swedish), &quot;in&quot; (Indonesian), &quot;hr&quot; (Croatian), &quot;fr&quot; (French), &quot;hu&quot; (Hungarian), &quot;iw&quot; (Hebrew), &quot;zh&quot; (Chinese), &quot;ar&quot; (Arabic), &quot;uk&quot; (Ukrainian), &quot;ja&quot; (Japanese), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew), &quot;nl&quot; (Dutch), &quot;tr&quot; (Turkish)"
+        errorLine1="    &lt;string name=&quot;search_mode_loose&quot;>Flexible&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
@@ -1233,7 +1215,7 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;search_mode_loose_desc&quot; is not translated in &quot;de&quot; (German), &quot;sv&quot; (Swedish), &quot;in&quot; (Indonesian), &quot;hr&quot; (Croatian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;hu&quot; (Hungarian), &quot;iw&quot; (Hebrew), &quot;zh&quot; (Chinese), &quot;ar&quot; (Arabic), &quot;uk&quot; (Ukrainian), &quot;ja&quot; (Japanese), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew), &quot;nl&quot; (Dutch), &quot;tr&quot; (Turkish)"
+        message="&quot;search_mode_loose_desc&quot; is not translated in &quot;de&quot; (German), &quot;sv&quot; (Swedish), &quot;in&quot; (Indonesian), &quot;hr&quot; (Croatian), &quot;fr&quot; (French), &quot;hu&quot; (Hungarian), &quot;iw&quot; (Hebrew), &quot;zh&quot; (Chinese), &quot;ar&quot; (Arabic), &quot;uk&quot; (Ukrainian), &quot;ja&quot; (Japanese), &quot;pl&quot; (Polish), &quot;he&quot; (Hebrew), &quot;nl&quot; (Dutch), &quot;tr&quot; (Turkish)"
         errorLine1="    &lt;string name=&quot;search_mode_loose_desc&quot;>Matches characters anywhere in the app label&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location

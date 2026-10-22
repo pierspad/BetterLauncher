@@ -40,6 +40,7 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
         prefs.resetToDefaults()
         isolated.filesDir.listFiles()?.forEach { it.delete() }
         fun test(name: String, block: () -> Unit) {
+            sendStatus(0, Bundle().apply { putString("stream", "RUN: $name\n") })
             block()
             output.append("PASS: ").append(name).append('\n')
         }
@@ -184,9 +185,97 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
                 }
             }
             test("search modes preserve their intended matching") {
-                check(FuzzySearch.score("Proton Mail", "pm", SearchMode.SMART) >= 0)
-                check(FuzzySearch.score("Proton Mail", "Proton L", SearchMode.SMART) < 0)
+                runSearchMatchingRegression()
+                check(FuzzySearch.score("Proton Mail", "ton ail", SearchMode.PRECISE) >= 0)
+                check(FuzzySearch.score("Proton Mail", "Mail Proton", SearchMode.PRECISE) < 0)
                 check(FuzzySearch.score("Reddit", "rdd", SearchMode.LOOSE_FUZZY) >= 0)
+            }
+            test("precise drawer launches only unique matches, including internal word fragments") {
+                val proton = AppModel.App("Proton Mail", null, "app.proton", "Main", user = Process.myUserHandle())
+                val pedometer = proton.copy(appLabel = "Pedometro - Contapassi", appPackage = "app.steps")
+                val reddit = proton.copy(appLabel = "Reddit", appPackage = "app.reddit")
+                val redditNews = reddit.copy(appLabel = "Reddit News", appPackage = "app.news")
+                fun search(query: String, apps: List<AppModel>, expected: List<AppModel>, launches: List<AppModel>) {
+                    val clicked = mutableListOf<AppModel>()
+                    lateinit var adapter: AppDrawerAdapter
+                    onMain {
+                        adapter = AppDrawerAdapter(Constants.FLAG_LAUNCH_APP, Gravity.START,
+                            appClickListener = { clicked.add(it) }, appInfoListener = {}, appDeleteListener = {},
+                            appHideListener = { _, _ -> }, appRenameListener = { _, _ -> })
+                        adapter.allowAutoLaunch = false
+                        adapter.setAppList(apps.toMutableList())
+                        adapter.allowAutoLaunch = true
+                        adapter.applyFilter(query)
+                    }
+                    val deadline = android.os.SystemClock.uptimeMillis() + 5000
+                    var settled = false
+                    while (!settled && android.os.SystemClock.uptimeMillis() < deadline) {
+                        waitForIdleSync()
+                        onMain { settled = adapter.currentList == expected }
+                        if (!settled) Thread.sleep(10)
+                    }
+                    onMain {
+                        check(settled) { "Wrong results for $query: ${adapter.currentList}" }
+                        check(clicked == launches) { "Wrong automatic launch for $query: $clicked" }
+                    }
+                }
+                search("Prot", listOf(proton, pedometer), listOf(proton), listOf(proton))
+                search("edd", listOf(reddit, pedometer), listOf(reddit), listOf(reddit))
+                search("ton ail", listOf(proton, pedometer), listOf(proton), listOf(proton))
+                search("pro ma", listOf(proton, pedometer), listOf(proton), listOf(proton))
+                search("edd", listOf(reddit, redditNews), listOf(reddit, redditNews), emptyList())
+                search("rdd", listOf(reddit, pedometer), emptyList(), emptyList())
+                search("ail ton", listOf(proton), emptyList(), emptyList())
+                search("pro ton", listOf(proton), emptyList(), emptyList())
+            }
+            test("consent keeps title and both actions visible while only the message scrolls") {
+                val activity = startActivitySync(android.content.Intent(
+                    targetContext, SettingsLifecycleHostActivity::class.java
+                ).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))
+                try {
+                    onMain {
+                        for (heightDp in listOf(280, 320, 480)) {
+                            val root = android.view.LayoutInflater.from(activity)
+                                .inflate(R.layout.dialog_accessibility_consent, null) as android.view.ViewGroup
+                            val density = activity.resources.displayMetrics.density
+                            val width = (320 * density).toInt()
+                            val height = (heightDp * density).toInt()
+                            root.measure(android.view.View.MeasureSpec.makeMeasureSpec(width, android.view.View.MeasureSpec.EXACTLY),
+                                android.view.View.MeasureSpec.makeMeasureSpec(height, android.view.View.MeasureSpec.EXACTLY))
+                            root.layout(0, 0, width, height)
+                            fun findScroll(view: android.view.View): android.widget.ScrollView? {
+                                if (view is android.widget.ScrollView) return view
+                                if (view is android.view.ViewGroup) for (i in 0 until view.childCount) {
+                                    findScroll(view.getChildAt(i))?.let { return it }
+                                }
+                                return null
+                            }
+                            val scroll = checkNotNull(findScroll(root))
+                            check(scroll.height > 0) { "No room to read consent at $heightDp dp" }
+                            for (id in listOf(R.id.consentTitle, R.id.consentAccept, R.id.consentDecline)) {
+                                val control = root.findViewById<android.view.View>(id)
+                                val bounds = android.graphics.Rect()
+                                control.getDrawingRect(bounds)
+                                root.offsetDescendantRectToMyCoords(control, bounds)
+                                check(bounds.top >= 0 && bounds.bottom <= height) { "Control $id clipped at $heightDp dp: $bounds" }
+                                var parent = control.parent
+                                while (parent != null) {
+                                    check(parent !== scroll) { "Fixed control $id scrolls with the message" }
+                                    parent = parent.parent
+                                }
+                            }
+                            val titleTop = root.findViewById<android.view.View>(R.id.consentTitle).top
+                            val declineTop = root.findViewById<android.view.View>(R.id.consentDecline).top
+                            scroll.scrollTo(0, scroll.getChildAt(0).height)
+                            check(scroll.scrollY > 0) { "Long consent message does not scroll at $heightDp dp" }
+                            check(root.findViewById<android.view.View>(R.id.consentTitle).top == titleTop)
+                            check(root.findViewById<android.view.View>(R.id.consentDecline).top == declineTop)
+                        }
+                    }
+                } finally {
+                    activity.finish()
+                    waitForIdleSync()
+                }
             }
             test("icon cache returns independently mutable drawables") {
                 val first = IconManager.getAppIcon(targetContext, targetContext.packageName, Process.myUserHandle())!!

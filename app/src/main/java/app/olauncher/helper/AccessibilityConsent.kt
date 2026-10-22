@@ -2,6 +2,8 @@ package app.olauncher.helper
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
+import android.view.ViewGroup
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.widget.TextView
@@ -48,5 +50,14 @@ object AccessibilityConsent {
             dialog.dismiss()
         }
         dialog.show()
+        dialog.window?.let { window ->
+            // Bound the whole dialog to the visible area; only the weighted message
+            // shrinks and scrolls, keeping consent and refusal reachable in landscape.
+            val visibleFrame = Rect()
+            window.decorView.getWindowVisibleDisplayFrame(visibleFrame)
+            val availableHeight = visibleFrame.height().takeIf { it > 0 }
+                ?: context.resources.displayMetrics.heightPixels
+            window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, (availableHeight * 0.9f).toInt())
+        }
     }
 }

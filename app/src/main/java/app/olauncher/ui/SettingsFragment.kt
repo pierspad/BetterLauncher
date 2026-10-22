@@ -56,7 +56,7 @@ import app.olauncher.helper.isCountryIn
 import app.olauncher.helper.isOlauncherDefault
 import app.olauncher.helper.openAppInfo
 import app.olauncher.helper.openUrl
-// import app.olauncher.helper.rateApp // Restore with the review shortcut.
+import app.olauncher.helper.rateApp
 import app.olauncher.helper.scrimColor
 import app.olauncher.helper.shareApp
 import app.olauncher.helper.showToast
@@ -277,11 +277,10 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             }
 
             R.id.share -> requireActivity().shareApp()
-            // Restore once the BetterLauncher Play listing is publicly available.
-            // R.id.rate -> {
-            //     prefs.rateClicked = true
-            //     requireActivity().rateApp()
-            // }
+            R.id.rate -> {
+                prefs.rateClicked = true
+                requireActivity().rateApp()
+            }
 
             R.id.website -> requireContext().openUrl(Constants.URL_PIERSPAD)
             R.id.github -> requireContext().openUrl(Constants.URL_OLAUNCHER_GITHUB)
@@ -369,7 +368,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         }
 
         binding.share.setOnClickListener(this)
-        // binding.rate.setOnClickListener(this) // See the disabled review shortcut in XML.
+        binding.rate.setOnClickListener(this)
         binding.website.setOnClickListener(this)
         binding.github.setOnClickListener(this)
         binding.privacy.setOnClickListener(this)
