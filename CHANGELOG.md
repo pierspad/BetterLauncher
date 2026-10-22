@@ -1,3 +1,9 @@
+## [1.5.3](https://github.com/pierspad/BetterLauncher/compare/v1.5.2...v1.5.3) (2026-10-22)
+
+### Bug Fixes
+
+* enforce precise search on upgrade and optimize launcher refreshes ([530fb82](https://github.com/pierspad/BetterLauncher/commit/530fb82ab575dea94be63dc61a2f27acdc5788aa))
+
 ## [1.5.2](https://github.com/pierspad/BetterLauncher/compare/v1.5.1...v1.5.2) (2026-10-22)
 
 ### Bug Fixes
