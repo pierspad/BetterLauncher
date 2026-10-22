@@ -20,6 +20,8 @@ jobs:
 
   release:
     needs: verify
+    # Also protect manual dispatches from experimental branches.
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     name: Build & Release APK
     runs-on: ubuntu-latest
     outputs:
@@ -79,6 +81,7 @@ jobs:
     name: Publish automatically to Google Play
     needs: release
     if: >-
+      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev') &&
       needs.release.outputs.version != '' &&
       vars.GOOGLE_PLAY_AUTO_PUBLISH == 'true'
     runs-on: ubuntu-latest

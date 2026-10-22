@@ -6,6 +6,7 @@ L’automazione usa questi canali:
 | --- | --- | --- |
 | `main` | stabile, `vX.Y.Z` | produzione, `production` |
 | `dev` | prerelease, `vX.Y.Z-dev.N` | test aperti, `beta` |
+| `codex/gesture-research` e altri branch | nessuna, solo CI | nessun invio |
 
 Un push viene verificato dalla CI. Semantic-release crea una versione quando i
 commit lo richiedono (`fix:`, `feat:`, ecc.); un push di sola documentazione o CI
@@ -15,6 +16,22 @@ to Google Play**, dentro la stessa esecuzione **Release**: non compare come una
 seconda esecuzione nell’elenco Actions. Aprire la release per vedere tutti i job e
 il riepilogo dell’invio automatico. Il workflow manuale serve per riprovare o
 promuovere una versione esistente, non per completare ogni rilascio normale.
+
+I branch sperimentali non attivano il workflow Release al push. Anche un avvio
+manuale di Release o Publish Play su questi branch salta i job di pubblicazione.
+Per rendere questa protezione effettiva sui branch principali, le modifiche ai
+workflow devono essere integrate anche lì.
+
+Il canale `beta` è un test aperto di BetterLauncher: gli aggiornamenti sono per
+chi aderisce al test, non per gli utenti solo in produzione. Occorre attivare e
+configurare il test aperto nella Play Console (paesi, disponibilità e adesione).
+Link di adesione: https://play.google.com/apps/testing/com.pierspad.betterlauncher
+Non è il programma beta di Android/Xiaomi. Per un gruppo privato serve invece un
+canale di test chiuso e il relativo identificatore, oggi non configurato qui.
+Il codice di versione resta unico tra beta e produzione: la promozione a stabile
+deve avere un codice almeno pari alla beta per aggiornare anche i tester.
+La sincronizzazione della scheda Play resta comune ai canali; il branch beta
+isola il binario, non i testi della scheda.
 
 ## Accesso Google
 

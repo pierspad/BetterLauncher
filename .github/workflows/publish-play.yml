@@ -34,6 +34,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   publish:
+    # A research branch may run CI, but must never publish to Play.
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -39,3 +39,6 @@ gradle/config.properties
 /docs/*-validation.md
 /gitlab_feedback/
 /local-notes/
+
+# Local upstream checkouts used for gesture research
+/Olauncher-Ogesture/
