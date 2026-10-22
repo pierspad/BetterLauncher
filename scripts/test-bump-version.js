@@ -14,7 +14,7 @@ function fixture(t) {
     return {
         root,
         git: (...args) => execFileSync('git', args, { cwd: root, stdio: 'pipe' }),
-        bump: version => execFileSync(process.execPath, ['scripts/bump-version.js', version], { cwd: root, stdio: 'pipe' }),
+        bump: (version, env = {}) => execFileSync(process.execPath, ['scripts/bump-version.js', version], { cwd: root, stdio: 'pipe', env: { ...process.env, ...env } }),
         contents: () => fs.readFileSync(path.join(root, 'gradle.properties'), 'utf8'),
     };
 }
@@ -47,4 +47,12 @@ test('invalid versions cannot modify gradle.properties', t => {
     const before = repo.contents();
     assert.throws(() => repo.bump('invalid\nversionCode=1'));
     assert.equal(repo.contents(), before);
+});
+
+test('prepared release exposes its version to the automatic Play publish job', t => {
+    const repo = fixture(t);
+    const output = path.join(repo.root, 'release-output');
+    repo.bump('1.5.3', { GITHUB_OUTPUT: output });
+    assert.equal(fs.readFileSync(output, 'utf8'), 'release_version=1.5.3\n');
+    assert.match(repo.contents(), /versionName=1.5.3\n/);
 });

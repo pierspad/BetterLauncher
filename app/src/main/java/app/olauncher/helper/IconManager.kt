@@ -20,7 +20,7 @@ import org.xmlpull.v1.XmlPullParser
 
 object IconManager {
     @Volatile
-    private var appFilterMap: Map<String, String>? = null
+    private var appFilterIndex: LawniconIndex? = null
 
     @Volatile
     private var initialized = false
@@ -83,26 +83,15 @@ object IconManager {
                     eventType = parser.next()
                 }
             }
-            appFilterMap = map
+            appFilterIndex = LawniconIndex(map)
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     private fun getLawnicon(context: Context, packageName: String, activityName: String?): Drawable? {
-        val filterMap = appFilterMap ?: return null
-        val actName = activityName ?: ""
-
-        val key = "$packageName/$actName"
-        var drawableName = filterMap[key]
-        if (drawableName == null) {
-            // Fallback: match any key starting with "$packageName/"
-            val prefix = "$packageName/"
-            val firstMatch = filterMap.keys.firstOrNull { it.startsWith(prefix) }
-            if (firstMatch != null) {
-                drawableName = filterMap[firstMatch]
-            }
-        }
+        val index = appFilterIndex ?: return null
+        val drawableName = index.drawableFor(packageName, activityName)
 
         if (drawableName != null) {
             try {
@@ -218,6 +207,19 @@ object IconManager {
                 icon?.mutate()?.apply { setTint(tintColor) }
             }
             else -> null
+        }
+    }
+
+    /** Invalidates every tint/style and pinned shortcut cached for this package/profile. */
+    fun invalidatePackage(packageName: String, userHandle: UserHandle) {
+        val appPrefix = "$packageName|$userHandle|"
+        val shortcutPrefix = "$packageName|shortcut|"
+        val shortcutSuffix = "|$userHandle"
+        for (key in iconCache.snapshot().keys) {
+            if (key.startsWith(appPrefix) ||
+                (key.startsWith(shortcutPrefix) && key.endsWith(shortcutSuffix))) {
+                iconCache.remove(key)
+            }
         }
     }
 

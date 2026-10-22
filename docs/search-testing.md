@@ -3,8 +3,10 @@
 Precise is the default. Each query fragment must occur consecutively inside a
 separate word of the app label, in the same order. Matching ignores case and
 accents; spaces and punctuation separate words. Words may be skipped. Flexible
-search remains an explicit alternative. Existing Smart and Word prefix selections
-resolve to Precise; an explicit Flexible selection is retained.
+search remains an explicit alternative. The first upgrade to 1.5.3 resets all older
+mode selections to Precise once. Explicit choices made afterward survive process
+recreation and new backups. Older backups without the migration marker also
+resolve to Precise.
 
 Automatic opening still requires exactly one result and a launchable app. An
 ambiguous query must never open the highest-ranked result automatically. Enabled
@@ -26,7 +28,7 @@ Build and check Android integration with an emulator or an authorized test phone
 bash scripts/run-android-regressions.sh
 ```
 
-The device runner installs the debug app and test APK, then runs 12 regression
+The device runner installs the debug app and test APK, then runs 13 regression
 groups. Its search checks use synthetic app names and capture launch callbacks,
 so no real mail, VPN or Reddit app needs to be installed or opened.
 

@@ -58,11 +58,13 @@ launcher configuration, including app choices and aliases.
 
 | Mode | Behavior | Example |
 | :--- | :--- | :--- |
-| Smart | Word prefixes, initials and fuzzy single-word matching | `pm` → Proton Mail |
-| Word prefix | Each term must start a word in the app label | `p m` → Proton Mail |
-| Loose fuzzy | Query characters may occur anywhere, in order | `rdd` → Reddit |
+| Precise (default) | Consecutive fragments inside separate words, in order | `edd` → Reddit; `ton ail` → Proton Mail |
+| Flexible | Query characters may occur anywhere, in order | `rdd` → Reddit |
 
-Contact search is optional and requires contact permission. Ordinary app search works without it.
+A unique matching app opens automatically. Multiple matches remain available for
+selection. Updating to 1.5.3 selects Precise once, including existing installations;
+you can choose Flexible afterward. Contact search is optional and requires contact
+permission. Ordinary app search works without it.
 
 ## Gestures and accessibility
 

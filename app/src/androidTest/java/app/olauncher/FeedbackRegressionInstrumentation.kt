@@ -45,6 +45,19 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
             output.append("PASS: ").append(name).append('\n')
         }
         try {
+            test("runtime optimization regressions") {
+                val failures = mutableListOf<String>()
+                fun checkCase(name: String, block: () -> Unit) {
+                    runCatching(block).onFailure { failures += "$name: ${it.message}" }
+                }
+                checkCase("precise default migration") { runSearchDefaultMigrationRegression(isolated) }
+                checkCase("device/widget") { onMain { runDeviceRuntimeRegression(isolated) } }
+                runSearchRuntimeRegression(this, isolated) { name, block -> checkCase(name, block) }
+                checkCase("package callbacks") { runLauncherRefreshRegression() }
+                checkCase("loading") { runLoadingRuntimeRegression(this, isolated) }
+                checkCase("lawnicon index") { runLawniconIndexRegression() }
+                check(failures.isEmpty()) { failures.joinToString("\n") }
+            }
             prefs.textSizeScale = 1.5f
             prefs.homeAppsNum = 6
             val valid = prefs.exportToJson()

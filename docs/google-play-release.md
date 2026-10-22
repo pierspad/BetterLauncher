@@ -10,7 +10,11 @@ L’automazione usa questi canali:
 Un push viene verificato dalla CI. Semantic-release crea una versione quando i
 commit lo richiedono (`fix:`, `feat:`, ecc.); un push di sola documentazione o CI
 non genera automaticamente una nuova versione dell’app. L’invio Play segue la
-pubblicazione del relativo APK/AAB firmato su GitHub.
+pubblicazione del relativo APK/AAB firmato su GitHub. È il job **Publish automatically
+to Google Play**, dentro la stessa esecuzione **Release**: non compare come una
+seconda esecuzione nell’elenco Actions. Aprire la release per vedere tutti i job e
+il riepilogo dell’invio automatico. Il workflow manuale serve per riprovare o
+promuovere una versione esistente, non per completare ogni rilascio normale.
 
 ## Accesso Google
 

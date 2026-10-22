@@ -168,7 +168,26 @@ class Prefs(private val context: Context) {
     // ---- Drawer search ----
     var searchSettingsEnabled by bool("SEARCH_SETTINGS_ENABLED", true)
     var searchContactsEnabled by bool("SEARCH_CONTACTS_ENABLED")
-    var searchMode by int("SEARCH_MODE", 0)
+    private var storedSearchMode by int("SEARCH_MODE", 0)
+    private var preciseSearchDefaultApplied by bool("PRECISE_SEARCH_DEFAULT_APPLIED")
+
+    var searchMode: Int
+        get() {
+            if (!preciseSearchDefaultApplied) synchronized(importLock) {
+                if (!preciseSearchDefaultApplied) prefs.edit {
+                    putInt("SEARCH_MODE", 0)
+                    putBoolean("PRECISE_SEARCH_DEFAULT_APPLIED", true)
+                }
+            }
+            return storedSearchMode
+        }
+        set(value) {
+            require(value == 0 || value == 2)
+            prefs.edit {
+                putInt("SEARCH_MODE", value)
+                putBoolean("PRECISE_SEARCH_DEFAULT_APPLIED", true)
+            }
+        }
 
     // Per-app launch counter used to rank search results by frequency of use.
     fun getUsageCount(key: String): Int = prefs.getInt("USAGE_$key", 0)

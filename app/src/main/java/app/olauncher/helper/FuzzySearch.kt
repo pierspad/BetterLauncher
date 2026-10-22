@@ -73,17 +73,41 @@ object FuzzySearch {
         return true
     }
 
-    fun score(label: String, query: String, mode: SearchMode = SearchMode.PRECISE): Int {
-        val qClean = query.trim()
-        if (qClean.isEmpty()) return 0
+    /** Immutable fields shared by every query until the source label changes. */
+    class PreparedLabel internal constructor(
+        internal val words: List<String>,
+        internal val compact: String,
+        internal val spaced: String,
+        val sortKey: String,
+    )
 
-        val parts = getWords(qClean)
+    /** Tokenize and normalize once per filter operation, rather than once per result. */
+    class PreparedQuery internal constructor(
+        internal val blank: Boolean,
+        internal val tokens: List<String>,
+        internal val compact: String,
+    )
 
+    fun prepareLabel(label: String): PreparedLabel = PreparedLabel(
+        getWords(label), normalize(label), normalizeWithSpaces(label), label.lowercase(),
+    )
+
+    fun prepareQuery(query: String): PreparedQuery {
+        val trimmed = query.trim()
+        val tokens = getWords(trimmed)
+        return PreparedQuery(trimmed.isEmpty(), tokens, tokens.joinToString(""))
+    }
+
+    fun score(label: String, query: String, mode: SearchMode = SearchMode.PRECISE): Int =
+        score(prepareLabel(label), prepareQuery(query), mode)
+
+    fun score(label: PreparedLabel, query: PreparedQuery, mode: SearchMode = SearchMode.PRECISE): Int {
+        if (query.blank) return 0
+        val parts = query.tokens
         if (parts.isEmpty()) return -1
-
-        val labelWords = getWords(label)
-        val lNoSeparators = normalize(label)
-        val qConcat = parts.joinToString("")
+        val labelWords = label.words
+        val lNoSeparators = label.compact
+        val qConcat = query.compact
 
         return when (mode) {
             SearchMode.PRECISE -> {
@@ -93,7 +117,7 @@ object FuzzySearch {
             }
 
             SearchMode.LOOSE_FUZZY -> {
-                val lSpaces = normalizeWithSpaces(label)
+                val lSpaces = label.spaced
                 val matches = isSubsequence(lNoSeparators, qConcat)
                 if (!matches) return -1
 
@@ -127,5 +151,10 @@ object FuzzySearch {
     fun scoreStrict(label: String, query: String, mode: SearchMode = SearchMode.PRECISE): Int {
         val s = score(label, query, mode)
         return if (s >= 600) s else -1
+    }
+
+    fun scoreStrict(label: PreparedLabel, query: PreparedQuery, mode: SearchMode = SearchMode.PRECISE): Int {
+        val score = score(label, query, mode)
+        return if (score >= 600) score else -1
     }
 }

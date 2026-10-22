@@ -1,5 +1,7 @@
 package app.olauncher.ui
 
+import app.olauncher.helper.bindWidgetHostView
+
 import android.animation.ObjectAnimator
 import android.app.admin.DevicePolicyManager
 import android.appwidget.AppWidgetHost
@@ -1410,9 +1412,10 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             return
         }
         try {
-            container.removeAllViews()
             val appContext = requireContext().applicationContext
-            val hostView = host.createView(appContext, id, info)
+            val hostView = container.bindWidgetHostView(id, info) {
+                host.createView(appContext, id, info)
+            }
 
             val density = resources.displayMetrics.density
             val minHeightPx = info.minHeight.coerceAtLeast(MIN_WIDGET_HEIGHT_DP.dpToPx())
@@ -1421,7 +1424,6 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 minHeightPx
             ).apply { gravity = Gravity.CENTER_HORIZONTAL }
-            container.addView(hostView)
             container.isVisible = true
             positionWidget()
 

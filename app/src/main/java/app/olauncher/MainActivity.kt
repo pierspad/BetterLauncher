@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.content.pm.LauncherApps
+import app.olauncher.helper.LauncherRefreshCallback
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
@@ -64,6 +66,25 @@ class MainActivity : AppCompatActivity() {
     private var cooldownDialog: androidx.appcompat.app.AlertDialog? = null
     private var isResumed = false
     private var profileReceiver: BroadcastReceiver? = null
+    private var launcherRefreshCallback: LauncherRefreshCallback? = null
+    private var packageRefreshJob: Job? = null
+
+    private fun effectiveNightMode() = if (isEinkDisplay()) AppCompatDelegate.MODE_NIGHT_NO else prefs.appTheme
+
+    private fun registerLauncherRefresh() {
+        val launcher = getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+        val callback = LauncherRefreshCallback { packageName, user ->
+            IconManager.invalidatePackage(packageName, user)
+            packageRefreshJob?.cancel()
+            packageRefreshJob = lifecycleScope.launch {
+                delay(100) // Package replacement can emit several consecutive callbacks.
+                viewModel.getAppList()
+                if (IconManager.ready.value == true) IconManager.ready.value = true
+            }
+        }
+        launcher.registerCallback(callback)
+        launcherRefreshCallback = callback
+    }
 
 //    override fun onBackPressed() {
 //        if (navController.currentDestination?.id != R.id.mainFragment)
@@ -86,8 +107,7 @@ class MainActivity : AppCompatActivity() {
         )
         prefs = Prefs(this)
         IconManager.init(this)
-        if (isEinkDisplay()) prefs.appTheme = AppCompatDelegate.MODE_NIGHT_NO
-        AppCompatDelegate.setDefaultNightMode(prefs.appTheme)
+        AppCompatDelegate.setDefaultNightMode(effectiveNightMode())
         if (prefs.appLanguageTag.isNotEmpty()) {
             val current = AppCompatDelegate.getApplicationLocales()
             val tag = if (current.isEmpty) "" else current.get(0)?.toLanguageTag() ?: ""
@@ -141,6 +161,7 @@ class MainActivity : AppCompatActivity() {
 
         initClickListeners()
         initObservers(viewModel)
+        registerLauncherRefresh()
         viewModel.getAppList()
         setupOrientation()
 
@@ -204,7 +225,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        AppCompatDelegate.setDefaultNightMode(prefs.appTheme)
+        AppCompatDelegate.setDefaultNightMode(effectiveNightMode())
         checkTheme()
     }
 
@@ -423,7 +444,7 @@ class MainActivity : AppCompatActivity() {
         timerJob?.cancel()
         timerJob = lifecycleScope.launch {
             delay(200)
-            val isDark = when (prefs.appTheme) {
+            val isDark = when (effectiveNightMode()) {
                 AppCompatDelegate.MODE_NIGHT_YES -> true
                 AppCompatDelegate.MODE_NIGHT_NO -> false
                 else -> isDarkThemeOn()
@@ -436,6 +457,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        launcherRefreshCallback?.let {
+            (getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps).unregisterCallback(it)
+        }
+        packageRefreshJob?.cancel()
         profileReceiver?.let {
             try {
                 unregisterReceiver(it)

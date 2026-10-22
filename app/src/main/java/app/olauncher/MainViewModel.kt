@@ -29,6 +29,7 @@ import app.olauncher.helper.isPackageInstalled
 import app.olauncher.helper.isPrivateSpaceLocked
 import app.olauncher.helper.showToast
 import app.olauncher.helper.usageStats.EventLogWrapper
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -475,14 +476,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    private var appListJob: Job? = null
+    private var appListGeneration = 0L
+
     fun getAppList(includeHiddenApps: Boolean = false) {
-        viewModelScope.launch {
+        val generation = ++appListGeneration
+        appListJob?.cancel()
+        appListJob = viewModelScope.launch {
             val apps = getAppsList(appContext, prefs, includeRegularApps = true, includeHiddenApps)
+            // JSON serialization stays off the UI thread. Publish the list and its
+            // snapshot together only after confirming this is still the latest request.
+            val snapshot = if (!includeHiddenApps)
+                withContext(Dispatchers.IO) { appListToCacheJson(apps) }
+            else null
+            ensureActive()
+            if (generation != appListGeneration) return@launch
+            if (snapshot != null) prefs.appListCache = snapshot // SharedPreferences.apply is asynchronous.
             appList.value = apps
-            // Persist the drawer snapshot for the next cold start. Skip the hidden-apps
-            // variant (used by the app picker) so the cache stays the real drawer list.
-            if (!includeHiddenApps)
-                withContext(Dispatchers.IO) { prefs.appListCache = appListToCacheJson(apps) }
         }
         getPrivateSpaceAppList()
     }
@@ -513,7 +523,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private var screenTimeJob: Job? = null
 
     fun getTodaysScreenTime() {
-        if (!prefs.screenTimeLastUpdated.hasBeenMinutes(1) || screenTimeJob?.isActive == true) return
+        if (screenTimeJob?.isActive == true ||
+            (screenTimeValue.value != null && !prefs.screenTimeLastUpdated.hasBeenMinutes(1))) return
         screenTimeJob = viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
                 runCatching { calculateScreenTime() }.getOrNull()

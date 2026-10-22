@@ -234,7 +234,9 @@ class AppDrawerFragment : Fragment() {
     }
 
     private fun updateSearchSources() {
-        adapter.setSearchSources(settingTiles + contactItems)
+        val contacts = if (prefs.searchContactsEnabled && ContactsHelper.hasPermission(requireContext()))
+            contactItems else emptyList()
+        adapter.setSearchSources(settingTiles + contacts)
     }
 
     private fun initViews() {
@@ -270,7 +272,7 @@ class AppDrawerFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query?.startsWith("!") == true)
                     requireContext().openUrl(Constants.URL_DUCK_SEARCH + query.replace(" ", "%20"))
-                else if (adapter.itemCount == 0)
+                else if (!adapter.hasSearchResults)
                     requireContext().openSearch(query?.trim())
                 else
                     adapter.launchFirstInList()
@@ -502,7 +504,8 @@ class AppDrawerFragment : Fragment() {
             }
             if (flag == Constants.FLAG_LAUNCH_APP) {
                 viewModel.drawerContacts.observe(viewLifecycleOwner) {
-                    contactItems = it ?: emptyList()
+                    contactItems = if (prefs.searchContactsEnabled && ContactsHelper.hasPermission(requireContext()))
+                        it ?: emptyList() else emptyList()
                     updateSearchSources()
                 }
                 viewModel.privateSpaceAvailable.observe(viewLifecycleOwner) {

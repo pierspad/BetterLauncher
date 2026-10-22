@@ -108,6 +108,24 @@ class AppDrawerAdapter(
     // so a query typed before the app list finished loading can never get stuck on an
     // empty result. See [applyFilter].
     private var lastQuery: String = ""
+    private var filterGeneration = 0L
+    private var queryGeneration = 0L
+    private var launchedQueryGeneration = -1L
+    private var latestResults: List<AppModel> = emptyList()
+    private var preparedLabels: Map<String, FuzzySearch.PreparedLabel> = emptyMap()
+
+    val hasSearchResults: Boolean get() = latestResults.any { isActionable(it) }
+
+    private fun isActionable(item: AppModel) = when (item) {
+        is AppModel.App -> item.appPackage.isNotEmpty()
+        is AppModel.PinnedShortcut, is AppModel.Contact, is AppModel.SettingTile -> true
+        else -> false
+    }
+
+    private fun refreshSearchIndex() {
+        preparedLabels = (appsList + searchOnly).map { it.appLabel }.distinct()
+            .associateWith(FuzzySearch::prepareLabel)
+    }
 
     private val myUserHandle = android.os.Process.myUserHandle()
 
@@ -122,7 +140,8 @@ class AppDrawerAdapter(
     private var searchOnly: List<AppModel> = emptyList()
 
     fun setSearchSources(items: List<AppModel>) {
-        searchOnly = items
+        searchOnly = items.toList()
+        refreshSearchIndex()
         applyFilter(lastQuery)
     }
 
@@ -187,7 +206,10 @@ class AppDrawerAdapter(
      */
     fun applyFilter(query: CharSequence) {
         val q = query.toString()
+        if (q != lastQuery) queryGeneration++
         lastQuery = q
+        val generation = ++filterGeneration
+        val preparedQuery = FuzzySearch.prepareQuery(q)
         isBangSearch = q.startsWith("!")
         autoLaunch = allowAutoLaunch && !q.startsWith(" ")
 
@@ -202,11 +224,11 @@ class AppDrawerAdapter(
             val scored = ArrayList<Pair<AppModel, Int>>(appsList.size + searchOnly.size)
             for (item in appsList) {
                 if (item is AppModel.PrivateSpaceHeader || item is AppModel.FolderHeader) continue
-                val s = FuzzySearch.score(item.appLabel, q, mode)
+                val s = FuzzySearch.score(preparedLabels.getValue(item.appLabel), preparedQuery, mode)
                 if (s >= 0) scored.add(item to s)
             }
             for (item in searchOnly) {
-                val s = FuzzySearch.scoreStrict(item.appLabel, q, mode)
+                val s = FuzzySearch.scoreStrict(preparedLabels.getValue(item.appLabel), preparedQuery, mode)
                 if (s >= 0) scored.add(item to s)
             }
 
@@ -215,14 +237,17 @@ class AppDrawerAdapter(
                 .sortedWith(
                     compareByDescending<Pair<AppModel, Int>> { it.second }
                         .thenByDescending { usageCounts.getValue(it.first) }
-                        .thenBy { it.first.appLabel.lowercase() }
+                        .thenBy { preparedLabels.getValue(it.first.appLabel).sortKey }
                 )
                 .map { it.first }
                 .toMutableList()
         }
 
-        submitList(result.toList()) {
-            if (lastQuery != q) return@submitList
+        latestResults = result.toList()
+        submitList(latestResults) {
+            if (filterGeneration != generation) return@submitList
+            // Models may be identical across queries; their highlighted presentation is not.
+            if (itemCount > 0) notifyItemRangeChanged(0, itemCount, "query")
             autoLaunch()
             if (!firstNonEmptyCommitDone && result.isNotEmpty()) {
                 firstNonEmptyCommitDone = true
@@ -238,8 +263,13 @@ class AppDrawerAdapter(
                 && isBangSearch.not()
                 && flag == Constants.FLAG_LAUNCH_APP
                 && currentList.isNotEmpty()
+                && lastQuery.isNotBlank()
                 && currentList[0] is AppModel.App
-            ) appClickListener(currentList[0])
+                && launchedQueryGeneration != queryGeneration
+            ) {
+                launchedQueryGeneration = queryGeneration
+                appClickListener(currentList[0])
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -258,6 +288,7 @@ class AppDrawerAdapter(
     fun setAppList(appsList: MutableList<AppModel>) {
         this.appsList = appsList.toList() + paddingApp()
         this.folderSections = emptyList()
+        refreshSearchIndex()
         applyFilter(lastQuery)
     }
 
@@ -265,6 +296,7 @@ class AppDrawerAdapter(
     fun setAppList(appsList: MutableList<AppModel>, folders: List<Folder>) {
         this.appsList = appsList.toList() + paddingApp()
         this.folderSections = buildFolderSections(folders, appsList)
+        refreshSearchIndex()
         applyFilter(lastQuery)
     }
 
@@ -274,6 +306,7 @@ class AppDrawerAdapter(
         folderSections = remaining.filterIndexed { index, item ->
             item !is AppModel.FolderHeader || remaining.getOrNull(index + 1)?.let { it !is AppModel.FolderHeader } == true
         }
+        refreshSearchIndex()
         applyFilter(lastQuery)
     }
 
@@ -296,8 +329,10 @@ class AppDrawerAdapter(
     }
 
     fun launchFirstInList() {
-        val first = currentList.firstOrNull { it is AppModel.App || it is AppModel.PinnedShortcut }
-        if (first != null) appClickListener(first)
+        val first = latestResults.firstOrNull(::isActionable) ?: return
+        if (launchedQueryGeneration == queryGeneration) return
+        launchedQueryGeneration = queryGeneration
+        appClickListener(first)
     }
 
     class PrivateSpaceHeaderViewHolder(private val binding: AdapterPrivateSpaceHeaderBinding) :
@@ -318,6 +353,7 @@ class AppDrawerAdapter(
 
     class FolderHeaderViewHolder(private val binding: AdapterFolderHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        private val prefs = Prefs(binding.root.context)
         fun bind(
             folder: AppModel.FolderHeader,
             appLabelGravity: Int,
@@ -331,7 +367,6 @@ class AppDrawerAdapter(
                 true
             }
 
-            val prefs = Prefs(folderTitle.context)
             if (prefs.showDrawerIcons) {
                 val icon = ContextCompat.getDrawable(folderTitle.context, R.drawable.ic_sc_folder)
                 icon?.let {
@@ -350,6 +385,7 @@ class AppDrawerAdapter(
     inner class ViewHolder(private val binding: AdapterAppDrawerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private var renameWatcher: TextWatcher? = null
+        private val prefs = Prefs(binding.root.context)
 
         fun bind(
             flag: Int,
@@ -464,7 +500,6 @@ class AppDrawerAdapter(
             appTitle.text = builder
             appTitle.gravity = appLabelGravity
 
-            val prefs = Prefs(appTitle.context)
             if (prefs.showDrawerIcons) {
                 val icon = IconManager.getModelIcon(appTitle.context, appModel, appTitle.currentTextColor)
                 if (icon != null) {

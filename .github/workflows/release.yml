@@ -76,7 +76,7 @@ jobs:
         run: npx semantic-release
 
   publish-play:
-    name: Publish release to Google Play
+    name: Publish automatically to Google Play
     needs: release
     if: >-
       needs.release.outputs.version != '' &&
@@ -97,3 +97,25 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+
+      - name: Summarize automatic Google Play publication
+        env:
+          RELEASE_VERSION: ${{ needs.release.outputs.version }}
+          PLAY_TRACK: ${{ github.ref == 'refs/heads/dev' && 'beta' || 'production' }}
+        run: |
+          python - <<'PYTHON'
+          import os
+          from pathlib import Path
+          version = os.environ['RELEASE_VERSION']
+          track = os.environ['PLAY_TRACK']
+          repo = os.environ['GITHUB_REPOSITORY']
+          summary = (
+              f"## Automatic Google Play publication\n\n"
+              f"Release [v{version}](https://github.com/{repo}/releases/tag/v{version}) "
+              f"was processed automatically for **{track}** after the signed GitHub release.\n\n"
+              "This is a job inside the Release workflow: a separate manual workflow run is not required.\n\n"
+              "Google review and managed publishing still apply; check the publish log for any Console action required.\n"
+          )
+          with Path(os.environ['GITHUB_STEP_SUMMARY']).open('a') as output:
+              output.write(summary)
+          PYTHON

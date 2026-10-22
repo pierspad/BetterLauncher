@@ -42,6 +42,8 @@ import app.olauncher.R
 import app.olauncher.data.AppModel
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.Collator
@@ -131,8 +133,10 @@ suspend fun getAppsList(
             val collator = Collator.getInstance()
 
             for (profile in userManager.userProfiles) {
+                ensureActive()
                 if (isPrivateSpaceProfile(context, profile)) continue
                 for (app in launcherApps.getActivityList(null, profile)) {
+                    ensureActive()
                     val appLabelShown = prefs.getAppRenameLabel(app.applicationInfo.packageName)
                         .ifBlank { app.label.toString() }
                     val appModel = AppModel.App(
@@ -165,6 +169,8 @@ suspend fun getAppsList(
             if (includeRegularApps && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val pinned = try {
                     getPinnedShortcuts(context, prefs, collator)
+                } catch (e: CancellationException) {
+                    throw e
                 } catch (e: Exception) {
                     emptyList()
                 }
@@ -172,6 +178,8 @@ suspend fun getAppsList(
             }
 
             appList.sortWith(compareBy(collator) { it.appLabel })
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -208,10 +216,10 @@ fun appListFromCacheJson(context: Context, json: String): MutableList<AppModel> 
         val collator = Collator.getInstance()
         val userManager = context.getSystemService(Context.USER_SERVICE) as UserManager
         val handleMap = userManager.userProfiles.associateBy { it.toString() }
-        val myHandle = android.os.Process.myUserHandle()
         val arr = org.json.JSONArray(json)
         for (i in 0 until arr.length()) {
             val o = arr.getJSONObject(i)
+            val user = handleMap[o.optString("u")] ?: continue
             val label = o.optString("l")
             result.add(
                 AppModel.App(
@@ -220,7 +228,7 @@ fun appListFromCacheJson(context: Context, json: String): MutableList<AppModel> 
                     appPackage = o.optString("p"),
                     activityClassName = o.optString("c").ifBlank { null },
                     isNew = false,
-                    user = handleMap[o.optString("u")] ?: myHandle,
+                    user = user,
                 )
             )
         }
@@ -244,9 +252,11 @@ private suspend fun getPinnedShortcuts(
                 setQueryFlags(LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
             }
             shortcuts.profiles.forEach { profile ->
+                ensureActive()
                 if (isPrivateSpaceProfile(context, profile)) return@forEach
                 try {
                     shortcuts.getShortcuts(query, profile)?.forEach { shortcut ->
+                        ensureActive()
                         val alreadyAdded = pinnedShortcuts.any {
                             it.shortcutId == shortcut.id && it.appPackage == shortcut.`package` && it.user == profile
                         }
@@ -267,6 +277,8 @@ private suspend fun getPinnedShortcuts(
                             )
                         }
                     }
+                } catch (e: CancellationException) {
+                    throw e
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -282,7 +294,7 @@ private fun upgradeHiddenApps(prefs: Prefs) {
     val newHiddenAppsSet = mutableSetOf<String>()
     for (hiddenPackage in hiddenAppsSet) {
         if (hiddenPackage.contains("|")) newHiddenAppsSet.add(hiddenPackage)
-        else newHiddenAppsSet.add(hiddenPackage + android.os.Process.myUserHandle().toString())
+        else newHiddenAppsSet.add(hiddenPackage + "|" + android.os.Process.myUserHandle().toString())
     }
     prefs.hiddenApps = newHiddenAppsSet
     prefs.hiddenAppsUpdated = true
@@ -335,6 +347,7 @@ suspend fun getPrivateSpaceApps(
             val collator = Collator.getInstance()
 
             for (app in launcherApps.getActivityList(null, privateSpaceHandle)) {
+                ensureActive()
                 if (app.applicationInfo.packageName == BuildConfig.APPLICATION_ID) continue
                 val appLabelShown = prefs.getAppRenameLabel(app.applicationInfo.packageName)
                     .ifBlank { app.label.toString() }
@@ -350,6 +363,8 @@ suspend fun getPrivateSpaceApps(
                 )
             }
             appList.sortWith(compareBy(collator) { it.appLabel })
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             e.printStackTrace()
         }

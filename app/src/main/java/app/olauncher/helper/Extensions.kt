@@ -107,15 +107,13 @@ fun Context.openSearch(query: String? = null) {
 
 fun Context.isEinkDisplay(): Boolean {
     return try {
-        val refreshRate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            display?.refreshRate ?: 60f
-        } else {
-            @Suppress("DEPRECATION")
-            (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.refreshRate
-        }
-        refreshRate <= Constants.MIN_ANIM_REFRESH_RATE
-    } catch (e: Exception) {
-        e.printStackTrace()
+        @Suppress("DEPRECATION")
+        val screen = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) display
+            else (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+        isEinkDevice(screen?.refreshRate ?: 60f,
+            screen?.supportedModes?.map { it.refreshRate }?.toFloatArray() ?: floatArrayOf(),
+            Build.MANUFACTURER, Build.BRAND, Build.MODEL)
+    } catch (_: Exception) {
         false
     }
 }
