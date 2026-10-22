@@ -1,3 +1,9 @@
+## [1.5.4](https://github.com/pierspad/BetterLauncher/compare/v1.5.3...v1.5.4) (2026-10-22)
+
+### Bug Fixes
+
+* prevent inflated screen time from overlapping and inactive sessions ([6ba9d67](https://github.com/pierspad/BetterLauncher/commit/6ba9d6762e755f129925af22076ad715286c4034))
+
 ## [1.5.3](https://github.com/pierspad/BetterLauncher/compare/v1.5.2...v1.5.3) (2026-10-22)
 
 ### Bug Fixes
