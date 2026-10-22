@@ -35,7 +35,7 @@
     <string name="enable">Aktivieren</string>
     <string name="disable">Deaktivieren</string>
     <string name="not_working"><u>Funktioniert nicht?</u></string>
-    <string name="info">Die Info</string>
+    <string name="info">Info</string>
     <string name="delete">Löschen</string>
     <string name="text_size">Textgröße</string>
     <string name="enabled">Aktiviert</string>
@@ -298,4 +298,5 @@ Zum Entfernen muss er ≤ 2 sein</string>
     <string name="settings_home_only_icons">App-Namen auf dem Startbildschirm ausblenden</string>
         <string name="settings_use_colorful_icons">Farbige Symbole verwenden</string>
     <string name="settings_icons_title">Symbole</string>
+    <string name="add_to_home_slot">Startseite (Platz %d)</string>
 </resources>

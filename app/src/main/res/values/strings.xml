@@ -74,7 +74,7 @@
     <string name="default_swipe_left_option">Default (Camera)</string>
     <string name="default_swipe_right_option">Default (App Drawer)</string>
     <string name="default_app_restored">Default app restored</string>
-    <string name="add_to_home_slot">Home (Slot %d)</string>
+    <string name="add_to_home_slot">Home (slot %d)</string>
     <string name="added_to_home">Added to Home (Slot %d)</string>
     <string name="icons_alignment">Horizontal icons alignment</string>
     <string name="down">Down</string>

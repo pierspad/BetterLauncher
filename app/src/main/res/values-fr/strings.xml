@@ -196,7 +196,7 @@
     <string name="create">Créer</string>
     <string name="rename_folder">Renommer le groupe</string>
     <string name="delete_folder">Supprimer le groupe</string>
-    <string name="add_to_home">Ajouter à la maison</string>
+    <string name="add_to_home">Ajouter à l’accueil</string>
     <string name="choose_home_position">Choisir la position d\'origine</string>
     <string name="folder_deleted">Groupe supprimé</string>
     <string name="folder_is_empty">Ce groupe est vide</string>
@@ -298,4 +298,5 @@ Pour la supprimer, il doit être ≤ 2</string>
     <string name="settings_home_only_icons">Ne pas afficher le nom des applications sur l\'écran d\'accueil</string>
         <string name="settings_use_colorful_icons">Utiliser des icônes colorées</string>
     <string name="settings_icons_title">Icônes</string>
+    <string name="add_to_home_slot">Accueil (position %d)</string>
 </resources><!-- French -->

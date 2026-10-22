@@ -196,7 +196,7 @@
     <string name="create">Yaratmak</string>
     <string name="rename_folder">Grubu yeniden adlandır</string>
     <string name="delete_folder">Grubu sil</string>
-    <string name="add_to_home">Ana sayfaya ekle</string>
+    <string name="add_to_home">Ana ekrana ekle</string>
     <string name="choose_home_position">Ana konumu seçin</string>
     <string name="folder_deleted">Grup silindi</string>
     <string name="folder_is_empty">Bu grup boş</string>
@@ -298,4 +298,5 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="settings_home_only_icons">Ana ekranda uygulama adlarını gizle</string>
         <string name="settings_use_colorful_icons">Renkli simgeleri kullan</string>
     <string name="settings_icons_title">Simgeler</string>
+    <string name="add_to_home_slot">Ana ekran (yer %d)</string>
 </resources><!-- Turkish -->

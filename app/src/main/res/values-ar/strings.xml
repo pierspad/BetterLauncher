@@ -194,7 +194,7 @@
     <string name="create">يخلق</string>
     <string name="rename_folder">إعادة تسمية المجموعة</string>
     <string name="delete_folder">حذف المجموعة</string>
-    <string name="add_to_home">أضف إلى المنزل</string>
+    <string name="add_to_home">إضافة إلى الشاشة الرئيسية</string>
     <string name="choose_home_position">اختر موضع المنزل</string>
     <string name="folder_deleted">تم حذف المجموعة</string>
     <string name="folder_is_empty">هذه المجموعة فارغة</string>
@@ -296,4 +296,5 @@
     <string name="settings_home_only_icons">إخفاء أسماء التطبيقات على الشاشة الرئيسية</string>
         <string name="settings_use_colorful_icons">استخدام الأيقونات الملونة</string>
     <string name="settings_icons_title">الأيقونات</string>
+    <string name="add_to_home_slot">الرئيسية (%d)</string>
 </resources>

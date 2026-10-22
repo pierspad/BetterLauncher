@@ -197,7 +197,7 @@
     <string name="create">Создавать</string>
     <string name="rename_folder">Переименовать группу</string>
     <string name="delete_folder">Удалить группу</string>
-    <string name="add_to_home">Добавить в дом</string>
+    <string name="add_to_home">Добавить на главный экран</string>
     <string name="choose_home_position">Выберите исходное положение</string>
     <string name="folder_deleted">Группа удалена</string>
     <string name="folder_is_empty">Эта группа пуста</string>
@@ -299,4 +299,5 @@
     <string name="settings_home_only_icons">Скрыть названия приложений на главном экране</string>
         <string name="settings_use_colorful_icons">Использовать цветные значки</string>
     <string name="settings_icons_title">Значки</string>
+    <string name="add_to_home_slot">Главный экран (%d)</string>
 </resources><!-- Russian -->

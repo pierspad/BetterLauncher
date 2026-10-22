@@ -196,7 +196,7 @@
     <string name="create">Створити</string>
     <string name="rename_folder">Перейменувати групу</string>
     <string name="delete_folder">Видалити групу</string>
-    <string name="add_to_home">Додати до дому</string>
+    <string name="add_to_home">Додати на головний екран</string>
     <string name="choose_home_position">Виберіть початкове положення</string>
     <string name="folder_deleted">Групу видалено</string>
     <string name="folder_is_empty">Ця група порожня</string>
@@ -298,4 +298,5 @@
     <string name="settings_home_only_icons">Приховати назви додатків на головному екрані</string>
         <string name="settings_use_colorful_icons">Використовувати кольорові значки</string>
     <string name="settings_icons_title">Значки</string>
+    <string name="add_to_home_slot">Головний екран (%d)</string>
 </resources><!-- Ukrainian -->

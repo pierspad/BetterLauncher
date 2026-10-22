@@ -120,8 +120,8 @@
     <string name="long_press_to_enable">Tekan lama untuk mengaktifkan</string>
     <string name="no_hidden_apps">Aplikasi tersembunyi tidak ada</string>
     <string name="hidden_apps">Aplikasi tersembunyi</string>
-    <string name="adapter_show">perlihatkan</string>
-    <string name="adapter_hide">sembunyikan</string>
+    <string name="adapter_show">Perlihatkan</string>
+    <string name="adapter_hide">Sembunyikan</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">Apakah Anda menggunakan ponsel Anda, atau ponsel Anda menggunakan Anda?</string>
     <string name="about_olauncher">Tentang BetterLauncher</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
@@ -194,7 +194,7 @@
     <string name="create">Membuat</string>
     <string name="rename_folder">Ganti nama grup</string>
     <string name="delete_folder">Hapus grup</string>
-    <string name="add_to_home">Tambahkan ke rumah</string>
+    <string name="add_to_home">Tambahkan ke beranda</string>
     <string name="choose_home_position">Pilih posisi awal</string>
     <string name="folder_deleted">Grup dihapus</string>
     <string name="folder_is_empty">Grup ini kosong</string>
@@ -296,4 +296,5 @@ Untuk menghapus harus ≤ 2</string>
     <string name="settings_home_only_icons">Sembunyikan nama aplikasi di layar utama</string>
         <string name="settings_use_colorful_icons">Gunakan ikon berwarna</string>
     <string name="settings_icons_title">Ikon</string>
+    <string name="add_to_home_slot">Beranda (slot %d)</string>
 </resources><!-- Indonesian -->

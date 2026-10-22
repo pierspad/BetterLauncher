@@ -194,7 +194,7 @@
     <string name="create">Tworzyć</string>
     <string name="rename_folder">Zmień nazwę grupy</string>
     <string name="delete_folder">Usuń grupę</string>
-    <string name="add_to_home">Dodaj do domu</string>
+    <string name="add_to_home">Dodaj do ekranu głównego</string>
     <string name="choose_home_position">Wybierz pozycję wyjściową</string>
     <string name="folder_deleted">Grupa usunięta</string>
     <string name="folder_is_empty">Ta grupa jest pusta</string>
@@ -296,4 +296,5 @@ Aby go usunąć, musi wynosić ≤ 2</string>
     <string name="settings_home_only_icons">Ukryj nazwy aplikacji na ekranie głównym</string>
         <string name="settings_use_colorful_icons">Użyj kolorowych ikon</string>
     <string name="settings_icons_title">Ikony</string>
+    <string name="add_to_home_slot">Ekran główny (%d)</string>
 </resources><!-- Polish -->

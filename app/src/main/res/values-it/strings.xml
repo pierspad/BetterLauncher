@@ -48,7 +48,7 @@
     <string name="default_swipe_left_option">Predefinita (Fotocamera)</string>
     <string name="default_swipe_right_option">Predefinita (App Drawer)</string>
     <string name="default_app_restored">Ripristinata app predefinita</string>
-    <string name="add_to_home_slot">Home (Slot %d)</string>
+    <string name="add_to_home_slot">Home (posto %d)</string>
     <string name="added_to_home">Aggiunta a Home (Slot %d)</string>
     <string name="icons_alignment">Allinea orizzontalmente le icone</string>
     <string name="down">Giù</string>
@@ -97,7 +97,7 @@
     <string name="support_olauncher_message">Ogni volta che acquisti qualcosa utilizzando il nostro link, riceviamo una piccola commissione. Salva il link e usalo ogni volta che fai acquisti online.\n Grazie!</string>
     <string name="open">Link aperto</string>
     <string name="copy">copia</string>
-    <string name="close">chiudi</string>
+    <string name="close">Chiudi</string>
     <string name="not_now">Non ora</string>
     <string name="public_roadmap">Roadmap pubblica di BetterLauncher</string>
     <string name="roadmap">Roadmap</string>
@@ -147,8 +147,8 @@ Inserisci prima un nuovo nome per l\'app</string>
     <string name="long_press_to_enable">Premere a lungo per abilitare</string>
     <string name="no_hidden_apps">Nessuna app nascosta</string>
     <string name="hidden_apps">App nascoste</string>
-    <string name="adapter_show">mostra</string>
-    <string name="adapter_hide">nascondi</string>
+    <string name="adapter_show">Mostra</string>
+    <string name="adapter_hide">Nascondi</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">Stai usando il tuo telefono, o è il tuo telefono che sta usando te?</string>
     <string name="about_olauncher">Info BetterLauncher</string>
     <string name="learn_more">Saperne di più</string>

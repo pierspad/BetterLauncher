@@ -51,6 +51,7 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
                     runCatching(block).onFailure { failures += "$name: ${it.message}" }
                 }
                 checkCase("precise default migration") { runSearchDefaultMigrationRegression(isolated) }
+                checkCase("drawer action layout") { onMain { runDrawerActionLayoutRegression(isolated) } }
                 checkCase("device/widget") { onMain { runDeviceRuntimeRegression(isolated) } }
                 runSearchRuntimeRegression(this, isolated) { name, block -> checkCase(name, block) }
                 checkCase("package callbacks") { runLauncherRefreshRegression() }

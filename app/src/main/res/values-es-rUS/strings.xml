@@ -120,8 +120,8 @@
     <string name="long_press_to_enable">Mantenga presionado para habilitar</string>
     <string name="no_hidden_apps">Sin aplicaciones ocultas</string>
     <string name="hidden_apps">Aplicaciones ocultas</string>
-    <string name="adapter_show">demostrar</string>
-    <string name="adapter_hide">esconder</string>
+    <string name="adapter_show">Mostrar</string>
+    <string name="adapter_hide">Ocultar</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">¿Está usando su teléfono, o el teléfono lo usa a usted?</string>
     <string name="about_olauncher">Acerca de BetterLauncher</string>
     <string name="learn_more">Aprenda más</string>
@@ -194,7 +194,7 @@
     <string name="create">Crear</string>
     <string name="rename_folder">Cambiar nombre de grupo</string>
     <string name="delete_folder">Eliminar grupo</string>
-    <string name="add_to_home">Añadir a casa</string>
+    <string name="add_to_home">Añadir a inicio</string>
     <string name="choose_home_position">Elige la posición de inicio</string>
     <string name="folder_deleted">Grupo eliminado</string>
     <string name="folder_is_empty">Este grupo está vacío.</string>
@@ -296,4 +296,5 @@ Para eliminarlo debe ser ≤ 2</string>
     <string name="settings_home_only_icons">No mostrar los nombres de las aplicaciones en la pantalla de inicio</string>
         <string name="settings_use_colorful_icons">Usar iconos coloridos</string>
     <string name="settings_icons_title">Iconos</string>
+    <string name="add_to_home_slot">Inicio (posición %d)</string>
 </resources><!-- Spanish -->

@@ -195,7 +195,7 @@
     <string name="create">Stvoriti</string>
     <string name="rename_folder">Preimenuj grupu</string>
     <string name="delete_folder">Izbriši grupu</string>
-    <string name="add_to_home">Dodaj u dom</string>
+    <string name="add_to_home">Dodaj na početni zaslon</string>
     <string name="choose_home_position">Odaberite početni položaj</string>
     <string name="folder_deleted">Grupa izbrisana</string>
     <string name="folder_is_empty">Ova grupa je prazna</string>
@@ -297,4 +297,5 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="settings_home_only_icons">Sakrij nazive aplikacija na početnom zaslonu</string>
         <string name="settings_use_colorful_icons">Koristi šarene ikone</string>
     <string name="settings_icons_title">Ikone</string>
+    <string name="add_to_home_slot">Početni zaslon (%d)</string>
 </resources><!-- Croatian -->

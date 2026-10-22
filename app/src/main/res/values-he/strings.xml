@@ -188,7 +188,7 @@
     <string name="create">לִיצוֹר</string>
     <string name="rename_folder">שנה את שם הקבוצה</string>
     <string name="delete_folder">מחק את הקבוצה</string>
-    <string name="add_to_home">הוסף לבית</string>
+    <string name="add_to_home">הוספה למסך הבית</string>
     <string name="choose_home_position">בחר עמדת בית</string>
     <string name="folder_deleted">הקבוצה נמחקה</string>
     <string name="folder_is_empty">הקבוצה הזו ריקה</string>
@@ -290,4 +290,5 @@
     <string name="settings_home_only_icons">הסתר שמות אפליקציות במסך הבית</string>
         <string name="settings_use_colorful_icons">השתמש בסמלים צבעוניים</string>
     <string name="settings_icons_title">סמלים</string>
+    <string name="add_to_home_slot">בית (מיקום %d)</string>
 </resources>

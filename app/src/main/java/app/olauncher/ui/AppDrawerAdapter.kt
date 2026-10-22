@@ -403,6 +403,13 @@ class AppDrawerAdapter(
             appRenameListener: (AppModel, String) -> Unit,
             appFolderListener: (AppModel) -> Unit,
         ) = with(binding) {
+            // Use identical icon bounds: source vectors mix 22dp and 24dp sizes.
+            val actionIconSize = (24 * root.resources.displayMetrics.density).toInt()
+            listOf(appDelete, appRename, appAddToHome, appFolder, appHide, appInfo, appMenuClose).forEach { action ->
+                val top = action.compoundDrawablesRelative[1]
+                top?.setBounds(0, 0, actionIconSize, actionIconSize)
+                action.setCompoundDrawablesRelative(null, top, null, null)
+            }
             appHideLayout.visibility = View.GONE
             renameLayout.visibility = View.GONE
             appTitle.visibility = View.VISIBLE

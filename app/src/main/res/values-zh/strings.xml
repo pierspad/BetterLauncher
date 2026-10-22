@@ -197,7 +197,7 @@
     <string name="create">创造</string>
     <string name="rename_folder">重命名组</string>
     <string name="delete_folder">删除群组</string>
-    <string name="add_to_home">添加到首页</string>
+    <string name="add_to_home">添加到主屏幕</string>
     <string name="choose_home_position">选择起始位置</string>
     <string name="folder_deleted">群组已删除</string>
     <string name="folder_is_empty">该组是空的</string>
@@ -299,4 +299,5 @@
     <string name="settings_home_only_icons">在主屏幕上隐藏应用名称</string>
         <string name="settings_use_colorful_icons">使用彩色图标</string>
     <string name="settings_icons_title">图标</string>
+    <string name="add_to_home_slot">主屏幕（%d）</string>
 </resources><!-- Chinese -->

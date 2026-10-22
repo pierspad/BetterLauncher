@@ -194,7 +194,7 @@
     <string name="create">Skapa</string>
     <string name="rename_folder">Byt namn på grupp</string>
     <string name="delete_folder">Ta bort grupp</string>
-    <string name="add_to_home">Lägg till hem</string>
+    <string name="add_to_home">Lägg till på hemskärmen</string>
     <string name="choose_home_position">Välj hemmaposition</string>
     <string name="folder_deleted">Grupp raderad</string>
     <string name="folder_is_empty">Den här gruppen är tom</string>
@@ -296,4 +296,5 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="settings_home_only_icons">Dölj appnamn på startskärmen</string>
         <string name="settings_use_colorful_icons">Använd färgglada ikoner</string>
     <string name="settings_icons_title">Ikoner</string>
+    <string name="add_to_home_slot">Hemskärm (plats %d)</string>
 </resources><!-- Swedish -->

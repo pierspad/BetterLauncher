@@ -297,4 +297,5 @@
     <string name="settings_home_only_icons">ホーム画面でアプリ名を非表示にする</string>
         <string name="settings_use_colorful_icons">カラフルなアイコンを使用</string>
     <string name="settings_icons_title">アイコン</string>
+    <string name="add_to_home_slot">ホーム（%d）</string>
 </resources> <!-- Japanese -->
