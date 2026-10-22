@@ -1,3 +1,9 @@
+## [1.5.2](https://github.com/pierspad/BetterLauncher/compare/v1.5.1...v1.5.2) (2026-10-22)
+
+### Bug Fixes
+
+* make precise search the default and keep consent actions visible ([511da3d](https://github.com/pierspad/BetterLauncher/commit/511da3d91c53f0050564326a2ca023fa6af1b010))
+
 ## [1.5.1](https://github.com/pierspad/BetterLauncher/compare/v1.5.0...v1.5.1) (2026-10-19)
 
 ### Bug Fixes
