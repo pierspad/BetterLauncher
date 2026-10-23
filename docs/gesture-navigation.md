@@ -87,10 +87,10 @@ experiment so restoring data cannot silently enable global touch interception.
 The controller does not read window contents; the shared service still has that
 capability for existing lock/app-limit behaviour, as explained by its disclosure.
 
-The settings guide checks the accessibility permission directly. Battery and
-Xiaomi autostart steps use explicit user confirmation after opening their vendor
-settings: Android does not expose a reliable cross-device check of all Xiaomi
-restrictions. These confirmations are reset on backup import. The guide must not
+The settings guide checks the accessibility permission directly. Battery optimization is checked automatically with the public Android
+API on non-Xiaomi devices. Xiaomi battery and autostart steps use explicit user
+confirmation after opening their vendor settings: Android’s Doze allowlist does
+not certify Xiaomi’s separate restriction policy. These confirmations are reset on backup import. The guide must not
 claim that opening a system page proves a restriction has been removed.
 
 Per-app exclusions and separate edge controls are not implemented. Touch replay,

@@ -306,9 +306,8 @@
     <string name="app_info_settings">アプリ情報と権限</string>
     <string name="navigation_settings">Xiaomiのナビゲーション</string>
     <string name="background_access_message">ユーザー補助は任意です。ダブルタップでのロックと、選択したアプリの休止に使用します。バッテリーと自動起動の設定はバックグラウンドで停止する場合に役立ちますが、常時動作を保証しません。Xiaomiでは必要に応じて制限なしを選択し、自動起動を許可してください。</string>
-    <string name="navigation_settings_message">Xiaomiのナビゲーション設定を開きます。一部のHyperOSでは3つのボタンを非表示にできますが、別のランチャーで純正ジェスチャーが復活するわけではありません。先にジェスチャーサービスをテストしてください。再起動後に再設定が必要な場合があります。</string>
-    <string name="xiaomi_gestures">Xiaomiジェスチャー（試験的）</string>
-    <string name="xiaomi_gestures_message">Xiaomi専用の任意のナビゲーションです。横からスワイプで戻る、下からホーム、上へスワイプして止めると履歴になります。画面ロックやアプリ制限と同じBetterLauncherのユーザー補助サービスで、画面端のタッチとウィンドウ変更を使います。未使用のタッチは端末内で再送します。ユーザー補助データは保存・送信しません。BetterLauncherが既定の場合のみ動作し、ロック中は停止します。端の操作が遅くなったりアプリと干渉する場合があります。テストが済むまで3ボタンを残してください。オプションとAndroidのサービスを有効にします。ここかユーザー補助で無効にできます。純正ジェスチャーは復活しません。電池制限で停止する場合があります。</string>
+    <string name="xiaomi_gestures">Xiaomiジェスチャー</string>
+    <string name="xiaomi_gestures_message">Xiaomi専用の任意のナビゲーションです。横からスワイプで戻る、下からホーム、上へスワイプして止めると履歴になります。画面ロックやアプリ制限と同じBetterLauncherのユーザー補助サービスで、画面端のタッチとウィンドウ変更を使います。未使用のタッチは端末内で再送します。ユーザー補助データは保存・送信しません。BetterLauncherが既定の場合のみ動作し、ロック中は停止します。端の操作が遅くなったりアプリと干渉する場合があります。テストが済むまで3ボタンを残してください。オプションを有効にします。BetterLauncherのユーザー補助が有効なら追加の権限は不要です。未設定の場合はAndroidのユーザー補助設定を開いてください。ここかユーザー補助で無効にできます。純正ジェスチャーは復活しません。電池制限で停止する場合があります。</string>
     <string name="background_access_short">ユーザー補助は任意です。機能が停止する場合はバッテリーと自動起動を確認してください。タップでヘルプを表示します。</string>
     <string name="accessibility_features">ユーザー補助：ロックとアプリ制限</string>
     <string name="restricted_settings">制限付き設定を許可</string>

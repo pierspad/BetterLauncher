@@ -20,16 +20,23 @@
 - The battery/accessibility panel has icons, explanations, restricted-settings
   guidance and direct links to accessibility, battery, autostart and app info.
   Help uses the app’s own dialog layout and restores the shield icon.
-- Setup indicators track the accessibility permission. Vendor battery/autostart
-  steps require explicit confirmation, rather than falsely assuming that opening
-  their pages completes them.
+- Setup indicators track the accessibility permission. Battery optimization is
+  checked automatically using Android’s public API on non-Xiaomi devices. Xiaomi
+  battery/autostart steps retain explicit confirmation, because the Android Doze
+  allowlist does not certify Xiaomi’s separate policy. Opening a system page
+  alone never marks a step complete.
 - The opacity preview clips both its transparent hole and its labels/icons to
   the scrolling viewport, keeping the fixed header and search unobscured.
 - Experimental gestures are off by default and shown only on supported Xiaomi,
   Redmi and Poco devices. The switch uses the same blue checked tint as other
   switches, with no redundant enabled label. One BetterLauncher accessibility
   service handles gestures, screen locking and app limits, with updated consent.
-- Navigation-mode settings remain reachable with the experiment off. The bottom
+- Enabling gestures reuses the existing accessibility grant and requests setup
+  only if consent or the service permission is missing. Granting the shared
+  permission after opting in activates gestures on return. Gesture labels no
+  longer include the experimental suffix; step numbers use `1)` notation.
+- Navigation-mode settings open directly, with no confirmation or “Open link”
+  action, and remain reachable with the experiment off. The bottom
   gesture zone no longer intercepts system navigation buttons. Display changes
   rebuild gesture zones. Backup import disables the experiment and resets
   vendor-setting confirmations.
@@ -58,6 +65,23 @@ bottom zone ends above the system button bar. Cleanup confirmed the overlays
 were removed, experimental gestures were off and three-button mode remained
 active. BetterLauncher’s accessibility service and other service selections were
 preserved after the test.
+
+## Setup simplification follow-up
+
+Gesture activation now reuses the shared accessibility permission and current
+consent. Missing setup is requested only when needed; a pending opt-in remains
+ready to activate when the user grants the shared service through either route.
+The gesture help was updated in all 23 language resource sets to describe this.
+Navigation settings open directly without a separate confirmation dialog.
+Status refreshes restore and reapply the current search filter so conditional
+setup controls cannot reappear in unrelated results.
+
+A live emulator check changed Android’s battery allowlist off/on/off and verified
+that the battery indicator followed all three transitions automatically. The
+manual confirmation remained hidden even after visiting app settings.
+Xiaomi’s vendor policy still uses an explicitly manual fallback: Android’s public
+[PowerManager API](https://developer.android.com/reference/android/os/PowerManager#isIgnoringBatteryOptimizations(java.lang.String))
+reports the power allowlist, not a verified Xiaomi battery profile.
 
 ## Still requires physical-device follow-up
 

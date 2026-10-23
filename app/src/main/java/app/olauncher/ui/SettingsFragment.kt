@@ -266,13 +266,14 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         }
         binding.xiaomiGestures.setOnClickListener {
             if (binding.xiaomiGestures.isChecked) {
-                binding.xiaomiGestures.isChecked = false
-                showMessageDialog(R.string.xiaomi_gestures, R.string.xiaomi_gestures_message,
-                    R.string.accessibility_disclosure_accept, R.string.accessibility_disclosure_decline) {
-                    prefs.xiaomiGestures = true
-                    binding.xiaomiGestures.isChecked = true
+                prefs.xiaomiGestures = true
+                // This is the same permission used by lock/app limits. Only open
+                // setup if it is missing; returning from either entry activates
+                // the requested gestures without another confirmation dialog.
+                if (app.olauncher.helper.AccessibilityConsent.needsSetup(requireContext())) {
                     openGestureService()
                 }
+                refreshGestureStatus()
             } else {
                 if (gestureNavigationSelected()) {
                     binding.xiaomiGestures.isChecked = true
@@ -285,8 +286,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             }
         }
         binding.navigationShortcut.setOnClickListener {
-            showMessageDialog(R.string.navigation_settings, R.string.navigation_settings_message,
-                R.string.open, R.string.close) { DeviceSettings.navigation(requireContext()) }
+            DeviceSettings.navigation(requireContext())
         }
         settingsSearch = SettingsSearch(requireContext(), binding.scrollLayout)
         binding.settingsSearch.doAfterTextChanged { query ->
@@ -314,9 +314,14 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     private fun refreshGestureStatus() {
         if (_binding == null) return
+        val query = binding.settingsSearch.text.toString()
+        // Update conditional rows in the unfiltered layout, then reapply the
+        // query so a status refresh cannot reveal unrelated setup controls.
+        if (query.isNotBlank()) settingsSearch?.filter("")
         binding.xiaomiGestures.isChecked = prefs.xiaomiGestures
         binding.gestureStatus.setText(R.string.xiaomi_gesture_help)
-        binding.batterySetupConfirmed.isVisible = prefs.batterySetupOpened
+        val batteryUnrestricted = DeviceSettings.batteryUnrestricted(requireContext())
+        binding.batterySetupConfirmed.isVisible = batteryUnrestricted == null && prefs.batterySetupOpened
         binding.batterySetupConfirmed.isChecked = prefs.batterySetupConfirmed
         binding.autostartSetupConfirmed.isVisible = DeviceSettings.isXiaomi() && prefs.autostartSetupOpened
         binding.autostartSetupConfirmed.isChecked = prefs.autostartSetupConfirmed
@@ -331,9 +336,10 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             view.compoundDrawablePadding = 12.dpToPx()
         }
         step(binding.accessibilityShortcut, 1, R.string.accessibility_features, isAccessServiceEnabled(requireContext()))
-        step(binding.batteryShortcut, 2, R.string.battery_settings, prefs.batterySetupConfirmed)
+        step(binding.batteryShortcut, 2, R.string.battery_settings, batteryUnrestricted ?: prefs.batterySetupConfirmed)
         step(binding.autostartShortcut, 3, R.string.autostart_settings, prefs.autostartSetupConfirmed)
         step(binding.navigationShortcut, 4, R.string.navigation_mode_action, gestureNavigationSelected())
+        if (query.isNotBlank()) settingsSearch?.filter(query)
     }
 
     private fun openGestureService() {

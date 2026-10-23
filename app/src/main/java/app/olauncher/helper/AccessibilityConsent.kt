@@ -26,6 +26,8 @@ object AccessibilityConsent {
         }
     }
 
+    fun needsSetup(context: Context): Boolean = !hasConsent(context) || !isAccessServiceEnabled(context)
+
     fun openSettings(context: Context) {
         if (hasConsent(context)) {
             openSystemSettings(context)
