@@ -1,13 +1,24 @@
 # Gesture navigation on Xiaomi: feasibility investigation
 
-## Recommendation
+## Current implementation and recommendation
 
-Try Ogesture as a separate companion before integrating its engine into
-BetterLauncher. The engine can provide Back, Home and Recents on a Xiaomi with
-three-button navigation, but it does not restore Xiaomi's native launcher/gesture
-integration or remove the three-button bar. For a user whose primary requirement
-is reclaiming that bar's screen space, Ogesture alone does not solve the problem.
-There is no reason to enable this on devices whose native gestures already work.
+BetterLauncher now has an experimental, explicitly opt-in gesture controller on
+Xiaomi/Redmi/Poco devices running Android 10 or later. Other devices do not see
+this panel. The controller shares BetterLauncher’s existing accessibility service
+with screen locking and app limits; no companion app or second accessibility
+entry is required. Updated, versioned consent describes all three purposes.
+
+This provides accessibility Back, Home and Recents actions, not Xiaomi’s native
+Quickstep integration or its animations. BetterLauncher never writes navigation
+settings or hides the system buttons. The navigation settings shortcut is always
+available, including when the experiment is disabled. Keep three-button mode as
+the reliable fallback until a longer physical-device test has passed.
+
+The initial experiment could miss Home swipes started at the physical bottom and
+could overlap the navigation bar. The bottom zone now follows the display edge
+in gesture mode, and sits above the system buttons in three-button mode. Geometry
+is rebuilt on display/inset changes. The corrected zones passed short Xiaomi Home/Back/Recents checks with the system
+buttons visible. This is not evidence of reliable daily navigation in gesture mode.
 
 ## Sources inspected
 
@@ -65,43 +76,46 @@ HOME role holder does not grant system launcher animation/overview privileges.
 - This is an accessibility service kept alive across apps; CPU/battery cost and
   HyperOS process survival require a longer soak test, not just swipe checks.
 
-## A suitable integrated design, if later pursued
+## Integrated implementation
 
-Keep the feature explicitly off by default and do not auto-enable it based only
-on the manufacturer. Offer it as an experimental navigation aid for users who
-choose it. Preserve native navigation, provide an immediate disable option,
-per-app exclusions and separate left/right/bottom controls. Do not bundle a
-navigation-bar-hiding ADB command as an ordinary setup step.
+`XiaomiGestureController` owns the overlay lifecycle within
+`MyAccessibilityService`. It checks the device family, explicit preference,
+default launcher, interactive state and keyguard before attaching windows.
+Switching launchers, locking the screen or disabling the option removes them.
+The service checks consent before connecting. Backup import always disables the
+experiment so restoring data cannot silently enable global touch interception.
+The controller does not read window contents; the shared service still has that
+capability for existing lock/app-limit behaviour, as explained by its disclosure.
 
-Prefer an isolated gesture service/controller to extending the current
-`MyAccessibilityService`: BetterLauncher's existing service reads window content
-for app limits and lock behaviour, whereas gesture navigation can use much less
-access. Lifecycle and user consent must be independent, and switching to another
-launcher should remove BetterLauncher's gesture overlays. Reuse the controller
-concept without adding upstream's entire Compose UI/DataStore stack solely for
-this feature. BetterLauncher supports API 24; upstream requires API 29, so all
-entry points and declarations need an appropriate compatibility design.
+The settings guide checks the accessibility permission directly. Battery and
+Xiaomi autostart steps use explicit user confirmation after opening their vendor
+settings: Android does not expose a reliable cross-device check of all Xiaomi
+restrictions. These confirmations are reset on backup import. The guide must not
+claim that opening a system page proves a restriction has been removed.
 
-An integration changes the declared accessibility purpose: update in-app consent,
-privacy policy, store listing and Play accessibility declaration before release.
-Ogesture is AGPL-3.0 and BetterLauncher GPL-3.0; direct code reuse must preserve
-upstream notices/source obligations and account for the combined-work provisions.
-No upstream code has been copied into BetterLauncher's app in this branch.
+Per-app exclusions and separate edge controls are not implemented. Touch replay,
+keyboard, rotation, secure apps and recovery after process death still need
+extended physical-device validation before promoting the experiment to stable.
+Any store release also requires reviewing the published privacy policy and Play
+accessibility declaration for the expanded purpose. This research branch is not
+being published to Play.
 
-## Connected Xiaomi verification
+## Physical-device state
 
-The connected Xiaomi 11T Pro (`vili`, model 2107113SG) reports Android 14 and
-HyperOS build `V816.0.26.0.UKDEUXM`. BetterLauncher debug is the HOME role holder;
-`force_fsg_nav_bar=0` and `navigation_mode=0` confirm three-button mode.
+The Xiaomi 11T Pro is using system three-button navigation again. The obsolete
+standalone Xiaomi gesture service was removed from the enabled accessibility
+list, preserving other services. Olauncher and Ogesture were uninstalled at the
+user’s request. BetterLauncher settings and app assignments were backed up and
+restored during the earlier signing-key replacement; subsequent installs use
+`adb install -r` with the same local debug key, retaining data. A fresh snapshot
+was saved before this update, with experimental gestures turned off for recovery.
 
-The unmodified Ogesture checkout built successfully with `assembleDebug` and
-passed `testDebugUnitTest` (8 tests, no failures). Installation on the phone was
-rejected by Xiaomi's USB installation confirmation with
-`INSTALL_FAILED_USER_RESTRICTED: Install canceled by user`. No gesture action
-was tested on-device, and no Ogesture package remains installed. Accessibility
-settings were checked/restored; the original default launcher and navigation
-mode remain in place. Do not interpret the build/unit-test success as evidence
-that Home, Back, Recents, touch replay or process recovery work on this device.
+Earlier on-device checks exercised Back, Home and Recents from the old overlay
+zones, but the user subsequently reported unreliable Home navigation. The integrated build subsequently passed Home swipes from three vertical points
+in the wider bottom zone, a Back swipe and swipe-and-hold for Recents. System
+buttons stayed visible, overlay geometry ended above their bar, and cleanup
+removed the overlays and returned Home with the experiment off. Treat daily-use
+reliability in hidden-button mode as unresolved, not as a completed feature.
 
 ## Release isolation
 

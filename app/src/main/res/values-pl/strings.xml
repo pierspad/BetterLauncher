@@ -297,4 +297,26 @@ Aby go usunąć, musi wynosić ≤ 2</string>
         <string name="settings_use_colorful_icons">Użyj kolorowych ikon</string>
     <string name="settings_icons_title">Ikony</string>
     <string name="add_to_home_slot">Ekran główny (%d)</string>
+    <string name="search_settings">Szukaj ustawień</string>
+    <string name="no_settings_found">Nie znaleziono ustawień</string>
+    <string name="background_access">Uprawnienia i bateria</string>
+    <string name="battery_settings">Usuń ograniczenia baterii</string>
+    <string name="autostart_settings">Zezwól na autostart</string>
+    <string name="app_info_settings">Informacje i uprawnienia aplikacji</string>
+    <string name="navigation_settings">Nawigacja Xiaomi</string>
+    <string name="background_access_message">Ułatwienia dostępu są opcjonalne: umożliwiają blokadę dwukrotnym dotknięciem i wybrane przerwy aplikacji. Bateria i autostart mogą pomóc przy zatrzymywaniu w tle, lecz nie gwarantują ciągłej pracy. Na Xiaomi w razie potrzeby wybierz Bez ograniczeń i zezwól na autostart.</string>
+    <string name="navigation_settings_message">Otwiera ustawienia nawigacji Xiaomi. Niektóre wersje HyperOS pozwalają ukryć trzy przyciski, ale nie przywracają natywnych gestów z innym launcherem. Najpierw przetestuj usługę gestów. Po restarcie wybór może wymagać powtórzenia.</string>
+    <string name="xiaomi_gestures">Gesty Xiaomi (eksperymentalne)</string>
+    <string name="xiaomi_gestures_message">Opcjonalna nawigacja Xiaomi: przesuń od boku dla Wstecz, od dołu dla Ekranu głównego, w górę z przytrzymaniem dla Ostatnich. Gesty korzystają z tej samej usługi ułatwień dostępu BetterLauncher co blokada ekranu i limity aplikacji, z obszarami dotyku i zmianami okien. Niewykorzystany dotyk odtwarza lokalnie. Nie zapisuje ani nie przesyła danych dostępności. Tylko z domyślnym BetterLauncher; pauza przy blokadzie ekranu. Może opóźniać dotyk lub zakłócać aplikacje. Zachowaj trzy przyciski do czasu testów. Włącz opcję, a następnie usługę w Androidzie. Wyłącz tutaj lub w Ułatwieniach dostępu. Nie przywraca gestów systemowych; bateria może zatrzymać usługę.</string>
+    <string name="background_access_short">Ułatwienia dostępu są opcjonalne. Jeśli funkcje się zatrzymują, sprawdź baterię i autostart. Dotknij, aby uzyskać pomoc.</string>
+    <string name="accessibility_features">Ułatwienia dostępu: blokada i limity</string>
+    <string name="restricted_settings">Zezwól na ustawienia z ograniczeniami</string>
+    <string name="restricted_settings_message">Android może blokować ułatwienia dostępu aplikacji zainstalowanej z APK. Jeśli ufasz tej instalacji, otwórz Informacje o aplikacji, menu z trzema kropkami i Zezwól na ustawienia z ograniczeniami. Potwierdź na telefonie, a potem włącz wybraną usługę. BetterLauncher nie może sam sobie nadać tego uprawnienia systemowego.</string>
+    <string name="battery_setup_confirm">Wybrano Bez ograniczeń (potwierdzenie ręczne)</string>
+    <string name="autostart_setup_confirm">Zezwolono na autostart (potwierdzenie ręczne)</string>
+    <string name="xiaomi_gesture_help">Pomoc dotycząca gestów</string>
+    <string name="setup_complete">Gotowe</string>
+    <string name="setup_pending">Do zrobienia</string>
+    <string name="navigation_mode_action">Wybierz przyciski lub gesty</string>
+    <string name="restore_buttons_before_disable">Przed wyłączeniem tych gestów przywróć trzy przyciski. Otwórz ustawienia nawigacji, wybierz trzy przyciski, a potem wyłącz tę opcję.</string>
 </resources><!-- Polish -->

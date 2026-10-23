@@ -68,6 +68,11 @@ android {
         includeInApk = false
     }
 
+    // Search indexes every shipped translation, including when installed from an AAB.
+    bundle {
+        language { enableSplit = false }
+    }
+
     buildFeatures {
         viewBinding = true
         buildConfig = true

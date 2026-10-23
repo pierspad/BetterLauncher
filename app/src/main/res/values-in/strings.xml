@@ -297,4 +297,26 @@ Untuk menghapus harus ≤ 2</string>
         <string name="settings_use_colorful_icons">Gunakan ikon berwarna</string>
     <string name="settings_icons_title">Ikon</string>
     <string name="add_to_home_slot">Beranda (slot %d)</string>
+    <string name="search_settings">Cari pengaturan</string>
+    <string name="no_settings_found">Pengaturan tidak ditemukan</string>
+    <string name="background_access">Izin dan baterai</string>
+    <string name="battery_settings">Hapus pembatasan baterai</string>
+    <string name="autostart_settings">Izinkan mulai otomatis</string>
+    <string name="app_info_settings">Info dan izin aplikasi</string>
+    <string name="navigation_settings">Navigasi Xiaomi</string>
+    <string name="background_access_message">Aksesibilitas bersifat opsional: untuk mengunci dengan ketuk dua kali dan jeda aplikasi pilihan. Pengaturan baterai dan mulai otomatis dapat membantu jika fitur berhenti di latar belakang, tetapi tidak menjamin aplikasi terus berjalan. Di Xiaomi, pilih Tanpa batasan dan izinkan mulai otomatis bila perlu.</string>
+    <string name="navigation_settings_message">Membuka pengaturan navigasi Xiaomi. Beberapa versi HyperOS dapat menyembunyikan tiga tombol, tetapi tidak memulihkan gestur bawaan dengan peluncur lain. Uji layanan gestur terlebih dahulu. Pilihan mungkin perlu diulang setelah memulai ulang.</string>
+    <string name="xiaomi_gestures">Gestur Xiaomi (eksperimental)</string>
+    <string name="xiaomi_gestures_message">Navigasi opsional Xiaomi: usap dari samping untuk Kembali, bawah untuk Beranda, ke atas dan tahan untuk Terbaru. Gestur memakai layanan aksesibilitas BetterLauncher yang sama dengan penguncian layar dan batas aplikasi, dengan area sentuh tepi dan perubahan jendela. Sentuhan tak terpakai diputar ulang secara lokal. Tidak menyimpan atau mengirim data aksesibilitas. Hanya saat BetterLauncher menjadi default; dijeda saat layar terkunci. Dapat memperlambat sentuhan atau mengganggu aplikasi. Pertahankan tiga tombol sampai diuji. Aktifkan opsi lalu layanan di Android. Matikan di sini atau Aksesibilitas. Bukan gestur bawaan; batasan baterai bisa menghentikannya.</string>
+    <string name="background_access_short">Aksesibilitas opsional. Jika fitur berhenti, periksa baterai dan mulai otomatis. Ketuk untuk bantuan.</string>
+    <string name="accessibility_features">Aksesibilitas: kunci dan batas aplikasi</string>
+    <string name="restricted_settings">Izinkan setelan terbatas</string>
+    <string name="restricted_settings_message">Android dapat memblokir aksesibilitas aplikasi yang dipasang dari APK. Jika mempercayai pemasangan ini, buka Info aplikasi, menu tiga titik, lalu Izinkan setelan terbatas. Konfirmasikan di ponsel lalu aktifkan layanan pilihan. BetterLauncher tidak dapat memberikan izin sistem ini kepada dirinya sendiri.</string>
+    <string name="battery_setup_confirm">Saya memilih Tanpa batasan (konfirmasi manual)</string>
+    <string name="autostart_setup_confirm">Saya mengizinkan mulai otomatis (konfirmasi manual)</string>
+    <string name="xiaomi_gesture_help">Bantuan gestur</string>
+    <string name="setup_complete">Selesai</string>
+    <string name="setup_pending">Perlu dilakukan</string>
+    <string name="navigation_mode_action">Pilih tombol atau gestur</string>
+    <string name="restore_buttons_before_disable">Pulihkan navigasi tiga tombol sebelum mematikan gestur ini. Buka pengaturan navigasi, pilih tiga tombol, lalu matikan opsi ini.</string>
 </resources><!-- Indonesian -->

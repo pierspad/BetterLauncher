@@ -224,6 +224,12 @@ class Prefs(private val context: Context) {
     var screenTimeAppClassName by nullableString(SCREEN_TIME_APP_CLASS_NAME)
 
     // ---- Home-screen widget (single) ----
+    var xiaomiGestures by bool("XIAOMI_GESTURES")
+    var batterySetupOpened by bool("BATTERY_SETUP_OPENED")
+    var batterySetupConfirmed by bool("BATTERY_SETUP_CONFIRMED")
+    var autostartSetupOpened by bool("AUTOSTART_SETUP_OPENED")
+    var autostartSetupConfirmed by bool("AUTOSTART_SETUP_CONFIRMED")
+
     var widgetId by int("WIDGET_ID", -1)
     var pendingWidgetId by int("PENDING_WIDGET_ID", -1)
     var widgetEnabled by bool("WIDGET_ENABLED")
@@ -494,6 +500,9 @@ class Prefs(private val context: Context) {
             val backup = PreferenceBackup.parse(json, preferenceTypes)
             val values = backup.preferences.toMutableMap().apply {
                 put(LOCK_MODE, false)
+                put("XIAOMI_GESTURES", false)
+                put("BATTERY_SETUP_CONFIRMED", false)
+                put("AUTOSTART_SETUP_CONFIRMED", false)
                 put(SCREEN_TIME_APP_PACKAGE, "")
                 put(SCREEN_TIME_APP_USER, "")
                 put(SCREEN_TIME_APP_CLASS_NAME, "")

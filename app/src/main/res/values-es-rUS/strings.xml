@@ -297,4 +297,26 @@ Para eliminarlo debe ser ≤ 2</string>
         <string name="settings_use_colorful_icons">Usar iconos coloridos</string>
     <string name="settings_icons_title">Iconos</string>
     <string name="add_to_home_slot">Inicio (posición %d)</string>
+    <string name="search_settings">Buscar ajustes</string>
+    <string name="no_settings_found">No se encontraron ajustes</string>
+    <string name="background_access">Permisos y batería</string>
+    <string name="battery_settings">Quitar restricciones de batería</string>
+    <string name="autostart_settings">Permitir inicio automático</string>
+    <string name="app_info_settings">Información y permisos de la app</string>
+    <string name="navigation_settings">Navegación Xiaomi</string>
+    <string name="background_access_message">La accesibilidad es opcional: permite bloquear con un doble toque y aplicar las pausas elegidas. La batería y el inicio automático pueden ayudar si estas funciones se detienen en segundo plano, sin garantizar un funcionamiento continuo. En Xiaomi, selecciona Sin restricciones y permite el inicio automático si hace falta.</string>
+    <string name="navigation_settings_message">Abre los ajustes de navegación Xiaomi. Algunas versiones de HyperOS permiten ocultar los tres botones, pero no restauran los gestos nativos con otro lanzador. Prueba primero un servicio de gestos. Puede ser necesario repetir la selección tras reiniciar.</string>
+    <string name="xiaomi_gestures">Gestos Xiaomi (experimentales)</string>
+    <string name="xiaomi_gestures_message">Navegación opcional para Xiaomi: desliza desde los lados para Atrás, desde abajo para Inicio, o hacia arriba con pausa para Recientes. Los gestos usan el mismo servicio de accesibilidad de BetterLauncher que el bloqueo y los límites de apps, con zonas táctiles y cambios de ventana. Reproduce localmente los toques no utilizados. No guarda ni transmite datos de accesibilidad. Solo con BetterLauncher predeterminado; se pausa al bloquear. Puede ralentizar los toques o interferir con apps. Mantén los tres botones hasta probarlo. Activa la opción y luego el servicio en Android. Desactívalo aquí o en Accesibilidad. No restaura los gestos nativos; la batería puede detenerlo.</string>
+    <string name="background_access_short">La accesibilidad es opcional. Si las funciones se detienen, revisa batería e inicio automático. Toca para ver la ayuda.</string>
+    <string name="accessibility_features">Accesibilidad: bloqueo y límites</string>
+    <string name="restricted_settings">Permitir ajustes restringidos</string>
+    <string name="restricted_settings_message">Android puede bloquear la accesibilidad de una app instalada por APK. Si confías en esta instalación, abre Información de la aplicación, el menú de tres puntos y Permitir ajustes restringidos. Confirma en el teléfono y después activa el servicio elegido. BetterLauncher no puede otorgarse este permiso del sistema.</string>
+    <string name="battery_setup_confirm">Elegí Sin restricciones (confirmación manual)</string>
+    <string name="autostart_setup_confirm">Permití el inicio automático (confirmación manual)</string>
+    <string name="xiaomi_gesture_help">Ayuda de gestos</string>
+    <string name="setup_complete">Completado</string>
+    <string name="setup_pending">Pendiente</string>
+    <string name="navigation_mode_action">Elegir botones o gestos</string>
+    <string name="restore_buttons_before_disable">Antes de desactivar estos gestos, restaura los tres botones. Abre los ajustes de navegación, elige los tres botones y desactiva esta opción.</string>
 </resources><!-- Spanish -->

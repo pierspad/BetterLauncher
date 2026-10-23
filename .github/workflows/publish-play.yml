@@ -42,7 +42,7 @@ jobs:
       - uses: ./.github/actions/publish-play
         with:
           tag: ${{ inputs.tag }}
-          track: ${{ inputs.track }}
+          track: ${{ github.ref == 'refs/heads/dev' && 'beta' || inputs.track }}
           status: ${{ inputs.status }}
           changes_not_sent_for_review: ${{ inputs.changes_not_sent_for_review }}
         env:

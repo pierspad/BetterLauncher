@@ -301,4 +301,26 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
         <string name="settings_use_colorful_icons">Színes ikonok használata</string>
     <string name="settings_icons_title">Ikonok</string>
     <string name="add_to_home_slot">Kezdőképernyő (%d)</string>
+    <string name="search_settings">Beállítások keresése</string>
+    <string name="no_settings_found">Nincs találat</string>
+    <string name="background_access">Engedélyek és akkumulátor</string>
+    <string name="battery_settings">Akkumulátorkorlátozások eltávolítása</string>
+    <string name="autostart_settings">Automatikus indítás engedélyezése</string>
+    <string name="app_info_settings">Alkalmazásadatok és engedélyek</string>
+    <string name="navigation_settings">Xiaomi navigáció</string>
+    <string name="background_access_message">A kisegítő szolgáltatás választható: a dupla koppintásos zároláshoz és a kiválasztott alkalmazásszünetekhez kell. Az akkumulátor és az automatikus indítás beállítása segíthet a háttérbeli leállásnál, de nem garantál folyamatos működést. Xiaomin szükség esetén válassza a Nincs korlátozás lehetőséget és engedélyezze az automatikus indítást.</string>
+    <string name="navigation_settings_message">Megnyitja a Xiaomi navigációs beállításait. Egyes HyperOS-verziók elrejthetik a három gombot, de más indítóval nem állítják vissza a natív gesztusokat. Előbb teszteljen egy gesztusszolgáltatást. Újraindítás után megismétlésre lehet szükség.</string>
+    <string name="xiaomi_gestures">Xiaomi gesztusok (kísérleti)</string>
+    <string name="xiaomi_gestures_message">Választható Xiaomi navigáció: oldalról Vissza, alulról Kezdőlap, felfelé húzva és tartva Legutóbbiak. A gesztusok a képernyőzárral és alkalmazáskorlátokkal közös BetterLauncher kisegítő szolgáltatást használják, érintési szélekkel és ablakváltásokkal. A fel nem használt érintéseket helyben lejátssza. Nem tárol vagy továbbít kisegítő adatot. Csak alapértelmezett BetterLauncherrel; zároláskor szünetel. Lassíthatja az érintést vagy zavarhat alkalmazásokat. Tesztelésig tartsa meg a három gombot. Kapcsolja be az opciót, majd az Android-szolgáltatást. Itt vagy a Kisegítő lehetőségeknél kikapcsolható. Nem natív gesztusok; az akkumulátorkorlátozás leállíthatja.</string>
+    <string name="background_access_short">A kisegítő szolgáltatás választható. Leálláskor ellenőrizze az akkumulátort és az automatikus indítást. Koppintson a súgóhoz.</string>
+    <string name="accessibility_features">Kisegítő lehetőségek: zárolás és korlátok</string>
+    <string name="restricted_settings">Korlátozott beállítások engedélyezése</string>
+    <string name="restricted_settings_message">Az Android letilthatja az APK-ból telepített alkalmazás kisegítő szolgáltatását. Ha megbízik a telepítésben, nyissa meg az Alkalmazásinformációk hárompontos menüjét, majd engedélyezze a korlátozott beállításokat. Erősítse meg a telefonon, majd kapcsolja be a szolgáltatást. A BetterLauncher ezt a rendszerengedélyt nem adhatja meg magának.</string>
+    <string name="battery_setup_confirm">A Nincs korlátozás beállítást választottam (kézi megerősítés)</string>
+    <string name="autostart_setup_confirm">Engedélyeztem az automatikus indítást (kézi megerősítés)</string>
+    <string name="xiaomi_gesture_help">Gesztussúgó</string>
+    <string name="setup_complete">Kész</string>
+    <string name="setup_pending">Teendő</string>
+    <string name="navigation_mode_action">Gombok vagy gesztusok választása</string>
+    <string name="restore_buttons_before_disable">A gesztusok kikapcsolása előtt állítsa vissza a háromgombos navigációt. Nyissa meg a navigációs beállításokat, válassza a három gombot, majd kapcsolja ki ezt az opciót.</string>
 </resources><!-- Hungarian -->

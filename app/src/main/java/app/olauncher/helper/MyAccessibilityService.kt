@@ -10,6 +10,7 @@ import app.olauncher.data.Prefs
 
 class MyAccessibilityService : AccessibilityService() {
 
+    private var gestureController: XiaomiGestureController? = null
     private val prefs by lazy { Prefs(applicationContext) }
 
     // A single app open fires several TYPE_WINDOW_STATE_CHANGED events (splash →
@@ -19,7 +20,9 @@ class MyAccessibilityService : AccessibilityService() {
     private var lastEscalatedKey: String? = null
     private var lastEscalatedAt: Long = 0L
 
-    private companion object {
+    companion object {
+        @Volatile var running = false
+            private set
         const val ESCALATION_DEBOUNCE_MS = 5_000L
     }
 
@@ -36,6 +39,11 @@ class MyAccessibilityService : AccessibilityService() {
         val info = serviceInfo
         info.packageNames = null // Monitor all packages for app limit enforcement
         serviceInfo = info
+        gestureController?.stop()
+        if (Build.VERSION.SDK_INT >= 29 && DeviceSettings.isXiaomi()) {
+            gestureController = XiaomiGestureController(this).also { it.start() }
+        }
+        running = true
         super.onServiceConnected()
     }
 
@@ -44,6 +52,7 @@ class MyAccessibilityService : AccessibilityService() {
             disableSelf()
             return
         }
+        gestureController?.onWindowChanged()
         try {
             val eventType = event.eventType
             if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
@@ -115,7 +124,24 @@ class MyAccessibilityService : AccessibilityService() {
         }
     }
 
-    override fun onInterrupt() {
-
+    override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
+        super.onConfigurationChanged(newConfig)
+        gestureController?.onConfigurationChanged()
     }
+
+    override fun onUnbind(intent: Intent?): Boolean {
+        running = false
+        gestureController?.stop()
+        gestureController = null
+        return super.onUnbind(intent)
+    }
+
+    override fun onDestroy() {
+        running = false
+        gestureController?.stop()
+        gestureController = null
+        super.onDestroy()
+    }
+
+    override fun onInterrupt() { }
 }

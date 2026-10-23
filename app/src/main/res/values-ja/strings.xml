@@ -298,4 +298,26 @@
         <string name="settings_use_colorful_icons">カラフルなアイコンを使用</string>
     <string name="settings_icons_title">アイコン</string>
     <string name="add_to_home_slot">ホーム（%d）</string>
+    <string name="search_settings">設定を検索</string>
+    <string name="no_settings_found">設定が見つかりません</string>
+    <string name="background_access">権限とバッテリー</string>
+    <string name="battery_settings">バッテリー制限を解除</string>
+    <string name="autostart_settings">自動起動を許可</string>
+    <string name="app_info_settings">アプリ情報と権限</string>
+    <string name="navigation_settings">Xiaomiのナビゲーション</string>
+    <string name="background_access_message">ユーザー補助は任意です。ダブルタップでのロックと、選択したアプリの休止に使用します。バッテリーと自動起動の設定はバックグラウンドで停止する場合に役立ちますが、常時動作を保証しません。Xiaomiでは必要に応じて制限なしを選択し、自動起動を許可してください。</string>
+    <string name="navigation_settings_message">Xiaomiのナビゲーション設定を開きます。一部のHyperOSでは3つのボタンを非表示にできますが、別のランチャーで純正ジェスチャーが復活するわけではありません。先にジェスチャーサービスをテストしてください。再起動後に再設定が必要な場合があります。</string>
+    <string name="xiaomi_gestures">Xiaomiジェスチャー（試験的）</string>
+    <string name="xiaomi_gestures_message">Xiaomi専用の任意のナビゲーションです。横からスワイプで戻る、下からホーム、上へスワイプして止めると履歴になります。画面ロックやアプリ制限と同じBetterLauncherのユーザー補助サービスで、画面端のタッチとウィンドウ変更を使います。未使用のタッチは端末内で再送します。ユーザー補助データは保存・送信しません。BetterLauncherが既定の場合のみ動作し、ロック中は停止します。端の操作が遅くなったりアプリと干渉する場合があります。テストが済むまで3ボタンを残してください。オプションとAndroidのサービスを有効にします。ここかユーザー補助で無効にできます。純正ジェスチャーは復活しません。電池制限で停止する場合があります。</string>
+    <string name="background_access_short">ユーザー補助は任意です。機能が停止する場合はバッテリーと自動起動を確認してください。タップでヘルプを表示します。</string>
+    <string name="accessibility_features">ユーザー補助：ロックとアプリ制限</string>
+    <string name="restricted_settings">制限付き設定を許可</string>
+    <string name="restricted_settings_message">AndroidはAPKからインストールしたアプリのユーザー補助を制限する場合があります。このインストールを信頼する場合は、アプリ情報の3点メニューから制限付き設定を許可し、端末で確認してください。その後、選んだサービスを有効にします。BetterLauncherはこのシステム権限を自分で付与できません。</string>
+    <string name="battery_setup_confirm">制限なしを選択した（手動確認）</string>
+    <string name="autostart_setup_confirm">自動起動を許可した（手動確認）</string>
+    <string name="xiaomi_gesture_help">ジェスチャーのヘルプ</string>
+    <string name="setup_complete">完了</string>
+    <string name="setup_pending">未完了</string>
+    <string name="navigation_mode_action">ボタンかジェスチャーを選択</string>
+    <string name="restore_buttons_before_disable">このジェスチャーを無効にする前に3ボタンナビゲーションに戻してください。ナビゲーション設定で3ボタンを選んでから、このオプションを無効にします。</string>
 </resources> <!-- Japanese -->

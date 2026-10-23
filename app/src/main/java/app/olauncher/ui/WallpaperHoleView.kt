@@ -12,6 +12,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewTreeObserver
 import app.olauncher.R
+import androidx.core.graphics.withSave
 
 /**
  * Full-screen overlay that punches a real "hole" through the (opaque) settings panel onto
@@ -53,6 +54,8 @@ class WallpaperHoleView @JvmOverloads constructor(
     }
 
     private var target: View? = null
+    private var viewport: View? = null
+    private val locViewport = IntArray(2)
     private var cornerRadius = 0f
     private val holeRect = RectF()
     private val locTarget = IntArray(2)
@@ -74,8 +77,9 @@ class WallpaperHoleView @JvmOverloads constructor(
     }
 
     /** Binds the hole to [target]'s on-screen bounds, with [cornerRadiusPx] rounded corners. */
-    fun attachTo(target: View, cornerRadiusPx: Float) {
+    fun attachTo(target: View, cornerRadiusPx: Float, viewport: View? = null) {
         this.target = target
+        this.viewport = viewport
         this.cornerRadius = cornerRadiusPx
         if (syncHole()) invalidate()
     }
@@ -95,7 +99,11 @@ class WallpaperHoleView @JvmOverloads constructor(
     // Recomputes the hole from the target's current window position. Returns true if it moved.
     private fun syncHole(): Boolean {
         val t = target ?: return false
-        if (t.width == 0 || t.height == 0) return false
+        if (!t.isShown || t.width == 0 || t.height == 0) {
+            val changed = !holeRect.isEmpty
+            holeRect.setEmpty()
+            return changed
+        }
         t.getLocationInWindow(locTarget)
         getLocationInWindow(locSelf)
         val left = (locTarget[0] - locSelf[0]).toFloat()
@@ -121,6 +129,15 @@ class WallpaperHoleView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         if (holeRect.isEmpty) return
+        canvas.withSave {
+        viewport?.let { area ->
+            area.getLocationInWindow(locViewport)
+            getLocationInWindow(locSelf)
+            val left = locViewport[0] - locSelf[0]
+            val top = locViewport[1] - locSelf[1]
+            // CLEAR and preview labels must never paint over the fixed header/search.
+            canvas.clipRect(left, top, left + area.width, top + area.height)
+        }
         canvas.drawRoundRect(holeRect, cornerRadius, cornerRadius, clearPaint)
         if (scrimPaint.color != Color.TRANSPARENT)
             canvas.drawRoundRect(holeRect, cornerRadius, cornerRadius, scrimPaint)
@@ -169,6 +186,7 @@ class WallpaperHoleView @JvmOverloads constructor(
         if (label.isNotEmpty()) {
             val baseline = holeRect.centerY() - (labelPaint.descent() + labelPaint.ascent()) / 2f
             canvas.drawText(label, holeRect.centerX(), baseline, labelPaint)
+        }
         }
     }
 }

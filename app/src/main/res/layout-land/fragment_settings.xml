@@ -8,10 +8,82 @@
     android:animateLayoutChanges="true"
     android:background="@android:color/transparent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/settingsTopBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="32dp">
+            <LinearLayout
+                android:id="@+id/settingsIdentity"
+                tools:ignore="UseCompoundDrawables"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:importantForAccessibility="no"
+                    android:src="@mipmap/ic_launcher" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/settingsHeaderTitle"
+                    android:textSize="26sp"
+                    style="@style/TextSectionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:accessibilityHeading="true" tools:targetApi="p"
+                    android:text="@string/app_name"  android:tag="settings:app_name" />
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/settingsClose"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/close"
+                    app:srcCompat="@drawable/ic_close" />
+            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/settingsSearch"
+                style="@style/TextSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="12dp"
+                android:minHeight="52dp"
+                android:textSize="18sp"
+                android:padding="14dp"
+                android:background="@drawable/rounded_settings_search"
+                android:backgroundTint="@null"
+                app:drawableStartCompat="@drawable/ic_sc_search"
+                android:drawablePadding="12dp"
+                android:hint="@string/search_settings"
+                android:inputType="text|textNoSuggestions"
+                android:imeOptions="actionDone"
+                android:maxLines="1" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/settingsNoResults"
+                style="@style/TextSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:text="@string/no_settings_found"
+                android:accessibilityLiveRegion="polite"
+                android:visibility="gone"  android:tag="settings:no_settings_found" />
+
+        </LinearLayout>
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginVertical="8dp"
         android:animateLayoutChanges="true"
         android:clipChildren="false"
@@ -28,7 +100,8 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical"
-            android:paddingVertical="64dp">
+            android:paddingTop="8dp"
+            android:paddingBottom="64dp">
 
             <!-- ============ BetterLauncher card ============ -->
             <LinearLayout
@@ -41,22 +114,7 @@
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="18dp">
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="12dp">
-
-                    <TextView
-                        android:id="@+id/settingsHeaderTitle"
-                        style="@style/TextSectionTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="@string/app_name" />
-                </FrameLayout>
-
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/olauncherHiddenApps"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
@@ -64,11 +122,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_hide"
+                    app:drawableStartCompat="@drawable/ic_hide"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:text="@string/hidden_apps" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:hidden_apps" />
 
                 <View
                     android:layout_width="match_parent"
@@ -77,7 +135,7 @@
                     android:layout_marginVertical="6dp"
                     android:background="@drawable/divider_light" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/setLauncher"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
@@ -85,11 +143,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_sc_grid"
+                    app:drawableStartCompat="@drawable/ic_sc_grid"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:text="@string/set_as_default_launcher" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:set_as_default_launcher" />
 
                 <View
                     android:layout_width="match_parent"
@@ -98,7 +156,7 @@
                     android:layout_marginVertical="6dp"
                     android:background="@drawable/divider_light" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/lockApps"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
@@ -106,11 +164,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_shield"
+                    app:drawableStartCompat="@drawable/ic_shield"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:text="@string/lock_apps" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:lock_apps" />
 
                 <View
                     android:layout_width="match_parent"
@@ -119,7 +177,7 @@
                     android:layout_marginVertical="6dp"
                     android:background="@drawable/divider_light" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/limitApps"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
@@ -127,11 +185,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_sc_alarm"
+                    app:drawableStartCompat="@drawable/ic_sc_alarm"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:text="@string/limit_apps" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:limit_apps" />
 
                 <View
                     android:layout_width="match_parent"
@@ -140,7 +198,7 @@
                     android:layout_marginVertical="6dp"
                     android:background="@drawable/divider_light" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/changeLanguage"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
@@ -148,11 +206,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_sc_globe"
+                    app:drawableStartCompat="@drawable/ic_sc_globe"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:text="@string/change_language" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:change_language" />
 
                 <View
                     android:layout_width="match_parent"
@@ -162,7 +220,7 @@
                     android:background="@drawable/divider_light" />
 
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/aboutOlauncher"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
@@ -170,13 +228,117 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_info"
+                    app:drawableStartCompat="@drawable/ic_info"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:text="@string/about_olauncher" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:about_olauncher" />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/reliabilityCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rounded_rect_shade_color_glass"
+                android:orientation="vertical"
+                android:padding="18dp">
+                <androidx.appcompat.widget.AppCompatTextView style="@style/TextSectionTitle"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:accessibilityHeading="true" tools:targetApi="p" android:text="@string/background_access"  android:tag="settings:background_access" />
+                <androidx.appcompat.widget.AppCompatTextView android:id="@+id/reliabilitySummary"
+                    app:drawableStartCompat="@drawable/ic_info" android:drawablePadding="12dp" style="@style/TextSmall"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:paddingTop="12dp" android:paddingBottom="12dp"
+                    android:text="@string/background_access_short"  android:tag="settings:background_access_message" />
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@drawable/divider_light" />
+                <androidx.appcompat.widget.AppCompatTextView android:id="@+id/accessibilityShortcut"
+                    app:drawableStartCompat="@drawable/ic_shield" android:drawablePadding="12dp" style="@style/SettingsShortcut"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="@string/accessibility_features"  android:tag="settings:accessibility_features" />
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@drawable/divider_light" />
+                <androidx.appcompat.widget.AppCompatTextView android:id="@+id/restrictedSettingsShortcut" style="@style/SettingsShortcut"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    app:drawableStartCompat="@drawable/ic_shield" android:drawablePadding="12dp"
+                    android:tag="settings:restricted_settings" android:text="@string/restricted_settings" />
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@drawable/divider_light" />
+                <androidx.appcompat.widget.AppCompatTextView android:id="@+id/batteryShortcut"
+                    app:drawableStartCompat="@drawable/ic_battery" android:drawablePadding="12dp" style="@style/SettingsShortcut"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="@string/battery_settings"  android:tag="settings:battery_settings" />
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/batterySetupConfirmed"
+                    style="@style/TextSmall"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:minHeight="48dp" android:visibility="gone"
+                    android:tag="settings:battery_setup_confirm" android:text="@string/battery_setup_confirm"
+                    app:buttonTint="@color/switch_thumb" />
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@drawable/divider_light" />
+                <androidx.appcompat.widget.AppCompatTextView android:id="@+id/autostartShortcut"
+                    app:drawableStartCompat="@drawable/ic_sc_play" android:drawablePadding="12dp" android:visibility="gone" style="@style/SettingsShortcut"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="@string/autostart_settings"  android:tag="settings:autostart_settings" />
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/autostartSetupConfirmed"
+                    style="@style/TextSmall"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:minHeight="48dp" android:visibility="gone"
+                    android:tag="settings:autostart_setup_confirm" android:text="@string/autostart_setup_confirm"
+                    app:buttonTint="@color/switch_thumb" />
+
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@drawable/divider_light" />
+                <androidx.appcompat.widget.AppCompatTextView android:id="@+id/appInfoShortcut"
+                    app:drawableStartCompat="@drawable/ic_sc_settings" android:drawablePadding="12dp" style="@style/SettingsShortcut"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="@string/app_info_settings"  android:tag="settings:app_info_settings" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/xiaomiNavigationCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rounded_rect_shade_color_glass"
+                android:orientation="vertical"
+                android:padding="18dp"
+                android:visibility="gone">
+                <androidx.appcompat.widget.AppCompatTextView style="@style/TextSectionTitle"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:accessibilityHeading="true" tools:targetApi="p"
+                    android:tag="settings:navigation_settings" android:text="@string/navigation_settings" />
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@drawable/divider_light" />
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/xiaomiGestures"
+                    app:thumbTint="@color/switch_thumb"
+                    app:trackTint="@color/switch_track"
+                    app:drawableStartCompat="@drawable/ic_align_left"
+                    android:drawablePadding="12dp" android:visibility="gone"
+                    style="@style/SettingsShortcut"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:tag="settings:xiaomi_gestures"
+                    android:text="@string/xiaomi_gestures" />
+                <androidx.appcompat.widget.AppCompatTextView android:id="@+id/gestureStatus" android:visibility="gone" style="@style/TextSmall"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:paddingBottom="12dp"
+                    android:tag="settings:xiaomi_gestures_message"
+                    android:text="@string/xiaomi_gestures_message" />
+                <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@drawable/divider_light" />
+                <androidx.appcompat.widget.AppCompatTextView android:id="@+id/navigationShortcut"
+                    app:drawableStartCompat="@drawable/ic_sc_grid" android:drawablePadding="12dp" android:visibility="gone" style="@style/SettingsShortcut"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="@string/navigation_settings"  android:tag="settings:navigation_settings" />
+            </LinearLayout>
+
 
             <!-- ============ Home screen card ============ -->
             <LinearLayout
@@ -192,14 +354,14 @@
                 android:paddingVertical="18dp"
                 tools:visibility="visible">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextSectionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="12dp"
-                    android:text="@string/home_screen" />
+                    android:text="@string/home_screen"  android:tag="settings:home_screen" />
 
                 <!-- Apps on home screen (slider 1..6) -->
                 <LinearLayout
@@ -214,20 +376,20 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             style="@style/TextSmall"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginStart="8dp"
                             android:paddingVertical="8dp"
-                            android:drawableStart="@drawable/ic_sc_grid"
+                            app:drawableStartCompat="@drawable/ic_sc_grid"
                             android:drawablePadding="12dp"
                             android:text="@string/apps_on_home_screen"
                             android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:apps_on_home_screen" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/homeAppsNum"
                             style="@style/TextSmallBold"
                             android:layout_width="wrap_content"
@@ -268,20 +430,20 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             style="@style/TextSmall"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginStart="8dp"
                             android:paddingVertical="8dp"
-                            android:drawableStart="@drawable/ic_sc_star"
+                            app:drawableStartCompat="@drawable/ic_sc_star"
                             android:drawablePadding="12dp"
                             android:text="@string/home_icons_count"
                             android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:home_icons_count" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/homeIconsNum"
                             style="@style/TextSmallBold"
                             android:layout_width="wrap_content"
@@ -317,18 +479,18 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextSmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_sc_clock"
+                        app:drawableStartCompat="@drawable/ic_sc_clock"
                         android:drawablePadding="12dp"
                         android:text="@string/show_date_time"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:show_date_time" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/dateTimeSwitch"
@@ -354,7 +516,7 @@
                     android:orientation="horizontal"
                     android:visibility="gone">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextSmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -362,7 +524,7 @@
                         android:layout_marginStart="44dp"
                         android:paddingVertical="8dp"
                         android:text="@string/date_only"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor"  android:tag="settings:date_only" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/dateOnlySwitch"
@@ -394,18 +556,18 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextSmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_hourglass"
+                        app:drawableStartCompat="@drawable/ic_hourglass"
                         android:drawablePadding="12dp"
                         android:text="@string/screen_time"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:screen_time" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/screenTimeSwitch"
@@ -435,18 +597,18 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
-                        android:drawableStart="@drawable/ic_widget"
+                        app:drawableStartCompat="@drawable/ic_widget"
                         android:drawablePadding="12dp"
                         android:paddingVertical="8dp"
                         android:text="@string/widget"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:widget" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/widgetEnabled"
@@ -474,7 +636,7 @@
                     android:orientation="horizontal"
                     android:visibility="gone">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -482,16 +644,16 @@
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
                         android:text="@string/widget_choose"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor"  android:tag="settings:widget_choose" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/widget"
                         style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
                         android:padding="8dp"
-                        android:text="@string/none" />
+                        android:text="@string/none"  android:tag="settings:none" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -507,14 +669,14 @@
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="18dp">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextSectionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="12dp"
-                    android:text="@string/layout_positioning" />
+                    android:text="@string/layout_positioning"  android:tag="settings:layout_positioning" />
 
                 <!-- Horizontal time alignment -->
                 <LinearLayout
@@ -524,7 +686,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -532,11 +694,11 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="12dp"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_sc_clock"
+                        app:drawableStartCompat="@drawable/ic_sc_clock"
                         android:drawablePadding="12dp"
                         android:text="@string/clock_alignment"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:clock_alignment" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -591,7 +753,7 @@
                     android:orientation="horizontal"
                     android:visibility="gone">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -599,11 +761,11 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="12dp"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_hourglass"
+                        app:drawableStartCompat="@drawable/ic_hourglass"
                         android:drawablePadding="12dp"
                         android:text="@string/screen_time_alignment"
                         android:textColor="?attr/primaryColor" 
-                        app:drawableTint="?attr/primaryColor" />
+                        app:drawableTint="?attr/primaryColor"  android:tag="settings:screen_time_alignment" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -657,19 +819,19 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="12dp"
-                        android:drawableStart="@drawable/ic_align_left"
+                        app:drawableStartCompat="@drawable/ic_align_left"
                         android:drawablePadding="12dp"
                         android:paddingVertical="8dp"
                         android:text="@string/home_layout_alignment"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:home_layout_alignment" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -723,19 +885,19 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="12dp"
-                        android:drawableStart="@drawable/ic_sc_star"
+                        app:drawableStartCompat="@drawable/ic_sc_star"
                         android:drawablePadding="12dp"
                         android:paddingVertical="8dp"
                         android:text="@string/icons_alignment"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:icons_alignment" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -779,7 +941,7 @@
                     android:background="@drawable/divider_light" />
 
                 <!-- Enter home reorder mode -->
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/reorderItems"
                     style="@style/TextSmall"
                     android:layout_width="match_parent"
@@ -787,11 +949,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_sc_grid"
+                    app:drawableStartCompat="@drawable/ic_sc_grid"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:text="@string/reorder_items" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:reorder_items" />
 
             </LinearLayout>
 
@@ -809,14 +971,14 @@
                 android:paddingVertical="18dp"
                 tools:visibility="visible">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextSectionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="12dp"
-                    android:text="@string/appearance" />
+                    android:text="@string/appearance"  android:tag="settings:appearance" />
 
                 <!-- Auto show keyboard (switch) -->
                 <LinearLayout
@@ -826,18 +988,18 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_keyboard"
+                        app:drawableStartCompat="@drawable/ic_keyboard"
                         android:drawablePadding="12dp"
                         android:text="@string/auto_show_keyboard"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:auto_show_keyboard" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/autoShowKeyboard"
@@ -870,18 +1032,18 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_bell"
+                        app:drawableStartCompat="@drawable/ic_bell"
                         android:drawablePadding="12dp"
                         android:text="@string/notification_bar"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:notification_bar" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/statusBar"
@@ -915,20 +1077,20 @@
                     android:clickable="true"
                     android:focusable="true">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/themeLabel"
                         style="@style/TextSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_contrast"
+                        app:drawableStartCompat="@drawable/ic_contrast"
                         android:drawablePadding="12dp"
                         android:text="@string/theme_mode"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:theme_mode" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/themeValue"
                         style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
@@ -960,20 +1122,20 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             style="@style/TextSmall"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginStart="8dp"
                             android:paddingVertical="8dp"
-                            android:drawableStart="@drawable/ic_text_size"
+                            app:drawableStartCompat="@drawable/ic_text_size"
                             android:drawablePadding="12dp"
                             android:text="@string/text_size"
                             android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:text_size" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/textSizeValue"
                             style="@style/TextSmallBold"
                             android:layout_width="wrap_content"
@@ -1007,19 +1169,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_font"
+                        app:drawableStartCompat="@drawable/ic_font"
                         android:drawablePadding="12dp"
                         android:text="@string/font"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:font" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/fontText"
                         style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
@@ -1041,18 +1203,18 @@
 
 
                 <!-- Background opacity: two independent sliders (home + drawer) -->
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="6dp"
                     android:paddingVertical="8dp"
-                    android:drawableStart="@drawable/ic_opacity"
+                    app:drawableStartCompat="@drawable/ic_opacity"
                     android:drawablePadding="12dp"
                     android:text="@string/background_opacity"
                     android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:background_opacity" />
 
                 <!-- Live preview: transparent placeholder; the WallpaperHoleView overlay
                      (below) draws the real wallpaper + scrim + label through the panel. -->
@@ -1071,7 +1233,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextSmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -1079,9 +1241,9 @@
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
                         android:text="@string/opacity_home"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor"  android:tag="settings:opacity_home" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/homeOpacityValue"
                         style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
@@ -1108,7 +1270,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextSmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -1116,9 +1278,9 @@
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
                         android:text="@string/opacity_drawer"
-                        android:textColor="?attr/primaryColor" />
+                        android:textColor="?attr/primaryColor"  android:tag="settings:opacity_drawer" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/drawerOpacityValue"
                         style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
@@ -1156,7 +1318,7 @@
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="18dp">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvIconsTitle"
                     style="@style/TextSectionTitle"
                     android:layout_width="wrap_content"
@@ -1164,7 +1326,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="12dp"
-                    android:text="@string/settings_icons_title" />
+                    android:text="@string/settings_icons_title"  android:tag="settings:settings_icons_title" />
 
                 <!-- Icons in app drawer (switch) -->
                 <LinearLayout
@@ -1174,18 +1336,18 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_sc_grid"
+                        app:drawableStartCompat="@drawable/ic_sc_grid"
                         android:drawablePadding="12dp"
                         android:text="@string/settings_drawer_icons"
                         android:textColor="?attr/primaryColor" 
-                        app:drawableTint="?attr/primaryColor" />
+                        app:drawableTint="?attr/primaryColor"  android:tag="settings:settings_drawer_icons" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switchDrawerIcons"
@@ -1216,18 +1378,18 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_sc_star"
+                        app:drawableStartCompat="@drawable/ic_sc_star"
                         android:drawablePadding="12dp"
                         android:text="@string/settings_home_icons"
                         android:textColor="?attr/primaryColor" 
-                        app:drawableTint="?attr/primaryColor" />
+                        app:drawableTint="?attr/primaryColor"  android:tag="settings:settings_home_icons" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switchHomeIcons"
@@ -1260,18 +1422,18 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_hide"
+                        app:drawableStartCompat="@drawable/ic_hide"
                         android:drawablePadding="12dp"
                         android:text="@string/settings_home_only_icons"
                         android:textColor="?attr/primaryColor" 
-                        app:drawableTint="?attr/primaryColor" />
+                        app:drawableTint="?attr/primaryColor"  android:tag="settings:settings_home_only_icons" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switchHomeOnlyIcons"
@@ -1303,18 +1465,18 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/TextSmall"
                         android:layout_marginStart="8dp"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_sc_folder"
+                        app:drawableStartCompat="@drawable/ic_sc_folder"
                         android:drawablePadding="12dp"
                         android:text="@string/settings_use_colorful_icons"
                         android:textColor="?attr/primaryColor" 
-                        app:drawableTint="?attr/primaryColor" />
+                        app:drawableTint="?attr/primaryColor"  android:tag="settings:settings_use_colorful_icons" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switchColorfulIcons"
@@ -1344,7 +1506,7 @@
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="18dp">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvGestures"
                     style="@style/TextSectionTitle"
                     android:layout_width="wrap_content"
@@ -1352,7 +1514,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="12dp"
-                    android:text="@string/gestures" />
+                    android:text="@string/gestures"  android:tag="settings:gestures" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1360,7 +1522,7 @@
                     android:layout_marginTop="6dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextSmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -1369,13 +1531,13 @@
                         android:layout_weight="1"
                         android:lines="1"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_align_left"
+                        app:drawableStartCompat="@drawable/ic_align_left"
                         android:drawablePadding="12dp"
                         android:text="@string/swipe_left_app"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:swipe_left_app" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/swipeLeftApp"
                         style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
@@ -1399,7 +1561,7 @@
                     android:layout_marginTop="6dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextSmall"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -1408,13 +1570,13 @@
                         android:layout_weight="1"
                         android:lines="1"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_align_right"
+                        app:drawableStartCompat="@drawable/ic_align_right"
                         android:drawablePadding="12dp"
                         android:text="@string/swipe_right_app"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:swipe_right_app" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/swipeRightApp"
                         style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
@@ -1434,7 +1596,7 @@
                     android:orientation="horizontal"
                     android:visibility="gone">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1442,13 +1604,13 @@
                         android:layout_marginEnd="24dp"
                         android:lines="1"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_align_down"
+                        app:drawableStartCompat="@drawable/ic_align_down"
                         android:drawablePadding="12dp"
                         android:text="@string/swipe_down_for"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:swipe_down_for" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/swipeDownAction"
                         style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
@@ -1480,7 +1642,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/notifications"
                             style="@style/TextSmallBold"
                             android:layout_width="wrap_content"
@@ -1488,16 +1650,16 @@
                             android:layout_marginEnd="24dp"
                             android:gravity="center"
                             android:paddingVertical="6dp"
-                            android:text="@string/notifications" />
+                            android:text="@string/notifications"  android:tag="settings:notifications" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/search"
                             style="@style/TextSmallBold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:paddingVertical="6dp"
-                            android:text="@string/search" />
+                            android:text="@string/search"  android:tag="settings:search" />
 
                     </LinearLayout>
 
@@ -1519,17 +1681,17 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         style="@style/TextSmall"
                         android:paddingVertical="8dp"
-                        android:drawableStart="@drawable/ic_shield"
+                        app:drawableStartCompat="@drawable/ic_shield"
                         android:drawablePadding="12dp"
                         android:text="@string/double_tap_to_lock_screen"
                         android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:double_tap_to_lock_screen" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/toggleLock"
@@ -1557,16 +1719,16 @@
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="18dp">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextSectionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="12dp"
-                    android:text="@string/backup_restore" />
+                    android:text="@string/backup_restore"  android:tag="settings:backup_restore" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/backupRestoreSettings"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
@@ -1574,11 +1736,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_sc_upload"
+                    app:drawableStartCompat="@drawable/ic_sc_upload"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:text="@string/backup_restore_title" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:backup_restore_title" />
 
                 <View
                     android:layout_width="match_parent"
@@ -1587,7 +1749,7 @@
                     android:layout_marginVertical="6dp"
                     android:background="@drawable/divider_light" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/resetSettings"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
@@ -1595,11 +1757,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_delete"
+                    app:drawableStartCompat="@drawable/ic_delete"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:text="@string/reset_settings" 
-                    app:drawableTint="?attr/primaryColor" />
+                    app:drawableTint="?attr/primaryColor"  android:tag="settings:reset_settings" />
 
             </LinearLayout>
 
@@ -1655,7 +1817,7 @@
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/website"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
@@ -1665,9 +1827,9 @@
                     android:paddingHorizontal="14dp"
                     android:paddingVertical="8dp"
                     android:text="@string/website"
-                    android:textColor="?attr/primaryColor" />
+                    android:textColor="?attr/primaryColor"  android:tag="settings:website" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/privacy"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
@@ -1677,12 +1839,13 @@
                     android:paddingHorizontal="14dp"
                     android:paddingVertical="8dp"
                     android:text="@string/privacy_policy"
-                    android:textColor="?attr/primaryColor" />
+                    android:textColor="?attr/primaryColor"  android:tag="settings:privacy_policy" />
             </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
+    </LinearLayout>
 
     <!-- Punches a real hole onto the live wallpaper for the opacity preview. -->
     <app.olauncher.ui.WallpaperHoleView
@@ -1714,21 +1877,21 @@
             android:padding="20dp"
             tools:targetApi="p">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/TextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/gestures"
-                android:textColor="?attr/primaryColor" />
+                android:textColor="?attr/primaryColor"  android:tag="settings:gestures" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 style="@style/TextSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:clickable="false"
                 android:text="@string/accessibility_disclosure"
-                android:textColor="?attr/primaryColor" />
+                android:textColor="?attr/primaryColor"  android:tag="settings:accessibility_disclosure" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -1736,7 +1899,7 @@
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/notWorking"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
@@ -1744,30 +1907,30 @@
                     android:paddingVertical="4dp"
                     android:text="@string/not_working"
                     android:visibility="gone"
-                    tools:visibility="visible" />
+                    tools:visibility="visible"  android:tag="settings:not_working" />
 
                 <Space
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/closeAccessibility"
                     style="@style/TextSmallBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:paddingVertical="4dp"
-                    android:text="@string/close" />
+                    android:text="@string/close"  android:tag="settings:close" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/actionAccessibility"
                     style="@style/TextSmallBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:paddingVertical="4dp"
-                    android:text="@string/enable" />
+                    android:text="@string/enable"  android:tag="settings:enable" />
 
             </LinearLayout>
 

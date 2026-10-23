@@ -97,6 +97,14 @@
         <item name="android:hyphenationFrequency">normal</item>
     </style>
 
+    <style name="SettingsShortcut" parent="TextSmall">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
     <style name="TextSmallBold" parent="TextSmall">
         <item name="android:textStyle">bold</item>
     </style>

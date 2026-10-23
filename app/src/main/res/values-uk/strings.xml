@@ -299,4 +299,26 @@
         <string name="settings_use_colorful_icons">Використовувати кольорові значки</string>
     <string name="settings_icons_title">Значки</string>
     <string name="add_to_home_slot">Головний екран (%d)</string>
+    <string name="search_settings">Пошук налаштувань</string>
+    <string name="no_settings_found">Налаштувань не знайдено</string>
+    <string name="background_access">Дозволи й батарея</string>
+    <string name="battery_settings">Зняти обмеження батареї</string>
+    <string name="autostart_settings">Дозволити автозапуск</string>
+    <string name="app_info_settings">Відомості й дозволи застосунку</string>
+    <string name="navigation_settings">Навігація Xiaomi</string>
+    <string name="background_access_message">Спеціальні можливості необов’язкові: для блокування подвійним дотиком і вибраних пауз застосунків. Батарея й автозапуск можуть допомогти при зупинці у фоні, але не гарантують постійної роботи. На Xiaomi за потреби виберіть Без обмежень і дозвольте автозапуск.</string>
+    <string name="navigation_settings_message">Відкриває налаштування навігації Xiaomi. Деякі версії HyperOS дозволяють приховати три кнопки, але не відновлюють системні жести з іншим лаунчером. Спочатку перевірте службу жестів. Після перезапуску вибір може потребувати повторення.</string>
+    <string name="xiaomi_gestures">Жести Xiaomi (експериментальні)</string>
+    <string name="xiaomi_gestures_message">Необов’язкова навігація Xiaomi: від краю — Назад, знизу — Додому, вгору з утриманням — Нещодавні. Жести використовують спільну службу спеціальних можливостей BetterLauncher із блокуванням екрана й обмеженнями застосунків, із зонами дотику та змінами вікон. Невикористані дотики відтворює локально. Дані доступності не зберігає й не передає. Лише з типовим BetterLauncher; пауза при блокуванні. Можливі затримки й конфлікти із застосунками. Залиште три кнопки до перевірки. Увімкніть опцію, потім службу в Android. Вимкнення тут або у спеціальних можливостях. Не системні жести; обмеження батареї можуть зупинити службу.</string>
+    <string name="background_access_short">Спеціальні можливості необов’язкові. При зупинках перевірте батарею й автозапуск. Натисніть для довідки.</string>
+    <string name="accessibility_features">Спецможливості: блокування й ліміти</string>
+    <string name="restricted_settings">Дозволити обмежені налаштування</string>
+    <string name="restricted_settings_message">Android може блокувати спеціальні можливості застосунку з APK. Якщо довіряєте встановленню, відкрийте відомості про застосунок, меню з трьома крапками й дозвольте обмежені налаштування. Підтвердьте на телефоні, потім увімкніть обрану службу. BetterLauncher не може сам надати собі цей системний дозвіл.</string>
+    <string name="battery_setup_confirm">Вибрано Без обмежень (ручне підтвердження)</string>
+    <string name="autostart_setup_confirm">Дозволено автозапуск (ручне підтвердження)</string>
+    <string name="xiaomi_gesture_help">Довідка про жести</string>
+    <string name="setup_complete">Готово</string>
+    <string name="setup_pending">Потрібно зробити</string>
+    <string name="navigation_mode_action">Вибрати кнопки або жести</string>
+    <string name="restore_buttons_before_disable">Перш ніж вимкнути ці жести, поверніть три кнопки. Відкрийте налаштування навігації, виберіть три кнопки й вимкніть цю опцію.</string>
 </resources><!-- Ukrainian -->

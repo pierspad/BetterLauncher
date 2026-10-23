@@ -291,4 +291,26 @@
         <string name="settings_use_colorful_icons">השתמש בסמלים צבעוניים</string>
     <string name="settings_icons_title">סמלים</string>
     <string name="add_to_home_slot">בית (מיקום %d)</string>
+    <string name="search_settings">חיפוש בהגדרות</string>
+    <string name="no_settings_found">לא נמצאו הגדרות</string>
+    <string name="background_access">הרשאות וסוללה</string>
+    <string name="battery_settings">הסרת מגבלות סוללה</string>
+    <string name="autostart_settings">אפשר הפעלה אוטומטית</string>
+    <string name="app_info_settings">פרטי היישום והרשאות</string>
+    <string name="navigation_settings">ניווט Xiaomi</string>
+    <string name="background_access_message">נגישות היא אפשרות לבחירה: לנעילה בהקשה כפולה ולהפסקות היישומים שבחרת. הגדרות סוללה והפעלה אוטומטית עשויות לעזור אם התכונות נעצרות ברקע, אך אינן מבטיחות פעולה רצופה. ב-Xiaomi יש לבחור ללא הגבלות ולאפשר הפעלה אוטומטית לפי הצורך.</string>
+    <string name="navigation_settings_message">פותח את הגדרות הניווט של Xiaomi. גרסאות HyperOS מסוימות מאפשרות להסתיר את שלושת הכפתורים, אך אינן מחזירות מחוות מקוריות עם משגר אחר. יש לבדוק קודם שירות מחוות פעיל. ייתכן שיהיה צורך לחזור על הבחירה לאחר אתחול.</string>
+    <string name="xiaomi_gestures">מחוות Xiaomi (ניסיוני)</string>
+    <string name="xiaomi_gestures_message">ניווט אופציונלי ל-Xiaomi: החלקה מהצד לחזרה, מלמטה לבית, למעלה והחזקה ליישומים אחרונים. המחוות משתמשות באותו שירות נגישות של BetterLauncher כמו נעילת המסך והגבלות היישומים, עם אזורי מגע בקצוות ושינויי חלונות. נגיעות שלא שימשו למחווה משוחזרות מקומית. נתוני נגישות אינם נשמרים או נשלחים. פועל רק כש-BetterLauncher הוא ברירת המחדל ומושהה בנעילה. עלול להאט נגיעות או להתנגש ביישומים. השאירו שלושה כפתורים עד לבדיקת כל המחוות. הפעילו את האפשרות ואז את השירות ב-Android. ניתן לכבות כאן או בנגישות. אינו משחזר מחוות מקוריות; מגבלות סוללה עלולות לעצור אותו.</string>
+    <string name="background_access_short">נגישות היא אפשרות לבחירה. אם התכונות נעצרות, בדקו סוללה והפעלה אוטומטית. הקישו לעזרה.</string>
+    <string name="accessibility_features">נגישות: נעילה ומגבלות יישומים</string>
+    <string name="restricted_settings">אפשר הגדרות מוגבלות</string>
+    <string name="restricted_settings_message">Android עשוי לחסום נגישות ליישום שהותקן מ-APK. אם ההתקנה מהימנה, פתחו את פרטי היישום, תפריט שלוש הנקודות ואפשרו הגדרות מוגבלות. אשרו בטלפון ואז הפעילו את השירות שנבחר. BetterLauncher אינו יכול להעניק לעצמו הרשאת מערכת זו.</string>
+    <string name="battery_setup_confirm">בחרתי ללא הגבלות (אישור ידני)</string>
+    <string name="autostart_setup_confirm">אפשרתי הפעלה אוטומטית (אישור ידני)</string>
+    <string name="xiaomi_gesture_help">עזרה במחוות</string>
+    <string name="setup_complete">הושלם</string>
+    <string name="setup_pending">לביצוע</string>
+    <string name="navigation_mode_action">בחירת כפתורים או מחוות</string>
+    <string name="restore_buttons_before_disable">לפני כיבוי המחוות החזירו ניווט בשלושה כפתורים. פתחו את הגדרות הניווט, בחרו שלושה כפתורים ואז כבו אפשרות זו.</string>
 </resources>

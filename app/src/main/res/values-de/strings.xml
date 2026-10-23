@@ -299,4 +299,26 @@ Zum Entfernen muss er ≤ 2 sein</string>
         <string name="settings_use_colorful_icons">Farbige Symbole verwenden</string>
     <string name="settings_icons_title">Symbole</string>
     <string name="add_to_home_slot">Startseite (Platz %d)</string>
+    <string name="search_settings">Einstellungen suchen</string>
+    <string name="no_settings_found">Keine Einstellungen gefunden</string>
+    <string name="background_access">Berechtigungen und Akku</string>
+    <string name="battery_settings">Akkubeschränkungen entfernen</string>
+    <string name="autostart_settings">Autostart erlauben</string>
+    <string name="app_info_settings">App-Informationen und Berechtigungen</string>
+    <string name="navigation_settings">Xiaomi-Navigation</string>
+    <string name="background_access_message">Bedienungshilfen sind optional: Sie ermöglichen das Sperren per Doppeltippen und gewählte App-Pausen. Akku- und Autostart-Einstellungen können bei Unterbrechungen helfen, garantieren aber keinen dauerhaften Betrieb. Wähle auf Xiaomi bei Bedarf Keine Einschränkungen und erlaube Autostart.</string>
+    <string name="navigation_settings_message">Öffnet die Xiaomi-Navigationseinstellungen. Manche HyperOS-Versionen erlauben das Ausblenden der drei Tasten, stellen aber keine nativen Gesten für andere Launcher bereit. Teste zuerst einen Gestendienst. Nach einem Neustart kann die Auswahl erneut nötig sein.</string>
+    <string name="xiaomi_gestures">Xiaomi-Gesten (experimentell)</string>
+    <string name="xiaomi_gestures_message">Optional nur für Xiaomi: seitlich wischen für Zurück, von unten für Start, nach oben wischen und halten für Übersicht. Die Gesten verwenden denselben BetterLauncher-Bedienungshilfendienst wie Bildschirmsperre und App-Limits, mit Berührungszonen am Rand und Fensterwechseln. Unbenutzte Berührungen werden lokal wiedergegeben. Keine Speicherung oder Übertragung von Zugriffsdaten. Nur mit BetterLauncher als Standard, pausiert bei gesperrtem Bildschirm. Randberührungen können verzögert sein oder Apps stören. Behalte die drei Tasten, bis alle Gesten getestet sind. Aktiviere die Option und den Dienst in Android. Hier oder in den Bedienungshilfen deaktivierbar. Keine nativen Xiaomi-Gesten; Akkubeschränkungen können den Dienst stoppen.</string>
+    <string name="background_access_short">Bedienungshilfen sind optional. Prüfe bei Unterbrechungen Akku und Autostart. Tippe für Hilfe.</string>
+    <string name="accessibility_features">Bedienungshilfen: Sperre und App-Limits</string>
+    <string name="restricted_settings">Eingeschränkte Einstellungen zulassen</string>
+    <string name="restricted_settings_message">Android kann Bedienungshilfen für eine per APK installierte App sperren. Wenn du dieser Installation vertraust, öffne App-Informationen, dann das Dreipunktmenü und Eingeschränkte Einstellungen zulassen. Bestätige am Gerät und aktiviere danach den gewählten Dienst. BetterLauncher kann sich diese Systemberechtigung nicht selbst erteilen.</string>
+    <string name="battery_setup_confirm">Ich habe Uneingeschränkt gewählt (manuell bestätigt)</string>
+    <string name="autostart_setup_confirm">Ich habe Autostart erlaubt (manuell bestätigt)</string>
+    <string name="xiaomi_gesture_help">Gestenhilfe</string>
+    <string name="setup_complete">Erledigt</string>
+    <string name="setup_pending">Offen</string>
+    <string name="navigation_mode_action">Tasten oder Gesten wählen</string>
+    <string name="restore_buttons_before_disable">Stelle vor dem Ausschalten dieser Gesten die Drei-Tasten-Navigation wieder her. Öffne die Navigationseinstellungen, wähle drei Tasten und schalte dann diese Option aus.</string>
 </resources>

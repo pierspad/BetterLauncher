@@ -34,6 +34,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import app.olauncher.helper.DeviceSettings
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -71,6 +73,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
+    private var settingsSearch: SettingsSearch? = null
 
 
 
@@ -148,6 +151,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     override fun onResume() {
         super.onResume()
+        settingsSearch?.filter("")
         val wasScreenTimeOn = binding.screenTimeAlignmentRow.isVisible
         populateScreenTimeOnOff()
         val isScreenTimeOn = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && requireContext().appUsagePermissionGranted()
@@ -159,6 +163,17 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         }
         populateAlignment()
         populateClockCalendarApps()
+        refreshGestureStatus()
+        binding.root.postDelayed({
+            if (_binding != null) {
+                val currentQuery = binding.settingsSearch.text.toString()
+                settingsSearch?.filter("")
+                refreshGestureStatus()
+                if (currentQuery.isNotBlank()) settingsSearch?.filter(currentQuery)
+            }
+        }, 500)
+        val query = binding.settingsSearch.text.toString()
+        if (query.isNotBlank()) binding.settingsNoResults.isVisible = settingsSearch?.filter(query) == 0
         (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = true)
     }
 
@@ -168,6 +183,25 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             pendingWidgetId = it.getInt(KEY_PENDING_WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
         }
         prefs = Prefs(requireContext())
+        binding.settingsClose.setOnClickListener {
+            val keyboard = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+            keyboard.hideSoftInputFromWindow(binding.settingsSearch.windowToken, 0)
+            findNavController().popBackStack(R.id.mainFragment, false)
+        }
+        fun applySafeTopInsets(insets: WindowInsetsCompat) {
+            val rootInsets = androidx.core.view.ViewCompat.getRootWindowInsets(binding.root) ?: insets
+            val safe = rootInsets.getInsetsIgnoringVisibility(
+                WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.displayCutout())
+            binding.settingsTopBar.setPadding(safe.left, maxOf(safe.top, 24.dpToPx()) + 16.dpToPx(), safe.right, 0)
+        }
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(binding.settingsTopBar) { _, insets ->
+            applySafeTopInsets(insets)
+            insets
+        }
+        binding.settingsTopBar.post {
+            if (_binding != null) androidx.core.view.ViewCompat.getRootWindowInsets(binding.root)?.let(::applySafeTopInsets)
+        }
+        androidx.core.view.ViewCompat.requestApplyInsets(binding.settingsTopBar)
         viewModel.isOlauncherDefault()
 
         deviceManager = requireContext().getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
@@ -196,6 +230,70 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateClockCalendarApps()
         initClickListeners()
         initObservers()
+        binding.reliabilitySummary.setOnClickListener {
+            showMessageDialog(R.string.background_access, R.string.background_access_message, R.string.close)
+        }
+        binding.accessibilityShortcut.setOnClickListener { app.olauncher.helper.AccessibilityConsent.openSettings(requireContext()) }
+        binding.restrictedSettingsShortcut.setOnClickListener {
+            showMessageDialog(R.string.restricted_settings, R.string.restricted_settings_message,
+                R.string.app_info_settings, R.string.close) { DeviceSettings.appInfo(requireContext()) }
+        }
+        binding.batteryShortcut.setOnClickListener {
+            prefs.batterySetupOpened = true
+            DeviceSettings.battery(requireContext())
+        }
+        binding.batterySetupConfirmed.setOnClickListener {
+            prefs.batterySetupConfirmed = binding.batterySetupConfirmed.isChecked
+            refreshGestureStatus()
+        }
+        binding.autostartSetupConfirmed.setOnClickListener {
+            prefs.autostartSetupConfirmed = binding.autostartSetupConfirmed.isChecked
+            refreshGestureStatus()
+        }
+        binding.autostartShortcut.isVisible = DeviceSettings.isXiaomi()
+        binding.autostartShortcut.setOnClickListener {
+            prefs.autostartSetupOpened = true
+            DeviceSettings.autostart(requireContext())
+        }
+        binding.appInfoShortcut.setOnClickListener { DeviceSettings.appInfo(requireContext()) }
+        binding.xiaomiNavigationCard.isVisible = DeviceSettings.isXiaomi() && Build.VERSION.SDK_INT >= 29
+        binding.navigationShortcut.isVisible = binding.xiaomiNavigationCard.isVisible
+        binding.xiaomiGestures.isVisible = DeviceSettings.isXiaomi() && Build.VERSION.SDK_INT >= 29
+        binding.gestureStatus.isVisible = binding.xiaomiGestures.isVisible
+        binding.xiaomiGestures.isChecked = prefs.xiaomiGestures
+        binding.gestureStatus.setOnClickListener {
+            showMessageDialog(R.string.xiaomi_gestures, R.string.xiaomi_gestures_message, R.string.close)
+        }
+        binding.xiaomiGestures.setOnClickListener {
+            if (binding.xiaomiGestures.isChecked) {
+                binding.xiaomiGestures.isChecked = false
+                showMessageDialog(R.string.xiaomi_gestures, R.string.xiaomi_gestures_message,
+                    R.string.accessibility_disclosure_accept, R.string.accessibility_disclosure_decline) {
+                    prefs.xiaomiGestures = true
+                    binding.xiaomiGestures.isChecked = true
+                    openGestureService()
+                }
+            } else {
+                if (gestureNavigationSelected()) {
+                    binding.xiaomiGestures.isChecked = true
+                    showMessageDialog(R.string.xiaomi_gestures, R.string.restore_buttons_before_disable,
+                        R.string.navigation_settings, R.string.close) { DeviceSettings.navigation(requireContext()) }
+                    return@setOnClickListener
+                }
+                prefs.xiaomiGestures = false
+                refreshGestureStatus()
+            }
+        }
+        binding.navigationShortcut.setOnClickListener {
+            showMessageDialog(R.string.navigation_settings, R.string.navigation_settings_message,
+                R.string.open, R.string.close) { DeviceSettings.navigation(requireContext()) }
+        }
+        settingsSearch = SettingsSearch(requireContext(), binding.scrollLayout)
+        binding.settingsSearch.doAfterTextChanged { query ->
+            val count = settingsSearch?.filter(query.toString()) ?: 0
+            binding.settingsNoResults.isVisible = query?.isNotBlank() == true && count == 0
+            binding.scrollView.scrollTo(0, 0)
+        }
 
         val savedScrollY = prefs.settingsScrollY
         if (savedScrollY > 0) {
@@ -206,7 +304,45 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         }
     }
 
+    private fun gestureNavigationSelected(): Boolean {
+        val mode = Settings.Secure.getInt(requireContext().contentResolver, "navigation_mode", 0)
+        val vendor = Settings.Global.getInt(requireContext().contentResolver, "force_fsg_nav_bar", 0)
+        val insets = androidx.core.view.ViewCompat.getRootWindowInsets(binding.root)
+        val bottom = insets?.getInsetsIgnoringVisibility(WindowInsetsCompat.Type.navigationBars())?.bottom
+        return vendor == 1 || (mode == 2 && bottom != null && bottom < 32.dpToPx())
+    }
+
+    private fun refreshGestureStatus() {
+        if (_binding == null) return
+        binding.xiaomiGestures.isChecked = prefs.xiaomiGestures
+        binding.gestureStatus.setText(R.string.xiaomi_gesture_help)
+        binding.batterySetupConfirmed.isVisible = prefs.batterySetupOpened
+        binding.batterySetupConfirmed.isChecked = prefs.batterySetupConfirmed
+        binding.autostartSetupConfirmed.isVisible = DeviceSettings.isXiaomi() && prefs.autostartSetupOpened
+        binding.autostartSetupConfirmed.isChecked = prefs.autostartSetupConfirmed
+        fun step(view: TextView, number: Int, title: Int, completed: Boolean) {
+            val label = getString(R.string.setup_step_label, number, getString(title))
+            view.text = label
+            view.contentDescription = getString(R.string.setting_state, label,
+                getString(if (completed) R.string.setup_complete else R.string.setup_pending))
+            val dot = androidx.core.content.ContextCompat.getDrawable(requireContext(),
+                if (completed) R.drawable.ic_step_done else R.drawable.ic_step_pending)
+            view.setCompoundDrawablesRelativeWithIntrinsicBounds(view.compoundDrawablesRelative[0], null, dot, null)
+            view.compoundDrawablePadding = 12.dpToPx()
+        }
+        step(binding.accessibilityShortcut, 1, R.string.accessibility_features, isAccessServiceEnabled(requireContext()))
+        step(binding.batteryShortcut, 2, R.string.battery_settings, prefs.batterySetupConfirmed)
+        step(binding.autostartShortcut, 3, R.string.autostart_settings, prefs.autostartSetupConfirmed)
+        step(binding.navigationShortcut, 4, R.string.navigation_mode_action, gestureNavigationSelected())
+    }
+
+    private fun openGestureService() {
+        app.olauncher.helper.AccessibilityConsent.openSettings(requireContext())
+    }
+
     override fun onClick(view: View) {
+        val searchQuery = binding.settingsSearch.text.toString()
+        if (searchQuery.isNotBlank()) settingsSearch?.filter("")
         binding.swipeDownSelectLayout.visibility = View.GONE
 
         when (view.id) {
@@ -286,6 +422,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.github -> requireContext().openUrl(Constants.URL_OLAUNCHER_GITHUB)
             R.id.privacy -> requireContext().openUrl(Constants.URL_OLAUNCHER_PRIVACY)
         }
+        if (_binding != null && searchQuery.isNotBlank()) settingsSearch?.filter(searchQuery)
     }
 
     override fun onLongClick(view: View): Boolean {
@@ -527,6 +664,10 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     ) {
         val dialogBinding = app.olauncher.databinding.DialogMessageBinding.inflate(layoutInflater)
         dialogBinding.dialogTitle.setText(titleRes)
+        if (titleRes in setOf(R.string.background_access, R.string.xiaomi_gestures, R.string.restricted_settings)) {
+            dialogBinding.dialogTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_shield, 0, 0, 0)
+            dialogBinding.dialogTitle.compoundDrawablePadding = 12.dpToPx()
+        }
         dialogBinding.dialogMessage.setText(messageRes)
         dialogBinding.dialogPositiveButton.setText(positiveBtnRes)
 
@@ -772,7 +913,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     // tick is 5% (progress*5 = percentage, progress/steps = 0f..1f scrim alpha).
     private fun setupOpacitySliders() {
         // The preview is a real hole onto the live wallpaper, tracking the placeholder box.
-        binding.wallpaperHole.attachTo(binding.opacityPreview, 16.dpToPx().toFloat())
+        binding.wallpaperHole.attachTo(binding.opacityPreview, 16.dpToPx().toFloat(), binding.scrollView)
 
         binding.homeOpacitySeekBar.max = OPACITY_STEPS
         binding.homeOpacitySeekBar.progress = opacityToProgress(prefs.opacityHome)
@@ -780,7 +921,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.homeOpacitySeekBar.onChange(
             onStart = { progress -> updateOpacityPreview(progress, getString(R.string.opacity_home)) },
             onProgress = { progress, fromUser ->
-                binding.homeOpacityValue.text = "${progress * OPACITY_STEP_PERCENT}%"
+                binding.homeOpacityValue.text = java.text.NumberFormat.getPercentInstance().format(progress.toDouble() / OPACITY_STEPS)
                 updateOpacityPreview(progress, getString(R.string.opacity_home))
                 if (fromUser) applyHomeOpacity(progress)
             },
@@ -789,11 +930,11 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
         binding.drawerOpacitySeekBar.max = OPACITY_STEPS
         binding.drawerOpacitySeekBar.progress = opacityToProgress(prefs.opacityDrawer)
-        binding.drawerOpacityValue.text = "${binding.drawerOpacitySeekBar.progress * OPACITY_STEP_PERCENT}%"
+        binding.drawerOpacityValue.text = java.text.NumberFormat.getPercentInstance().format(binding.drawerOpacitySeekBar.progress.toDouble() / OPACITY_STEPS)
         binding.drawerOpacitySeekBar.onChange(
             onStart = { progress -> updateOpacityPreview(progress, getString(R.string.opacity_drawer)) },
             onProgress = { progress, _ ->
-                binding.drawerOpacityValue.text = "${progress * OPACITY_STEP_PERCENT}%"
+                binding.drawerOpacityValue.text = java.text.NumberFormat.getPercentInstance().format(progress.toDouble() / OPACITY_STEPS)
                 updateOpacityPreview(progress, getString(R.string.opacity_drawer))
             },
             onStop = { progress -> prefs.opacityDrawer = progress.toFloat() / OPACITY_STEPS },
@@ -1319,6 +1460,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     override fun onDestroyView() {
         super.onDestroyView()
+        settingsSearch = null
         _binding = null
     }
 

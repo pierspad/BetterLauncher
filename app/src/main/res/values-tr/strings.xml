@@ -299,4 +299,26 @@ Kaldırmak için ≤ 2 olmalıdır</string>
         <string name="settings_use_colorful_icons">Renkli simgeleri kullan</string>
     <string name="settings_icons_title">Simgeler</string>
     <string name="add_to_home_slot">Ana ekran (yer %d)</string>
+    <string name="search_settings">Ayarlarda ara</string>
+    <string name="no_settings_found">Ayar bulunamadı</string>
+    <string name="background_access">İzinler ve pil</string>
+    <string name="battery_settings">Pil kısıtlamalarını kaldır</string>
+    <string name="autostart_settings">Otomatik başlatmaya izin ver</string>
+    <string name="app_info_settings">Uygulama bilgileri ve izinleri</string>
+    <string name="navigation_settings">Xiaomi gezinme</string>
+    <string name="background_access_message">Erişilebilirlik isteğe bağlıdır: çift dokunarak kilitleme ve seçilen uygulama molaları içindir. Pil ve otomatik başlatma ayarları arka planda durmayı azaltabilir ancak sürekli çalışmayı garanti etmez. Xiaomi cihazlarda gerekirse Kısıtlama yok seçin ve otomatik başlatmaya izin verin.</string>
+    <string name="navigation_settings_message">Xiaomi gezinme ayarlarını açar. Bazı HyperOS sürümleri üç düğmeyi gizleyebilir ancak başka başlatıcılarla yerel hareketleri geri getirmez. Önce bir hareket hizmetini test edin. Yeniden başlatmadan sonra seçim tekrarlanabilir.</string>
+    <string name="xiaomi_gestures">Xiaomi hareketleri (deneysel)</string>
+    <string name="xiaomi_gestures_message">İsteğe bağlı Xiaomi gezinmesi: yandan Geri, alttan Ana ekran, yukarı kaydırıp tutarak Son uygulamalar. Hareketler, ekran kilidi ve uygulama sınırlarıyla aynı BetterLauncher erişilebilirlik hizmetini, kenar dokunuşları ve pencere değişimleriyle kullanır. Kullanılmayan dokunuşları yerel olarak yeniden oynatır. Erişilebilirlik verileri kaydedilmez veya iletilmez. Yalnızca BetterLauncher varsayılan olduğunda; kilitte duraklar. Dokunuşları geciktirebilir veya uygulamalarla çakışabilir. Test bitene kadar üç düğmeyi tutun. Seçeneği, sonra Android hizmetini açın. Buradan veya Erişilebilirlikten kapatın. Yerel hareketleri geri getirmez; pil kısıtlamaları durdurabilir.</string>
+    <string name="background_access_short">Erişilebilirlik isteğe bağlıdır. Özellikler durursa pil ve otomatik başlatmayı kontrol edin. Yardım için dokunun.</string>
+    <string name="accessibility_features">Erişilebilirlik: kilit ve uygulama sınırları</string>
+    <string name="restricted_settings">Kısıtlanmış ayarlara izin ver</string>
+    <string name="restricted_settings_message">Android, APK ile yüklenen uygulamaların erişilebilirliğini engelleyebilir. Bu kuruluma güveniyorsanız Uygulama bilgileri, üç noktalı menü ve Kısıtlanmış ayarlara izin ver yolunu açın. Telefonda onaylayıp seçilen hizmeti etkinleştirin. BetterLauncher bu sistem iznini kendisine veremez.</string>
+    <string name="battery_setup_confirm">Kısıtlama yok seçtim (manuel onay)</string>
+    <string name="autostart_setup_confirm">Otomatik başlatmaya izin verdim (manuel onay)</string>
+    <string name="xiaomi_gesture_help">Hareket yardımı</string>
+    <string name="setup_complete">Tamamlandı</string>
+    <string name="setup_pending">Yapılacak</string>
+    <string name="navigation_mode_action">Düğme veya hareket seç</string>
+    <string name="restore_buttons_before_disable">Bu hareketleri kapatmadan önce üç düğmeli gezinmeyi geri yükleyin. Gezinme ayarlarını açın, üç düğmeyi seçin, ardından bu seçeneği kapatın.</string>
 </resources><!-- Turkish -->

@@ -297,4 +297,26 @@
         <string name="settings_use_colorful_icons">استخدام الأيقونات الملونة</string>
     <string name="settings_icons_title">الأيقونات</string>
     <string name="add_to_home_slot">الرئيسية (%d)</string>
+    <string name="search_settings">البحث في الإعدادات</string>
+    <string name="no_settings_found">لم يتم العثور على إعدادات</string>
+    <string name="background_access">الأذونات والبطارية</string>
+    <string name="battery_settings">إزالة قيود البطارية</string>
+    <string name="autostart_settings">السماح بالتشغيل التلقائي</string>
+    <string name="app_info_settings">معلومات التطبيق وأذوناته</string>
+    <string name="navigation_settings">التنقل في شاومي</string>
+    <string name="background_access_message">إمكانية الوصول اختيارية للقفل بنقرتين وفترات التوقف التي تختارها للتطبيقات. قد تساعد إعدادات البطارية والتشغيل التلقائي إذا توقفت الميزات في الخلفية، لكنها لا تضمن التشغيل المستمر. على شاومي اختر بلا قيود واسمح بالتشغيل التلقائي عند الحاجة.</string>
+    <string name="navigation_settings_message">يفتح إعدادات التنقل في شاومي. تتيح بعض إصدارات HyperOS إخفاء الأزرار الثلاثة دون استعادة الإيماءات الأصلية مع مشغل آخر. اختبر خدمة إيماءات أولاً. قد يلزم تكرار الاختيار بعد إعادة التشغيل.</string>
+    <string name="xiaomi_gestures">إيماءات شاومي (تجريبية)</string>
+    <string name="xiaomi_gestures_message">تنقل اختياري لشاومي: اسحب من الجانب للرجوع ومن الأسفل للرئيسية أو للأعلى مع التوقف للتطبيقات الأخيرة. تستخدم الإيماءات خدمة وصول BetterLauncher نفسها لقفل الشاشة وحدود التطبيقات، مع مناطق لمس الحواف وتغيّر النوافذ. تعيد اللمسات غير المستخدمة محلياً دون حفظ بيانات الوصول أو إرسالها. تعمل فقط مع BetterLauncher كمشغل افتراضي وتتوقف عند القفل. قد تتأخر اللمسات أو تتعارض مع تطبيقات. احتفظ بالأزرار الثلاثة حتى تختبر الإيماءات. فعّل الخيار ثم الخدمة في إعدادات Android. عطّلها هنا أو في إمكانية الوصول. لا تعيد إيماءات شاومي الأصلية وقد توقفها قيود البطارية.</string>
+    <string name="background_access_short">إمكانية الوصول اختيارية. إذا توقفت الميزات فتحقق من البطارية والتشغيل التلقائي. انقر للمساعدة.</string>
+    <string name="accessibility_features">إمكانية الوصول: القفل وحدود التطبيقات</string>
+    <string name="restricted_settings">السماح بالإعدادات المقيّدة</string>
+    <string name="restricted_settings_message">قد يمنع Android إمكانية الوصول لتطبيق مثبت من APK. إذا كنت تثق بهذا التثبيت، افتح معلومات التطبيق ثم قائمة النقاط الثلاث واسمح بالإعدادات المقيّدة. أكّد على الهاتف ثم فعّل الخدمة المختارة. لا يستطيع BetterLauncher منح نفسه إذن النظام هذا.</string>
+    <string name="battery_setup_confirm">اخترت بلا قيود (تأكيد يدوي)</string>
+    <string name="autostart_setup_confirm">سمحت بالتشغيل التلقائي (تأكيد يدوي)</string>
+    <string name="xiaomi_gesture_help">مساعدة الإيماءات</string>
+    <string name="setup_complete">مكتمل</string>
+    <string name="setup_pending">مطلوب</string>
+    <string name="navigation_mode_action">اختيار الأزرار أو الإيماءات</string>
+    <string name="restore_buttons_before_disable">قبل إيقاف هذه الإيماءات أعد التنقل بالأزرار الثلاثة. افتح إعدادات التنقل واختر الأزرار الثلاثة ثم أوقف هذا الخيار.</string>
 </resources>

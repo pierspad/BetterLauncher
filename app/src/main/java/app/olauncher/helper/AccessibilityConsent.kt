@@ -12,23 +12,34 @@ import app.olauncher.R
 
 /** Separate, versioned disclosure: existing users must also consent to app limits. */
 object AccessibilityConsent {
-    private const val VERSION = 1
+    private const val VERSION = 2
     private fun preferences(context: Context) =
         context.getSharedPreferences("accessibility_consent", Context.MODE_PRIVATE)
 
     fun hasConsent(context: Context) = preferences(context).getInt("accepted_version", 0) == VERSION
 
     fun showOnLaunch(context: Context) {
-        if (!hasConsent(context) && preferences(context).getInt("shown_version", 0) != VERSION) {
+        val prefs = app.olauncher.data.Prefs(context)
+        if ((prefs.lockModeOn || prefs.appLimitEnabled || prefs.xiaomiGestures) &&
+            !hasConsent(context) && preferences(context).getInt("shown_version", 0) != VERSION) {
             show(context)
         }
     }
 
     fun openSettings(context: Context) {
         if (hasConsent(context)) {
-            context.startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+            openSystemSettings(context)
         } else {
             show(context)
+        }
+    }
+
+    private fun openSystemSettings(context: Context) {
+        val component = android.content.ComponentName(context, MyAccessibilityService::class.java)
+        val details = Intent("android.settings.ACCESSIBILITY_DETAILS_SETTINGS")
+            .putExtra("android.intent.extra.COMPONENT_NAME", component.flattenToString())
+        runCatching { context.startActivity(details) }.onFailure {
+            context.startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
         }
     }
 
@@ -43,7 +54,7 @@ object AccessibilityConsent {
             preferences(context).edit().putInt("accepted_version", VERSION)
                 .putInt("shown_version", VERSION).commit()
             dialog.dismiss()
-            context.startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+            openSystemSettings(context)
         }
         view.findViewById<TextView>(R.id.consentDecline).setOnClickListener {
             preferences(context).edit().putInt("shown_version", VERSION).apply()

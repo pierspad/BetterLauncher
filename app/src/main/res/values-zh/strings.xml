@@ -300,4 +300,26 @@
         <string name="settings_use_colorful_icons">使用彩色图标</string>
     <string name="settings_icons_title">图标</string>
     <string name="add_to_home_slot">主屏幕（%d）</string>
+    <string name="search_settings">搜索设置</string>
+    <string name="no_settings_found">未找到设置</string>
+    <string name="background_access">权限和电池</string>
+    <string name="battery_settings">移除电池限制</string>
+    <string name="autostart_settings">允许自启动</string>
+    <string name="app_info_settings">应用信息和权限</string>
+    <string name="navigation_settings">小米导航</string>
+    <string name="background_access_message">无障碍功能为可选项，用于双击锁屏和所选应用的冷却时间。电池和自启动设置可能有助于减少后台停止，但不能保证持续运行。在小米设备上，请按需选择无限制并允许自启动。</string>
+    <string name="navigation_settings_message">打开小米导航设置。部分HyperOS版本允许隐藏三个按钮，但不会恢复第三方启动器的原生手势。隐藏前请先测试可用的手势服务。重启后可能需要重新选择。</string>
+    <string name="xiaomi_gestures">小米手势（实验性）</string>
+    <string name="xiaomi_gestures_message">小米专用的可选导航：从侧边滑动返回，从底部滑动回到主屏幕，向上滑动并停留打开最近任务。手势与锁屏和应用限制共用BetterLauncher无障碍服务，使用边缘触摸区域和窗口变化信号。未使用的触摸会在本机重放，不保存或传输无障碍数据。仅在BetterLauncher为默认启动器时运行，锁屏时暂停。边缘触摸可能变慢或与应用冲突。测试所有手势前请保留三个按钮。先启用此选项，再在Android设置中启用服务。可在此处或无障碍设置中关闭。不会恢复小米原生手势，电池限制可能使其停止。</string>
+    <string name="background_access_short">无障碍为可选功能。如功能停止，请检查电池和自启动设置。点按查看帮助。</string>
+    <string name="accessibility_features">无障碍：锁屏和应用限制</string>
+    <string name="restricted_settings">允许受限设置</string>
+    <string name="restricted_settings_message">Android可能会阻止从APK安装的应用使用无障碍。如果你信任此安装，请打开应用信息，点击三点菜单并允许受限设置。在手机上确认后，再启用所选服务。BetterLauncher无法自行授予此系统权限。</string>
+    <string name="battery_setup_confirm">我已选择无限制（手动确认）</string>
+    <string name="autostart_setup_confirm">我已允许自启动（手动确认）</string>
+    <string name="xiaomi_gesture_help">手势帮助</string>
+    <string name="setup_complete">已完成</string>
+    <string name="setup_pending">待完成</string>
+    <string name="navigation_mode_action">选择按钮或手势</string>
+    <string name="restore_buttons_before_disable">关闭此手势前，请恢复三按钮导航。打开导航设置，选择三个按钮，然后关闭此选项。</string>
 </resources><!-- Chinese -->

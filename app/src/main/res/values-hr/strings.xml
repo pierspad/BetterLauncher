@@ -298,4 +298,26 @@ Za uklanjanje mora biti ≤ 2</string>
         <string name="settings_use_colorful_icons">Koristi šarene ikone</string>
     <string name="settings_icons_title">Ikone</string>
     <string name="add_to_home_slot">Početni zaslon (%d)</string>
+    <string name="search_settings">Pretraži postavke</string>
+    <string name="no_settings_found">Nema pronađenih postavki</string>
+    <string name="background_access">Dozvole i baterija</string>
+    <string name="battery_settings">Ukloni ograničenja baterije</string>
+    <string name="autostart_settings">Dopusti automatsko pokretanje</string>
+    <string name="app_info_settings">Informacije i dozvole aplikacije</string>
+    <string name="navigation_settings">Xiaomi navigacija</string>
+    <string name="background_access_message">Pristupačnost je neobavezna: za zaključavanje dvostrukim dodirom i odabrane stanke aplikacija. Baterija i automatsko pokretanje mogu pomoći pri zaustavljanju u pozadini, ali ne jamče stalan rad. Na Xiaomiju po potrebi odaberite Bez ograničenja i dopustite automatsko pokretanje.</string>
+    <string name="navigation_settings_message">Otvara postavke Xiaomi navigacije. Neke verzije HyperOS-a mogu sakriti tri tipke, ali ne vraćaju izvorne geste s drugim pokretačem. Najprije testirajte uslugu gesti. Nakon ponovnog pokretanja možda treba ponoviti odabir.</string>
+    <string name="xiaomi_gestures">Xiaomi geste (eksperimentalno)</string>
+    <string name="xiaomi_gestures_message">Neobavezna Xiaomi navigacija: povucite sa strane za Natrag, odozdo za Početni zaslon, prema gore uz zadržavanje za Nedavne. Geste koriste istu uslugu pristupačnosti BetterLaunchera kao zaključavanje i ograničenja aplikacija, uz rubne dodire i promjene prozora. Neiskorištene dodire ponavlja lokalno. Ne sprema ni šalje podatke pristupačnosti. Samo uz zadani BetterLauncher; pauzira kad je zaslon zaključan. Može usporiti dodire ili ometati aplikacije. Zadržite tri tipke do testiranja. Uključite opciju pa uslugu u Androidu. Isključite ovdje ili u Pristupačnosti. Ne vraća izvorne geste; baterija može zaustaviti uslugu.</string>
+    <string name="background_access_short">Pristupačnost je neobavezna. Ako funkcije stanu, provjerite bateriju i automatsko pokretanje. Dodirnite za pomoć.</string>
+    <string name="accessibility_features">Pristupačnost: zaključavanje i ograničenja</string>
+    <string name="restricted_settings">Dopusti ograničene postavke</string>
+    <string name="restricted_settings_message">Android može blokirati pristupačnost aplikacije instalirane iz APK-a. Ako vjerujete instalaciji, otvorite Informacije o aplikaciji, izbornik s tri točke i Dopusti ograničene postavke. Potvrdite na telefonu pa uključite odabranu uslugu. BetterLauncher ne može sam sebi dodijeliti ovu dozvolu sustava.</string>
+    <string name="battery_setup_confirm">Odabrano Bez ograničenja (ručna potvrda)</string>
+    <string name="autostart_setup_confirm">Dopušteno automatsko pokretanje (ručna potvrda)</string>
+    <string name="xiaomi_gesture_help">Pomoć za geste</string>
+    <string name="setup_complete">Dovršeno</string>
+    <string name="setup_pending">Za napraviti</string>
+    <string name="navigation_mode_action">Odaberi tipke ili geste</string>
+    <string name="restore_buttons_before_disable">Prije isključivanja gesti vratite navigaciju s tri tipke. Otvorite postavke navigacije, odaberite tri tipke pa isključite ovu opciju.</string>
 </resources><!-- Croatian -->
