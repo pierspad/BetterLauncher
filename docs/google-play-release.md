@@ -121,6 +121,28 @@ Per aggiungere una lingua a Play, prepara tutti e tre i file e aggiungila a
 modifiche alla scheda sono comuni ai canali dell’app e restano soggette alla
 revisione Google, anche quando il bundle viene inviato al canale beta.
 
+## Screenshot e immagini dello store
+
+Le immagini si aggiornano da Play Console, selezionando BetterLauncher e poi
+**Aumenta gli utenti → Presenza nello store → Scheda dello store principale →
+Elementi grafici** (le etichette possono variare con la lingua della console).
+Nella sezione screenshot del telefono aggiungi le nuove immagini, rimuovi quelle
+superate e riordinale. Seleziona le altre lingue per eventuali immagini
+localizzate. Salva e invia le modifiche a revisione dalla Panoramica pubblicazione;
+con pubblicazione gestita occorre anche pubblicare dopo l'approvazione.
+Non serve creare una nuova versione APK/AAB per cambiare gli screenshot.
+
+Google richiede JPEG o PNG a 24 bit senza trasparenza, dimensioni tra 320 e
+3840 pixel e lato maggiore non oltre il doppio del minore. Per una serie
+verticale uniforme è pratico usare 1080×1920. La grafica in primo piano usa
+1024×500. Mostra l'esperienza reale della versione disponibile e aggiungi un
+breve testo alternativo. Le immagini della scheda sono condivise tra i canali:
+non presentare una funzione disponibile solo in beta come già stabile.
+
+L'automazione attuale sincronizza titolo e descrizioni, **non carica immagini**:
+un push non sostituisce gli screenshot caricati dalla console.
+Riferimento: [gestione delle risorse di anteprima](https://support.google.com/googleplay/android-developer/answer/9866151).
+
 ## Versioni e riproducibilità
 
 Google Play usa una sola sequenza di versionCode per tutti i canali. Prima di
