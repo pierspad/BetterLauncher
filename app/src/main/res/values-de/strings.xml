@@ -320,4 +320,6 @@ Zum Entfernen muss er ≤ 2 sein</string>
     <string name="navigation_mode_action">Tasten oder Gesten wählen</string>
     <string name="restore_buttons_before_disable">Stelle vor dem Ausschalten dieser Gesten die Drei-Tasten-Navigation wieder her. Öffne die Navigationseinstellungen, wähle drei Tasten und schalte dann diese Option aus.</string>
     <string name="setup_unverified">Zu überprüfen</string>
+    <string name="game_gesture_repeat">Wiederhole die Geste innerhalb von 3 Sekunden zur Bestätigung.</string>
+    <string name="xiaomi_game_gesture_help">Bei von Android erkannten Spielen bestätigst du Start, Zurück oder Übersicht durch dieselbe Geste innerhalb von 3 Sekunden. Wische für Übersicht nach oben und halte den Finger kurz auf dem Bildschirm.</string>
 </resources>

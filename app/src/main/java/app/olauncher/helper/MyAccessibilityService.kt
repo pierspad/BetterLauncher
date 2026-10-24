@@ -52,7 +52,7 @@ class MyAccessibilityService : AccessibilityService() {
             disableSelf()
             return
         }
-        gestureController?.onWindowChanged()
+        gestureController?.onWindowChanged(event)
         try {
             val eventType = event.eventType
             if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {

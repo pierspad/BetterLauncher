@@ -318,4 +318,6 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="navigation_mode_action">Välj knappar eller gester</string>
     <string name="restore_buttons_before_disable">Återställ treknappsnavigering innan du stänger av dessa gester. Öppna navigeringsinställningar, välj tre knappar och stäng sedan av alternativet.</string>
     <string name="setup_unverified">Behöver kontrolleras</string>
+    <string name="game_gesture_repeat">Upprepa gesten inom 3 sekunder för att bekräfta.</string>
+    <string name="xiaomi_game_gesture_help">I spel som Android identifierar upprepar du samma gest inom 3 sekunder för att bekräfta Hem, Tillbaka eller Senaste. Svep uppåt och pausa kort utan att lyfta fingret för Senaste.</string>
 </resources><!-- Swedish -->

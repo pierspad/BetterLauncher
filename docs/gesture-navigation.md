@@ -18,7 +18,7 @@ HyperOS can report an old 130px three-button inset after `navigation_mode`
 changes to gestures. The old zone therefore ended above the physical bottom.
 `GestureNavigationMode` now resolves the selected mode independently of those
 insets. Gesture mode ignores stale navigation insets entirely, while three-button
-mode keeps touch zones clear of the bar. A content observer handles mode changes
+mode removes all BetterLauncher gesture windows. A content observer handles mode changes
 and the geometry cache includes that mode. Back swipes show a separate,
 non-touchable blue circle/arrow window that is removed on release or cancellation.
 
@@ -27,6 +27,33 @@ Recents, side Back with visual feedback, and live transitions between system
 buttons and gestures. These checks do not establish compatibility with every app
 or long-term process survival. See the [work status](settings-and-navigation-status.md)
 for the exact cases and remaining checks.
+
+## Gesture recognition and game safety
+
+Bottom swipes arm after 32dp of upward travel. Recents fires after a 300ms
+pause with the finger still down, allowing 24dp of natural drift. Continuous
+travel, reversed gestures and additional pointers do not count as a hold.
+The bottom edge shows a rising blue circle with an upward arrow; side edges
+retain their Back arrow. Feedback windows never intercept input.
+
+Apps identified by Android's CATEGORY_GAME or legacy FLAG_IS_GAME require the
+same navigation gesture twice within three seconds. The first attempt displays
+a non-interactive, localized bottom message for that interval. The second
+executes Home, Back or Recents. Ordinary apps still need one gesture. This
+avoids leaving users without navigation when system buttons are hidden. Games
+without Android game metadata cannot be identified by this check.
+
+Short unused edge taps replay for 60ms; longer touches preserve their duration.
+Replay callbacks carry a generation token so an old watchdog cannot re-enable
+interception during a newer touch. This improves responsiveness but does not
+remove the inherent limitations of accessibility touch replay.
+
+Build and lint passed, as did all 14 instrumentation regression groups, including
+short/diagonal swipes, drift, continuous motion, cancellation and confirmation
+expiry. Physical Xiaomi checks passed immediate ordinary Home, held Recents
+with 16dp finger jitter, removal of overlays in three-button mode, and first
+blocked/second accepted Home in an installed Android-classified game. The game
+confirmation window was verified present on the first attempt.
 
 ## Sources inspected
 
@@ -88,7 +115,7 @@ HOME role holder does not grant system launcher animation/overview privileges.
 
 `XiaomiGestureController` owns the overlay lifecycle within
 `MyAccessibilityService`. It checks the device family, explicit preference,
-default launcher, interactive state and keyguard before attaching windows.
+default launcher, system gesture mode, interactive state and keyguard before attaching windows.
 Switching launchers, locking the screen or disabling the option removes them.
 The service checks consent before connecting. Backup import always disables the
 experiment so restoring data cannot silently enable global touch interception.

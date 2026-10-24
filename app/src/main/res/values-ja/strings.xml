@@ -319,4 +319,6 @@
     <string name="navigation_mode_action">ボタンかジェスチャーを選択</string>
     <string name="restore_buttons_before_disable">このジェスチャーを無効にする前に3ボタンナビゲーションに戻してください。ナビゲーション設定で3ボタンを選んでから、このオプションを無効にします。</string>
     <string name="setup_unverified">要確認</string>
+    <string name="game_gesture_repeat">3秒以内に同じジェスチャーを繰り返して確定してください。</string>
+    <string name="xiaomi_game_gesture_help">Androidが認識するゲームでは、3秒以内に同じジェスチャーを繰り返すとホーム、戻る、履歴を実行します。履歴を開くには上へスワイプし、指を離さずに少し止めてください。</string>
 </resources> <!-- Japanese -->

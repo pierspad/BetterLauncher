@@ -320,4 +320,6 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="navigation_mode_action">Düğme veya hareket seç</string>
     <string name="restore_buttons_before_disable">Bu hareketleri kapatmadan önce üç düğmeli gezinmeyi geri yükleyin. Gezinme ayarlarını açın, üç düğmeyi seçin, ardından bu seçeneği kapatın.</string>
     <string name="setup_unverified">Doğrulanmadı</string>
+    <string name="game_gesture_repeat">Onaylamak için hareketi 3 saniye içinde tekrarlayın.</string>
+    <string name="xiaomi_game_gesture_help">Android tarafından tanınan oyunlarda Ana ekran, Geri veya Son uygulamalar için aynı hareketi 3 saniye içinde tekrarlayın. Son uygulamalar için yukarı kaydırıp parmağınızı kaldırmadan kısa bir süre bekleyin.</string>
 </resources><!-- Turkish -->

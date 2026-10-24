@@ -319,4 +319,6 @@ Para remover, deve ser ≤ 2</string>
     <string name="navigation_mode_action">Escolher botões ou gestos</string>
     <string name="restore_buttons_before_disable">Antes de desativar estes gestos, restaure os três botões. Abra as configurações de navegação, escolha três botões e desative esta opção.</string>
     <string name="setup_unverified">A verificar</string>
+    <string name="game_gesture_repeat">Repita o gesto em até 3 segundos para confirmar.</string>
+    <string name="xiaomi_game_gesture_help">Nos jogos identificados pelo Android, repita o mesmo gesto em até 3 segundos para confirmar Início, Voltar ou Recentes. Para Recentes, deslize para cima e faça uma breve pausa sem levantar o dedo.</string>
 </resources><!-- Portuguese -->

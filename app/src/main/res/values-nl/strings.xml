@@ -319,4 +319,6 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="navigation_mode_action">Knoppen of gebaren kiezen</string>
     <string name="restore_buttons_before_disable">Herstel eerst navigatie met drie knoppen voordat je deze gebaren uitschakelt. Open de navigatie-instellingen, kies drie knoppen en schakel deze optie uit.</string>
     <string name="setup_unverified">Te controleren</string>
+    <string name="game_gesture_repeat">Herhaal het gebaar binnen 3 seconden om te bevestigen.</string>
+    <string name="xiaomi_game_gesture_help">Herhaal in door Android herkende games hetzelfde gebaar binnen 3 seconden om Start, Terug of Recent te bevestigen. Veeg voor Recent omhoog en pauzeer kort zonder je vinger op te tillen.</string>
 </resources><!-- Dutch -->

@@ -356,4 +356,6 @@ No es permet amagar dreceres fixades</string>
     <string name="navigation_mode_action">Tria botons o gestos</string>
     <string name="restore_buttons_before_disable">Abans de desactivar aquests gestos, restaura els tres botons. Obre els ajustos de navegació, tria els tres botons i desactiva aquesta opció.</string>
     <string name="setup_unverified">Per verificar</string>
+    <string name="game_gesture_repeat">Repeteix el gest en 3 segons per confirmar.</string>
+    <string name="xiaomi_game_gesture_help">Als jocs identificats per Android, repeteix el mateix gest en 3 segons per confirmar Inici, Enrere o Recents. Per a Recents, llisca cap amunt i fes una pausa breu sense aixecar el dit.</string>
 </resources>

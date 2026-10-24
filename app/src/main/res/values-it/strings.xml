@@ -380,4 +380,6 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="navigation_mode_action">Scegli pulsanti o gesti</string>
     <string name="restore_buttons_before_disable">Prima di spegnere queste gesture, ripristina la navigazione con tre pulsanti. Apri le impostazioni di navigazione, scegli i tre tasti e poi spegni questa opzione.</string>
     <string name="setup_unverified">Da verificare</string>
+    <string name="game_gesture_repeat">Ripeti la gesture entro 3 secondi per confermare.</string>
+    <string name="xiaomi_game_gesture_help">Nei giochi riconosciuti da Android, ripeti la stessa gesture entro 3 secondi per confermare Home, Indietro o Recenti. Per Recenti, scorri verso l’alto e fai una breve pausa mantenendo il dito sullo schermo.</string>
 </resources><!-- Italian -->

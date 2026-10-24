@@ -664,7 +664,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             dialogBinding.dialogTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_shield, 0, 0, 0)
             dialogBinding.dialogTitle.compoundDrawablePadding = 12.dpToPx()
         }
-        dialogBinding.dialogMessage.setText(messageRes)
+        dialogBinding.dialogMessage.text = if (messageRes == R.string.xiaomi_gestures_message)
+            getString(messageRes) + "\n\n" + getString(R.string.xiaomi_game_gesture_help)
+        else getString(messageRes)
         dialogBinding.dialogPositiveButton.setText(positiveBtnRes)
 
         val dialog = AlertDialog.Builder(requireContext()).setView(dialogBinding.root).create()

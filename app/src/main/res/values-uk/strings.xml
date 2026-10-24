@@ -320,4 +320,6 @@
     <string name="navigation_mode_action">Вибрати кнопки або жести</string>
     <string name="restore_buttons_before_disable">Перш ніж вимкнути ці жести, поверніть три кнопки. Відкрийте налаштування навігації, виберіть три кнопки й вимкніть цю опцію.</string>
     <string name="setup_unverified">Потребує перевірки</string>
+    <string name="game_gesture_repeat">Повторіть жест протягом 3 секунд для підтвердження.</string>
+    <string name="xiaomi_game_gesture_help">В іграх, розпізнаних Android, повторіть той самий жест протягом 3 секунд для підтвердження Додому, Назад або Нещодавніх. Для Нещодавніх проведіть угору й зробіть коротку паузу, не відриваючи палець.</string>
 </resources><!-- Ukrainian -->

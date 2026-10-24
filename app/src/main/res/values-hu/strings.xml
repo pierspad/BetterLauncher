@@ -322,4 +322,6 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="navigation_mode_action">Gombok vagy gesztusok választása</string>
     <string name="restore_buttons_before_disable">A gesztusok kikapcsolása előtt állítsa vissza a háromgombos navigációt. Nyissa meg a navigációs beállításokat, válassza a három gombot, majd kapcsolja ki ezt az opciót.</string>
     <string name="setup_unverified">Ellenőrizendő</string>
+    <string name="game_gesture_repeat">A megerősítéshez ismételje meg a gesztust 3 másodpercen belül.</string>
+    <string name="xiaomi_game_gesture_help">Az Android által felismert játékokban ugyanazt a gesztust 3 másodpercen belül megismételve erősítse meg a Kezdőlap, Vissza vagy Legutóbbiak műveletet. A Legutóbbiakhoz húzza felfelé, majd tartson rövid szünetet az ujja felemelése nélkül.</string>
 </resources><!-- Hungarian -->

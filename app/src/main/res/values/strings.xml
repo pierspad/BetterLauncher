@@ -391,4 +391,6 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="restore_buttons_before_disable">Before turning off these gestures, restore three-button navigation. Open navigation settings, choose the three buttons, then turn off this option.</string>
     <string name="setup_step_label" translatable="false">%1$d) %2$s</string>
     <string name="setup_unverified">Not verified</string>
+    <string name="game_gesture_repeat">Repeat the gesture within 3 seconds to confirm.</string>
+    <string name="xiaomi_game_gesture_help">In games identified by Android, repeat the same gesture within 3 seconds to confirm Home, Back or Recents. For Recents, swipe up and pause briefly with your finger still on the screen.</string>
 </resources>

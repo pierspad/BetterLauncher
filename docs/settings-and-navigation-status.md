@@ -112,7 +112,12 @@ manual confirmation is explicitly presented as a user observation.
 Physical-edge Home, Back and Recents are verified in gesture mode, and mode
 transitions are covered. Longer daily-use checks with keyboard, rotation,
 lock/unlock and service restart remain useful before promoting the feature to
-stable. Per-app gesture exclusions would also help games and edge-heavy apps.
+stable. Games identified by Android metadata now require repeating the same
+gesture within three seconds, with a visible confirmation message. Ordinary
+apps retain single-gesture navigation. Three-button mode disables all gesture
+zones; bottom swipes now have visible upward-arrow feedback. Recents accepts
+natural finger drift during its 300ms pause. All 14 regression groups and lint
+passed, with physical checks covering mode gating and game Home confirmation.
 
 Before any store release of the gesture feature, review the public privacy
 policy and Play accessibility declaration for the expanded service purpose.

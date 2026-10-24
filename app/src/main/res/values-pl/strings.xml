@@ -318,4 +318,6 @@ Aby go usunąć, musi wynosić ≤ 2</string>
     <string name="navigation_mode_action">Wybierz przyciski lub gesty</string>
     <string name="restore_buttons_before_disable">Przed wyłączeniem tych gestów przywróć trzy przyciski. Otwórz ustawienia nawigacji, wybierz trzy przyciski, a potem wyłącz tę opcję.</string>
     <string name="setup_unverified">Do sprawdzenia</string>
+    <string name="game_gesture_repeat">Powtórz gest w ciągu 3 sekund, aby potwierdzić.</string>
+    <string name="xiaomi_game_gesture_help">W grach rozpoznanych przez Androida powtórz ten sam gest w ciągu 3 sekund, aby potwierdzić Ekran główny, Wstecz lub Ostatnie. Dla Ostatnich przesuń w górę i zatrzymaj na chwilę bez odrywania palca.</string>
 </resources><!-- Polish -->

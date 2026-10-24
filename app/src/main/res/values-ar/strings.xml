@@ -318,4 +318,6 @@
     <string name="navigation_mode_action">اختيار الأزرار أو الإيماءات</string>
     <string name="restore_buttons_before_disable">قبل إيقاف هذه الإيماءات أعد التنقل بالأزرار الثلاثة. افتح إعدادات التنقل واختر الأزرار الثلاثة ثم أوقف هذا الخيار.</string>
     <string name="setup_unverified">بحاجة إلى تحقق</string>
+    <string name="game_gesture_repeat">كرّر الإيماءة خلال 3 ثوانٍ للتأكيد.</string>
+    <string name="xiaomi_game_gesture_help">في الألعاب التي يتعرف عليها Android، كرّر الإيماءة نفسها خلال 3 ثوانٍ لتأكيد الرئيسية أو الرجوع أو التطبيقات الأخيرة. لفتح التطبيقات الأخيرة، اسحب للأعلى وتوقف قليلاً دون رفع إصبعك.</string>
 </resources>

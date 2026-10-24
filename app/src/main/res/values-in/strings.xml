@@ -318,4 +318,6 @@ Untuk menghapus harus ≤ 2</string>
     <string name="navigation_mode_action">Pilih tombol atau gestur</string>
     <string name="restore_buttons_before_disable">Pulihkan navigasi tiga tombol sebelum mematikan gestur ini. Buka pengaturan navigasi, pilih tiga tombol, lalu matikan opsi ini.</string>
     <string name="setup_unverified">Perlu diperiksa</string>
+    <string name="game_gesture_repeat">Ulangi gestur dalam 3 detik untuk mengonfirmasi.</string>
+    <string name="xiaomi_game_gesture_help">Dalam game yang dikenali Android, ulangi gestur yang sama dalam 3 detik untuk mengonfirmasi Beranda, Kembali, atau Terbaru. Untuk Terbaru, usap ke atas dan berhenti sebentar tanpa mengangkat jari.</string>
 </resources><!-- Indonesian -->

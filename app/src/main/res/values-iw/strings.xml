@@ -312,4 +312,6 @@
     <string name="navigation_mode_action">בחירת כפתורים או מחוות</string>
     <string name="restore_buttons_before_disable">לפני כיבוי המחוות החזירו ניווט בשלושה כפתורים. פתחו את הגדרות הניווט, בחרו שלושה כפתורים ואז כבו אפשרות זו.</string>
     <string name="setup_unverified">דורש בדיקה</string>
+    <string name="game_gesture_repeat">חזרו על המחווה בתוך 3 שניות לאישור.</string>
+    <string name="xiaomi_game_gesture_help">במשחקים המזוהים על ידי Android, חזרו על אותה מחווה בתוך 3 שניות לאישור בית, חזרה או יישומים אחרונים. ליישומים אחרונים, החליקו למעלה ועצרו לרגע בלי להרים את האצבע.</string>
 </resources>

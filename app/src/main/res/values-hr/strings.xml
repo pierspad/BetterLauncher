@@ -319,4 +319,6 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="navigation_mode_action">Odaberi tipke ili geste</string>
     <string name="restore_buttons_before_disable">Prije isključivanja gesti vratite navigaciju s tri tipke. Otvorite postavke navigacije, odaberite tri tipke pa isključite ovu opciju.</string>
     <string name="setup_unverified">Treba provjeriti</string>
+    <string name="game_gesture_repeat">Ponovite gestu unutar 3 sekunde za potvrdu.</string>
+    <string name="xiaomi_game_gesture_help">U igrama koje Android prepoznaje ponovite istu gestu unutar 3 sekunde za potvrdu Početnog zaslona, Natrag ili Nedavnih. Za Nedavne povucite prema gore i kratko zastanite bez podizanja prsta.</string>
 </resources><!-- Croatian -->

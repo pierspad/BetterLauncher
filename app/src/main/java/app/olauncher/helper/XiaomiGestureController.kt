@@ -23,6 +23,8 @@ import android.graphics.PixelFormat
 import android.os.Handler
 import android.os.Looper
 import android.os.PowerManager
+import android.os.SystemClock
+import android.content.pm.ApplicationInfo
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -31,7 +33,6 @@ import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.content.ContextCompat
 import app.olauncher.data.Prefs
-import kotlin.math.abs
 
 /** Experimental, opt-in navigation. No window contents, settings writes or native gesture claims. */
 internal class XiaomiGestureController(private val service: AccessibilityService) : ContextWrapper(service), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -41,6 +42,9 @@ internal class XiaomiGestureController(private val service: AccessibilityService
     private val store by lazy { getSharedPreferences("com.pierspad.betterlauncher", Context.MODE_PRIVATE) }
     private var receiverRegistered = false
     private var replaying = false
+    private var replayGeneration = 0L
+    private val gameNavigation = GameNavigationGuard()
+    private var foregroundPackage: String? = null
     private data class Geometry(val width: Int, val height: Int, val nav: android.graphics.Rect, val gestural: Boolean)
     private var lastGeometry: Geometry? = null
     private val navigationObserver = object : ContentObserver(handler) {
@@ -48,6 +52,43 @@ internal class XiaomiGestureController(private val service: AccessibilityService
     }
     private val backFeedback by lazy { GestureBackFeedback(this).apply { importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO } }
     private var feedbackAttached = false
+    private var notice: android.widget.TextView? = null
+    private val dismissNotice = Runnable { hideNotice() }
+
+    private fun hideNotice() {
+        notice?.let { runCatching { manager.removeView(it) } }
+        notice = null
+    }
+
+    private fun showGameNotice() {
+        handler.removeCallbacks(dismissNotice)
+        hideNotice()
+        val density = resources.displayMetrics.density
+        val text = android.widget.TextView(this).apply {
+            setText(app.olauncher.R.string.game_gesture_repeat)
+            setTextColor(android.graphics.Color.WHITE)
+            textSize = 16f
+            gravity = Gravity.CENTER
+            setPadding((20 * density).toInt(), (14 * density).toInt(), (20 * density).toInt(), (14 * density).toInt())
+            background = android.graphics.drawable.GradientDrawable().apply {
+                setColor(android.graphics.Color.rgb(40, 40, 40))
+                cornerRadius = 12 * density
+            }
+            accessibilityLiveRegion = View.ACCESSIBILITY_LIVE_REGION_POLITE
+        }
+        val params = WindowManager.LayoutParams(
+            (resources.displayMetrics.widthPixels * .9f).toInt(), WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            PixelFormat.TRANSLUCENT
+        ).apply {
+            gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+            y = (80 * density).toInt()
+            title = "BetterLauncher gesture confirmation"
+        }
+        runCatching { manager.addView(text, params); notice = text }
+        handler.postDelayed(dismissNotice, 3000)
+    }
     private val displayListener = object : DisplayManager.DisplayListener {
         override fun onDisplayAdded(displayId: Int) = Unit
         override fun onDisplayRemoved(displayId: Int) = Unit
@@ -70,11 +111,12 @@ internal class XiaomiGestureController(private val service: AccessibilityService
         receiverRegistered = true
         contentResolver.registerContentObserver(Settings.Secure.getUriFor("navigation_mode"), false, navigationObserver)
         contentResolver.registerContentObserver(Settings.Global.getUriFor("force_fsg_nav_bar"), false, navigationObserver)
+        updateForeground()
         refresh()
     }
 
     private fun allowed(): Boolean = android.os.Build.VERSION.SDK_INT >= 29 && DeviceSettings.isXiaomi() && Prefs(this).xiaomiGestures &&
-        isOlauncherDefault(this) &&
+        isOlauncherDefault(this) && GestureNavigationMode.isGestural(this) &&
         (getSystemService(POWER_SERVICE) as PowerManager).isInteractive &&
         !(getSystemService(KEYGUARD_SERVICE) as KeyguardManager).isKeyguardLocked
 
@@ -146,19 +188,17 @@ internal class XiaomiGestureController(private val service: AccessibilityService
     }
 
     private inner class EdgeTouch(private val edge: Int, private val density: Float) : View.OnTouchListener {
+        private val tracker = EdgeSwipeTracker(edge)
         private var x = 0f
         private var y = 0f
         private var time = 0L
-        private var armed = false
-        private var fired = false
-        private var cancelled = false
-        private var anchorX = 0f
-        private var anchorY = 0f
         private var path = Path()
-        private val hold = Runnable {
-            if (armed && !cancelled && !fired && allowed()) {
-                fired = true
-                navigate(GLOBAL_ACTION_RECENTS)
+        private val hold = object : Runnable {
+            override fun run() {
+                if (!allowed()) return
+                val now = SystemClock.uptimeMillis()
+                if (tracker.takeHold(now)) { hideBackFeedback(); navigate(GLOBAL_ACTION_RECENTS) }
+                else tracker.holdDelay(now)?.let { handler.postDelayed(this, it) }
             }
         }
         @SuppressLint("ClickableViewAccessibility") // Unused touches are replayed to the underlying app.
@@ -167,76 +207,75 @@ internal class XiaomiGestureController(private val service: AccessibilityService
                 MotionEvent.ACTION_DOWN -> {
                     if (replaying || !allowed()) return false
                     x = event.rawX; y = event.rawY; time = event.eventTime
-                    armed = false; fired = false; cancelled = false
+                    tracker.start(x / density, y / density, time)
                     path = Path().apply { moveTo(x, y) }
                     touchable(false)
                 }
                 MotionEvent.ACTION_MOVE -> {
                     path.lineTo(event.rawX, event.rawY)
-                    val dx = event.rawX - x
-                    val dy = event.rawY - y
-                    val distance = when (edge) { 0 -> dx; 1 -> -dx; else -> -dy }
-                    val perpendicular = if (edge == 2) abs(dx) else abs(dy)
-                    if (edge != 2 && !cancelled && !fired && distance > 0) {
+                    tracker.move(event.rawX / density, event.rawY / density, event.eventTime)
+                    val distance = if (edge == 0) event.rawX - x else x - event.rawX
+                    if (edge != 2 && !tracker.cancelled && !tracker.fired && distance > 0) {
                         showBackFeedback(edge == 1, event.rawY, distance / (72 * density))
                     }
-                    if (!armed && !cancelled && event.eventTime - time < 1000 &&
-                        distance >= (if (edge == 2) 10 else 24) * density && perpendicular <= distance) {
-                        armed = true
-                        anchorX = event.rawX; anchorY = event.rawY
-                        if (edge == 2) handler.postDelayed(hold, 350)
-                    } else if (armed && !fired) {
-                        if (distance < 8 * density) {
-                            cancelled = true
-                            hideBackFeedback()
-                            handler.removeCallbacks(hold)
-                        } else if (edge == 2 && (abs(event.rawX - anchorX) > 12 * density || abs(event.rawY - anchorY) > 12 * density)) {
-                            anchorX = event.rawX; anchorY = event.rawY
-                            handler.removeCallbacks(hold)
-                            handler.postDelayed(hold, 350)
-                        }
+                    if (edge == 2 && !tracker.cancelled && !tracker.fired && y - event.rawY > 0) {
+                        showBackFeedback(false, event.rawY, (y - event.rawY) / (96 * density), true)
                     }
-                }
-                MotionEvent.ACTION_POINTER_DOWN -> { cancelled = true; hideBackFeedback(); handler.removeCallbacks(hold) }
-                MotionEvent.ACTION_UP -> {
-                    hideBackFeedback()
-                    // Fast flicks can finish without a MOVE sample crossing the threshold.
-                    val dx = event.rawX - x
-                    val dy = event.rawY - y
-                    val distance = when (edge) { 0 -> dx; 1 -> -dx; else -> -dy }
-                    val perpendicular = if (edge == 2) abs(dx) else abs(dy)
-                    if (!armed && !cancelled && event.eventTime - time < 1000 &&
-                        distance >= (if (edge == 2) 10 else 24) * density && perpendicular <= distance) armed = true
+                    if (tracker.cancelled) hideBackFeedback()
                     handler.removeCallbacks(hold)
-                    if (armed && !cancelled && !fired && allowed()) {
+                    tracker.holdDelay(SystemClock.uptimeMillis())?.let { handler.postDelayed(hold, it) }
+                }
+                MotionEvent.ACTION_POINTER_DOWN -> {
+                    tracker.cancel(); hideBackFeedback(); handler.removeCallbacks(hold)
+                }
+                MotionEvent.ACTION_UP -> {
+                    val hadFeedback = feedbackAttached
+                    hideBackFeedback()
+                    // Include the last sample: short, fast flicks may have few MOVE events.
+                    tracker.move(event.rawX / density, event.rawY / density, event.eventTime)
+                    handler.removeCallbacks(hold)
+                    if (tracker.armed && !tracker.cancelled && !tracker.fired && allowed()) {
                         navigate(if (edge == 2) GLOBAL_ACTION_HOME else GLOBAL_ACTION_BACK)
-                    } else if (!armed && !cancelled && !fired) {
-                        // The app underneath must receive ordinary edge touches too.
+                    } else if (!tracker.armed && !tracker.cancelled && !tracker.fired) {
                         path.lineTo(event.rawX + 0.1f, event.rawY + 0.1f)
                         replaying = true
-                        val duration = (event.eventTime - time).coerceIn(50L, 3000L)
+                        val generation = ++replayGeneration
+                        val elapsed = (event.eventTime - time).coerceAtLeast(0L)
+                        val tapSlop = android.view.ViewConfiguration.get(this@XiaomiGestureController).scaledTouchSlop / density
+                        val click = tracker.maxMotion <= tapSlop && elapsed < android.view.ViewConfiguration.getLongPressTimeout()
+                        val duration = if (click) 60L else elapsed.coerceIn(50L, 3000L)
                         val gesture = GestureDescription.Builder()
                             .addStroke(GestureDescription.StrokeDescription(path, 0, duration)).build()
-                        fun finish() { replaying = false; if (allowed()) touchable(true) else detach() }
+                        fun finish() {
+                            if (!replaying || generation != replayGeneration) return
+                            replaying = false
+                            if (allowed()) touchable(true) else detach()
+                        }
+                        // Windows became untouchable at DOWN, so the real press already
+                        // supplies most of the settling time. Feedback needs its own grace.
+                        val settleDelay = if (hadFeedback) 70L else (70L - elapsed).coerceAtLeast(0L)
                         handler.postDelayed({
+                            if (!replaying || generation != replayGeneration) return@postDelayed
                             if (!allowed()) { finish(); return@postDelayed }
                             if (!service.dispatchGesture(gesture, object : GestureResultCallback() {
                                 override fun onCompleted(gestureDescription: GestureDescription?) { finish() }
                                 override fun onCancelled(gestureDescription: GestureDescription?) { finish() }
                             }, handler)) finish()
-                        }, 70)
-                        handler.postDelayed({ if (replaying) finish() }, duration + 1200)
+                        }, settleDelay)
+                        handler.postDelayed({ if (replaying) finish() }, settleDelay + duration + 1200)
                     }
                     if (!replaying) touchable(true)
                 }
-                MotionEvent.ACTION_CANCEL -> { cancelled = true; hideBackFeedback(); handler.removeCallbacks(hold); touchable(true) }
+                MotionEvent.ACTION_CANCEL -> {
+                    tracker.cancel(); hideBackFeedback(); handler.removeCallbacks(hold); touchable(true)
+                }
             }
             return true
         }
     }
 
     @SuppressLint("RtlHardcoded") // Physical edge of the incoming swipe.
-    private fun showBackFeedback(right: Boolean, y: Float, progress: Float) {
+    private fun showBackFeedback(right: Boolean, y: Float, progress: Float, bottom: Boolean = false) {
         val size = (72 * resources.displayMetrics.density).toInt()
         val params = (if (feedbackAttached) backFeedback.layoutParams as WindowManager.LayoutParams else null)
             ?: WindowManager.LayoutParams(size, size, WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,
@@ -247,8 +286,9 @@ internal class XiaomiGestureController(private val service: AccessibilityService
                 if (android.os.Build.VERSION.SDK_INT >= 30) fitInsetsTypes = 0
             }
         val geometry = lastGeometry ?: return
-        params.x = if (right) geometry.width - size else 0
-        params.y = (y.toInt() - size / 2).coerceIn(0, (geometry.height - size).coerceAtLeast(0))
+        params.x = if (bottom) (geometry.width - size) / 2 else if (right) geometry.width - size else 0
+        params.y = ((if (bottom) geometry.height - size * (0.6f + progress.coerceIn(0f, 1f)) else y - size / 2).toInt()).coerceIn(0, (geometry.height - size).coerceAtLeast(0))
+        backFeedback.bottom = bottom
         backFeedback.fromRight = right
         backFeedback.progress = progress
         if (feedbackAttached) runCatching { manager.updateViewLayout(backFeedback, params) }
@@ -261,6 +301,12 @@ internal class XiaomiGestureController(private val service: AccessibilityService
     }
 
     private fun navigate(action: Int) {
+        if (!gameNavigation.allow(action, SystemClock.uptimeMillis())) {
+            showGameNotice()
+            return
+        }
+        handler.removeCallbacks(dismissNotice)
+        hideNotice()
         if (!service.performGlobalAction(action)) {
             android.widget.Toast.makeText(this, app.olauncher.R.string.not_working,
                 android.widget.Toast.LENGTH_SHORT).show()
@@ -270,12 +316,37 @@ internal class XiaomiGestureController(private val service: AccessibilityService
     private fun detach() {
         handler.removeCallbacksAndMessages(null)
         replaying = false
+        replayGeneration++
+        gameNavigation.clearConfirmation()
+        hideNotice()
         hideBackFeedback()
         windows.forEach { runCatching { manager.removeView(it) } }
         windows.clear()
         lastGeometry = null
     }
-    fun onWindowChanged() { refresh() }
+    @Suppress("DEPRECATION") // FLAG_IS_GAME supports older games without a category.
+    private fun updateForeground(eventPackage: String? = null) {
+        val pkg = runCatching { service.rootInActiveWindow?.packageName?.toString() }.getOrNull()
+            ?: eventPackage ?: return
+        if (pkg == foregroundPackage) return
+        foregroundPackage = pkg
+        val game = runCatching {
+            val app = packageManager.getApplicationInfo(pkg, 0)
+            (android.os.Build.VERSION.SDK_INT >= 26 && app.category == ApplicationInfo.CATEGORY_GAME) ||
+                app.flags and ApplicationInfo.FLAG_IS_GAME != 0
+        }.getOrDefault(false)
+        gameNavigation.foreground(pkg, game)
+    }
+
+    fun onWindowChanged(event: AccessibilityEvent) {
+        if (event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            // Our non-focusable edge/feedback windows are not a foreground app switch.
+            val ownOverlay = event.packageName?.toString() == packageName &&
+                event.className?.toString() in setOf("android.view.View", GestureBackFeedback::class.java.name, "android.widget.TextView")
+            if (!ownOverlay) updateForeground(event.packageName?.toString())
+        }
+        refresh()
+    }
     fun onConfigurationChanged() { refresh() }
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) { handler.post { refresh() } }
     fun stop() {
