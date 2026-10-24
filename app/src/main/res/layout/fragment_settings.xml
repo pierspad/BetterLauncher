@@ -220,19 +220,6 @@
                     android:background="@drawable/divider_light" />
 
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/aboutOlauncher"
-                    style="@style/TextSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    app:drawableStartCompat="@drawable/ic_info"
-                    android:drawablePadding="12dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/about_olauncher" 
-                    app:drawableTint="?attr/primaryColor"  android:tag="settings:about_olauncher" />
 
             </LinearLayout>
 
@@ -252,7 +239,7 @@
                     app:drawableStartCompat="@drawable/ic_info" android:drawablePadding="12dp" style="@style/TextSmall"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:paddingTop="12dp" android:paddingBottom="12dp"
-                    android:text="@string/background_access_short"  android:tag="settings:background_access_message" />
+                    android:text="@string/background_access_short"  android:tag="settings:background_access_short" />
                 <View android:layout_width="match_parent" android:layout_height="1dp"
                     android:background="@drawable/divider_light" />
                 <androidx.appcompat.widget.AppCompatTextView android:id="@+id/accessibilityShortcut"
@@ -336,7 +323,7 @@
                 <androidx.appcompat.widget.AppCompatTextView android:id="@+id/navigationShortcut"
                     app:drawableStartCompat="@drawable/ic_sc_grid" android:drawablePadding="12dp" android:visibility="gone" style="@style/SettingsShortcut"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:text="@string/navigation_settings"  android:tag="settings:navigation_settings" />
+                    android:text="@string/navigation_mode_action"  android:tag="settings:navigation_mode_action" />
             </LinearLayout>
 
 

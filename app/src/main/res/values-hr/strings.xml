@@ -130,7 +130,6 @@
     <string name="adapter_show">Prikaži</string>
     <string name="adapter_hide">Sakrij</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">Koristite li svoj telefon ili vaš telefon koristi vas?</string>
-    <string name="about_olauncher">O BetterLauncher-u i ČPP</string>
     <string name="alignment_changed">Poravnanje promijenjeno ✅</string>
     <string name="home_screen">Početni ekran</string>
     <string name="hey">Bok</string>
@@ -305,10 +304,10 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="autostart_settings">Dopusti automatsko pokretanje</string>
     <string name="app_info_settings">Informacije i dozvole aplikacije</string>
     <string name="navigation_settings">Xiaomi navigacija</string>
-    <string name="background_access_message">Pristupačnost je neobavezna: za zaključavanje dvostrukim dodirom i odabrane stanke aplikacija. Baterija i automatsko pokretanje mogu pomoći pri zaustavljanju u pozadini, ali ne jamče stalan rad. Na Xiaomiju po potrebi odaberite Bez ograničenja i dopustite automatsko pokretanje.</string>
+    <string name="background_access_message">Uključite jedinstvenu uslugu BetterLauncher u pristupačnosti Androida za zaključavanje dvostrukim dodirom, ograničenja aplikacija i odabrane Xiaomi geste. Postojeća dozvola ponovno se koristi. Ako Android blokira uključivanje, odaberite dopuštanje ograničenih postavki.\n\nAko funkcije prestanu raditi, odaberite Bez ograničenja za bateriju i provjerite automatsko pokretanje na Xiaomiju. Sivo znači da telefon ne omogućuje pouzdanu automatsku provjeru. Provjerite postavku sustava pa označite okvir ispod gumba. Te opcije nisu potrebne za osnovno korištenje pokretača.</string>
     <string name="xiaomi_gestures">Xiaomi geste</string>
     <string name="xiaomi_gestures_message">Neobavezna Xiaomi navigacija: povucite sa strane za Natrag, odozdo za Početni zaslon, prema gore uz zadržavanje za Nedavne. Geste koriste istu uslugu pristupačnosti BetterLaunchera kao zaključavanje i ograničenja aplikacija, uz rubne dodire i promjene prozora. Neiskorištene dodire ponavlja lokalno. Ne sprema ni šalje podatke pristupačnosti. Samo uz zadani BetterLauncher; pauzira kad je zaslon zaključan. Može usporiti dodire ili ometati aplikacije. Zadržite tri tipke do testiranja. Uključite opciju. Ako je pristupačnost BetterLaunchera već uključena, nije potrebna dodatna dozvola; inače otvorite postavke pristupačnosti Androida. Isključite ovdje ili u Pristupačnosti. Ne vraća izvorne geste; baterija može zaustaviti uslugu.</string>
-    <string name="background_access_short">Pristupačnost je neobavezna. Ako funkcije stanu, provjerite bateriju i automatsko pokretanje. Dodirnite za pomoć.</string>
+    <string name="background_access_short">Vodič za pristupačnost</string>
     <string name="accessibility_features">Pristupačnost: zaključavanje i ograničenja</string>
     <string name="restricted_settings">Dopusti ograničene postavke</string>
     <string name="restricted_settings_message">Android može blokirati pristupačnost aplikacije instalirane iz APK-a. Ako vjerujete instalaciji, otvorite Informacije o aplikaciji, izbornik s tri točke i Dopusti ograničene postavke. Potvrdite na telefonu pa uključite odabranu uslugu. BetterLauncher ne može sam sebi dodijeliti ovu dozvolu sustava.</string>
@@ -319,4 +318,5 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="setup_pending">Za napraviti</string>
     <string name="navigation_mode_action">Odaberi tipke ili geste</string>
     <string name="restore_buttons_before_disable">Prije isključivanja gesti vratite navigaciju s tri tipke. Otvorite postavke navigacije, odaberite tri tipke pa isključite ovu opciju.</string>
+    <string name="setup_unverified">Treba provjeriti</string>
 </resources><!-- Croatian -->

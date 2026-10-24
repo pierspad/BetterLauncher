@@ -125,7 +125,6 @@
     <string name="adapter_show">Toon</string>
     <string name="adapter_hide">Verbergen</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">Gebruik je je telefoon, of gebruikt je telefoon jou?</string>
-    <string name="about_olauncher">Over en veelgestelde vragen</string>
     <string name="screen_time">Schermtijd</string>
     <string name="learn_more">Meer informatie</string>
     <string name="did_you_know">Wist je dat?</string>
@@ -305,10 +304,10 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="autostart_settings">Automatisch starten toestaan</string>
     <string name="app_info_settings">App-informatie en machtigingen</string>
     <string name="navigation_settings">Xiaomi-navigatie</string>
-    <string name="background_access_message">Toegankelijkheid is optioneel: voor vergrendelen met dubbel tikken en gekozen app-pauzes. Batterij en automatisch starten kunnen helpen als functies op de achtergrond stoppen, maar garanderen geen blijvende werking. Kies op Xiaomi zo nodig Geen beperkingen en sta automatisch starten toe.</string>
+    <string name="background_access_message">Schakel de ene BetterLauncher-service in bij Android Toegankelijkheid voor vergrendeling met dubbeltikken, applimieten en gekozen Xiaomi-gebaren. Bestaande toestemming wordt hergebruikt. Als Android dit blokkeert, sta beperkte instellingen toe.\n\nAls functies stoppen, kies Onbeperkt bij batterij en controleer automatisch starten op Xiaomi. Grijs betekent dat de telefoon geen betrouwbare automatische controle toelaat. Controleer de systeeminstelling en vink het vakje onder de knop aan. Deze opties zijn niet nodig voor het basisgebruik van de launcher.</string>
     <string name="xiaomi_gestures">Xiaomi-gebaren</string>
     <string name="xiaomi_gestures_message">Optionele Xiaomi-navigatie: veeg vanaf de zijkant voor Terug, vanaf onder voor Start, omhoog en vasthouden voor Recent. Gebaren gebruiken dezelfde BetterLauncher-toegankelijkheidsservice als schermvergrendeling en applimieten, met aanraakranden en vensterwisselingen. Ongebruikte aanrakingen worden lokaal herhaald. Geen toegankelijkheidsgegevens opgeslagen of verzonden. Alleen met BetterLauncher als standaard; pauze bij vergrendeling. Kan randaanrakingen vertragen of apps hinderen. Houd de drie knoppen tot alles getest is. Schakel de optie in. Als BetterLauncher-toegankelijkheid al aanstaat, is geen extra toestemming nodig; open anders de toegankelijkheidsinstellingen van Android. Hier of bij Toegankelijkheid uit te zetten. Geen originele Xiaomi-gebaren; batterijbeperkingen kunnen stoppen.</string>
-    <string name="background_access_short">Toegankelijkheid is optioneel. Controleer batterij en automatisch starten als functies stoppen. Tik voor hulp.</string>
+    <string name="background_access_short">Toegankelijkheidshulp</string>
     <string name="accessibility_features">Toegankelijkheid: vergrendelen en limieten</string>
     <string name="restricted_settings">Beperkte instellingen toestaan</string>
     <string name="restricted_settings_message">Android kan toegankelijkheid blokkeren voor een via APK geïnstalleerde app. Vertrouw je deze installatie, open dan App-informatie, het menu met drie stippen en Beperkte instellingen toestaan. Bevestig op de telefoon en schakel daarna de gekozen service in. BetterLauncher kan zichzelf deze systeemmachtiging niet geven.</string>
@@ -319,4 +318,5 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="setup_pending">Te doen</string>
     <string name="navigation_mode_action">Knoppen of gebaren kiezen</string>
     <string name="restore_buttons_before_disable">Herstel eerst navigatie met drie knoppen voordat je deze gebaren uitschakelt. Open de navigatie-instellingen, kies drie knoppen en schakel deze optie uit.</string>
+    <string name="setup_unverified">Te controleren</string>
 </resources><!-- Dutch -->

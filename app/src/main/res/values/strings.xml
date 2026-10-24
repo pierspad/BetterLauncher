@@ -177,7 +177,6 @@ Please type a new name first</string>
     <string name="adapter_show">Show</string>
     <string name="adapter_hide">Hide</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">Are you using your phone, or is your phone using you?</string>
-    <string name="about_olauncher">About and FAQs</string>
     <string name="screen_time">Screen time</string>
     <string name="learn_more">Learn more</string>
     <string name="did_you_know">Did you know?</string>
@@ -375,11 +374,11 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="autostart_settings">Allow autostart</string>
     <string name="app_info_settings">App information and permissions</string>
     <string name="navigation_settings">Xiaomi navigation</string>
-    <string name="background_access_message">Accessibility is optional: it enables double tap to lock and the app cooldowns you choose. Battery and autostart settings may help if these features stop in the background; they do not guarantee that Android keeps the app running. In Xiaomi app information, select No restrictions and allow autostart if needed.</string>
+    <string name="background_access_message">Enable the single BetterLauncher service in Android Accessibility for double-tap locking, app limits and Xiaomi gestures you choose. An existing permission is reused. If Android blocks activation, use Allow restricted settings.\n\nIf features stop, select Unrestricted in battery settings and check Autostart on Xiaomi. A gray indicator means the device does not expose a reliable automatic check. Verify the setting yourself, then confirm the box below its button. These options are not required for basic launcher use.</string>
     <string name="xiaomi_gestures">Xiaomi gestures</string>
     <string name="xiaomi_gestures_message">Optional Xiaomi-only navigation: swipe from either side for Back, from the bottom for Home, or swipe up and hold for Recents. Gestures use the same BetterLauncher accessibility service as screen locking and app limits, with edge-touch overlays and window-change signals. Unused edge touches are replayed locally. No accessibility data is stored or transmitted. It runs only while BetterLauncher is your default launcher, and pauses while the screen is locked. Edge touches may feel slower or conflict with apps. Keep the three buttons until you have tested all gestures. Enable the option. If BetterLauncher accessibility is already enabled, no further permission is needed; otherwise open Android accessibility settings. You can disable it here or in Accessibility. This does not restore native Xiaomi gestures; battery restrictions can stop it.</string>
     <string name="setting_state" translatable="false">%1$s · %2$s</string>
-    <string name="background_access_short">Accessibility is optional. If optional features stop, check battery and autostart. Tap for help.</string>
+    <string name="background_access_short">Accessibility guide</string>
     <string name="accessibility_features">Accessibility: lock and app limits</string>
     <string name="restricted_settings">Allow restricted settings</string>
     <string name="restricted_settings_message">Android may block accessibility for an app installed from an APK. If you trust this installation, open App information, then the three-dot menu and Allow restricted settings. Confirm on the device, then return here and enable the chosen accessibility service. This is a system permission: BetterLauncher cannot grant it to itself.</string>
@@ -391,4 +390,5 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="navigation_mode_action">Choose buttons or gestures</string>
     <string name="restore_buttons_before_disable">Before turning off these gestures, restore three-button navigation. Open navigation settings, choose the three buttons, then turn off this option.</string>
     <string name="setup_step_label" translatable="false">%1$d) %2$s</string>
+    <string name="setup_unverified">Not verified</string>
 </resources>

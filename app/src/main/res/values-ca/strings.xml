@@ -150,7 +150,6 @@ Primer escriu un nom nou</string>
     <string name="adapter_show">Mostra</string>
     <string name="adapter_hide">Amaga</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">Fas servir el telèfon o el telèfon et fa servir a tu?</string>
-    <string name="about_olauncher">Quant a i preguntes freqüents</string>
     <string name="screen_time">Temps de pantalla</string>
     <string name="learn_more">Més informació</string>
     <string name="did_you_know">Ho sabies?</string>
@@ -342,10 +341,10 @@ No es permet amagar dreceres fixades</string>
     <string name="autostart_settings">Permet l’inici automàtic</string>
     <string name="app_info_settings">Informació i permisos de l’aplicació</string>
     <string name="navigation_settings">Navegació Xiaomi</string>
-    <string name="background_access_message">L’accessibilitat és opcional: permet bloquejar amb dos tocs i aplicar les pauses escollides. La bateria i l’inici automàtic poden ajudar si les funcions s’aturen en segon pla, sense garantir un funcionament continu. A Xiaomi, tria Sense restriccions i permet l’inici automàtic si cal.</string>
+    <string name="background_access_message">Activa l’únic servei BetterLauncher a Accessibilitat d’Android per al bloqueig amb doble toc, els límits d’aplicacions i els gestos Xiaomi que triïs. Es reutilitza el permís existent. Si Android ho bloqueja, fes servir Permet la configuració restringida.\n\nSi les funcions s’aturen, tria Sense restriccions a la bateria i revisa l’inici automàtic a Xiaomi. L’indicador gris vol dir que el telèfon no permet una comprovació automàtica fiable. Verifica l’opció al sistema i confirma la casella sota el botó. No calen aquestes opcions per a l’ús bàsic del llançador.</string>
     <string name="xiaomi_gestures">Gestos Xiaomi</string>
     <string name="xiaomi_gestures_message">Navegació opcional per a Xiaomi: llisca des dels costats per Enrere, des de baix per Inici, o amunt amb pausa per Recents. Els gestos utilitzen el mateix servei d’accessibilitat de BetterLauncher que el bloqueig de pantalla i els límits d’aplicacions, amb zones tàctils i canvis de finestra. Reprodueix localment els tocs no utilitzats. No desa ni transmet dades d’accessibilitat. Només amb BetterLauncher predeterminat; es pausa amb la pantalla bloquejada. Pot alentir tocs o interferir amb aplicacions. Mantén els tres botons fins a provar-lo. Activa l’opció. Si l’accessibilitat de BetterLauncher ja està activada, no cal cap altre permís; si no, obre la configuració d’accessibilitat d’Android. Desactiva’l aquí o a Accessibilitat. No recupera els gestos natius; la bateria pot aturar-lo.</string>
-    <string name="background_access_short">L’accessibilitat és opcional. Si les funcions s’aturen, revisa la bateria i l’inici automàtic. Toca per obtenir ajuda.</string>
+    <string name="background_access_short">Guia d’accessibilitat</string>
     <string name="accessibility_features">Accessibilitat: bloqueig i límits</string>
     <string name="restricted_settings">Permet els ajustos restringits</string>
     <string name="restricted_settings_message">Android pot bloquejar l’accessibilitat d’una aplicació instal·lada per APK. Si confies en aquesta instal·lació, obre Informació de l’aplicació, el menú de tres punts i Permet els ajustos restringits. Confirma al telèfon i activa després el servei escollit. BetterLauncher no pot concedir-se aquest permís del sistema.</string>
@@ -356,4 +355,5 @@ No es permet amagar dreceres fixades</string>
     <string name="setup_pending">Pendent</string>
     <string name="navigation_mode_action">Tria botons o gestos</string>
     <string name="restore_buttons_before_disable">Abans de desactivar aquests gestos, restaura els tres botons. Obre els ajustos de navegació, tria els tres botons i desactiva aquesta opció.</string>
+    <string name="setup_unverified">Per verificar</string>
 </resources>

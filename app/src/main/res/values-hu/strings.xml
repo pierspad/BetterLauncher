@@ -127,7 +127,6 @@
     <string name="adapter_show">Mutasd!</string>
     <string name="adapter_hide">Rejtsd el!</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">Ön használja a telefonját, vagy a telefonja használja Önt?</string>
-    <string name="about_olauncher">Az BetterLauncher-ről</string>
     <string name="screen_time">Képernyőidő</string>
     <string name="learn_more">Tudjon meg többet</string>
     <string name="did_you_know">Tudta?</string>
@@ -308,10 +307,10 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="autostart_settings">Automatikus indítás engedélyezése</string>
     <string name="app_info_settings">Alkalmazásadatok és engedélyek</string>
     <string name="navigation_settings">Xiaomi navigáció</string>
-    <string name="background_access_message">A kisegítő szolgáltatás választható: a dupla koppintásos zároláshoz és a kiválasztott alkalmazásszünetekhez kell. Az akkumulátor és az automatikus indítás beállítása segíthet a háttérbeli leállásnál, de nem garantál folyamatos működést. Xiaomin szükség esetén válassza a Nincs korlátozás lehetőséget és engedélyezze az automatikus indítást.</string>
+    <string name="background_access_message">Engedélyezze az egyetlen BetterLauncher szolgáltatást az Android kisegítő beállításaiban a dupla koppintásos zároláshoz, az alkalmazáskorlátokhoz és a választott Xiaomi gesztusokhoz. A meglévő engedély újra felhasználható. Android-tiltás esetén használja a Korlátozott beállítások engedélyezése lehetőséget.\n\nHa a funkciók leállnak, válassza a Korlátozás nélkül akkubeállítást, és ellenőrizze az automatikus indítást Xiaomin. A szürke jelzés azt jelenti, hogy nincs megbízható automatikus ellenőrzés. Ellenőrizze a rendszerbeállítást, majd jelölje be a gomb alatti négyzetet. Az indító alapfunkcióihoz ezek nem szükségesek.</string>
     <string name="xiaomi_gestures">Xiaomi gesztusok</string>
     <string name="xiaomi_gestures_message">Választható Xiaomi navigáció: oldalról Vissza, alulról Kezdőlap, felfelé húzva és tartva Legutóbbiak. A gesztusok a képernyőzárral és alkalmazáskorlátokkal közös BetterLauncher kisegítő szolgáltatást használják, érintési szélekkel és ablakváltásokkal. A fel nem használt érintéseket helyben lejátssza. Nem tárol vagy továbbít kisegítő adatot. Csak alapértelmezett BetterLauncherrel; zároláskor szünetel. Lassíthatja az érintést vagy zavarhat alkalmazásokat. Tesztelésig tartsa meg a három gombot. Kapcsolja be az opciót. Ha a BetterLauncher kisegítő szolgáltatása már aktív, nem kell újabb engedély; egyébként nyissa meg az Android kisegítő beállításait. Itt vagy a Kisegítő lehetőségeknél kikapcsolható. Nem natív gesztusok; az akkumulátorkorlátozás leállíthatja.</string>
-    <string name="background_access_short">A kisegítő szolgáltatás választható. Leálláskor ellenőrizze az akkumulátort és az automatikus indítást. Koppintson a súgóhoz.</string>
+    <string name="background_access_short">Kisegítő lehetőségek útmutatója</string>
     <string name="accessibility_features">Kisegítő lehetőségek: zárolás és korlátok</string>
     <string name="restricted_settings">Korlátozott beállítások engedélyezése</string>
     <string name="restricted_settings_message">Az Android letilthatja az APK-ból telepített alkalmazás kisegítő szolgáltatását. Ha megbízik a telepítésben, nyissa meg az Alkalmazásinformációk hárompontos menüjét, majd engedélyezze a korlátozott beállításokat. Erősítse meg a telefonon, majd kapcsolja be a szolgáltatást. A BetterLauncher ezt a rendszerengedélyt nem adhatja meg magának.</string>
@@ -322,4 +321,5 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="setup_pending">Teendő</string>
     <string name="navigation_mode_action">Gombok vagy gesztusok választása</string>
     <string name="restore_buttons_before_disable">A gesztusok kikapcsolása előtt állítsa vissza a háromgombos navigációt. Nyissa meg a navigációs beállításokat, válassza a három gombot, majd kapcsolja ki ezt az opciót.</string>
+    <string name="setup_unverified">Ellenőrizendő</string>
 </resources><!-- Hungarian -->

@@ -51,6 +51,7 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
                     runCatching(block).onFailure { failures += "$name: ${it.message}" }
                 }
                 checkCase("precise default migration") { runSearchDefaultMigrationRegression(isolated) }
+                checkCase("gesture navigation geometry") { runGestureNavigationRegression() }
                 checkCase("settings search") { onMain { runSettingsSearchRegression(isolated) } }
                 checkCase("drawer action layout") { onMain { runDrawerActionLayoutRegression(isolated) } }
                 checkCase("device/widget") { onMain { runDeviceRuntimeRegression(isolated) } }

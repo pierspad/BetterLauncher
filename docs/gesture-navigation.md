@@ -14,11 +14,19 @@ settings or hides the system buttons. The navigation settings shortcut is always
 available, including when the experiment is disabled. Keep three-button mode as
 the reliable fallback until a longer physical-device test has passed.
 
-The initial experiment could miss Home swipes started at the physical bottom and
-could overlap the navigation bar. The bottom zone now follows the display edge
-in gesture mode, and sits above the system buttons in three-button mode. Geometry
-is rebuilt on display/inset changes. The corrected zones passed short Xiaomi Home/Back/Recents checks with the system
-buttons visible. This is not evidence of reliable daily navigation in gesture mode.
+HyperOS can report an old 130px three-button inset after `navigation_mode`
+changes to gestures. The old zone therefore ended above the physical bottom.
+`GestureNavigationMode` now resolves the selected mode independently of those
+insets. Gesture mode ignores stale navigation insets entirely, while three-button
+mode keeps touch zones clear of the bar. A content observer handles mode changes
+and the geometry cache includes that mode. Back swipes show a separate,
+non-touchable blue circle/arrow window that is removed on release or cancellation.
+
+Physical Xiaomi tests passed Home from the display edge, swipe-and-hold for
+Recents, side Back with visual feedback, and live transitions between system
+buttons and gestures. These checks do not establish compatibility with every app
+or long-term process survival. See the [work status](settings-and-navigation-status.md)
+for the exact cases and remaining checks.
 
 ## Sources inspected
 
@@ -100,22 +108,25 @@ Any store release also requires reviewing the published privacy policy and Play
 accessibility declaration for the expanded purpose. This research branch is not
 being published to Play.
 
-## Physical-device state
+## Physical-device verification
 
-The Xiaomi 11T Pro is using system three-button navigation again. The obsolete
-standalone Xiaomi gesture service was removed from the enabled accessibility
-list, preserving other services. Olauncher and Ogesture were uninstalled at the
-user’s request. BetterLauncher settings and app assignments were backed up and
-restored during the earlier signing-key replacement; subsequent installs use
-`adb install -r` with the same local debug key, retaining data. A fresh snapshot
-was saved before this update, with experimental gestures turned off for recovery.
+Olauncher and Ogesture were uninstalled at the user’s request. BetterLauncher’s
+settings and app assignments were restored during the earlier signing-key
+replacement. Subsequent installations update in place with the same debug key.
+The old separate gesture accessibility entry has been removed in favor of the
+shared BetterLauncher service.
 
-Earlier on-device checks exercised Back, Home and Recents from the old overlay
-zones, but the user subsequently reported unreliable Home navigation. The integrated build subsequently passed Home swipes from three vertical points
-in the wider bottom zone, a Back swipe and swipe-and-hold for Recents. System
-buttons stayed visible, overlay geometry ended above their bar, and cleanup
-removed the overlays and returned Home with the experiment off. Treat daily-use
-reliability in hidden-button mode as unresolved, not as a completed feature.
+The latest validation used the user’s gesture mode and tested the physical bottom
+at 2398px on a 2400px screen. Home, Recents and visual Back feedback passed. A
+three-button transition confirmed that the touch zone ended above its 130px bar,
+then switching back restored the physical-edge zone. Test cleanup restored the
+starting navigation mode; later user choices are not overwritten.
+
+PowerKeeper’s exported battery-profile provider on this firmware requires the
+signature/system `miui.permission.powerkeeper.HIDDEN_MODE_PROVIDER` permission.
+A regular app cannot use its direct profile state. The guide explains the manual
+fallback and unknown vendor status is shown neutrally instead of claiming a
+permission is missing.
 
 ## Release isolation
 

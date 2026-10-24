@@ -125,7 +125,6 @@
     <string name="adapter_show">Afficher</string>
     <string name="adapter_hide">Masquer</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">Utilisez-vous votre téléphone, ou votre téléphone vous utilise-t-il?</string>
-    <string name="about_olauncher">À propos BetterLauncher</string>
     <string name="learn_more">Apprendre encore plus</string>
     <string name="screen_time">Temps d\'écran</string>
     <string name="did_you_know">Saviez-vous?</string>
@@ -306,10 +305,10 @@ Pour la supprimer, il doit être ≤ 2</string>
     <string name="autostart_settings">Autoriser le démarrage automatique</string>
     <string name="app_info_settings">Informations et autorisations de l’application</string>
     <string name="navigation_settings">Navigation Xiaomi</string>
-    <string name="background_access_message">L’accessibilité est facultative : elle permet le verrouillage par double toucher et les pauses des applications choisies. La batterie et le démarrage automatique peuvent aider en cas d’arrêt en arrière-plan, sans garantir un fonctionnement continu. Sur Xiaomi, choisissez Aucune restriction et autorisez le démarrage automatique si nécessaire.</string>
+    <string name="background_access_message">Activez le seul service BetterLauncher dans Accessibilité Android pour le verrouillage par double appui, les limites d’applications et les gestes Xiaomi choisis. L’autorisation existante est réutilisée. Si Android bloque l’activation, utilisez Autoriser les paramètres restreints.\n\nSi les fonctions s’arrêtent, choisissez Sans restriction pour la batterie et vérifiez le démarrage automatique sur Xiaomi. Le gris indique que le téléphone ne permet pas de vérification automatique fiable. Vérifiez le réglage système, puis cochez la case sous son bouton. Ces options ne sont pas nécessaires aux fonctions de base du lanceur.</string>
     <string name="xiaomi_gestures">Gestes Xiaomi</string>
     <string name="xiaomi_gestures_message">Navigation facultative pour Xiaomi : balayage latéral pour Retour, du bas pour Accueil, vers le haut avec pause pour Récents. Les gestes utilisent le même service d’accessibilité BetterLauncher que le verrouillage et les limites des applications, avec des zones tactiles et les changements de fenêtre. Les touches inutilisées sont rejouées localement. Aucune donnée d’accessibilité conservée ou transmise. BetterLauncher doit être le lanceur par défaut ; pause écran verrouillé. Les bords peuvent être moins réactifs ou gêner des applications. Gardez les trois boutons jusqu’aux essais. Activez l’option. Si l’accessibilité BetterLauncher est déjà activée, aucune autre autorisation n’est nécessaire ; sinon, ouvrez les paramètres d’accessibilité Android. Désactivation ici ou dans Accessibilité. Pas de gestes natifs Xiaomi ; la batterie peut arrêter le service.</string>
-    <string name="background_access_short">L’accessibilité est facultative. En cas d’arrêt, vérifiez la batterie et le démarrage automatique. Touchez pour l’aide.</string>
+    <string name="background_access_short">Guide d’accessibilité</string>
     <string name="accessibility_features">Accessibilité : verrouillage et limites</string>
     <string name="restricted_settings">Autoriser les paramètres restreints</string>
     <string name="restricted_settings_message">Android peut bloquer l’accessibilité pour une application installée par APK. Si vous faites confiance à cette installation, ouvrez Informations sur l’application, puis le menu à trois points et Autoriser les paramètres restreints. Confirmez sur le téléphone, puis activez le service choisi. BetterLauncher ne peut pas s’accorder cette autorisation système.</string>
@@ -320,4 +319,5 @@ Pour la supprimer, il doit être ≤ 2</string>
     <string name="setup_pending">À faire</string>
     <string name="navigation_mode_action">Choisir boutons ou gestes</string>
     <string name="restore_buttons_before_disable">Avant de désactiver ces gestes, rétablissez les trois boutons. Ouvrez les réglages de navigation, choisissez les trois boutons, puis désactivez cette option.</string>
+    <string name="setup_unverified">À vérifier</string>
 </resources><!-- French -->

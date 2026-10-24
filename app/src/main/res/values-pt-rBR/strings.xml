@@ -124,7 +124,6 @@
     <string name="adapter_show">Mostrar</string>
     <string name="adapter_hide">Esconder</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">Você está usando seu telefone, ou seu telefone está usando você?</string>
-    <string name="about_olauncher">Sobre BetterLauncher</string>
     <string name="learn_more">Saber mais</string>
     <string name="screen_time">Tempo de tela</string>
     <string name="did_you_know">Você sabia?</string>
@@ -305,10 +304,10 @@ Para remover, deve ser ≤ 2</string>
     <string name="autostart_settings">Permitir inicialização automática</string>
     <string name="app_info_settings">Informações e permissões do app</string>
     <string name="navigation_settings">Navegação Xiaomi</string>
-    <string name="background_access_message">A acessibilidade é opcional: permite bloquear com dois toques e aplicar as pausas escolhidas. Bateria e inicialização automática podem ajudar se essas funções pararem em segundo plano, sem garantir execução contínua. Na Xiaomi, selecione Sem restrições e permita a inicialização automática se necessário.</string>
+    <string name="background_access_message">Ative o único serviço BetterLauncher na Acessibilidade do Android para bloqueio com toque duplo, limites de apps e os gestos Xiaomi escolhidos. A permissão existente é reutilizada. Se o Android bloquear, use Permitir configurações restritas.\n\nSe as funções pararem, escolha Sem restrições na bateria e confira o início automático na Xiaomi. O cinza indica que o aparelho não permite uma verificação automática confiável. Verifique a opção no sistema e confirme a caixa abaixo do botão. Essas opções não são necessárias para o uso básico do launcher.</string>
     <string name="xiaomi_gestures">Gestos Xiaomi</string>
     <string name="xiaomi_gestures_message">Navegação opcional para Xiaomi: deslize pelas laterais para Voltar, de baixo para Início, ou para cima e segure para Recentes. Os gestos usam o mesmo serviço de acessibilidade do BetterLauncher que o bloqueio e os limites de apps, com áreas de toque e mudanças de janela. Toques não usados são reproduzidos localmente. Não salva nem transmite dados de acessibilidade. Só com BetterLauncher padrão; pausa na tela bloqueada. Pode atrasar toques ou interferir em apps. Mantenha os três botões até testar. Ative a opção. Se a acessibilidade do BetterLauncher já estiver ativa, não é necessária outra permissão; caso contrário, abra as configurações de acessibilidade do Android. Desative aqui ou em Acessibilidade. Não restaura gestos nativos; restrições de bateria podem pará-lo.</string>
-    <string name="background_access_short">A acessibilidade é opcional. Se as funções pararem, confira bateria e inicialização automática. Toque para ajuda.</string>
+    <string name="background_access_short">Guia de acessibilidade</string>
     <string name="accessibility_features">Acessibilidade: bloqueio e limites</string>
     <string name="restricted_settings">Permitir configurações restritas</string>
     <string name="restricted_settings_message">O Android pode bloquear a acessibilidade de um app instalado por APK. Se confiar nesta instalação, abra Informações do app, o menu de três pontos e Permitir configurações restritas. Confirme no telefone e depois ative o serviço escolhido. O BetterLauncher não pode conceder a si mesmo essa permissão do sistema.</string>
@@ -319,4 +318,5 @@ Para remover, deve ser ≤ 2</string>
     <string name="setup_pending">Pendente</string>
     <string name="navigation_mode_action">Escolher botões ou gestos</string>
     <string name="restore_buttons_before_disable">Antes de desativar estes gestos, restaure os três botões. Abra as configurações de navegação, escolha três botões e desative esta opção.</string>
+    <string name="setup_unverified">A verificar</string>
 </resources><!-- Portuguese -->

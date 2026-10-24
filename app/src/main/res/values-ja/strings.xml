@@ -125,7 +125,6 @@
     <string name="screen_time">スクリーンタイム</string>
     <string name="swipe_right_app_disabled">アプリを右にスワイプすると無効になります</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">あなたは電話を使っていますか、それともあなたの電話があなたを使っていますか？</string>
-    <string name="about_olauncher">アバウト BetterLauncher</string>
     <string name="learn_more">もっと詳しく知る</string>
     <string name="did_you_know">知っていましたか？</string>
     <string name="leave_a_review">レビューを残す</string>
@@ -305,10 +304,10 @@
     <string name="autostart_settings">自動起動を許可</string>
     <string name="app_info_settings">アプリ情報と権限</string>
     <string name="navigation_settings">Xiaomiのナビゲーション</string>
-    <string name="background_access_message">ユーザー補助は任意です。ダブルタップでのロックと、選択したアプリの休止に使用します。バッテリーと自動起動の設定はバックグラウンドで停止する場合に役立ちますが、常時動作を保証しません。Xiaomiでは必要に応じて制限なしを選択し、自動起動を許可してください。</string>
+    <string name="background_access_message">Androidのユーザー補助でBetterLauncherのサービスを1つ有効にすると、ダブルタップでのロック、アプリ制限、選択したXiaomiジェスチャーを利用できます。許可済みの権限は再利用します。Androidにブロックされた場合は、制限付き設定を許可してください。\n\n機能が停止する場合は、電池設定で制限なしを選び、Xiaomiの自動起動を確認してください。灰色の表示は端末が信頼できる自動確認に対応していないことを示します。システム設定を確認してから、ボタン下のチェック欄で確認してください。基本的なランチャーの利用にこれらは不要です。</string>
     <string name="xiaomi_gestures">Xiaomiジェスチャー</string>
     <string name="xiaomi_gestures_message">Xiaomi専用の任意のナビゲーションです。横からスワイプで戻る、下からホーム、上へスワイプして止めると履歴になります。画面ロックやアプリ制限と同じBetterLauncherのユーザー補助サービスで、画面端のタッチとウィンドウ変更を使います。未使用のタッチは端末内で再送します。ユーザー補助データは保存・送信しません。BetterLauncherが既定の場合のみ動作し、ロック中は停止します。端の操作が遅くなったりアプリと干渉する場合があります。テストが済むまで3ボタンを残してください。オプションを有効にします。BetterLauncherのユーザー補助が有効なら追加の権限は不要です。未設定の場合はAndroidのユーザー補助設定を開いてください。ここかユーザー補助で無効にできます。純正ジェスチャーは復活しません。電池制限で停止する場合があります。</string>
-    <string name="background_access_short">ユーザー補助は任意です。機能が停止する場合はバッテリーと自動起動を確認してください。タップでヘルプを表示します。</string>
+    <string name="background_access_short">ユーザー補助ガイド</string>
     <string name="accessibility_features">ユーザー補助：ロックとアプリ制限</string>
     <string name="restricted_settings">制限付き設定を許可</string>
     <string name="restricted_settings_message">AndroidはAPKからインストールしたアプリのユーザー補助を制限する場合があります。このインストールを信頼する場合は、アプリ情報の3点メニューから制限付き設定を許可し、端末で確認してください。その後、選んだサービスを有効にします。BetterLauncherはこのシステム権限を自分で付与できません。</string>
@@ -319,4 +318,5 @@
     <string name="setup_pending">未完了</string>
     <string name="navigation_mode_action">ボタンかジェスチャーを選択</string>
     <string name="restore_buttons_before_disable">このジェスチャーを無効にする前に3ボタンナビゲーションに戻してください。ナビゲーション設定で3ボタンを選んでから、このオプションを無効にします。</string>
+    <string name="setup_unverified">要確認</string>
 </resources> <!-- Japanese -->

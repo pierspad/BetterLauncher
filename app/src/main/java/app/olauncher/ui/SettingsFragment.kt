@@ -231,7 +231,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         initClickListeners()
         initObservers()
         binding.reliabilitySummary.setOnClickListener {
-            showMessageDialog(R.string.background_access, R.string.background_access_message, R.string.close)
+            showMessageDialog(R.string.background_access_short, R.string.background_access_message, R.string.close)
         }
         binding.accessibilityShortcut.setOnClickListener { app.olauncher.helper.AccessibilityConsent.openSettings(requireContext()) }
         binding.restrictedSettingsShortcut.setOnClickListener {
@@ -305,11 +305,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     private fun gestureNavigationSelected(): Boolean {
-        val mode = Settings.Secure.getInt(requireContext().contentResolver, "navigation_mode", 0)
-        val vendor = Settings.Global.getInt(requireContext().contentResolver, "force_fsg_nav_bar", 0)
-        val insets = androidx.core.view.ViewCompat.getRootWindowInsets(binding.root)
-        val bottom = insets?.getInsetsIgnoringVisibility(WindowInsetsCompat.Type.navigationBars())?.bottom
-        return vendor == 1 || (mode == 2 && bottom != null && bottom < 32.dpToPx())
+        return app.olauncher.helper.GestureNavigationMode.isGestural(requireContext())
     }
 
     private fun refreshGestureStatus() {
@@ -325,20 +321,20 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.batterySetupConfirmed.isChecked = prefs.batterySetupConfirmed
         binding.autostartSetupConfirmed.isVisible = DeviceSettings.isXiaomi() && prefs.autostartSetupOpened
         binding.autostartSetupConfirmed.isChecked = prefs.autostartSetupConfirmed
-        fun step(view: TextView, number: Int, title: Int, completed: Boolean) {
+        fun step(view: TextView, number: Int, title: Int, completed: Boolean?) {
             val label = getString(R.string.setup_step_label, number, getString(title))
             view.text = label
             view.contentDescription = getString(R.string.setting_state, label,
-                getString(if (completed) R.string.setup_complete else R.string.setup_pending))
+                getString(when (completed) { true -> R.string.setup_complete; false -> R.string.setup_pending; null -> R.string.setup_unverified }))
             val dot = androidx.core.content.ContextCompat.getDrawable(requireContext(),
-                if (completed) R.drawable.ic_step_done else R.drawable.ic_step_pending)
+                when (completed) { true -> R.drawable.ic_step_done; false -> R.drawable.ic_step_pending; null -> R.drawable.ic_step_unknown })
             view.setCompoundDrawablesRelativeWithIntrinsicBounds(view.compoundDrawablesRelative[0], null, dot, null)
             view.compoundDrawablePadding = 12.dpToPx()
         }
         step(binding.accessibilityShortcut, 1, R.string.accessibility_features, isAccessServiceEnabled(requireContext()))
-        step(binding.batteryShortcut, 2, R.string.battery_settings, batteryUnrestricted ?: prefs.batterySetupConfirmed)
-        step(binding.autostartShortcut, 3, R.string.autostart_settings, prefs.autostartSetupConfirmed)
-        step(binding.navigationShortcut, 4, R.string.navigation_mode_action, gestureNavigationSelected())
+        step(binding.batteryShortcut, 2, R.string.battery_settings, batteryUnrestricted ?: if (prefs.batterySetupConfirmed) true else null)
+        step(binding.autostartShortcut, 3, R.string.autostart_settings, if (prefs.autostartSetupConfirmed) true else null)
+        binding.navigationShortcut.setText(R.string.navigation_mode_action)
         if (query.isNotBlank()) settingsSearch?.filter(query)
     }
 
@@ -413,11 +409,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
             R.id.changeLanguage -> findNavController().navigate(R.id.action_settingsFragment_to_languagePickerFragment)
 
-            R.id.aboutOlauncher -> {
-                prefs.aboutClicked = true
-                requireContext().openUrl(Constants.URL_ABOUT_OLAUNCHER)
-            }
-
             R.id.share -> requireActivity().shareApp()
             R.id.rate -> {
                 prefs.rateClicked = true
@@ -450,7 +441,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.resetSettings.setOnClickListener(this)
         binding.scrollLayout.setOnClickListener(this)
         binding.setLauncher.setOnClickListener(this)
-        binding.aboutOlauncher.setOnClickListener(this)
         binding.autoShowKeyboard.setOnClickListener(this)
         binding.toggleLock.setOnClickListener(this)
         // Home button for recents feature disabled
@@ -670,7 +660,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     ) {
         val dialogBinding = app.olauncher.databinding.DialogMessageBinding.inflate(layoutInflater)
         dialogBinding.dialogTitle.setText(titleRes)
-        if (titleRes in setOf(R.string.background_access, R.string.xiaomi_gestures, R.string.restricted_settings)) {
+        if (titleRes in setOf(R.string.background_access, R.string.background_access_short, R.string.xiaomi_gestures, R.string.restricted_settings)) {
             dialogBinding.dialogTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_shield, 0, 0, 0)
             dialogBinding.dialogTitle.compoundDrawablePadding = 12.dpToPx()
         }

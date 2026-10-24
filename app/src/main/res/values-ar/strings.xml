@@ -122,7 +122,6 @@
     <string name="swipe_left_app_enabled">التمرير لليسار مفعّل</string>
     <string name="swipe_right_app_enabled">التمرير لليمين مفعّل</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">هل تستخدم هاتفك أم أن هاتفك يستخدمك؟</string>
-    <string name="about_olauncher">عن BetterLauncher</string>
     <string name="learn_more">تعلم أكثر</string>
     <string name="did_you_know">هل كنت تعلم؟</string>
     <string name="leave_a_review">أخبرنا رأيك</string>
@@ -304,10 +303,10 @@
     <string name="autostart_settings">السماح بالتشغيل التلقائي</string>
     <string name="app_info_settings">معلومات التطبيق وأذوناته</string>
     <string name="navigation_settings">التنقل في شاومي</string>
-    <string name="background_access_message">إمكانية الوصول اختيارية للقفل بنقرتين وفترات التوقف التي تختارها للتطبيقات. قد تساعد إعدادات البطارية والتشغيل التلقائي إذا توقفت الميزات في الخلفية، لكنها لا تضمن التشغيل المستمر. على شاومي اختر بلا قيود واسمح بالتشغيل التلقائي عند الحاجة.</string>
+    <string name="background_access_message">فعّل خدمة BetterLauncher الوحيدة في إمكانية وصول Android للقفل بالنقر المزدوج وحدود التطبيقات وإيماءات شاومي التي تختارها. يُعاد استخدام الإذن الموجود. إذا منع Android التفعيل، اسمح بالإعدادات المقيّدة.\n\nإذا توقفت الميزات، اختر بلا قيود في إعدادات البطارية وتحقق من التشغيل التلقائي على شاومي. يعني اللون الرمادي أن الهاتف لا يتيح تحققاً آلياً موثوقاً. تحقق من إعداد النظام ثم حدد مربع التأكيد أسفل الزر. هذه الخيارات ليست مطلوبة للاستخدام الأساسي للمشغل.</string>
     <string name="xiaomi_gestures">إيماءات شاومي</string>
     <string name="xiaomi_gestures_message">تنقل اختياري لشاومي: اسحب من الجانب للرجوع ومن الأسفل للرئيسية أو للأعلى مع التوقف للتطبيقات الأخيرة. تستخدم الإيماءات خدمة وصول BetterLauncher نفسها لقفل الشاشة وحدود التطبيقات، مع مناطق لمس الحواف وتغيّر النوافذ. تعيد اللمسات غير المستخدمة محلياً دون حفظ بيانات الوصول أو إرسالها. تعمل فقط مع BetterLauncher كمشغل افتراضي وتتوقف عند القفل. قد تتأخر اللمسات أو تتعارض مع تطبيقات. احتفظ بالأزرار الثلاثة حتى تختبر الإيماءات. فعّل الخيار. إذا كانت إمكانية وصول BetterLauncher مفعّلة، فلا حاجة لإذن إضافي؛ وإلا افتح إعدادات إمكانية الوصول في Android. عطّلها هنا أو في إمكانية الوصول. لا تعيد إيماءات شاومي الأصلية وقد توقفها قيود البطارية.</string>
-    <string name="background_access_short">إمكانية الوصول اختيارية. إذا توقفت الميزات فتحقق من البطارية والتشغيل التلقائي. انقر للمساعدة.</string>
+    <string name="background_access_short">دليل إمكانية الوصول</string>
     <string name="accessibility_features">إمكانية الوصول: القفل وحدود التطبيقات</string>
     <string name="restricted_settings">السماح بالإعدادات المقيّدة</string>
     <string name="restricted_settings_message">قد يمنع Android إمكانية الوصول لتطبيق مثبت من APK. إذا كنت تثق بهذا التثبيت، افتح معلومات التطبيق ثم قائمة النقاط الثلاث واسمح بالإعدادات المقيّدة. أكّد على الهاتف ثم فعّل الخدمة المختارة. لا يستطيع BetterLauncher منح نفسه إذن النظام هذا.</string>
@@ -318,4 +317,5 @@
     <string name="setup_pending">مطلوب</string>
     <string name="navigation_mode_action">اختيار الأزرار أو الإيماءات</string>
     <string name="restore_buttons_before_disable">قبل إيقاف هذه الإيماءات أعد التنقل بالأزرار الثلاثة. افتح إعدادات التنقل واختر الأزرار الثلاثة ثم أوقف هذا الخيار.</string>
+    <string name="setup_unverified">بحاجة إلى تحقق</string>
 </resources>

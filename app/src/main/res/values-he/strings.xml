@@ -120,7 +120,6 @@
     <string name="new_year_wish">לעבר שנה טובה יותר מכל מה שקדם. שנה טובה!</string>
     <string name="new_year_wish_1">לא משנה איך עבר ינואר. עדיין יש לך את שאר השנה להצליח יותר מתמיד</string>
     <string name="cheers">לחיים!</string>
-    <string name="about_olauncher">אודות ושאלות נפוצות</string>
     <string name="screen_time">זמן מסך</string>
     <string name="learn_more">למדו עוד</string>
     <string name="did_you_know">האם ידעת?</string>
@@ -298,10 +297,10 @@
     <string name="autostart_settings">אפשר הפעלה אוטומטית</string>
     <string name="app_info_settings">פרטי היישום והרשאות</string>
     <string name="navigation_settings">ניווט Xiaomi</string>
-    <string name="background_access_message">נגישות היא אפשרות לבחירה: לנעילה בהקשה כפולה ולהפסקות היישומים שבחרת. הגדרות סוללה והפעלה אוטומטית עשויות לעזור אם התכונות נעצרות ברקע, אך אינן מבטיחות פעולה רצופה. ב-Xiaomi יש לבחור ללא הגבלות ולאפשר הפעלה אוטומטית לפי הצורך.</string>
+    <string name="background_access_message">הפעילו את שירות BetterLauncher היחיד בנגישות Android לנעילה בהקשה כפולה, להגבלות יישומים ולמחוות Xiaomi שבחרתם. הרשאה קיימת מנוצלת מחדש. אם Android חוסם את ההפעלה, אפשרו הגדרות מוגבלות.\n\nאם התכונות מפסיקות לפעול, בחרו ללא הגבלה בהגדרות הסוללה ובדקו הפעלה אוטומטית ב-Xiaomi. אפור מציין שהטלפון אינו מאפשר בדיקה אוטומטית אמינה. בדקו את הגדרת המערכת ואז סמנו את התיבה מתחת לכפתור. האפשרויות אינן נדרשות לשימוש בסיסי במשגר.</string>
     <string name="xiaomi_gestures">מחוות Xiaomi</string>
     <string name="xiaomi_gestures_message">ניווט אופציונלי ל-Xiaomi: החלקה מהצד לחזרה, מלמטה לבית, למעלה והחזקה ליישומים אחרונים. המחוות משתמשות באותו שירות נגישות של BetterLauncher כמו נעילת המסך והגבלות היישומים, עם אזורי מגע בקצוות ושינויי חלונות. נגיעות שלא שימשו למחווה משוחזרות מקומית. נתוני נגישות אינם נשמרים או נשלחים. פועל רק כש-BetterLauncher הוא ברירת המחדל ומושהה בנעילה. עלול להאט נגיעות או להתנגש ביישומים. השאירו שלושה כפתורים עד לבדיקת כל המחוות. הפעילו את האפשרות. אם הנגישות של BetterLauncher כבר פעילה, אין צורך בהרשאה נוספת; אחרת פתחו את הגדרות הנגישות של Android. ניתן לכבות כאן או בנגישות. אינו משחזר מחוות מקוריות; מגבלות סוללה עלולות לעצור אותו.</string>
-    <string name="background_access_short">נגישות היא אפשרות לבחירה. אם התכונות נעצרות, בדקו סוללה והפעלה אוטומטית. הקישו לעזרה.</string>
+    <string name="background_access_short">מדריך נגישות</string>
     <string name="accessibility_features">נגישות: נעילה ומגבלות יישומים</string>
     <string name="restricted_settings">אפשר הגדרות מוגבלות</string>
     <string name="restricted_settings_message">Android עשוי לחסום נגישות ליישום שהותקן מ-APK. אם ההתקנה מהימנה, פתחו את פרטי היישום, תפריט שלוש הנקודות ואפשרו הגדרות מוגבלות. אשרו בטלפון ואז הפעילו את השירות שנבחר. BetterLauncher אינו יכול להעניק לעצמו הרשאת מערכת זו.</string>
@@ -312,4 +311,5 @@
     <string name="setup_pending">לביצוע</string>
     <string name="navigation_mode_action">בחירת כפתורים או מחוות</string>
     <string name="restore_buttons_before_disable">לפני כיבוי המחוות החזירו ניווט בשלושה כפתורים. פתחו את הגדרות הניווט, בחרו שלושה כפתורים ואז כבו אפשרות זו.</string>
+    <string name="setup_unverified">דורש בדיקה</string>
 </resources>

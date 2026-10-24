@@ -126,7 +126,6 @@
     <string name="swipe_left_app_disabled">向左滑动应用程序已禁用</string>
     <string name="swipe_right_app_disabled">向右滑动应用程序已禁用</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">是你在用手机，还是手机在用你？</string>
-    <string name="about_olauncher">关于 BetterLauncher</string>
     <string name="learn_more">了解更多</string>
     <string name="screen_time">屏幕时间</string>
     <string name="did_you_know">你可知道？</string>
@@ -307,10 +306,10 @@
     <string name="autostart_settings">允许自启动</string>
     <string name="app_info_settings">应用信息和权限</string>
     <string name="navigation_settings">小米导航</string>
-    <string name="background_access_message">无障碍功能为可选项，用于双击锁屏和所选应用的冷却时间。电池和自启动设置可能有助于减少后台停止，但不能保证持续运行。在小米设备上，请按需选择无限制并允许自启动。</string>
+    <string name="background_access_message">在Android无障碍设置中启用唯一的BetterLauncher服务，即可使用双击锁屏、应用限制及所选的小米手势。已有权限会直接复用。如果Android阻止启用，请允许受限设置。\n\n如果功能停止，请在电池设置中选择无限制，并检查小米的自启动。灰色标记表示设备不支持可靠的自动检查。请在系统中确认设置后，勾选按钮下方的确认框。使用启动器的基本功能无需这些选项。</string>
     <string name="xiaomi_gestures">小米手势</string>
     <string name="xiaomi_gestures_message">小米专用的可选导航：从侧边滑动返回，从底部滑动回到主屏幕，向上滑动并停留打开最近任务。手势与锁屏和应用限制共用BetterLauncher无障碍服务，使用边缘触摸区域和窗口变化信号。未使用的触摸会在本机重放，不保存或传输无障碍数据。仅在BetterLauncher为默认启动器时运行，锁屏时暂停。边缘触摸可能变慢或与应用冲突。测试所有手势前请保留三个按钮。启用此选项。如果BetterLauncher无障碍服务已开启，无需再次授权；否则请打开Android无障碍设置。可在此处或无障碍设置中关闭。不会恢复小米原生手势，电池限制可能使其停止。</string>
-    <string name="background_access_short">无障碍为可选功能。如功能停止，请检查电池和自启动设置。点按查看帮助。</string>
+    <string name="background_access_short">无障碍指南</string>
     <string name="accessibility_features">无障碍：锁屏和应用限制</string>
     <string name="restricted_settings">允许受限设置</string>
     <string name="restricted_settings_message">Android可能会阻止从APK安装的应用使用无障碍。如果你信任此安装，请打开应用信息，点击三点菜单并允许受限设置。在手机上确认后，再启用所选服务。BetterLauncher无法自行授予此系统权限。</string>
@@ -321,4 +320,5 @@
     <string name="setup_pending">待完成</string>
     <string name="navigation_mode_action">选择按钮或手势</string>
     <string name="restore_buttons_before_disable">关闭此手势前，请恢复三按钮导航。打开导航设置，选择三个按钮，然后关闭此选项。</string>
+    <string name="setup_unverified">待确认</string>
 </resources><!-- Chinese -->

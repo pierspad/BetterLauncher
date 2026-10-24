@@ -123,7 +123,6 @@
     <string name="adapter_show">Visa</string>
     <string name="adapter_hide">Dölj</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">Använder du din telefon, eller använder din telefon dig?</string>
-    <string name="about_olauncher">Om BetterLauncher</string>
     <string name="screen_time">Skärmtid</string>
     <string name="learn_more">Läs mer</string>
     <string name="did_you_know">Visste du?</string>
@@ -304,10 +303,10 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="autostart_settings">Tillåt automatisk start</string>
     <string name="app_info_settings">Appinformation och behörigheter</string>
     <string name="navigation_settings">Xiaomi-navigering</string>
-    <string name="background_access_message">Tillgänglighet är valfritt: för låsning med dubbeltryck och valda app-pauser. Batteri och automatisk start kan hjälpa om funktionerna stoppas i bakgrunden, men garanterar inte ständig drift. Välj vid behov Inga begränsningar och tillåt automatisk start på Xiaomi.</string>
+    <string name="background_access_message">Aktivera den enda BetterLauncher-tjänsten i Androids tillgänglighet för dubbeltryckslåsning, appgränser och valda Xiaomi-gester. Befintligt tillstånd återanvänds. Om Android blockerar aktiveringen, använd Tillåt begränsade inställningar.\n\nOm funktioner slutar fungera, välj Obegränsad för batteriet och kontrollera autostart på Xiaomi. Grått betyder att telefonen inte tillåter tillförlitlig automatisk kontroll. Kontrollera systeminställningen och markera sedan rutan under knappen. Alternativen behövs inte för grundläggande användning av startskärmen.</string>
     <string name="xiaomi_gestures">Xiaomi-gester</string>
     <string name="xiaomi_gestures_message">Valfri Xiaomi-navigering: svep från sidan för Tillbaka, nerifrån för Hem, uppåt och håll för Senaste. Gesterna använder samma BetterLauncher-tillgänglighetstjänst som skärmlås och appgränser, med kantytor och fönsterbyten. Oanvända tryck spelas upp lokalt. Inga tillgänglighetsdata sparas eller skickas. Bara med BetterLauncher som standard; paus vid låst skärm. Kan fördröja tryck eller störa appar. Behåll de tre knapparna tills allt testats. Aktivera alternativet. Om BetterLaunchers tillgänglighet redan är aktiverad behövs inget ytterligare tillstånd; öppna annars Androids tillgänglighetsinställningar. Stäng av här eller i Tillgänglighet. Återställer inte inbyggda Xiaomi-gester; batteribegränsningar kan stoppa den.</string>
-    <string name="background_access_short">Tillgänglighet är valfritt. Kontrollera batteri och automatisk start om funktioner stoppas. Tryck för hjälp.</string>
+    <string name="background_access_short">Tillgänglighetsguide</string>
     <string name="accessibility_features">Tillgänglighet: lås och appgränser</string>
     <string name="restricted_settings">Tillåt begränsade inställningar</string>
     <string name="restricted_settings_message">Android kan blockera tillgänglighet för en app installerad via APK. Om du litar på installationen, öppna Appinformation, menyn med tre punkter och Tillåt begränsade inställningar. Bekräfta på telefonen och aktivera sedan vald tjänst. BetterLauncher kan inte ge sig själv denna systembehörighet.</string>
@@ -318,4 +317,5 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="setup_pending">Att göra</string>
     <string name="navigation_mode_action">Välj knappar eller gester</string>
     <string name="restore_buttons_before_disable">Återställ treknappsnavigering innan du stänger av dessa gester. Öppna navigeringsinställningar, välj tre knappar och stäng sedan av alternativet.</string>
+    <string name="setup_unverified">Behöver kontrolleras</string>
 </resources><!-- Swedish -->

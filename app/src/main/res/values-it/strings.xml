@@ -150,7 +150,6 @@ Inserisci prima un nuovo nome per l\'app</string>
     <string name="adapter_show">Mostra</string>
     <string name="adapter_hide">Nascondi</string>
     <string name="are_you_using_your_phone_or_is_your_phone_using_you">Stai usando il tuo telefono, o è il tuo telefono che sta usando te?</string>
-    <string name="about_olauncher">Info BetterLauncher</string>
     <string name="learn_more">Saperne di più</string>
     <string name="screen_time">Tempo di schermo</string>
     <string name="did_you_know">Lo sapevate?</string>
@@ -366,10 +365,10 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="autostart_settings">Consenti avvio automatico</string>
     <string name="app_info_settings">Informazioni e permessi app</string>
     <string name="navigation_settings">Navigazione Xiaomi</string>
-    <string name="background_access_message">Accessibilità è facoltativa: serve al doppio tocco per bloccare lo schermo e ai cooldown delle app che scegli. Batteria e avvio automatico possono aiutare se queste funzioni si interrompono in background, ma non garantiscono che Android mantenga attiva l’app. Su Xiaomi, nelle informazioni app scegli Nessuna restrizione e consenti l’avvio automatico se necessario.</string>
+    <string name="background_access_message">Attiva il solo servizio BetterLauncher in Accessibilità Android per il blocco con doppio tocco, i limiti app e le gesture Xiaomi che scegli. Il permesso già concesso viene riutilizzato. Se Android blocca l’attivazione, usa Consenti impostazioni con restrizioni.\n\nSe le funzioni si interrompono, scegli Nessuna restrizione nelle impostazioni batteria e controlla l’avvio automatico su Xiaomi. Il pallino grigio indica che il telefono non consente una verifica automatica affidabile. Controlla la voce nel sistema, poi conferma la casella sotto il relativo tasto. Queste opzioni non sono necessarie per usare le funzioni di base del launcher.</string>
     <string name="xiaomi_gestures">Gesture Xiaomi</string>
     <string name="xiaomi_gestures_message">Navigazione facoltativa solo per Xiaomi: scorri dai lati per Indietro, dal basso per Home, o verso l’alto con pausa per Recenti. Le gesture usano lo stesso servizio di accessibilità di BetterLauncher del blocco schermo e dei limiti app, con zone tattili ai bordi ed eventi di cambio finestra. I tocchi ai bordi non usati vengono reinviati localmente. Non salva né trasmette dati di accessibilità. Funziona solo con BetterLauncher predefinito e si sospende a schermo bloccato. I tocchi ai bordi possono rallentare o interferire con le app. Mantieni i tre tasti finché non hai provato tutte le gesture. Abilita l’opzione. Se l’accessibilità di BetterLauncher è già attiva, non serve un altro permesso; altrimenti apri le impostazioni di accessibilità Android. Puoi disattivarlo qui o in Accessibilità. Non ripristina le gesture native Xiaomi; le restrizioni batteria possono interromperlo.</string>
-    <string name="background_access_short">Accessibilità è facoltativa. Se le funzioni si interrompono, controlla batteria e avvio automatico. Tocca per la guida.</string>
+    <string name="background_access_short">Guida accessibilità</string>
     <string name="accessibility_features">Accessibilità: blocco e limiti app</string>
     <string name="restricted_settings">Consenti impostazioni con restrizioni</string>
     <string name="restricted_settings_message">Android può bloccare l’accessibilità per un’app installata da APK. Se ti fidi di questa installazione, apri Informazioni app, poi il menu con i tre puntini e Consenti impostazioni con restrizioni. Conferma sul telefono, poi torna qui e abilita il servizio di accessibilità scelto. È un’autorizzazione di sistema: BetterLauncher non può concedersela da solo.</string>
@@ -380,4 +379,5 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="setup_pending">Da fare</string>
     <string name="navigation_mode_action">Scegli pulsanti o gesti</string>
     <string name="restore_buttons_before_disable">Prima di spegnere queste gesture, ripristina la navigazione con tre pulsanti. Apri le impostazioni di navigazione, scegli i tre tasti e poi spegni questa opzione.</string>
+    <string name="setup_unverified">Da verificare</string>
 </resources><!-- Italian -->
