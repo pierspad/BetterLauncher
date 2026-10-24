@@ -1,3 +1,13 @@
+## [1.5.5](https://github.com/pierspad/BetterLauncher/compare/v1.5.4...v1.5.5) (2026-10-24)
+
+### Bug Fixes
+
+* align Xiaomi gesture zones with active navigation mode ([098dc47](https://github.com/pierspad/BetterLauncher/commit/098dc4774c19a27c6bcbd2d801ac46d518b68017))
+* complete settings recovery and optional Xiaomi navigation ([5dcf987](https://github.com/pierspad/BetterLauncher/commit/5dcf98745309fc9f27dd389baf999c1b3c61b2ab))
+* make drawer app actions readable in two aligned rows ([8bad673](https://github.com/pierspad/BetterLauncher/commit/8bad673b9273b983fb978962444c53e259997c50))
+* refine gesture recognition and guard game navigation ([404abc4](https://github.com/pierspad/BetterLauncher/commit/404abc4dc16517a0fdb2d36ebd22e4c022cdf95e))
+* reuse accessibility permission and simplify setup navigation ([481bcfc](https://github.com/pierspad/BetterLauncher/commit/481bcfce99e44c656b223bbdb91f5515b9a9b18d))
+
 ## [1.5.4](https://github.com/pierspad/BetterLauncher/compare/v1.5.3...v1.5.4) (2026-10-22)
 
 ### Bug Fixes
