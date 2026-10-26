@@ -40,6 +40,14 @@ fun runSettingsSearchRegression(context: Context) {
         val search = SettingsSearch(sectionContext, container)
         fun visible(view: View): Boolean = view.visibility == View.VISIBLE &&
             ((view.parent as? View)?.let { visible(it) } ?: true)
+        val generalBody = root.findViewById<View>(R.id.olauncherHiddenApps).parent as ViewGroup
+        val generalHeader = (generalBody.parent as ViewGroup).getChildAt(0) as ViewGroup
+        check(generalHeader.getChildAt(0).tag == "settings:settings_general") {
+            "Both orientations must retain a separate General heading"
+        }
+        check(root.findViewById<View>(R.id.navigationShortcut).parent === generalBody) {
+            "Navigation belongs in General in both orientations"
+        }
         val battery = root.findViewById<View>(R.id.batteryShortcut)
         val batteryBody = battery.parent as ViewGroup
         val batteryCard = batteryBody.parent as ViewGroup
