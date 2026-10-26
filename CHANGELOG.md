@@ -1,3 +1,14 @@
+## [1.6.0](https://github.com/pierspad/BetterLauncher/compare/v1.5.5...v1.6.0) (2026-10-26)
+
+### Features
+
+* add persistent collapsible settings sections ([a50d270](https://github.com/pierspad/BetterLauncher/commit/a50d270cf845801049e1a23f220ef4ee573c4272))
+* expand localized store listings and publishing support ([6509902](https://github.com/pierspad/BetterLauncher/commit/65099024e721157e162a65a582b7fe84e3e51e86))
+
+### Bug Fixes
+
+* keep collapsible settings consistent in landscape ([53ce8ae](https://github.com/pierspad/BetterLauncher/commit/53ce8ae1ce59664a85d41833243c2123b1d41eda))
+
 ## [1.5.5](https://github.com/pierspad/BetterLauncher/compare/v1.5.4...v1.5.5) (2026-10-24)
 
 ### Bug Fixes
