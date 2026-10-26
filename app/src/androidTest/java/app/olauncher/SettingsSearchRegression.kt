@@ -1,6 +1,7 @@
 package app.olauncher
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.res.Configuration
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
@@ -31,18 +32,36 @@ fun runSettingsSearchRegression(context: Context) {
         val container = root.findViewById<LinearLayout>(R.id.scrollLayout)
         val conditional = root.findViewById<View>(R.id.dateOnlyRow)
         conditional.visibility = View.GONE
-        val search = SettingsSearch(themed, container)
+        val sectionContext = object : ContextWrapper(themed) {
+            override fun getSharedPreferences(name: String, mode: Int) =
+                super.getSharedPreferences("regression-sections-$name", mode)
+        }
+        sectionContext.getSharedPreferences("settings_sections", Context.MODE_PRIVATE).edit().clear().commit()
+        val search = SettingsSearch(sectionContext, container)
         fun visible(view: View): Boolean = view.visibility == View.VISIBLE &&
             ((view.parent as? View)?.let { visible(it) } ?: true)
+        val battery = root.findViewById<View>(R.id.batteryShortcut)
+        val batteryBody = battery.parent as ViewGroup
+        val batteryCard = batteryBody.parent as ViewGroup
+        val header = batteryCard.getChildAt(0) as ViewGroup
+        check(header.getChildAt(1).performClick())
+        check(!visible(battery)) { "Collapsing must hide the section body" }
+        val recreated = LayoutInflater.from(themed).inflate(R.layout.fragment_settings, null)
+        SettingsSearch(sectionContext, recreated.findViewById(R.id.scrollLayout))
+        check(recreated.findViewById<View>(R.id.batteryShortcut).parent.let { it as View }.visibility == View.GONE) {
+            "A recreated settings screen must remember collapsed sections"
+        }
         for (query in listOf("batteria", "battery")) {
             check(search.filter(query) > 0) { "Missing translated query: $query" }
-            check(visible(root.findViewById(R.id.batteryShortcut)))
+            check(visible(battery)) { "Search must include collapsed sections" }
+            check(visible(header)) { "Results must retain their section title" }
         }
         check(search.filter("Bildschirmzeit") == 0) { "Do not index unrelated languages" }
         check(search.filter("dimensione testo") > 0)
         check(visible(root.findViewById(R.id.textSizeSeekBar)))
         check(search.filter("no-such-setting-xyz") == 0)
         search.filter("")
+        check(!visible(battery)) { "Clearing search must restore the saved collapsed state" }
         check(conditional.visibility == View.GONE) { "Search must not reveal a conditionally hidden setting" }
         check(visible(root.findViewById(R.id.backupRestoreSettings)))
         search.filter("batteria")

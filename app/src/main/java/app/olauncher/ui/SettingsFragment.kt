@@ -257,7 +257,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         }
         binding.appInfoShortcut.setOnClickListener { DeviceSettings.appInfo(requireContext()) }
         binding.xiaomiNavigationCard.isVisible = DeviceSettings.isXiaomi() && Build.VERSION.SDK_INT >= 29
-        binding.navigationShortcut.isVisible = binding.xiaomiNavigationCard.isVisible
+        binding.navigationShortcut.isVisible = true
         binding.xiaomiGestures.isVisible = DeviceSettings.isXiaomi() && Build.VERSION.SDK_INT >= 29
         binding.gestureStatus.isVisible = binding.xiaomiGestures.isVisible
         binding.xiaomiGestures.isChecked = prefs.xiaomiGestures
@@ -266,13 +266,13 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         }
         binding.xiaomiGestures.setOnClickListener {
             if (binding.xiaomiGestures.isChecked) {
-                prefs.xiaomiGestures = true
-                // This is the same permission used by lock/app limits. Only open
-                // setup if it is missing; returning from either entry activates
-                // the requested gestures without another confirmation dialog.
                 if (app.olauncher.helper.AccessibilityConsent.needsSetup(requireContext())) {
-                    openGestureService()
+                    binding.xiaomiGestures.isChecked = false
+                    com.google.android.material.snackbar.Snackbar.make(binding.root,
+                        R.string.navigation_accessibility_required, 2000).show()
+                    return@setOnClickListener
                 }
+                prefs.xiaomiGestures = true
                 refreshGestureStatus()
             } else {
                 if (gestureNavigationSelected()) {
@@ -286,6 +286,16 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             }
         }
         binding.navigationShortcut.setOnClickListener {
+            if (DeviceSettings.isXiaomi() && Build.VERSION.SDK_INT >= 29 &&
+                app.olauncher.helper.AccessibilityConsent.needsSetup(requireContext())) {
+                com.google.android.material.snackbar.Snackbar.make(binding.root,
+                    R.string.navigation_accessibility_required, 2000).show()
+                return@setOnClickListener
+            }
+            if (DeviceSettings.isXiaomi() && Build.VERSION.SDK_INT >= 29) {
+                prefs.xiaomiGestures = true
+                refreshGestureStatus()
+            }
             DeviceSettings.navigation(requireContext())
         }
         settingsSearch = SettingsSearch(requireContext(), binding.scrollLayout)
@@ -335,11 +345,9 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         step(binding.batteryShortcut, 2, R.string.battery_settings, batteryUnrestricted ?: if (prefs.batterySetupConfirmed) true else null)
         step(binding.autostartShortcut, 3, R.string.autostart_settings, if (prefs.autostartSetupConfirmed) true else null)
         binding.navigationShortcut.setText(R.string.navigation_mode_action)
+        binding.navigationShortcut.alpha = if (DeviceSettings.isXiaomi() && Build.VERSION.SDK_INT >= 29 &&
+            app.olauncher.helper.AccessibilityConsent.needsSetup(requireContext())) 0.5f else 1f
         if (query.isNotBlank()) settingsSearch?.filter(query)
-    }
-
-    private fun openGestureService() {
-        app.olauncher.helper.AccessibilityConsent.openSettings(requireContext())
     }
 
     override fun onClick(view: View) {

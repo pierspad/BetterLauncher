@@ -322,4 +322,8 @@
     <string name="setup_unverified">Потребує перевірки</string>
     <string name="game_gesture_repeat">Повторіть жест протягом 3 секунд для підтвердження.</string>
     <string name="xiaomi_game_gesture_help">В іграх, розпізнаних Android, повторіть той самий жест протягом 3 секунд для підтвердження Додому, Назад або Нещодавніх. Для Нещодавніх проведіть угору й зробіть коротку паузу, не відриваючи палець.</string>
+    <string name="navigation_accessibility_required">Спочатку увімкніть спеціальні можливості через посібник.</string>
+    <string name="settings_general">Загальні</string>
+    <string name="settings_collapse_section">Згорнути %1$s</string>
+    <string name="settings_expand_section">Розгорнути %1$s</string>
 </resources><!-- Ukrainian -->

@@ -358,4 +358,8 @@ No es permet amagar dreceres fixades</string>
     <string name="setup_unverified">Per verificar</string>
     <string name="game_gesture_repeat">Repeteix el gest en 3 segons per confirmar.</string>
     <string name="xiaomi_game_gesture_help">Als jocs identificats per Android, repeteix el mateix gest en 3 segons per confirmar Inici, Enrere o Recents. Per a Recents, llisca cap amunt i fes una pausa breu sense aixecar el dit.</string>
+    <string name="navigation_accessibility_required">Activa primer l’accessibilitat des de la guia d’accessibilitat.</string>
+    <string name="settings_general">General</string>
+    <string name="settings_collapse_section">Redueix %1$s</string>
+    <string name="settings_expand_section">Desplega %1$s</string>
 </resources>

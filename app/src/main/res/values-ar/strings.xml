@@ -320,4 +320,8 @@
     <string name="setup_unverified">بحاجة إلى تحقق</string>
     <string name="game_gesture_repeat">كرّر الإيماءة خلال 3 ثوانٍ للتأكيد.</string>
     <string name="xiaomi_game_gesture_help">في الألعاب التي يتعرف عليها Android، كرّر الإيماءة نفسها خلال 3 ثوانٍ لتأكيد الرئيسية أو الرجوع أو التطبيقات الأخيرة. لفتح التطبيقات الأخيرة، اسحب للأعلى وتوقف قليلاً دون رفع إصبعك.</string>
+    <string name="navigation_accessibility_required">فعّل إمكانية الوصول أولًا من دليل إمكانية الوصول.</string>
+    <string name="settings_general">عام</string>
+    <string name="settings_collapse_section">طي %1$s</string>
+    <string name="settings_expand_section">توسيع %1$s</string>
 </resources>

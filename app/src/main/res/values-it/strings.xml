@@ -366,7 +366,7 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="app_info_settings">Informazioni e permessi app</string>
     <string name="navigation_settings">Navigazione Xiaomi</string>
     <string name="background_access_message">Attiva il solo servizio BetterLauncher in Accessibilità Android per il blocco con doppio tocco, i limiti app e le gesture Xiaomi che scegli. Il permesso già concesso viene riutilizzato. Se Android blocca l’attivazione, usa Consenti impostazioni con restrizioni.\n\nSe le funzioni si interrompono, scegli Nessuna restrizione nelle impostazioni batteria e controlla l’avvio automatico su Xiaomi. Il pallino grigio indica che il telefono non consente una verifica automatica affidabile. Controlla la voce nel sistema, poi conferma la casella sotto il relativo tasto. Queste opzioni non sono necessarie per usare le funzioni di base del launcher.</string>
-    <string name="xiaomi_gestures">Gesture Xiaomi</string>
+    <string name="xiaomi_gestures">Supporto gesti (Xiaomi)</string>
     <string name="xiaomi_gestures_message">Navigazione facoltativa solo per Xiaomi: scorri dai lati per Indietro, dal basso per Home, o verso l’alto con pausa per Recenti. Le gesture usano lo stesso servizio di accessibilità di BetterLauncher del blocco schermo e dei limiti app, con zone tattili ai bordi ed eventi di cambio finestra. I tocchi ai bordi non usati vengono reinviati localmente. Non salva né trasmette dati di accessibilità. Funziona solo con BetterLauncher predefinito e si sospende a schermo bloccato. I tocchi ai bordi possono rallentare o interferire con le app. Mantieni i tre tasti finché non hai provato tutte le gesture. Abilita l’opzione. Se l’accessibilità di BetterLauncher è già attiva, non serve un altro permesso; altrimenti apri le impostazioni di accessibilità Android. Puoi disattivarlo qui o in Accessibilità. Non ripristina le gesture native Xiaomi; le restrizioni batteria possono interromperlo.</string>
     <string name="background_access_short">Guida accessibilità</string>
     <string name="accessibility_features">Accessibilità: blocco e limiti app</string>
@@ -382,4 +382,8 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="setup_unverified">Da verificare</string>
     <string name="game_gesture_repeat">Ripeti la gesture entro 3 secondi per confermare.</string>
     <string name="xiaomi_game_gesture_help">Nei giochi riconosciuti da Android, ripeti la stessa gesture entro 3 secondi per confermare Home, Indietro o Recenti. Per Recenti, scorri verso l’alto e fai una breve pausa mantenendo il dito sullo schermo.</string>
+    <string name="navigation_accessibility_required">Abilita prima l’accessibilità dalla Guida accessibilità.</string>
+    <string name="settings_general">Generali</string>
+    <string name="settings_collapse_section">Riduci %1$s</string>
+    <string name="settings_expand_section">Espandi %1$s</string>
 </resources><!-- Italian -->

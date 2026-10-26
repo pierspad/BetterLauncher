@@ -14,7 +14,7 @@ import java.util.Locale
 /** Filters original settings rows, preserving their listeners, grouping and conditional visibility. */
 internal class SettingsSearch(private val context: Context, container: LinearLayout) {
     private data class Group(val views: List<View>, val terms: String)
-    private data class Card(val view: ViewGroup, val groups: List<Group>)
+    private data class Card(val view: ViewGroup, val rows: ViewGroup, val section: SettingsSection?, val groups: List<Group>)
     private val resources = listOf(context.resources,
         context.createConfigurationContext(Configuration(context.resources.configuration).apply {
             setLocale(Locale.ENGLISH)
@@ -25,17 +25,21 @@ internal class SettingsSearch(private val context: Context, container: LinearLay
     private val cards = container.children.filterIsInstance<ViewGroup>()
         .filter { it.id != app.olauncher.R.id.settingsIdentity }
         .map { card ->
+            val section = (card as? LinearLayout)?.takeIf { it.orientation == LinearLayout.VERTICAL &&
+                it.getChildAt(0) is TextView }?.let { SettingsSection(context, it) }
+            val rows = section?.body ?: card
+            val headingTerms = section?.let { terms(it.title) }.orEmpty()
             val groups = mutableListOf<Group>()
             var pending = mutableListOf<View>()
             fun flush() {
-                if (pending.isNotEmpty()) groups += Group(pending.toList(), normalize(pending.joinToString(" ") { terms(it) }))
+                if (pending.isNotEmpty()) groups += Group(pending.toList(), normalize(headingTerms + " " + pending.joinToString(" ") { terms(it) }))
                 pending = mutableListOf()
             }
-            card.children.forEach { row ->
+            rows.children.forEach { row ->
                 if (row.javaClass == View::class.java) flush() else pending += row
             }
             flush()
-            Card(card, groups)
+            Card(card, rows, section, groups)
         }.toList()
 
     fun filter(query: String): Int {
@@ -44,18 +48,20 @@ internal class SettingsSearch(private val context: Context, container: LinearLay
             original.forEach { (view, visibility) -> view.visibility = visibility }
             original.clear()
             filtering = false
+            cards.forEach { it.section?.update(false) }
             return cards.size
         }
         if (!filtering) {
             cards.forEach { card ->
                 original[card.view] = card.view.visibility
-                card.view.children.forEach { original[it] = it.visibility }
+                card.rows.children.forEach { original[it] = it.visibility }
             }
             filtering = true
         }
         var matches = 0
         cards.forEach { card ->
-            card.view.children.forEach { it.visibility = View.GONE }
+            card.section?.update(true)
+            card.rows.children.forEach { it.visibility = View.GONE }
             var cardMatches = false
             card.groups.forEach { group ->
                 val eligible = original[card.view] == View.VISIBLE && group.views.any { original[it] == View.VISIBLE }

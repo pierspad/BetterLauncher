@@ -322,4 +322,8 @@ Pour la supprimer, il doit être ≤ 2</string>
     <string name="setup_unverified">À vérifier</string>
     <string name="game_gesture_repeat">Répétez le geste dans les 3 secondes pour confirmer.</string>
     <string name="xiaomi_game_gesture_help">Dans les jeux reconnus par Android, répétez le même geste dans les 3 secondes pour confirmer Accueil, Retour ou Récents. Pour Récents, balayez vers le haut puis marquez une courte pause sans lever le doigt.</string>
+    <string name="navigation_accessibility_required">Activez d’abord l’accessibilité depuis le guide d’accessibilité.</string>
+    <string name="settings_general">Général</string>
+    <string name="settings_collapse_section">Réduire %1$s</string>
+    <string name="settings_expand_section">Développer %1$s</string>
 </resources><!-- French -->

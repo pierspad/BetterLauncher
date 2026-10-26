@@ -320,4 +320,8 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="setup_unverified">Behöver kontrolleras</string>
     <string name="game_gesture_repeat">Upprepa gesten inom 3 sekunder för att bekräfta.</string>
     <string name="xiaomi_game_gesture_help">I spel som Android identifierar upprepar du samma gest inom 3 sekunder för att bekräfta Hem, Tillbaka eller Senaste. Svep uppåt och pausa kort utan att lyfta fingret för Senaste.</string>
+    <string name="navigation_accessibility_required">Aktivera först tillgänglighet via tillgänglighetsguiden.</string>
+    <string name="settings_general">Allmänt</string>
+    <string name="settings_collapse_section">Fäll ihop %1$s</string>
+    <string name="settings_expand_section">Fäll ut %1$s</string>
 </resources><!-- Swedish -->

@@ -324,4 +324,8 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="setup_unverified">Ellenőrizendő</string>
     <string name="game_gesture_repeat">A megerősítéshez ismételje meg a gesztust 3 másodpercen belül.</string>
     <string name="xiaomi_game_gesture_help">Az Android által felismert játékokban ugyanazt a gesztust 3 másodpercen belül megismételve erősítse meg a Kezdőlap, Vissza vagy Legutóbbiak műveletet. A Legutóbbiakhoz húzza felfelé, majd tartson rövid szünetet az ujja felemelése nélkül.</string>
+    <string name="navigation_accessibility_required">Először engedélyezd az akadálymentesítést az útmutatóban.</string>
+    <string name="settings_general">Általános</string>
+    <string name="settings_collapse_section">%1$s összecsukása</string>
+    <string name="settings_expand_section">%1$s kibontása</string>
 </resources><!-- Hungarian -->

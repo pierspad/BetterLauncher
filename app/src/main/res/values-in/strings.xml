@@ -320,4 +320,8 @@ Untuk menghapus harus ≤ 2</string>
     <string name="setup_unverified">Perlu diperiksa</string>
     <string name="game_gesture_repeat">Ulangi gestur dalam 3 detik untuk mengonfirmasi.</string>
     <string name="xiaomi_game_gesture_help">Dalam game yang dikenali Android, ulangi gestur yang sama dalam 3 detik untuk mengonfirmasi Beranda, Kembali, atau Terbaru. Untuk Terbaru, usap ke atas dan berhenti sebentar tanpa mengangkat jari.</string>
+    <string name="navigation_accessibility_required">Aktifkan aksesibilitas melalui panduan aksesibilitas terlebih dahulu.</string>
+    <string name="settings_general">Umum</string>
+    <string name="settings_collapse_section">Ciutkan %1$s</string>
+    <string name="settings_expand_section">Luaskan %1$s</string>
 </resources><!-- Indonesian -->

@@ -320,4 +320,8 @@ Aby go usunąć, musi wynosić ≤ 2</string>
     <string name="setup_unverified">Do sprawdzenia</string>
     <string name="game_gesture_repeat">Powtórz gest w ciągu 3 sekund, aby potwierdzić.</string>
     <string name="xiaomi_game_gesture_help">W grach rozpoznanych przez Androida powtórz ten sam gest w ciągu 3 sekund, aby potwierdzić Ekran główny, Wstecz lub Ostatnie. Dla Ostatnich przesuń w górę i zatrzymaj na chwilę bez odrywania palca.</string>
+    <string name="navigation_accessibility_required">Najpierw włącz ułatwienia dostępu, korzystając z przewodnika.</string>
+    <string name="settings_general">Ogólne</string>
+    <string name="settings_collapse_section">Zwiń %1$s</string>
+    <string name="settings_expand_section">Rozwiń %1$s</string>
 </resources><!-- Polish -->

@@ -314,4 +314,8 @@
     <string name="setup_unverified">דורש בדיקה</string>
     <string name="game_gesture_repeat">חזרו על המחווה בתוך 3 שניות לאישור.</string>
     <string name="xiaomi_game_gesture_help">במשחקים המזוהים על ידי Android, חזרו על אותה מחווה בתוך 3 שניות לאישור בית, חזרה או יישומים אחרונים. ליישומים אחרונים, החליקו למעלה ועצרו לרגע בלי להרים את האצבע.</string>
+    <string name="navigation_accessibility_required">יש להפעיל תחילה נגישות דרך מדריך הנגישות.</string>
+    <string name="settings_general">כללי</string>
+    <string name="settings_collapse_section">כיווץ %1$s</string>
+    <string name="settings_expand_section">הרחבת %1$s</string>
 </resources>

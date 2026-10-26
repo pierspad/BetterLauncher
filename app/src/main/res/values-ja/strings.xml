@@ -321,4 +321,8 @@
     <string name="setup_unverified">要確認</string>
     <string name="game_gesture_repeat">3秒以内に同じジェスチャーを繰り返して確定してください。</string>
     <string name="xiaomi_game_gesture_help">Androidが認識するゲームでは、3秒以内に同じジェスチャーを繰り返すとホーム、戻る、履歴を実行します。履歴を開くには上へスワイプし、指を離さずに少し止めてください。</string>
+    <string name="navigation_accessibility_required">まずユーザー補助ガイドからユーザー補助を有効にしてください。</string>
+    <string name="settings_general">一般</string>
+    <string name="settings_collapse_section">%1$sを折りたたむ</string>
+    <string name="settings_expand_section">%1$sを展開</string>
 </resources> <!-- Japanese -->

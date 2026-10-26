@@ -322,4 +322,8 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="setup_unverified">Doğrulanmadı</string>
     <string name="game_gesture_repeat">Onaylamak için hareketi 3 saniye içinde tekrarlayın.</string>
     <string name="xiaomi_game_gesture_help">Android tarafından tanınan oyunlarda Ana ekran, Geri veya Son uygulamalar için aynı hareketi 3 saniye içinde tekrarlayın. Son uygulamalar için yukarı kaydırıp parmağınızı kaldırmadan kısa bir süre bekleyin.</string>
+    <string name="navigation_accessibility_required">Önce erişilebilirlik kılavuzundan erişilebilirliği etkinleştirin.</string>
+    <string name="settings_general">Genel</string>
+    <string name="settings_collapse_section">%1$s bölümünü daralt</string>
+    <string name="settings_expand_section">%1$s bölümünü genişlet</string>
 </resources><!-- Turkish -->

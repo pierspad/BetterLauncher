@@ -375,7 +375,7 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="app_info_settings">App information and permissions</string>
     <string name="navigation_settings">Xiaomi navigation</string>
     <string name="background_access_message">Enable the single BetterLauncher service in Android Accessibility for double-tap locking, app limits and Xiaomi gestures you choose. An existing permission is reused. If Android blocks activation, use Allow restricted settings.\n\nIf features stop, select Unrestricted in battery settings and check Autostart on Xiaomi. A gray indicator means the device does not expose a reliable automatic check. Verify the setting yourself, then confirm the box below its button. These options are not required for basic launcher use.</string>
-    <string name="xiaomi_gestures">Xiaomi gestures</string>
+    <string name="xiaomi_gestures">Gesture support (Xiaomi)</string>
     <string name="xiaomi_gestures_message">Optional Xiaomi-only navigation: swipe from either side for Back, from the bottom for Home, or swipe up and hold for Recents. Gestures use the same BetterLauncher accessibility service as screen locking and app limits, with edge-touch overlays and window-change signals. Unused edge touches are replayed locally. No accessibility data is stored or transmitted. It runs only while BetterLauncher is your default launcher, and pauses while the screen is locked. Edge touches may feel slower or conflict with apps. Keep the three buttons until you have tested all gestures. Enable the option. If BetterLauncher accessibility is already enabled, no further permission is needed; otherwise open Android accessibility settings. You can disable it here or in Accessibility. This does not restore native Xiaomi gestures; battery restrictions can stop it.</string>
     <string name="setting_state" translatable="false">%1$s · %2$s</string>
     <string name="background_access_short">Accessibility guide</string>
@@ -393,4 +393,8 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="setup_unverified">Not verified</string>
     <string name="game_gesture_repeat">Repeat the gesture within 3 seconds to confirm.</string>
     <string name="xiaomi_game_gesture_help">In games identified by Android, repeat the same gesture within 3 seconds to confirm Home, Back or Recents. For Recents, swipe up and pause briefly with your finger still on the screen.</string>
+    <string name="navigation_accessibility_required">Enable accessibility in the Accessibility guide first.</string>
+    <string name="settings_general">General</string>
+    <string name="settings_collapse_section">Collapse %1$s</string>
+    <string name="settings_expand_section">Expand %1$s</string>
 </resources>

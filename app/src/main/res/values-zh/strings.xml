@@ -323,4 +323,8 @@
     <string name="setup_unverified">待确认</string>
     <string name="game_gesture_repeat">请在3秒内重复手势以确认。</string>
     <string name="xiaomi_game_gesture_help">在Android识别的游戏中，请在3秒内重复同一手势，确认返回主屏幕、返回或最近任务操作。打开最近任务时，请向上滑动并短暂停留，不要抬起手指。</string>
+    <string name="navigation_accessibility_required">请先通过无障碍指南启用无障碍服务。</string>
+    <string name="settings_general">常规</string>
+    <string name="settings_collapse_section">收起%1$s</string>
+    <string name="settings_expand_section">展开%1$s</string>
 </resources><!-- Chinese -->

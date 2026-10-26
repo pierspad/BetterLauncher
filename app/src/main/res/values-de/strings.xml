@@ -322,4 +322,8 @@ Zum Entfernen muss er ≤ 2 sein</string>
     <string name="setup_unverified">Zu überprüfen</string>
     <string name="game_gesture_repeat">Wiederhole die Geste innerhalb von 3 Sekunden zur Bestätigung.</string>
     <string name="xiaomi_game_gesture_help">Bei von Android erkannten Spielen bestätigst du Start, Zurück oder Übersicht durch dieselbe Geste innerhalb von 3 Sekunden. Wische für Übersicht nach oben und halte den Finger kurz auf dem Bildschirm.</string>
+    <string name="navigation_accessibility_required">Aktiviere zuerst die Bedienungshilfe über die Anleitung.</string>
+    <string name="settings_general">Allgemein</string>
+    <string name="settings_collapse_section">%1$s einklappen</string>
+    <string name="settings_expand_section">%1$s ausklappen</string>
 </resources>

@@ -12,9 +12,15 @@ internal object DeviceSettings {
 
     /** null means the vendor restriction cannot be verified with Android's public API. */
     fun batteryUnrestricted(context: Context): Boolean? {
-        // Xiaomi's "No restrictions" policy is separate from Android's Doze
-        // allowlist. A true Doze result must not silently certify that policy.
-        if (isXiaomi()) return null
+        // OEM background policies are separate from Android's Doze allowlist.
+        // These vendors need explicit user confirmation; Doze cannot certify
+        // their additional restrictions. This list is conservative, not exhaustive.
+        if (listOf(Build.MANUFACTURER, Build.BRAND).any {
+                it.lowercase(java.util.Locale.ROOT) in setOf(
+                    "xiaomi", "redmi", "poco", "huawei", "honor", "oppo", "realme",
+                    "oneplus", "vivo", "iqoo", "samsung", "asus", "meizu", "tecno", "infinix"
+                )
+            }) return null
         return runCatching {
             (context.getSystemService(Context.POWER_SERVICE) as android.os.PowerManager)
                 .isIgnoringBatteryOptimizations(context.packageName)
