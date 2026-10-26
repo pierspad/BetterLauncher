@@ -1,0 +1,1 @@
+Tela inicial com widgets, pastas, busca e limites opcionais de apps.

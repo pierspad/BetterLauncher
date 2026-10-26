@@ -1,0 +1,13 @@
+<p><b>BetterLauncher</b> är en gratis startskärmsapp med öppen källkod för Android baserad på Olauncher. Håll hemskärmen ren och textbaserad med de funktioner du behöver, helt utan annonser eller betalväggar.</p>
+<ul>
+<li>Välj och sortera upp till åtta appar och åtta genvägsikoner på startskärmen.</li>
+<li>Lägg till en Android-widget, mappar och valfria monokroma ikoner.</li>
+<li>Anpassa text, teckensnitt, justering, tema och bakgrundens opacitet.</li>
+<li>Sök appar med prefix, initialer eller fuzzy-sökning. Valfri kontaktsökning (kräver behörighet).</li>
+<li>Lås appöppningar från BetterLauncher med biometri eller enhetens lösenord.</li>
+<li>Ställ in valfria tidsgränser för appar med progressiv väntetid (cooldown).</li>
+<li>Exportera och importera inställningar i JSON-format (inklusive anpassat typsnitt).</li>
+</ul>
+<p><b>Valfri tillgänglighetstjänst:</b> Androids tillgänglighetstjänst möjliggör skärmlåsning med dubbeltryck och upprätthåller apparnas väntetider. För att göra detta övervakar den fönsterbyten och den aktiva appen. All information behandlas uteslutande lokalt på din enhet. Du kan avaktivera tjänsten när som helst utan att övriga funktioner påverkas.</p>
+<p>BetterLauncher kräver ingen internetbehörighet och innehåller varken annonser eller spårare.</p>
+<p>Öppen källkod under GPL-3.0-licensen.</p>

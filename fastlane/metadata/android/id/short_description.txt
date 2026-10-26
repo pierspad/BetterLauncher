@@ -1,0 +1,1 @@
+Layar utama Android dengan widget, folder, pencarian, dan batas aplikasi.

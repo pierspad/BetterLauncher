@@ -1,1 +1,1 @@
-Minimalistischer Launcher zur Reduzierung Ihrer Bildschirmzeit
+Android-Home mit Widgets, Ordnern, App-Suche und optionalen App-Limits.

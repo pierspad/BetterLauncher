@@ -1,0 +1,13 @@
+<p><b>BetterLauncher</b> adalah peluncur aplikasi gratis dan sumber terbuka untuk Android berbasis Olauncher. Nikmati layar utama berbasis teks yang sederhana dan bersih dengan fitur yang Anda butuhkan, tanpa iklan atau biaya tambahan.</p>
+<ul>
+<li>Pilih dan atur hingga delapan aplikasi dan delapan ikon pintasan di layar utama.</li>
+<li>Tambahkan widget Android, folder, dan ikon monokrom opsional.</li>
+<li>Sesuaikan teks, font, perataan, tema, dan transparansi latar belakang.</li>
+<li>Cari aplikasi berdasarkan awalan, inisial, atau pencarian fuzzy. Pencarian kontak bersifat opsional (perlu izin).</li>
+<li>Kunci pembukaan aplikasi melalui BetterLauncher dengan biometrik atau kredensial perangkat.</li>
+<li>Atur batas penggunaan aplikasi opsional dengan jeda waktu tunggu progresif.</li>
+<li>Ekspor atau impor pengaturan dalam format JSON (termasuk font kustom).</li>
+</ul>
+<p><b>Layanan Aksesibilitas Opsional:</b> Layanan aksesibilitas Android digunakan untuk mengunci layar dengan ketukan ganda dan menerapkan batas waktu aplikasi. Layanan ini mendeteksi perubahan jendela dan aplikasi yang sedang aktif di latar depan. Semua data hanya diproses secara lokal di perangkat Anda. Anda dapat menonaktifkan layanan ini kapan saja dan fitur peluncur lainnya tetap berfungsi.</p>
+<p>BetterLauncher tidak meminta izin internet Android dan tidak memiliki iklan atau pelacak apa pun.</p>
+<p>Sumber terbuka di bawah lisensi GPL-3.0.</p>

@@ -1,0 +1,13 @@
+<p><b>BetterLauncher</b> es un lanzador libre para Android basado en Olauncher, sin anuncios ni compras integradas.</p>
+<ul>
+<li>Elige y organiza hasta ocho aplicaciones y ocho atajos en la pantalla de inicio.</li>
+<li>Agrega un widget de Android, carpetas e íconos monocromáticos opcionales.</li>
+<li>Personaliza texto, fuentes, alineación, tema y opacidad del fondo.</li>
+<li>Busca aplicaciones por prefijos, iniciales o búsqueda aproximada. Búsqueda opcional de contactos (requiere permiso).</li>
+<li>Protege la apertura de aplicaciones desde BetterLauncher con biometría o credenciales del dispositivo.</li>
+<li>Configura límites opcionales de aplicaciones con tiempos de espera progresivos.</li>
+<li>Exporta o importa configuraciones en formato JSON (incluyendo fuentes personalizadas).</li>
+</ul>
+<p><b>Servicio de accesibilidad opcional:</b> El servicio de accesibilidad de Android permite bloquear la pantalla con doble toque y aplicar los límites configurados. Para ello, detecta cambios de ventana y la app en primer plano. Todos los datos se procesan localmente en el dispositivo. Puedes desactivar el servicio en cualquier momento sin afectar las demás funciones.</p>
+<p>BetterLauncher no solicita permiso de internet y no contiene publicidad ni herramientas de rastreo.</p>
+<p>Código abierto bajo licencia GPL-3.0.</p>

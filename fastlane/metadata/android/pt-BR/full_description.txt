@@ -1,0 +1,13 @@
+<p><b>BetterLauncher</b> é um inicializador livre e de código aberto para Android baseado no Olauncher. Mantenha uma tela inicial textual e minimalista com os recursos que você precisa, sem anúncios ou compras no app.</p>
+<ul>
+<li>Escolha e organize até oito aplicativos e oito atalhos na tela inicial.</li>
+<li>Adicione um widget do Android, pastas e ícones monocromáticos opcionais.</li>
+<li>Personalize texto, fontes, alinhamento, tema e opacidade do plano de fundo.</li>
+<li>Busque aplicativos por prefixo, iniciais ou busca aproximada. A busca de contatos é opcional (com permissão).</li>
+<li>Proteja a abertura de apps pelo BetterLauncher com biometria ou senha do dispositivo.</li>
+<li>Defina limites de uso opcionais com tempos de espera progressivos (cooldowns).</li>
+<li>Exporte ou importe configurações em formato JSON (incluindo fonte personalizada).</li>
+</ul>
+<p><b>Serviço de Acessibilidade opcional:</b> O serviço de acessibilidade do Android possibilita o bloqueio de tela com toque duplo e aplica os limites de tempo configurados. Para isso, ele observa mudanças de janela e o app em primeiro plano. Todas as informações são processadas localmente no seu dispositivo. Você pode desativar o serviço quando quiser e continuar usando os outros recursos.</p>
+<p>O BetterLauncher não solicita permissão de Internet no Android e não contém anúncios nem rastreadores.</p>
+<p>Código aberto sob a licença GPL-3.0.</p>

@@ -23,7 +23,11 @@ def request(session, method, url, **kwargs):
     return response.json() if response.content else {}
 
 
-PLAY_LOCALES = ("en-US", "it-IT", "ca", "es-ES")
+PLAY_LOCALES = (
+    "en-US", "it-IT", "ca", "es-ES", "es-419", "de-DE", "de", "fr-FR",
+    "ru-RU", "pt-BR", "zh-CN", "ja-JP", "nl-NL", "pl-PL", "tr-TR",
+    "uk", "ar", "id", "iw-IL", "hu-HU", "hr", "sv-SE",
+)
 LISTING_LIMITS = {"title.txt": 30, "short_description.txt": 80, "full_description.txt": 4000}
 
 

@@ -1,0 +1,13 @@
+<p><b>BetterLauncher</b> je besplatan pokretač otvorenog koda za Android temeljen na Olauncheru. Zadržite jednostavan, tekstualni početni zaslon sa značajkama koje trebate, bez reklama ili plaćenih nadogradnji.</p>
+<ul>
+<li>Odaberite i rasporedite do osam aplikacija i osam ikona prečaca na početnom zaslonu.</li>
+<li>Dodajte Android widget, mape i opcionalne monokromatske ikone.</li>
+<li>Prilagodite tekst, fontove, poravnanje, temu i prozirnost pozadine.</li>
+<li>Pretražujte aplikacije prema prefiksima, inicijalima ili približnom podudaranju. Opcionalno pretraživanje kontakata (uz dopuštenje).</li>
+<li>Zaštitite otvaranje aplikacija iz BetterLaunchera biometrijom ili lozinkom uređaja.</li>
+<li>Postavite opcionalna ograničenja korištenja aplikacija s progresivnim vremenom čekanja.</li>
+<li>Izvezite ili uvezite postavke u JSON formatu (uključujući prilagođeni font).</li>
+</ul>
+<p><b>Opcionalna usluga pristupačnosti:</b> Usluga pristupačnosti sustava Android omogućuje zaključavanje zaslona dvostrukim dodirom i primjenu ograničenja aplikacija. U tu svrhu prati promjene prozora i aktivnu aplikaciju u prvom planu. Svi podaci obrađuju se isključivo lokalno na vašem uređaju. Ovu uslugu možete onemogućiti u bilo kojem trenutku bez utjecaja na ostale značajke.</p>
+<p>BetterLauncher ne zahtijeva internetsku dozvolu i ne sadrži oglase niti analitiku.</p>
+<p>Otvoreni kod pod licencom GPL-3.0.</p>

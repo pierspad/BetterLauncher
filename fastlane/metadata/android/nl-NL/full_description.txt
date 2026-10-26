@@ -1,0 +1,13 @@
+<p><b>BetterLauncher</b> is een gratis, open source Android-launcher gebaseerd op Olauncher. Behoud een eenvoudig, op tekst gebaseerd startscherm met de functies die je nodig hebt, zonder advertenties of betaalde upgrades.</p>
+<ul>
+<li>Kies en orden tot acht apps en acht snelkoppelingsiconen op het startscherm.</li>
+<li>Voeg een Android-widget, mappen en optionele monochrome pictogrammen toe.</li>
+<li>Pas tekst, lettertypen, uitlijning, thema en achtergrondtransparantie aan.</li>
+<li>Zoek apps op voorvoegsels, initialen of fuzzy matches. Optioneel zoeken naar contacten (vereist toestemming).</li>
+<li>Beveilig het openen van apps via BetterLauncher met biometrie of apparaatvergrendeling.</li>
+<li>Stel optionele app-limieten in met progressieve wachttijden (cooldowns).</li>
+<li>Exporteer of importeer instellingen als JSON-bestand (inclusief aangepast lettertype).</li>
+</ul>
+<p><b>Optionele Toegankelijkheidsservice:</b> De Android-toegankelijkheidsservice maakt dubbeltikken om het scherm te vergrendelen en de app-cooldowns mogelijk. Om dit toe te passen, observeert de service vensterwijzigingen en de actieve app op de voorgrond. Deze gegevens worden uitsluitend lokaal op uw apparaat verwerkt. U kunt de service weigeren of op elk moment uitschakelen; de overige functies blijven gewoon werken.</p>
+<p>BetterLauncher vereist geen internettoestemming en bevat geen advertenties of trackers.</p>
+<p>Open source onder de GPL-3.0-licentie.</p>

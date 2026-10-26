@@ -1,0 +1,13 @@
+<p><b>BetterLauncher</b> to darmowy, otwartoźródłowy launcher na Androida oparty na Olauncherze. Zachowaj prosty, tekstowy ekran główny ze wszystkimi potrzebnymi funkcjami, bez reklam i ukrytych opłat.</p>
+<ul>
+<li>Wybierz i uporządkuj do ośmiu aplikacji oraz ośmiu skrótów na ekranie głównym.</li>
+<li>Dodaj widżet Androida, foldery oraz opcjonalne monochromatyczne ikony.</li>
+<li>Dostosuj tekst, czcionki, wyrównanie, motyw i przezroczystość tła.</li>
+<li>Szukaj aplikacji według prefiksów, inicjałów lub wyszukiwania rozmytego. Opcjonalne wyszukiwanie kontaktów (wymaga uprawnienia).</li>
+<li>Chroń uruchamianie aplikacji z launchera biometrią lub kodem blokady urządzenia.</li>
+<li>Ustawiaj limity korzystania z aplikacji ze stopniowym czasem oczekiwania (cooldown).</li>
+<li>Eksportuj i importuj ustawienia w formacie JSON (w tym własną czcionkę).</li>
+</ul>
+<p><b>Opcjonalna usługa ułatwień dostępu:</b> Usługa dostępności Androida umożliwia blokowanie ekranu podwójnym dotknięciem i egzekwowanie limitów aplikacji. W tym celu monitoruje zmiany okien i aktywną aplikację. Wszystkie dane są przetwarzane wyłącznie lokalnie na Twoim urządzeniu. Usługę można wyłączyć w dowolnym momencie bez utraty pozostałych funkcji.</p>
+<p>BetterLauncher nie wymaga dostępu do internetu i nie zawiera żadnych reklam ani narzędzi śledzących.</p>
+<p>Oprogramowanie open source na licencji GPL-3.0.</p>

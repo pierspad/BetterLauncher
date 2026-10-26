@@ -1,0 +1,13 @@
+<p><b>BetterLauncher</b>, Olauncher tabanlı ücretsiz ve açık kaynaklı bir Android başlatıcısıdır. Reklamlar veya ücretli yükseltmeler olmadan, sade ve metin tabanlı bir ana ekranın keyfini çıkarın.</p>
+<ul>
+<li>Ana ekranda sekiz adede kadar uygulamayı ve sekiz kısayol simgesini seçip düzenleyin.</li>
+<li>Android araç takımı (widget), klasörler ve isteğe bağlı tek renkli simgeler ekleyin.</li>
+<li>Metinleri, yazı tiplerini, hizalamayı, temayı ve arka plan şeffaflığını özelleştirin.</li>
+<li>Uygulamaları ön eklere, baş harflere veya yaklaşık eşleşmeye göre arayın. Kişi arama isteğe bağlıdır (izin gerektirir).</li>
+<li>BetterLauncher üzerinden uygulama açılışlarını biyometri veya cihaz şifresiyle kilitleyin.</li>
+<li>Aşamalı bekleme süreleriyle isteğe bağlı uygulama kullanım sınırları belirleyin.</li>
+<li>Ayarları JSON dosyası olarak içe veya dışa aktarın (özel yazı tipi dahil).</li>
+</ul>
+<p><b>İsteğe Bağlı Erişilebilirlik Hizmeti:</b> Android erişilebilirlik hizmeti, çift dokunarak ekran kilitleme ve ayarlanan uygulama kullanım sınırlarını uygulamak için kullanılır. Bu amaçla pencere değişikliklerini ve ön plandaki uygulamayı izler. Tüm veriler yalnızca cihazınızda yerel olarak işlenir. Bu hizmeti istediğiniz zaman devre dışı bırakabilirsiniz; diğer özellikler çalışmaya devam eder.</p>
+<p>BetterLauncher internet izni gerektirmez, reklam veya izleyici içermez.</p>
+<p>GPL-3.0 lisansı altında açık kaynaklıdır.</p>

@@ -1,0 +1,1 @@
+Ekran główny z widżetami, folderami, wyszukiwaniem i limitami aplikacji.

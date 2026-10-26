@@ -1,0 +1,13 @@
+<p><b>BetterLauncher</b> egy ingyenes, nyílt forráskódú Android indító (launcher) az Olauncher alapján. Egyszerű, szöveges kezdőképernyő a szükséges funkciókkal, hirdetések és fizetős funkciók nélkül.</p>
+<ul>
+<li>Válasszon ki és rendezzen el akár nyolc alkalmazást és nyolc parancsikont a kezdőképernyőn.</li>
+<li>Adjon hozzá Android widgetet, mappákat és opcionális monokróm ikonokat.</li>
+<li>Szabja testre a szöveget, a betűtípusokat, az igazítást, a témát és a háttér átlátszóságát.</li>
+<li>Keressen alkalmazásokat előtagok, kezdőbetűk vagy fuzzy keresés alapján. Opcionális névjegykeresés (engedély szükséges).</li>
+<li>Védje az alkalmazások megnyitását a BetterLauncherből biometrikus azonosítással vagy eszközjelszóval.</li>
+<li>Állítson be opcionális alkalmazáskorlátokat fokozatos várakozási időkkel (cooldown).</li>
+<li>Exportálja vagy importálja a beállításokat JSON formátumban (akár egyéni betűtípussal).</li>
+</ul>
+<p><b>Opcionális Kisegítő lehetőség:</b> Az Android kisegítő lehetőségek szolgáltatása a képernyő dupla koppintással történő lezárását és az alkalmazáskorlátok betartását teszi lehetővé. Ehhez figyeli az ablakváltásokat és az előtérben lévő alkalmazást. Minden adat kizárólag helyben, az eszközön kerül feldolgozásra. A szolgáltatás bármikor letiltható, a többi funkció zavartalanul működik tovább.</p>
+<p>A BetterLauncher nem igényel internet-hozzáférést, nem tartalmaz hirdetéseket vagy nyomkövetőket.</p>
+<p>Nyílt forráskódú a GPL-3.0 licenc alatt.</p>
