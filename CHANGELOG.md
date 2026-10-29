@@ -1,3 +1,9 @@
+## [1.6.1](https://github.com/pierspad/BetterLauncher/compare/v1.6.0...v1.6.1) (2026-10-29)
+
+### Bug Fixes
+
+* preserve settings view parents during section construction ([7e48441](https://github.com/pierspad/BetterLauncher/commit/7e48441df612e246b7834eb3504787368133ea48)), closes [#3](https://github.com/pierspad/BetterLauncher/issues/3) [#7](https://github.com/pierspad/BetterLauncher/issues/7) [#7](https://github.com/pierspad/BetterLauncher/issues/7) [#4](https://github.com/pierspad/BetterLauncher/issues/4) [#3](https://github.com/pierspad/BetterLauncher/issues/3) [#5](https://github.com/pierspad/BetterLauncher/issues/5) [#6](https://github.com/pierspad/BetterLauncher/issues/6)
+
 ## [1.6.0](https://github.com/pierspad/BetterLauncher/compare/v1.5.5...v1.6.0) (2026-10-26)
 
 ### Features
