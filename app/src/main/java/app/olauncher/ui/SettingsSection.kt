@@ -26,6 +26,11 @@ internal class SettingsSection(context: Context, card: LinearLayout) {
     init {
         val rows = card.children.toList().drop(1)
         val titleMargins = title.layoutParams as LinearLayout.LayoutParams
+        // Removed children are immediately reused in the header/body. A disappearing
+        // LayoutTransition would keep them in the old card and later clear their new
+        // parent, breaking framework focus and accessibility traversal (issue #7).
+        val transition = card.layoutTransition
+        card.layoutTransition = null
         card.removeAllViews()
         val header = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
@@ -57,6 +62,7 @@ internal class SettingsSection(context: Context, card: LinearLayout) {
         })
         rows.forEach { body.addView(it) }
         card.addView(body, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        card.layoutTransition = transition
         update(false)
     }
 
