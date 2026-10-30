@@ -188,20 +188,11 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             keyboard.hideSoftInputFromWindow(binding.settingsSearch.windowToken, 0)
             findNavController().popBackStack(R.id.mainFragment, false)
         }
-        fun applySafeTopInsets(insets: WindowInsetsCompat) {
-            val rootInsets = androidx.core.view.ViewCompat.getRootWindowInsets(binding.root) ?: insets
-            val safe = rootInsets.getInsetsIgnoringVisibility(
-                WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.displayCutout())
-            binding.settingsTopBar.setPadding(safe.left, maxOf(safe.top, 24.dpToPx()) + 16.dpToPx(), safe.right, 0)
-        }
-        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(binding.settingsTopBar) { _, insets ->
-            applySafeTopInsets(insets)
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(binding.root) { root, insets ->
+            SettingsInsets.apply(root, insets)
             insets
         }
-        binding.settingsTopBar.post {
-            if (_binding != null) androidx.core.view.ViewCompat.getRootWindowInsets(binding.root)?.let(::applySafeTopInsets)
-        }
-        androidx.core.view.ViewCompat.requestApplyInsets(binding.settingsTopBar)
+        androidx.core.view.ViewCompat.requestApplyInsets(binding.root)
         viewModel.isOlauncherDefault()
 
         deviceManager = requireContext().getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager

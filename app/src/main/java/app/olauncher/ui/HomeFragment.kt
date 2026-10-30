@@ -82,6 +82,34 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private var wallpaperSamples = emptyList<Int>()
+    private var wallpaperListener: android.app.WallpaperManager.OnColorsChangedListener? = null
+
+    override fun onStart() {
+        super.onStart()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            val manager = android.app.WallpaperManager.getInstance(requireContext())
+            fun update(colors: android.app.WallpaperColors?) {
+                wallpaperSamples = listOfNotNull(colors?.primaryColor, colors?.secondaryColor, colors?.tertiaryColor)
+                    .map { it.toArgb() }
+                if (_binding != null) populateHomeScreen(false)
+            }
+            update(runCatching { manager.getWallpaperColors(android.app.WallpaperManager.FLAG_SYSTEM) }.getOrNull())
+            val listener = android.app.WallpaperManager.OnColorsChangedListener { colors, which ->
+                if (which and android.app.WallpaperManager.FLAG_SYSTEM != 0) update(colors)
+            }
+            manager.addOnColorsChangedListener(listener, android.os.Handler(android.os.Looper.getMainLooper()))
+            wallpaperListener = listener
+        }
+    }
+
+    override fun onStop() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            wallpaperListener?.let { android.app.WallpaperManager.getInstance(requireContext()).removeOnColorsChangedListener(it) }
+            wallpaperListener = null
+        }
+        super.onStop()
+    }
 
     // ---- Reorder mode ----
     private var reorderMode = false
@@ -99,6 +127,11 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefs = Prefs(requireContext())
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(binding.root) { root, insets ->
+            ScreenInsets.apply(root, insets)
+            insets
+        }
+        androidx.core.view.ViewCompat.requestApplyInsets(binding.root)
         viewModel = activity?.run {
             ViewModelProvider(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
@@ -402,6 +435,10 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     private fun populateHomeScreen(appCountUpdated: Boolean) {
+        val foreground = HomeWallpaperContrast.foreground(wallpaperSamples,
+            requireContext().scrimColor((prefs.opacityHome * 255).toInt()),
+            requireContext().getColorFromAttr(R.attr.primaryColor))
+        HomeWallpaperContrast.apply(binding.root, foreground)
         if (appCountUpdated) hideHomeApps()
         populateDateTime()
         populateShortcutIcons()
@@ -1177,7 +1214,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         if (!b.widgetContainer.isVisible) return
         b.mainLayout.post {
             val binding = _binding ?: return@post
-            val parentHeight = binding.mainLayout.height
+            val parentHeight = binding.mainLayout.height - binding.mainLayout.paddingBottom
             if (parentHeight == 0) return@post
 
             // shortcutIconsLayout is a direct child of mainLayout → .top + child.top is in parent coords
@@ -1306,9 +1343,9 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     private fun showIconPickerDialog(slot: Int) {
         val ctx = requireContext()
         val itemSize = 48.dpToPx()
+        val pad = 16.dpToPx()
         val gridView = GridView(ctx).apply {
             numColumns = 5
-            val pad = 16.dpToPx()
             setPadding(pad, pad, pad, pad)
             verticalSpacing = 8.dpToPx()
             horizontalSpacing = 8.dpToPx()

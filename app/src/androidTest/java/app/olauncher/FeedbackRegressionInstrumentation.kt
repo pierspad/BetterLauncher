@@ -55,6 +55,7 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
                 checkCase("gesture navigation geometry") { runGestureNavigationRegression() }
                 checkCase("settings search") { onMain { runSettingsSearchRegression(isolated) } }
                 checkCase("attached settings hierarchy") { runAttachedSettingsHierarchyRegression(this) }
+                checkCase("wallpaper contrast and settings system bars") { onMain { runWallpaperAndInsetsRegression(isolated) } }
                 checkCase("drawer action layout") { onMain { runDrawerActionLayoutRegression(isolated) } }
                 checkCase("device/widget") { onMain { runDeviceRuntimeRegression(isolated) } }
                 runSearchRuntimeRegression(this, isolated) { name, block -> checkCase(name, block) }
