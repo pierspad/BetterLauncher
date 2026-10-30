@@ -60,9 +60,19 @@ fun runWallpaperAndInsetsRegression(context: Context) {
         // Include right and left side navigation, gesture navigation and a cutout.
         for (safe in listOf(Insets.of(0, 24, 72, 0), Insets.of(72, 24, 0, 0),
             Insets.of(0, 24, 0, 72), Insets.of(36, 24, 0, 24))) {
-            val insets = WindowInsetsCompat.Builder().setInsetsIgnoringVisibility(
-                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout(), safe).build()
+            // Before API 30 setInsetsIgnoringVisibility is a no-op in the compat
+            // builder. Populate the legacy platform fields as a real window does.
+            @Suppress("DEPRECATION")
+            val insets = WindowInsetsCompat.Builder()
+                .setSystemWindowInsets(safe)
+                .setStableInsets(safe)
+                .setInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout(), safe)
+                .setInsetsIgnoringVisibility(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout(), safe)
+                .build()
             SettingsInsets.apply(root, insets)
+            check(root.paddingLeft == safe.left && root.paddingRight == safe.right && root.paddingBottom == safe.bottom) {
+                "Synthetic insets were not applied: $safe"
+            }
             root.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
             root.layout(0, 0, width, height)

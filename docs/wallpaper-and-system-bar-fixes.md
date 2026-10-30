@@ -39,7 +39,10 @@ Geometry checks inflate both settings orientations, construct their collapsible
 sections and apply left/right three-button navigation, bottom navigation and
 cutout insets. Focusable settings controls and the scroll view remain inside the
 safe horizontal bounds; the scroll viewport stays above the bottom bar. A Home
-shortcut is also checked against both side bars.
+shortcut is also checked against both side bars. Synthetic fixtures populate both
+legacy system/stable inset fields and typed inset fields: the compat builder
+does not implement `setInsetsIgnoringVisibility` before API 30. The test asserts
+that the intended insets are actually present before checking geometry.
 
 Manual emulator checks use Android 17 / API 37 with three-button navigation,
 including a 1280 × 720 / 240 dpi landscape viewport. Settings Close and the
