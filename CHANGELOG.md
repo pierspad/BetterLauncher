@@ -1,3 +1,9 @@
+## [1.6.2](https://github.com/pierspad/BetterLauncher/compare/v1.6.1...v1.6.2) (2026-10-30)
+
+### Bug Fixes
+
+* keep launcher controls readable and clear of system bars ([055955c](https://github.com/pierspad/BetterLauncher/commit/055955c6c78d154a80da5e484e0761929110141c))
+
 ## [1.6.1](https://github.com/pierspad/BetterLauncher/compare/v1.6.0...v1.6.1) (2026-10-29)
 
 ### Bug Fixes
