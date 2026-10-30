@@ -7,7 +7,7 @@ closed status alone was not used as evidence of a fix.
 
 | Issue | Finding | Closure evidence and limits |
 | --- | --- | --- |
-| [#3](https://github.com/pierspad/BetterLauncher/issues/3) — contacts denial | Previously fixed; keep closed. | The reporter's 1.5.0 retest confirms two denials, working drawer/search and process restart with access still denied. No newer failure is reported. This review did not repeat the permission UI sequence. |
+| [#3](https://github.com/pierspad/BetterLauncher/issues/3) — contacts denial | Previously fixed; keep closed. | The reporter's 1.5.0 retest confirms two denials, working drawer/search and process restart with access still denied. A fresh optimized-release retest also passes two denials (including USER_FIXED), process restart and installed-app search opening Android Settings. Secondary Android-settings search was disabled to make `Set` a unique installed-app match. |
 | [#4](https://github.com/pierspad/BetterLauncher/issues/4) — file backup/restore | Reopened during investigation, then eligible for closure after the new full round trip. | Picker handling was fixed in `527e72d6`; the subsequent SettingsFragment lifecycle failure was fixed in `7425f409`. The 1.6.0 settings crash prevented verification of that second fix. With #7 corrected, both the reporter's original backup and a newly exported file restore successfully, including activity recreation and return Home. |
 | [#5](https://github.com/pierspad/BetterLauncher/issues/5) — invalid text size | Previously fixed; keep closed. | Reporter confirmed rejection of the invalid string and numeric 2.0 without changing stored preferences in 1.5.0. Current Android instrumentation also checks invalid types/ranges against the complete configuration. A new optimized-release invalid-string check retains size 1.5 and all exported settings except the normal hint counter. |
 | [#6](https://github.com/pierspad/BetterLauncher/issues/6) — cooldown retry | Previously fixed; keep closed. | Reporter's 1.5.0 retest confirms retry 0 on exit, retry 1 without extending the deadline, natural expiry and reopening. Current instrumentation checks duplicate session exits, first/second retry and simulated deadline expiry. Natural five-minute expiry was not repeated in this review. |
@@ -57,6 +57,7 @@ Animations were enabled for the before/after reproduction.
 - After: all 14 Android instrumentation groups pass, including the attached hierarchy check in portrait and landscape, invalid backup rejection, cooldown state and fragment destruction before view creation.
 - Debug build/lint and optimized release build/lint pass.
 - Release-version Node tests and all 16 publishing Python tests pass.
+- [Remote CI](https://github.com/pierspad/BetterLauncher/actions/runs/40975905275) verifies the fix commit `7e48441d`: build/lint and all 14 instrumentation groups also pass on Android 10 / API 29. CI disables system animations; the failing-before/passing-after animation reproduction was performed locally on API 37 with animations enabled.
 
 Commands:
 
@@ -97,12 +98,30 @@ SHA-256: `f802fe68374e8379886a18c22d192bf6e25c15038cd10a336f99389ed8f2e7ce`.
    settings: text size remains 1.5; the only difference from the pre-attempt export
    is the normal hint counter (10 to 11).
 
+### Official 1.6.1 release confirmation
+
+The [complete release workflow](https://github.com/pierspad/BetterLauncher/actions/runs/40975905275)
+finished successfully, including verification, GitHub release and Google Play
+publishing. The generated release is [1.6.1 / 140](https://github.com/pierspad/BetterLauncher/releases/tag/v1.6.1).
+
+After uninstalling the locally signed production-package test app, install the
+actual official GitHub release APK on the emulator, select it as default Home and
+decline optional accessibility. Open settings, focus search, search for Import,
+load the previously exported 8,064-byte file through DocumentsUI and verify its
+complete editor text. Apply, allow recreation and return Home: Settings, Files
+and Clock are present; the restored left swipe opens Google Clock. The preferred
+Home activity remains BetterLauncher and the crash buffer is empty.
+
+Official APK SHA-256:
+`1f1d5ffe245892d03bb0283ba443d677b4db9fc4279ce2fca669179effb9fb00`.
+This confirms the shipped GitHub binary; it remains separate from an F-Droid build.
+
 ## Boundaries
 
 These are bounded emulator results operated through ADB and UI Automator. They do
 not establish a new physical Pixel/GrapheneOS or Redmi/HyperOS result, every Android
 version, every storage provider, or every possible imported setting. No current
 F-Droid-built APK was tested and F-Droid acceptance/reproducibility is a separate
-question. The three previously resolved issues retain their reporter-confirmed
-results; that evidence should not be misrepresented as a fresh physical-device
+question. The previously resolved issues also retain their reporter-confirmed
+results; none of this evidence should be misrepresented as a fresh physical-device
 retest by this change.
