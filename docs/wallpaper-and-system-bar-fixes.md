@@ -61,3 +61,42 @@ bash scripts/run-android-regressions.sh
 F-Droid inclusion remains separate: its recipe must point to the stable release
 containing these changes, then pass that MR's build/reproducibility checks and
 maintainer review. GitHub release automation does not update the GitLab branch.
+
+## Release and F-Droid completion
+
+Published [v1.6.2 / 141](https://github.com/pierspad/BetterLauncher/releases/tag/v1.6.2),
+source `52f1f8287978cee7055f56a1ab0e6913721eab96`. Both local API 29 and API 37
+instrumentation runs pass all 14 groups. The corrected legacy-insets fixture also
+passes [GitHub CI](https://github.com/pierspad/BetterLauncher/actions/runs/41108558260);
+release creation and automatic Google Play publication succeeded.
+
+The official APK was installed and checked on the API 37 emulator: Home shortcuts
+and Settings Close remain outside the landscape navigation strip; search works;
+Close returns Home. On the small landscape viewport, entering search opened the
+IME in fullscreen mode; Back dismissed that IME before checking Close. This input
+condition is separate from the safe-area geometry. An exact 8,064-byte backup
+was then imported in portrait, restoring Settings/Files/Clock. The restored Settings
+entry opened Android Settings and the crash buffer remained empty.
+
+[fdroiddata !44511](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/44511)
+was updated through commit `bd994d4794b9720d4a7c8a00ad5b1fe2a602ebb8`. Its build
+and CurrentVersion fields now select 1.6.2 / 141 and the full release commit. The
+upstream signing certificate is unchanged. All nine jobs in
+[the new F-Droid pipeline](https://gitlab.com/pierspad/fdroiddata/-/pipelines/3009896422)
+passed, including source checks, metadata formatting/lint, update detection,
+`fdroid build` and `check apk`.
+
+The unsigned APK was downloaded from the successful F-Droid build job. Copying
+the official APK's signature onto that build with F-Droid's `apksigcopier` produced
+an APK byte-identical to the official release, and `apksigner verify` succeeded.
+
+- Official/reproduced signed APK SHA-256:
+  `e666ec197528bde8c3f5a01213c943fd1d407a1660eb325be0b9358371053108`.
+- F-Droid unsigned build SHA-256:
+  `5b5c1a097bc8c134bb257410bda9ae8aec3d494c1cf01b1a9e556908b2e99890`.
+- Signing certificate SHA-256:
+  `215b0f09b8334911f8e283fa9cce3d3c400199d4ccb22bdf01ac2836c6a97ae8`.
+
+The MR remains open for maintainer review and merge. Its `waiting-on-response`
+label was not automatically changed by the push; green CI is not an inclusion
+approval. No new physical-device runtime test of 1.6.2 is claimed here.
