@@ -2,6 +2,7 @@ package app.olauncher.ui
 
 import android.Manifest
 import android.app.Activity
+import android.app.WallpaperManager
 import android.app.admin.DevicePolicyManager
 import android.appwidget.AppWidgetHost
 import android.appwidget.AppWidgetManager
@@ -912,14 +913,31 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         // The preview is a real hole onto the live wallpaper, tracking the placeholder box.
         binding.wallpaperHole.attachTo(binding.opacityPreview, 16.dpToPx().toFloat(), binding.scrollView)
 
+        val context = requireContext()
+        val wallpaperSamples = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            val manager = WallpaperManager.getInstance(context)
+            HomeWallpaperContrast.samples(runCatching { manager.getWallpaperColors(WallpaperManager.FLAG_SYSTEM) }.getOrNull())
+        } else {
+            emptyList()
+        }
+        fun updatePreview(progress: Int, label: Int) {
+            val scrim = context.scrimColor(progress * 255 / OPACITY_STEPS)
+            val foreground = HomeWallpaperContrast.foreground(
+                wallpaperSamples, scrim, context.getColorFromAttr(R.attr.primaryColor)
+            )
+            binding.wallpaperHole.setPreviewColors(scrim, foreground)
+            val percent = java.text.NumberFormat.getPercentInstance().format(progress.toDouble() / OPACITY_STEPS)
+            binding.opacityPreviewCaption.text = getString(R.string.opacity_preview_caption, getString(label), percent)
+        }
+
         binding.homeOpacitySeekBar.max = OPACITY_STEPS
         binding.homeOpacitySeekBar.progress = opacityToProgress(prefs.opacityHome)
         binding.homeOpacityValue.text = "${binding.homeOpacitySeekBar.progress * OPACITY_STEP_PERCENT}%"
         binding.homeOpacitySeekBar.onChange(
-            onStart = { progress -> updateOpacityPreview(progress, getString(R.string.opacity_home)) },
+            onStart = { progress -> updatePreview(progress, R.string.opacity_home) },
             onProgress = { progress, fromUser ->
                 binding.homeOpacityValue.text = java.text.NumberFormat.getPercentInstance().format(progress.toDouble() / OPACITY_STEPS)
-                updateOpacityPreview(progress, getString(R.string.opacity_home))
+                updatePreview(progress, R.string.opacity_home)
                 if (fromUser) applyHomeOpacity(progress)
             },
             onStop = { progress -> applyHomeOpacity(progress) },
@@ -929,30 +947,21 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.drawerOpacitySeekBar.progress = opacityToProgress(prefs.opacityDrawer)
         binding.drawerOpacityValue.text = java.text.NumberFormat.getPercentInstance().format(binding.drawerOpacitySeekBar.progress.toDouble() / OPACITY_STEPS)
         binding.drawerOpacitySeekBar.onChange(
-            onStart = { progress -> updateOpacityPreview(progress, getString(R.string.opacity_drawer)) },
+            onStart = { progress -> updatePreview(progress, R.string.opacity_drawer) },
             onProgress = { progress, _ ->
                 binding.drawerOpacityValue.text = java.text.NumberFormat.getPercentInstance().format(progress.toDouble() / OPACITY_STEPS)
-                updateOpacityPreview(progress, getString(R.string.opacity_drawer))
+                updatePreview(progress, R.string.opacity_drawer)
             },
             onStop = { progress -> prefs.opacityDrawer = progress.toFloat() / OPACITY_STEPS },
         )
 
         // Initial preview reflects the home slider.
-        updateOpacityPreview(binding.homeOpacitySeekBar.progress, getString(R.string.opacity_home))
+        updatePreview(binding.homeOpacitySeekBar.progress, R.string.opacity_home)
     }
 
     private fun applyHomeOpacity(progress: Int) {
         prefs.opacityHome = progress.toFloat() / OPACITY_STEPS
         (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = false)
-    }
-
-    // Mirrors the real home/drawer effect over the live wallpaper revealed by the hole:
-    // the same theme-aware scrim (darken in dark mode, lighten in light mode) at the chosen
-    // intensity, plus a centered label. At 0% the hole shows the bare wallpaper, no tint.
-    private fun updateOpacityPreview(progress: Int, label: String) {
-        val alpha = (progress.toFloat() / OPACITY_STEPS * 255).toInt()
-        binding.wallpaperHole.setScrimColor(requireContext().scrimColor(alpha))
-        binding.wallpaperHole.setLabel("$label · ${progress * OPACITY_STEP_PERCENT}%")
     }
 
     private fun opacityToProgress(value: Float): Int =

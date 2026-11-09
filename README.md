@@ -27,24 +27,19 @@ An Android launcher based on [Olauncher](https://github.com/tanujnotes/olauncher
 
 Click a preview to see the full image.
 
-| Choose a widget | Widget on Home | App lock |
+| General settings | Home screen options | Layout and alignment |
 | :---: | :---: | :---: |
-| <a href="docs/images/widget_chooser.png"><img src="docs/images/widget_chooser.png" width="160" alt="System widget picker" /></a> | <a href="docs/images/widget_added.png"><img src="docs/images/widget_added.png" width="160" alt="Widget and shortcuts on the home screen" /></a> | <a href="docs/images/lock_apps.png"><img src="docs/images/lock_apps.png" width="160" alt="Choose apps to protect with device authentication" /></a> |
+| <a href="fastlane/metadata/android/en-US/images/phoneScreenshots/01.jpg"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.jpg" width="160" alt="General settings" /></a> | <a href="fastlane/metadata/android/en-US/images/phoneScreenshots/02.jpg"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.jpg" width="160" alt="Home screen options" /></a> | <a href="fastlane/metadata/android/en-US/images/phoneScreenshots/03.jpg"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.jpg" width="160" alt="Layout and alignment" /></a> |
 
-<details>
-<summary>Settings compared with the original Olauncher</summary>
-
-| BetterLauncher | Olauncher |
-| :---: | :---: |
-| <a href="docs/images/BetterLauncher.png"><img src="docs/images/BetterLauncher.png" width="200" alt="BetterLauncher settings" /></a> | <a href="docs/images/Olauncher.png"><img src="docs/images/Olauncher.png" width="200" alt="Original Olauncher settings" /></a> |
-
-</details>
+| Theme and opacity | Icons and gestures | Gestures and backups |
+| :---: | :---: | :---: |
+| <a href="fastlane/metadata/android/en-US/images/phoneScreenshots/04.jpg"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.jpg" width="160" alt="Theme and opacity" /></a> | <a href="fastlane/metadata/android/en-US/images/phoneScreenshots/05.jpg"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.jpg" width="160" alt="Icons and gestures" /></a> | <a href="fastlane/metadata/android/en-US/images/phoneScreenshots/06.jpg"><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.jpg" width="160" alt="Gestures and backups" /></a> |
 
 ## Install
 
 Download `betterlauncher-release.apk` from the [latest GitHub release](https://github.com/pierspad/BetterLauncher/releases/latest). Updates must use the same signing key as your existing installation.
 
-F-Droid inclusion is being reviewed in [fdroiddata !44511](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/44511). See [how F-Droid updates work](docs/f-droid.md).
+BetterLauncher is also available on [F-Droid](https://f-droid.org/packages/com.pierspad.betterlauncher/) and [Google Play](https://play.google.com/store/apps/details?id=com.pierspad.betterlauncher). See [how F-Droid updates work](docs/f-droid.md).
 
 ## Settings backups
 

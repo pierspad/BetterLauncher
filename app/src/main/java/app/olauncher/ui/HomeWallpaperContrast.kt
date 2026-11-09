@@ -1,15 +1,22 @@
 package app.olauncher.ui
 
+import android.app.WallpaperColors
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Build
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.graphics.ColorUtils
 import app.olauncher.R
 
 /** Home sits on wallpaper, so its foreground must follow the wallpaper plus the chosen scrim. */
 internal object HomeWallpaperContrast {
+    @RequiresApi(Build.VERSION_CODES.O_MR1)
+    fun samples(colors: WallpaperColors?): List<Int> =
+        listOfNotNull(colors?.primaryColor, colors?.secondaryColor, colors?.tertiaryColor).map { it.toArgb() }
+
     fun foreground(samples: List<Int>, scrim: Int, fallback: Int): Int {
         if (samples.isEmpty()) return fallback
         val backgrounds = samples.map { ColorUtils.compositeColors(scrim, ColorUtils.setAlphaComponent(it, 255)) }

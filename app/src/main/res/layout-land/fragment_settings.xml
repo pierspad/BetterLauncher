@@ -1241,6 +1241,16 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="6dp" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/opacityPreviewCaption"
+                    style="@style/TextSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingBottom="6dp"
+                    android:textColor="?attr/primaryColor" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

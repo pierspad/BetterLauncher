@@ -1,9 +1,9 @@
-<p><b>BetterLauncher</b> is a free, open-source Android launcher based on Olauncher. Keep a simple text-based home screen and add the features you want, without ads or paid upgrades.</p>
+<p><b>BetterLauncher</b> gives you a text-based Android home screen with the apps and shortcuts you choose. Add folders and a widget, adjust the layout to suit you, and set optional limits for distracting apps. Free and open source, with no ads or paid upgrades.</p>
 <ul>
 <li>Choose and reorder up to eight home apps and eight shortcut icons.</li>
 <li>Add an Android widget, folders, and optional monochrome icons.</li>
 <li>Adjust text, fonts, alignment, theme, and background opacity.</li>
-<li>Search apps by prefixes, initials, or fuzzy matches. Contact search is optional and needs contact permission.</li>
+<li>Search apps with precise or flexible matching. Contact search is optional and needs contact permission.</li>
 <li>Protect app launches from BetterLauncher with your device credentials or biometrics.</li>
 <li>Set optional app limits with progressive cooldowns.</li>
 <li>Export or import settings as JSON. Backups can include a custom font; Android permissions and widget bindings need to be set up again on another device.</li>
@@ -11,3 +11,4 @@
 <p><b>Optional Accessibility Service:</b> Android's accessibility service powers double-tap screen locking and the app cooldowns you configure. To enforce cooldowns, it observes window changes and the foreground app. To recognize the lock gesture, it can read accessible window information such as a view type and label. This information is processed on your device. You can decline or disable the service and continue using the launcher's other features.</p>
 <p>BetterLauncher does not request Android's Internet permission and has no ads or analytics. If you choose to export or share a backup, Android can pass that file to the app or service you select.</p>
 <p>Open source under the GPL-3.0 license.</p>
+<p>Support BetterLauncher · <a href="https://github.com/sponsors/pierspad">GitHub Sponsors</a> · <a href="https://buymeacoffee.com/pierspad">Buy Me a Coffee</a> · <a href="https://ko-fi.com/pierspad">Ko-fi</a></p>

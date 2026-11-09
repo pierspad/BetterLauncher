@@ -20,7 +20,7 @@ import androidx.core.graphics.withSave
  * wallpaper (AppTheme sets windowBackground=transparent + windowShowWallpaper=true), so
  * clearing the window pixels inside the hole reveals exactly what sits behind the launcher
  * — as if the panel weren't there. A scrim is then painted over the hole to preview the
- * chosen opacity, with an optional centered label.
+ * chosen opacity, with sample app names and icons.
  *
  * IMPORTANT: this view must NOT use a hardware/software layer. The PorterDuff.CLEAR has to
  * land on the window framebuffer (where the panel and cards were already drawn) rather than
@@ -36,15 +36,8 @@ class WallpaperHoleView @JvmOverloads constructor(
         xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
     }
     private val scrimPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.TRANSPARENT }
-    private val labelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textAlign = Paint.Align.CENTER
-        color = Color.WHITE
-        setShadowLayer(6f, 0f, 0f, Color.BLACK)
-    }
-    private val appTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textAlign = Paint.Align.LEFT
-        setShadowLayer(6f, 0f, 0f, Color.BLACK)
-    }
+    private val appTextPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private var foreground = Color.WHITE
 
     private val iconPhone by lazy {
         androidx.core.content.ContextCompat.getDrawable(context, R.drawable.ic_sc_phone)?.mutate()
@@ -60,7 +53,6 @@ class WallpaperHoleView @JvmOverloads constructor(
     private val holeRect = RectF()
     private val locTarget = IntArray(2)
     private val locSelf = IntArray(2)
-    private var label = ""
 
     private val preDraw = ViewTreeObserver.OnPreDrawListener {
         if (syncHole()) invalidate()
@@ -71,9 +63,8 @@ class WallpaperHoleView @JvmOverloads constructor(
         // Never intercept touches meant for the sliders sitting beneath the overlay.
         isClickable = false
         isFocusable = false
-        labelPaint.textSize = 14f * resources.displayMetrics.scaledDensity
         appTextPaint.textSize = 18f * resources.displayMetrics.scaledDensity
-        appTextPaint.typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
+        appTextPaint.typeface = Typeface.create("sans-serif", Typeface.NORMAL)
     }
 
     /** Binds the hole to [target]'s on-screen bounds, with [cornerRadiusPx] rounded corners. */
@@ -84,15 +75,10 @@ class WallpaperHoleView @JvmOverloads constructor(
         if (syncHole()) invalidate()
     }
 
-    fun setScrimColor(color: Int) {
-        if (scrimPaint.color == color) return
-        scrimPaint.color = color
-        invalidate()
-    }
-
-    fun setLabel(text: String) {
-        if (label == text) return
-        label = text
+    fun setPreviewColors(scrim: Int, foreground: Int) {
+        if (scrimPaint.color == scrim && this.foreground == foreground) return
+        scrimPaint.color = scrim
+        this.foreground = foreground
         invalidate()
     }
 
@@ -130,63 +116,56 @@ class WallpaperHoleView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         if (holeRect.isEmpty) return
         canvas.withSave {
-        viewport?.let { area ->
-            area.getLocationInWindow(locViewport)
-            getLocationInWindow(locSelf)
-            val left = locViewport[0] - locSelf[0]
-            val top = locViewport[1] - locSelf[1]
-            // CLEAR and preview labels must never paint over the fixed header/search.
-            canvas.clipRect(left, top, left + area.width, top + area.height)
-        }
-        canvas.drawRoundRect(holeRect, cornerRadius, cornerRadius, clearPaint)
-        if (scrimPaint.color != Color.TRANSPARENT)
-            canvas.drawRoundRect(holeRect, cornerRadius, cornerRadius, scrimPaint)
+            viewport?.let { area ->
+                area.getLocationInWindow(locViewport)
+                getLocationInWindow(locSelf)
+                val left = locViewport[0] - locSelf[0]
+                val top = locViewport[1] - locSelf[1]
+                // CLEAR and preview labels must never paint over the fixed header/search.
+                canvas.clipRect(left, top, left + area.width, top + area.height)
+            }
+            canvas.drawRoundRect(holeRect, cornerRadius, cornerRadius, clearPaint)
+            if (scrimPaint.color != Color.TRANSPARENT)
+                canvas.drawRoundRect(holeRect, cornerRadius, cornerRadius, scrimPaint)
 
-        // Draw preview app names and icons on top of the hole for legibility reference
-        val density = resources.displayMetrics.density
-        val night = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
-                android.content.res.Configuration.UI_MODE_NIGHT_YES
-        val themeColor = if (night) Color.WHITE else Color.BLACK
+            // Draw preview app names and icons on top of the hole for legibility reference
+            val density = resources.displayMetrics.density
+            appTextPaint.color = foreground
+            val shadow = if (foreground == Color.WHITE) Color.BLACK else Color.WHITE
+            appTextPaint.setShadowLayer(2f * density, 0f, 0f, shadow)
 
-        appTextPaint.color = themeColor
+            val paddingLeft = 24f * density
+            val paddingRight = 24f * density
+            val centerY = holeRect.centerY()
+            val spaceBetweenText = 32f * density
+            val spaceBetweenIcons = spaceBetweenText
 
-        val paddingLeft = 24f * density
-        val paddingRight = 24f * density
-        val centerY = holeRect.centerY()
-        val spaceBetweenText = 32f * density
-        val spaceBetweenIcons = 44f * density
+            val appPhone = context.getString(R.string.preview_app_phone)
+            val appCamera = context.getString(R.string.preview_app_camera)
 
-        val appPhone = context.getString(R.string.preview_app_phone)
-        val appCamera = context.getString(R.string.preview_app_camera)
+            val app1Y = centerY - spaceBetweenText / 2f - (appTextPaint.descent() + appTextPaint.ascent()) / 2f
+            val app2Y = centerY + spaceBetweenText / 2f - (appTextPaint.descent() + appTextPaint.ascent()) / 2f
 
-        val app1Y = centerY - spaceBetweenText / 2f - (appTextPaint.descent() + appTextPaint.ascent()) / 2f
-        val app2Y = centerY + spaceBetweenText / 2f - (appTextPaint.descent() + appTextPaint.ascent()) / 2f
+            canvas.drawText(appPhone, holeRect.left + paddingLeft, app1Y, appTextPaint)
+            canvas.drawText(appCamera, holeRect.left + paddingLeft, app2Y, appTextPaint)
 
-        canvas.drawText(appPhone, holeRect.left + paddingLeft, app1Y, appTextPaint)
-        canvas.drawText(appCamera, holeRect.left + paddingLeft, app2Y, appTextPaint)
+            val iconSize = 24f * density
+            val iconLeft = holeRect.right - paddingRight - iconSize
+            val iconRight = holeRect.right - paddingRight
 
-        val iconSize = 24f * density
-        val iconLeft = holeRect.right - paddingRight - iconSize
-        val iconRight = holeRect.right - paddingRight
+            iconPhone?.let {
+                it.setTint(foreground)
+                val icon1Top = centerY - spaceBetweenIcons / 2f - iconSize / 2f
+                it.setBounds(iconLeft.toInt(), icon1Top.toInt(), iconRight.toInt(), (icon1Top + iconSize).toInt())
+                it.draw(canvas)
+            }
 
-        iconPhone?.let {
-            it.setTint(themeColor)
-            val icon1Top = centerY - spaceBetweenIcons / 2f - iconSize / 2f
-            it.setBounds(iconLeft.toInt(), icon1Top.toInt(), iconRight.toInt(), (icon1Top + iconSize).toInt())
-            it.draw(canvas)
-        }
-
-        iconCamera?.let {
-            it.setTint(themeColor)
-            val icon2Top = centerY + spaceBetweenIcons / 2f - iconSize / 2f
-            it.setBounds(iconLeft.toInt(), icon2Top.toInt(), iconRight.toInt(), (icon2Top + iconSize).toInt())
-            it.draw(canvas)
-        }
-
-        if (label.isNotEmpty()) {
-            val baseline = holeRect.centerY() - (labelPaint.descent() + labelPaint.ascent()) / 2f
-            canvas.drawText(label, holeRect.centerX(), baseline, labelPaint)
-        }
+            iconCamera?.let {
+                it.setTint(foreground)
+                val icon2Top = centerY + spaceBetweenIcons / 2f - iconSize / 2f
+                it.setBounds(iconLeft.toInt(), icon2Top.toInt(), iconRight.toInt(), (icon2Top + iconSize).toInt())
+                it.draw(canvas)
+            }
         }
     }
 }

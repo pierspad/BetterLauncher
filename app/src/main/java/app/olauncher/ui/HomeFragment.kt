@@ -90,8 +90,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             val manager = android.app.WallpaperManager.getInstance(requireContext())
             fun update(colors: android.app.WallpaperColors?) {
-                wallpaperSamples = listOfNotNull(colors?.primaryColor, colors?.secondaryColor, colors?.tertiaryColor)
-                    .map { it.toArgb() }
+                wallpaperSamples = HomeWallpaperContrast.samples(colors)
                 if (_binding != null) populateHomeScreen(false)
             }
             update(runCatching { manager.getWallpaperColors(android.app.WallpaperManager.FLAG_SYSTEM) }.getOrNull())

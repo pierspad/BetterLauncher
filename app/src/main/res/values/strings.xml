@@ -291,6 +291,7 @@ To remove, it must be ≤ 2</string>
 
     <!-- Background opacity -->
     <string name="background_opacity">Background opacity</string>
+    <string name="opacity_preview_caption" translatable="false">%1$s · %2$s</string>
     <string name="opacity_home">Home opacity</string>
     <string name="opacity_drawer">App drawer opacity</string>
 
