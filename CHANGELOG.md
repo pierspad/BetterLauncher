@@ -1,3 +1,9 @@
+## [1.6.3](https://github.com/pierspad/BetterLauncher/compare/v1.6.2...v1.6.3) (2026-11-09)
+
+### Bug Fixes
+
+* refresh BetterLauncher store assets and opacity preview ([3ef91ca](https://github.com/pierspad/BetterLauncher/commit/3ef91ca232659a86d7dac3ff220775051ac6034c))
+
 ## [1.6.2](https://github.com/pierspad/BetterLauncher/compare/v1.6.1...v1.6.2) (2026-10-30)
 
 ### Bug Fixes
