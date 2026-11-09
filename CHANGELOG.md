@@ -1,3 +1,9 @@
+## [1.6.4](https://github.com/pierspad/BetterLauncher/compare/v1.6.3...v1.6.4) (2026-11-09)
+
+### Bug Fixes
+
+* match app names across word separators ([bf25025](https://github.com/pierspad/BetterLauncher/commit/bf25025e049dcd2dbcf3e8db7a95a8079b1accbe))
+
 ## [1.6.3](https://github.com/pierspad/BetterLauncher/compare/v1.6.2...v1.6.3) (2026-11-09)
 
 ### Bug Fixes
