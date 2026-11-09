@@ -15,7 +15,13 @@ fun runSearchMatchingRegression() {
         Triple("Proton Mail", "ton ail", true),
         Triple("Proton Mail", "ail ton", false),
         Triple("Proton Mail", "pro ton", false),
-        Triple("Proton Mail", "tonma", false),
+        Triple("Proton Mail", "tonma", true),
+        Triple("Proton Mail", "proma", false),
+        Triple("Pro Mail", "proma", true),
+        Triple("Promail", "pro ma", false),
+        Triple("Play Store", "plays", true),
+        Triple("Play Store", "ysto", true),
+        Triple("Play Games", "plays", false),
         Triple("Proton-Mail", "ton ail", true),
         Triple("Proton/Mail", "ton ail", true),
         Triple("Proton\u00a0Mail", "ton ail", true),
@@ -39,6 +45,13 @@ fun runSearchMatchingRegression() {
     check(FuzzySearch.matches("Reddit", "rdd", SearchMode.LOOSE_FUZZY))
     check(FuzzySearch.matches("Proton Mail", "ton ail", SearchMode.fromValue(0)))
     check(FuzzySearch.matches("Proton Mail", "ton ail", SearchMode.fromValue(1)))
+    for (mode in SearchMode.entries) {
+        check(FuzzySearch.score("Play Store", "play", mode) > FuzzySearch.score("Display", "play", mode))
+        check(FuzzySearch.score("Play", "play", mode) > FuzzySearch.score("Play Store", "play", mode))
+        check(FuzzySearch.score("Proton Mail", "pro ma", mode) > FuzzySearch.score("GoPro Smart", "pro ma", mode))
+    }
+    check(FuzzySearch.matches("Proton Mail", "proma", SearchMode.LOOSE_FUZZY))
+    check(FuzzySearch.scoreStrict("Proton Mail", "proma", SearchMode.LOOSE_FUZZY) == -1)
     check(failures == 0) { "$failures matching failures" }
     val labels = listOf("Proton Mail", "Café Notes", "Reddit", "Reddit News", "Proton/Mail", "Wi-Fi", "地图", "")
     val queries = listOf("", " ", "pro ma", "ton ail", "pro ton", "rdd", "AFE ote", "!!!", "Wi", "地图")

@@ -248,7 +248,7 @@ class AppDrawerAdapter(
             if (filterGeneration != generation) return@submitList
             // Models may be identical across queries; their highlighted presentation is not.
             if (itemCount > 0) notifyItemRangeChanged(0, itemCount, "query")
-            autoLaunch()
+            autoLaunch(preparedQuery)
             if (!firstNonEmptyCommitDone && result.isNotEmpty()) {
                 firstNonEmptyCommitDone = true
                 onFirstNonEmptyCommit?.invoke()
@@ -256,7 +256,7 @@ class AppDrawerAdapter(
         }
     }
 
-    private fun autoLaunch() {
+    private fun autoLaunch(query: FuzzySearch.PreparedQuery) {
         try {
             if (itemCount == 1
                 && autoLaunch
@@ -267,8 +267,11 @@ class AppDrawerAdapter(
                 && currentList[0] is AppModel.App
                 && launchedQueryGeneration != queryGeneration
             ) {
+                val app = currentList[0]
+                val label = preparedLabels.getValue(app.appLabel)
+                if (FuzzySearch.score(label, query) < 0) return
                 launchedQueryGeneration = queryGeneration
-                appClickListener(currentList[0])
+                appClickListener(app)
             }
         } catch (e: Exception) {
             e.printStackTrace()

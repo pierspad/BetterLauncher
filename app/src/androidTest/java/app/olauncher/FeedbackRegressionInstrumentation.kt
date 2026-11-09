@@ -212,18 +212,27 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
                 check(FuzzySearch.score("Proton Mail", "Mail Proton", SearchMode.PRECISE) < 0)
                 check(FuzzySearch.score("Reddit", "rdd", SearchMode.LOOSE_FUZZY) >= 0)
             }
-            test("precise drawer launches only unique matches, including internal word fragments") {
+            test("drawer launches only unique matches that qualify in precise mode") {
                 val proton = AppModel.App("Proton Mail", null, "app.proton", "Main", user = Process.myUserHandle())
                 val pedometer = proton.copy(appLabel = "Pedometro - Contapassi", appPackage = "app.steps")
                 val reddit = proton.copy(appLabel = "Reddit", appPackage = "app.reddit")
                 val redditNews = reddit.copy(appLabel = "Reddit News", appPackage = "app.news")
-                fun search(query: String, apps: List<AppModel>, expected: List<AppModel>, launches: List<AppModel>) {
+                val playStore = proton.copy(appLabel = "Play Store", appPackage = "app.store")
+                val playGames = proton.copy(appLabel = "Play Games", appPackage = "app.games")
+                fun search(
+                    query: String,
+                    apps: List<AppModel>,
+                    expected: List<AppModel>,
+                    launches: List<AppModel>,
+                    mode: SearchMode = SearchMode.PRECISE,
+                ) {
                     val clicked = mutableListOf<AppModel>()
                     lateinit var adapter: AppDrawerAdapter
                     onMain {
                         adapter = AppDrawerAdapter(Constants.FLAG_LAUNCH_APP, Gravity.START,
                             appClickListener = { clicked.add(it) }, appInfoListener = {}, appDeleteListener = {},
-                            appHideListener = { _, _ -> }, appRenameListener = { _, _ -> })
+                            appHideListener = { _, _ -> }, appRenameListener = { _, _ -> },
+                            searchModeProvider = { mode.value })
                         adapter.allowAutoLaunch = false
                         adapter.setAppList(apps.toMutableList())
                         adapter.allowAutoLaunch = true
@@ -249,6 +258,10 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
                 search("rdd", listOf(reddit, pedometer), emptyList(), emptyList())
                 search("ail ton", listOf(proton), emptyList(), emptyList())
                 search("pro ton", listOf(proton), emptyList(), emptyList())
+                search("proma", listOf(proton), emptyList(), emptyList())
+                search("proma", listOf(proton), listOf(proton), emptyList(), SearchMode.LOOSE_FUZZY)
+                search("edd", listOf(reddit), listOf(reddit), listOf(reddit), SearchMode.LOOSE_FUZZY)
+                search("plays", listOf(playStore, playGames), listOf(playStore), listOf(playStore))
             }
             test("consent keeps title and both actions visible while only the message scrolls") {
                 val activity = startActivitySync(android.content.Intent(

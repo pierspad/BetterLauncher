@@ -13,7 +13,7 @@ enum class SearchMode(val value: Int) {
     }
 }
 
-/** Consecutive fragments in ordered, distinct words; flexible subsequences are opt-in. */
+/** Compact substrings and ordered word fragments, with opt-in subsequence matching. */
 object FuzzySearch {
 
     private val whitespaceRegex = Regex("[\\s\\p{Z}]+")
@@ -43,15 +43,19 @@ object FuzzySearch {
     /**
      * Each fragment must occur inside a distinct word, in query order.
      */
-    private fun matchesWordFragments(labelWords: List<String>, queryTokens: List<String>): Boolean {
-        if (queryTokens.isEmpty()) return true
+    private fun matchesWordFragments(
+        labelWords: List<String>,
+        queryTokens: List<String>,
+        prefixesOnly: Boolean = false,
+    ): Boolean {
         if (labelWords.size < queryTokens.size) return false
 
         var wordIdx = 0
         for (token in queryTokens) {
             var found = false
             while (wordIdx < labelWords.size) {
-                if (labelWords[wordIdx].contains(token)) {
+                val word = labelWords[wordIdx]
+                if (if (prefixesOnly) word.startsWith(token) else word.contains(token)) {
                     found = true
                     wordIdx++
                     break
@@ -109,36 +113,20 @@ object FuzzySearch {
         val lNoSeparators = label.compact
         val qConcat = query.compact
 
-        return when (mode) {
-            SearchMode.PRECISE -> {
-                if (matchesWordFragments(labelWords, parts)) {
-                    if (lNoSeparators.startsWith(qConcat)) 1000 else 850
-                } else -1
-            }
-
-            SearchMode.LOOSE_FUZZY -> {
-                val lSpaces = label.spaced
-                val matches = isSubsequence(lNoSeparators, qConcat)
-                if (!matches) return -1
-
-                if (lNoSeparators.startsWith(qConcat)) return 1000
-                val idx = lNoSeparators.indexOf(qConcat)
-                if (idx > 0) return 700 - idx.coerceAtMost(200)
-
-                for (word in labelWords) {
-                    if (word.startsWith(qConcat)) return 650
-                }
-
-                var bonus = 0
-                if (parts.isNotEmpty()) {
-                    val firstPart = parts[0]
-                    if (lSpaces.startsWith(firstPart) || lSpaces.contains(" $firstPart")) {
-                        bonus += 50
-                    }
-                }
-                300 + bonus
-            }
+        // Spaces explicitly separate fragments that must match distinct words.
+        if (parts.size == 1 || matchesWordFragments(labelWords, parts)) {
+            if (lNoSeparators == qConcat) return 1100
+            if (lNoSeparators.startsWith(qConcat)) return 1000
+            if (matchesWordFragments(labelWords, parts, prefixesOnly = true)) return 900
+            if (lNoSeparators.contains(qConcat)) return 850
+            if (parts.size > 1) return 800
         }
+
+        if (mode == SearchMode.PRECISE || !isSubsequence(lNoSeparators, qConcat)) return -1
+
+        val firstPart = parts.first()
+        val startsWord = label.spaced.startsWith(firstPart) || label.spaced.contains(" $firstPart")
+        return if (startsWord) 350 else 300
     }
 
     fun matches(label: String, query: String, mode: SearchMode = SearchMode.PRECISE): Boolean =
