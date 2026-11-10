@@ -30,7 +30,7 @@ fun runSettingsSearchRegression(context: Context) {
             "Settings search must display the magnifying glass"
         }
         val container = root.findViewById<LinearLayout>(R.id.scrollLayout)
-        val conditional = root.findViewById<View>(R.id.dateOnlyRow)
+        val conditional = root.findViewById<View>(R.id.widgetChooseRow)
         conditional.visibility = View.GONE
         val sectionContext = object : ContextWrapper(themed) {
             override fun getSharedPreferences(name: String, mode: Int) =
@@ -63,6 +63,10 @@ fun runSettingsSearchRegression(context: Context) {
             check(search.filter(query) > 0) { "Missing translated query: $query" }
             check(visible(battery)) { "Search must include collapsed sections" }
             check(visible(header)) { "Results must retain their section title" }
+        }
+        for (query in listOf("solo orario", "date only")) {
+            check(search.filter(query) > 0) { "Missing clock editor alias: $query" }
+            check(visible(root.findViewById(R.id.clockAppearanceRow)))
         }
         check(search.filter("Bildschirmzeit") == 0) { "Do not index unrelated languages" }
         check(search.filter("dimensione testo") > 0)
