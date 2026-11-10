@@ -3,4 +3,5 @@
     <dimen name="alphabet_recycler_margin_bottom">16dp</dimen>
     <dimen name="alphabet_recycler_margin_end">10dp</dimen>
     <dimen name="alphabet_recycler_margin_start">320dp</dimen>
+    <dimen name="home_columns_bottom_padding">24dp</dimen>
 </resources>

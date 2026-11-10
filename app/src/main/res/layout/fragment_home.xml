@@ -111,7 +111,7 @@
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
         android:paddingTop="112dp"
-        android:paddingBottom="48dp">
+        android:paddingBottom="@dimen/home_columns_bottom_padding">
 
         <TextView
             android:id="@+id/homeApp1"
@@ -221,7 +221,7 @@
         android:gravity="center_vertical"
         android:layout_marginHorizontal="16dp"
         android:paddingTop="112dp"
-        android:paddingBottom="48dp"
+        android:paddingBottom="@dimen/home_columns_bottom_padding"
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible">
