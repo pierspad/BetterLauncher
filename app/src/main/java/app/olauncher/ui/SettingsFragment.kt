@@ -363,7 +363,12 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.switchHomeOnlyIcons -> toggleHomeOnlyIcons()
             R.id.switchColorfulIcons -> toggleColorfulIcons()
             R.id.dateTimeSwitch -> toggleDateTimeEnabled()
-            R.id.dateOnlySwitch -> toggleDateOnly()
+            R.id.dateOnlySwitch -> toggleDateTimeMode(Constants.DateTime.DATE_ONLY)
+            R.id.timeOnlySwitch -> toggleDateTimeMode(Constants.DateTime.TIME_ONLY)
+            R.id.clockSecondsSwitch -> {
+                prefs.clockSeconds = binding.clockSecondsSwitch.isChecked
+                viewModel.toggleDateTime()
+            }
             R.id.clockAppRow -> showAppListIfEnabled(Constants.FLAG_SET_CLOCK_APP)
             R.id.calendarAppRow -> showAppListIfEnabled(Constants.FLAG_SET_CALENDAR_APP)
             R.id.fontText -> findNavController().navigate(R.id.action_settingsFragment_to_fontPickerFragment)
@@ -448,6 +453,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.switchColorfulIcons.setOnClickListener(this)
         binding.dateTimeSwitch.setOnClickListener(this)
         binding.dateOnlySwitch.setOnClickListener(this)
+        binding.timeOnlySwitch.setOnClickListener(this)
+        binding.clockSecondsSwitch.setOnClickListener(this)
         binding.swipeLeftApp.setOnClickListener(this)
         binding.swipeRightApp.setOnClickListener(this)
         binding.swipeDownAction.setOnClickListener(this)
@@ -608,18 +615,29 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         setDateTimeVisibility(if (turningOn) Constants.DateTime.ON else Constants.DateTime.OFF)
     }
 
-    // Sub-toggle, only meaningful while date & time is shown.
-    private fun toggleDateOnly() {
+    private fun toggleDateTimeMode(mode: Int) {
         if (prefs.dateTimeVisibility == Constants.DateTime.OFF) return
-        val dateOnly = prefs.dateTimeVisibility == Constants.DateTime.DATE_ONLY
-        setDateTimeVisibility(if (dateOnly) Constants.DateTime.ON else Constants.DateTime.DATE_ONLY)
+        setDateTimeVisibility(if (prefs.dateTimeVisibility == mode) Constants.DateTime.ON else mode)
     }
 
     private fun populateDateTime() {
-        val enabled = prefs.dateTimeVisibility != Constants.DateTime.OFF
+        val mode = prefs.dateTimeVisibility
+        val enabled = mode != Constants.DateTime.OFF
         binding.dateTimeSwitch.isChecked = enabled
         binding.dateOnlyRow.isVisible = enabled
-        binding.dateOnlySwitch.isChecked = prefs.dateTimeVisibility == Constants.DateTime.DATE_ONLY
+        binding.timeOnlyRow.isVisible = enabled
+        binding.clockSecondsRow.isVisible = Constants.DateTime.isTimeVisible(mode)
+        binding.dateOnlySwitch.isChecked = mode == Constants.DateTime.DATE_ONLY
+        binding.timeOnlySwitch.isChecked = mode == Constants.DateTime.TIME_ONLY
+        binding.clockSecondsSwitch.isChecked = prefs.clockSeconds
+
+        val dateLabel = getString(R.string.date_only).replace("'", "''")
+        val timeLabel = getString(R.string.time_only).replace("'", "''")
+        val datePattern = "'$dateLabel ('EEE, d MMM')'"
+        binding.dateOnlyPreview.format12Hour = datePattern
+        binding.dateOnlyPreview.format24Hour = datePattern
+        binding.timeOnlyPreview.format12Hour = "'$timeLabel ('h:mm a')'"
+        binding.timeOnlyPreview.format24Hour = "'$timeLabel ('HH:mm')'"
     }
 
     private fun showStatusBar() {

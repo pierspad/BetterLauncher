@@ -71,6 +71,7 @@ class Prefs(private val context: Context) {
     // ---- Look & feel ----
     var appTheme by int("APP_THEME", AppCompatDelegate.MODE_NIGHT_YES)
     var textSizeScale by float("TEXT_SIZE_SCALE", 1.0f)
+    var clockSeconds by bool("CLOCK_SECONDS")
     var dateTimeVisibility by int("DATE_TIME_VISIBILITY", Constants.DateTime.ON)
 
     // Selected font. Empty string = system default. A value starting with "custom:"
