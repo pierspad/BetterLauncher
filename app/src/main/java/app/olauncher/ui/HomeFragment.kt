@@ -1350,12 +1350,13 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             return true
         }
         val context = requireContext()
-        val controls = LinearLayout(context).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(24.dpToPx(), 12.dpToPx(), 24.dpToPx(), 0)
-        }
+        val content = app.olauncher.databinding.DialogWidgetResizeBinding.inflate(layoutInflater)
+        val controls = content.widgetResizeControls
         fun addSlider(title: Int, range: IntRange, current: Int): SeekBar {
-            val label = TextView(context)
+            val label = TextView(context).apply {
+                setTextAppearance(R.style.TextSmall)
+                typeface = content.widgetResizeCancel.typeface
+            }
             controls.addView(label)
             return SeekBar(context).apply {
                 max = range.last - range.first
@@ -1388,17 +1389,20 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             prefs.widgetSize = "${hostView.appWidgetId}:$newWidth:$newHeight"
             positionWidget()
         }
-        widgetResizeDialog = AlertDialog.Builder(context)
-            .setTitle(R.string.widget_resize)
-            .setView(controls)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(android.R.string.ok) { _, _ -> saveSize(fillHeight = false) }
-            .apply {
-                if (canResizeHeight) {
-                    setNeutralButton(R.string.widget_fill_height) { _, _ -> saveSize(fillHeight = true) }
-                }
-            }
-            .show()
+        val dialog = AlertDialog.Builder(context).setView(content.root).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        content.widgetResizeApply.setOnClickListener {
+            saveSize(fillHeight = false)
+            dialog.dismiss()
+        }
+        content.widgetResizeFill.isVisible = canResizeHeight
+        content.widgetResizeFill.setOnClickListener {
+            saveSize(fillHeight = true)
+            dialog.dismiss()
+        }
+        content.widgetResizeCancel.setOnClickListener { dialog.dismiss() }
+        widgetResizeDialog = dialog
+        dialog.show()
         return true
     }
 
