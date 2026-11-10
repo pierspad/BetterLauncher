@@ -71,6 +71,10 @@ class Prefs(private val context: Context) {
     // ---- Look & feel ----
     var appTheme by int("APP_THEME", AppCompatDelegate.MODE_NIGHT_YES)
     var textSizeScale by float("TEXT_SIZE_SCALE", 1.0f)
+    var clockMinutes by bool("CLOCK_MINUTES", true)
+    var clockSizeOption by int("CLOCK_SIZE_OPTION", 1)
+    var dateSizeOption by int("DATE_SIZE_OPTION", 1)
+    var clockArrangement by int("CLOCK_ARRANGEMENT", 0)
     var clockSeconds by bool("CLOCK_SECONDS")
     var dateTimeVisibility by int("DATE_TIME_VISIBILITY", Constants.DateTime.ON)
 

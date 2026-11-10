@@ -401,4 +401,22 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="time_only">Solo orario</string>
     <string name="clock_seconds">Mostra i secondi</string>
     <string name="widget_size_scaled">%1$s · Ridotto per entrare</string>
+    <string name="clock_appearance">Orologio e data sulla Home</string>
+    <string name="clock_hidden">Nascondi</string>
+    <string name="clock_visibility">Mostra</string>
+    <string name="clock_date_and_time">Data e ora</string>
+    <string name="clock_arrangement">Disposizione</string>
+    <string name="clock_above_date">Ora sopra la data</string>
+    <string name="clock_beside_date">Ora a sinistra</string>
+    <string name="clock_size_small">Piccola</string>
+    <string name="clock_size_default">Standard</string>
+    <string name="clock_size_large">Grande</string>
+    <string name="clock_time_size">Dimensione orario</string>
+    <string name="clock_date_size">Dimensione data</string>
+    <string name="clock_precision">Dettaglio orario</string>
+    <string name="clock_hours">Ore</string>
+    <string name="clock_with_minutes">Minuti</string>
+    <string name="clock_with_seconds">Secondi</string>
+    <string name="date_above_clock">Data sopra l’ora</string>
+    <string name="date_beside_clock">Data a sinistra</string>
 </resources><!-- Italian -->

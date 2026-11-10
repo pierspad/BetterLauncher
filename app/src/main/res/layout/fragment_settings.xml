@@ -486,141 +486,20 @@
                     android:layout_marginVertical="4dp"
                     android:background="@drawable/divider_light" />
 
-                <!-- Show date & time (switch) -->
-                <LinearLayout
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/clockAppearanceRow"
+                    style="@style/TextSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:minHeight="52dp"
+                    android:paddingHorizontal="8dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/TextSmall"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        app:drawableStartCompat="@drawable/ic_sc_clock"
-                        android:drawablePadding="12dp"
-                        android:text="@string/show_date_time"
-                        android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor"  android:tag="settings:show_date_time" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/dateTimeSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:text=""
-                        android:textOff=""
-                        android:textOn=""
-                        app:thumbTint="@color/switch_thumb"
-                        app:trackTint="@color/switch_track" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/dateOnlyRow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <TextClock
-                        android:id="@+id/dateOnlyPreview"
-                        style="@style/TextSmall"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="44dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/date_only"
-                        android:textColor="?attr/primaryColor"  android:tag="settings:date_only" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/dateOnlySwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:text=""
-                        android:textOff=""
-                        android:textOn=""
-                        app:thumbTint="@color/switch_thumb"
-                        app:trackTint="@color/switch_track" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/timeOnlyRow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <TextClock
-                        android:id="@+id/timeOnlyPreview"
-                        style="@style/TextSmall"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="44dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/time_only"
-                        android:textColor="?attr/primaryColor"  android:tag="settings:time_only" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/timeOnlySwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:text=""
-                        android:textOff=""
-                        android:textOn=""
-                        app:thumbTint="@color/switch_thumb"
-                        app:trackTint="@color/switch_track" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/clockSecondsRow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/TextSmall"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="44dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/clock_seconds"
-                        android:textColor="?attr/primaryColor"  android:tag="settings:clock_seconds" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/clockSecondsSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:text=""
-                        android:textOff=""
-                        android:textOn=""
-                        app:thumbTint="@color/switch_thumb"
-                        app:trackTint="@color/switch_track" />
-                </LinearLayout>
+                    android:background="?attr/selectableItemBackground"
+                    android:drawablePadding="12dp"
+                    android:text="@string/clock_appearance"
+                    android:tag="settings:clock_appearance,show_date_time,date_only,time_only,clock_seconds"
+                    app:drawableStartCompat="@drawable/ic_sc_clock"
+                    app:drawableTint="?attr/primaryColor" />
 
                 <View
                     android:layout_width="match_parent"

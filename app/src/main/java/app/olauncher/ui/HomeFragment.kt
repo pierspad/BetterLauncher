@@ -11,7 +11,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.LauncherApps
 import android.content.res.Configuration
-import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -73,9 +72,6 @@ import app.olauncher.helper.openSearch
 import app.olauncher.helper.showToast
 import app.olauncher.listener.OnSwipeTouchListener
 import app.olauncher.listener.ViewSwipeTouchListener
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener {
 
@@ -391,25 +387,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     private fun populateDateTime() {
-        binding.dateTimeLayout.isVisible = prefs.dateTimeVisibility != Constants.DateTime.OFF
-        binding.clock.isVisible = Constants.DateTime.isTimeVisible(prefs.dateTimeVisibility)
-        binding.date.isVisible = Constants.DateTime.isDateVisible(prefs.dateTimeVisibility)
-        val clockSize = resources.getDimension(R.dimen.time_size)
-        binding.clock.setTextSize(TypedValue.COMPLEX_UNIT_PX, if (prefs.clockSeconds) clockSize * 0.8f else clockSize)
-        binding.clock.format12Hour = if (prefs.clockSeconds) "h:mm:ss" else "h:mm"
-        binding.clock.format24Hour = if (prefs.clockSeconds) "HH:mm:ss" else null
-
-//        var dateText = SimpleDateFormat("EEE, d MMM", Locale.getDefault()).format(Date())
-        val dateFormat = SimpleDateFormat("EEE, d MMM", Locale.getDefault())
-        var dateText = dateFormat.format(Date())
-
-        if (!prefs.showStatusBar) {
-            val battery = (requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager)
-                .getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
-            if (battery > 0)
-                dateText = getString(R.string.day_battery, dateText, battery)
-        }
-        binding.date.text = dateText.replace(".,", ",")
+        ClockAppearance(prefs).applyTo(binding.dateTimeLayout, binding.clock, binding.date, prefs)
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)

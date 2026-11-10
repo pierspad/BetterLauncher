@@ -79,10 +79,12 @@ internal class SettingsSearch(private val context: Context, container: LinearLay
     @SuppressLint("DiscouragedApi") // XML labels retain resource names to index the active translation and English.
     private fun terms(view: View): String {
         val key = (view.tag as? String)?.takeIf { it.startsWith("settings:") }?.substringAfter(':')
-        val own = if (key != null) termsCache.getOrPut(key) {
-            val id = context.resources.getIdentifier(key, "string", context.packageName)
-            if (id == 0) "" else resources.joinToString(" ") { it.getString(id) }
-        } else (view as? TextView)?.text?.toString().orEmpty()
+        val own = key?.split(',')?.joinToString(" ") { name ->
+            termsCache.getOrPut(name) {
+                val id = context.resources.getIdentifier(name, "string", context.packageName)
+                if (id == 0) "" else resources.joinToString(" ") { it.getString(id) }
+            }
+        } ?: (view as? TextView)?.text?.toString().orEmpty()
         return own + if (view is ViewGroup) view.children.joinToString(" ", prefix = " ") { terms(it) } else ""
     }
 
