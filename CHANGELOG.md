@@ -1,3 +1,24 @@
+## [1.7.0](https://github.com/pierspad/BetterLauncher/compare/v1.6.4...v1.7.0) (2026-11-10)
+
+### Features
+
+* **clock:** add time-only mode and optional seconds ([00de09e](https://github.com/pierspad/BetterLauncher/commit/00de09e53ac3116625156dfd2f08dfd62e05dc55))
+* **clock:** customize Home clock and date with live preview ([d6119d0](https://github.com/pierspad/BetterLauncher/commit/d6119d0598cf89568f5dcc1141d8451e7c0b6dd4))
+* **widgets:** add searchable previews and Home sizing controls ([2f4ad6e](https://github.com/pierspad/BetterLauncher/commit/2f4ad6e766322fc2fb6b0c1dc015c00518045492))
+
+### Bug Fixes
+
+* **android:** resolve release lint for widgets and clock settings ([fdf028b](https://github.com/pierspad/BetterLauncher/commit/fdf028b1b1d93b0a720fe6f802c1307d041bd42b))
+* **home:** reduce bottom spacing for app and shortcut rows ([b99477c](https://github.com/pierspad/BetterLauncher/commit/b99477c920d61a6e4d05eba0a96a30b3f1396ca7))
+* **widgets:** keep Gallery photos visible after layout ([3575819](https://github.com/pierspad/BetterLauncher/commit/3575819e61d16d2e0fc1751fdb064aa60b6af114))
+* **widgets:** preserve Xiaomi Gallery photo framing ([2aa7de4](https://github.com/pierspad/BetterLauncher/commit/2aa7de438e1027da13f702a8e96d99e6e472b580))
+* **widgets:** round full-width picker row highlights ([c4e3303](https://github.com/pierspad/BetterLauncher/commit/c4e33036017ea578d97f1cd70116a3b2e48f1e2a))
+* **widgets:** style resize dialog like BetterLauncher ([f0449e9](https://github.com/pierspad/BetterLauncher/commit/f0449e92c2cc8bcd1d5de8025417570c523c6f79))
+
+### Performance Improvements
+
+* **widgets:** prepare picker thumbnails off the UI thread ([7ea9692](https://github.com/pierspad/BetterLauncher/commit/7ea9692974c4c64f3fea74446cd10cd7b63fe497))
+
 ## [1.6.4](https://github.com/pierspad/BetterLauncher/compare/v1.6.3...v1.6.4) (2026-11-09)
 
 ### Bug Fixes
