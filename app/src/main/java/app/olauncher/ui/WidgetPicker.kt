@@ -26,6 +26,7 @@ import kotlin.math.roundToInt
 import app.olauncher.databinding.DialogWidgetPickerBinding
 import app.olauncher.databinding.ItemWidgetPickerBinding
 import app.olauncher.helper.dpToPx
+import app.olauncher.helper.isXiaomiSelectedPhotosWidget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -152,9 +153,17 @@ private class WidgetPickerAdapter(
     override fun getItem(position: Int) = entries[position]
     override fun getItemId(position: Int) = position.toLong()
 
-    fun needsMoreRoom(position: Int): Boolean {
-        val width = availableWidth ?: return false
-        val height = availableHeight ?: return false
+    fun needsMoreRoom(position: Int): Boolean = fitScale(position) < minimumFitScale(position)
+
+    private fun minimumFitScale(position: Int): Float {
+        val info = getItem(position).info
+        return if (info.resizeMode == AppWidgetProviderInfo.RESIZE_NONE &&
+            info.provider.isXiaomiSelectedPhotosWidget()) 0.85f else 1f
+    }
+
+    private fun fitScale(position: Int): Float {
+        val width = availableWidth ?: return 1f
+        val height = availableHeight ?: return 1f
         val entry = getItem(position)
         val info = entry.info
         val padding = entry.padding
@@ -162,7 +171,8 @@ private class WidgetPickerAdapter(
             info.minWidth, info.minResizeWidth) + padding.left + padding.right
         val minimumHeight = minimumWidgetDimension(info, AppWidgetProviderInfo.RESIZE_VERTICAL,
             info.minHeight, info.minResizeHeight) + padding.top + padding.bottom
-        return minimumWidth > width || minimumHeight > height
+        return minOf(1f, width.toFloat() / minimumWidth.coerceAtLeast(1),
+            height.toFloat() / minimumHeight.coerceAtLeast(1))
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -185,7 +195,11 @@ private class WidgetPickerAdapter(
         )
         val tooLarge = needsMoreRoom(position)
         row.root.alpha = if (tooLarge) 0.65f else 1f
-        row.widgetSize.text = if (tooLarge) context.getString(R.string.widget_size_no_room, size) else size
+        row.widgetSize.text = when {
+            tooLarge -> context.getString(R.string.widget_size_no_room, size)
+            fitScale(position) < 1f -> context.getString(R.string.widget_size_scaled, size)
+            else -> size
+        }
         val cached = state.previews[key]
         if (cached != null) {
             row.widgetPreview.setImageDrawable(cached.newDrawable(context.resources))

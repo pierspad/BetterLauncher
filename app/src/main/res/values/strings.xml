@@ -414,4 +414,5 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="widget_not_enough_space">Not enough space on the Home screen</string>
     <string name="time_only">Time only</string>
     <string name="clock_seconds">Show seconds</string>
+    <string name="widget_size_scaled">%1$s · Scaled to fit</string>
 </resources>

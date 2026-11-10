@@ -400,4 +400,5 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="widget_not_enough_space">Spazio insufficiente sulla schermata Home</string>
     <string name="time_only">Solo orario</string>
     <string name="clock_seconds">Mostra i secondi</string>
+    <string name="widget_size_scaled">%1$s · Ridotto per entrare</string>
 </resources><!-- Italian -->
