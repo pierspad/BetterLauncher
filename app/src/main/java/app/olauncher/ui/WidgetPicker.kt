@@ -1,6 +1,5 @@
 package app.olauncher.ui
 
-import android.appwidget.AppWidgetHostView
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProviderInfo
 import android.graphics.Bitmap
@@ -153,16 +152,12 @@ private class WidgetPickerAdapter(
     override fun getItem(position: Int) = entries[position]
     override fun getItemId(position: Int) = position.toLong()
 
-    private val providerPadding = mutableMapOf<WidgetPreviewKey, android.graphics.Rect>()
-
     fun needsMoreRoom(position: Int): Boolean {
         val width = availableWidth ?: return false
         val height = availableHeight ?: return false
         val entry = getItem(position)
         val info = entry.info
-        val padding = providerPadding.getOrPut(entry.key) {
-            AppWidgetHostView.getDefaultPaddingForWidget(context, info.provider, null)
-        }
+        val padding = entry.padding
         val minimumWidth = minimumWidgetDimension(info, AppWidgetProviderInfo.RESIZE_HORIZONTAL,
             info.minWidth, info.minResizeWidth) + padding.left + padding.right
         val minimumHeight = minimumWidgetDimension(info, AppWidgetProviderInfo.RESIZE_VERTICAL,
@@ -206,6 +201,12 @@ private class WidgetPickerAdapter(
     }
 
     private suspend fun loadPreview(info: AppWidgetProviderInfo): Drawable {
+        if (info.previewImage != 0) {
+            val image = withContext(previewDispatcher) {
+                runCatching { info.loadPreviewImage(context, 0)?.let(::thumbnail) }.getOrNull()
+            }
+            if (image != null) return image
+        }
         if (Build.VERSION.SDK_INT >= 35 &&
             info.generatedPreviewCategories and AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN != 0
         ) {
@@ -220,10 +221,18 @@ private class WidgetPickerAdapter(
             renderPreview(RemoteViews(info.provider.packageName, info.previewLayout))?.let { return it }
         }
         return withContext(previewDispatcher) {
-            runCatching { info.loadPreviewImage(context, 0) }.getOrNull()
-                ?: runCatching { info.loadIcon(context, 0) }.getOrNull()
+            runCatching { info.loadIcon(context, 0)?.let(::thumbnail) }.getOrNull()
                 ?: requireNotNull(context.getDrawable(R.drawable.ic_widget))
         }
+    }
+
+    private fun thumbnail(drawable: Drawable): Drawable {
+        val bitmap = (drawable as? BitmapDrawable)?.bitmap ?: return drawable
+        val scale = minOf(1f, 96.dpToPx().toFloat() / bitmap.width, 64.dpToPx().toFloat() / bitmap.height)
+        if (scale == 1f) return drawable
+        val width = (bitmap.width * scale).toInt().coerceAtLeast(1)
+        val height = (bitmap.height * scale).toInt().coerceAtLeast(1)
+        return BitmapDrawable(context.resources, Bitmap.createScaledBitmap(bitmap, width, height, true))
     }
 
     private suspend fun renderPreview(remoteViews: RemoteViews): Drawable? {

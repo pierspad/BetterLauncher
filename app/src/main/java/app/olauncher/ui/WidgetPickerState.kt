@@ -1,5 +1,6 @@
 package app.olauncher.ui
 
+import android.appwidget.AppWidgetHostView
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProviderInfo
 import android.content.ComponentName
@@ -38,7 +39,8 @@ internal class WidgetPickerState : ViewModel() {
                     runCatching { pm.getApplicationInfo(pkg, 0).loadLabel(pm).toString() }.getOrDefault(pkg)
                 }
                 val label = cached?.label ?: info.loadLabel(pm)?.takeIf { it.isNotBlank() } ?: app
-                WidgetPickerEntry(info, label, app, key)
+                val padding = cached?.padding ?: AppWidgetHostView.getDefaultPaddingForWidget(context, info.provider, null)
+                WidgetPickerEntry(info, label, app, key, padding)
             }.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { entry: WidgetPickerEntry -> entry.app }
                 .thenBy(String.CASE_INSENSITIVE_ORDER) { it.label })
         }
@@ -59,6 +61,7 @@ internal data class WidgetPickerEntry(
     val label: String,
     val app: String,
     val key: WidgetPreviewKey,
+    val padding: android.graphics.Rect,
 )
 
 internal data class PlacedWidgetSize(val id: Int, val width: Int, val height: Int)
