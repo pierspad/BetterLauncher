@@ -4,13 +4,10 @@ import android.appwidget.AppWidgetHostView
 import android.appwidget.AppWidgetProviderInfo
 import android.content.ComponentName
 import android.content.Context
-import android.graphics.Outline
-import android.graphics.RectF
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewOutlineProvider
 import android.widget.ImageView
 
 /** Returns the attached host view for this binding, creating it when needed. */
@@ -52,13 +49,8 @@ internal class ResizableWidgetHostView(context: Context) : AppWidgetHostView(con
             val imageId = content?.resources?.getIdentifier("image_view", "id", "com.miui.gallery") ?: 0
             val image = if (imageId != 0) content?.findViewById<View>(imageId) as? ImageView else null
             // The Gallery editor supplies the crop. Avoid a second center crop on the Home screen.
-            if (image != null) {
-                if (image.scaleType != ImageView.ScaleType.FIT_CENTER) image.scaleType = ImageView.ScaleType.FIT_CENTER
-                if (image.outlineProvider != GalleryPhotoOutline) {
-                    image.outlineProvider = GalleryPhotoOutline
-                    image.clipToOutline = true
-                }
-                image.invalidateOutline()
+            if (image != null && image.scaleType != ImageView.ScaleType.FIT_CENTER) {
+                image.scaleType = ImageView.ScaleType.FIT_CENTER
             }
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -72,22 +64,6 @@ internal class ResizableWidgetHostView(context: Context) : AppWidgetHostView(con
 
     // The gesture detector handles the host's long press, including on empty space.
     override fun onTouchEvent(event: MotionEvent): Boolean = false
-}
-
-private object GalleryPhotoOutline : ViewOutlineProvider() {
-    override fun getOutline(view: View, outline: Outline) {
-        val image = view as ImageView
-        val drawable = image.drawable ?: return
-        if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) return
-        val bounds = RectF(0f, 0f, drawable.intrinsicWidth.toFloat(), drawable.intrinsicHeight.toFloat())
-        image.imageMatrix.mapRect(bounds)
-        bounds.offset(image.paddingLeft.toFloat(), image.paddingTop.toFloat())
-        if (bounds.intersect(0f, 0f, image.width.toFloat(), image.height.toFloat())) {
-            val pixels = android.graphics.Rect()
-            bounds.roundOut(pixels)
-            outline.setRoundRect(pixels, 6 * image.resources.displayMetrics.density)
-        }
-    }
 }
 
 internal fun ComponentName.isXiaomiSelectedPhotosWidget(): Boolean =
