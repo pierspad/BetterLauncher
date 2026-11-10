@@ -5,6 +5,10 @@ import android.appwidget.AppWidgetProviderInfo
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.scale
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.SystemClock
@@ -236,7 +240,7 @@ private class WidgetPickerAdapter(
         }
         return withContext(previewDispatcher) {
             runCatching { info.loadIcon(context, 0)?.let(::thumbnail) }.getOrNull()
-                ?: requireNotNull(context.getDrawable(R.drawable.ic_widget))
+                ?: requireNotNull(AppCompatResources.getDrawable(context, R.drawable.ic_widget))
         }
     }
 
@@ -246,7 +250,7 @@ private class WidgetPickerAdapter(
         if (scale == 1f) return drawable
         val width = (bitmap.width * scale).toInt().coerceAtLeast(1)
         val height = (bitmap.height * scale).toInt().coerceAtLeast(1)
-        return BitmapDrawable(context.resources, Bitmap.createScaledBitmap(bitmap, width, height, true))
+        return bitmap.scale(width, height).toDrawable(context.resources)
     }
 
     private suspend fun renderPreview(remoteViews: RemoteViews): Drawable? {
@@ -265,13 +269,13 @@ private class WidgetPickerAdapter(
                 val height = preview.measuredHeight.coerceAtLeast(1)
                 preview.layout(0, 0, width, height)
                 val scale = minOf(1f, 96.dpToPx().toFloat() / width, 64.dpToPx().toFloat() / height)
-                val bitmap = Bitmap.createBitmap(
+                val bitmap = createBitmap(
                     (width * scale).toInt().coerceAtLeast(1),
                     (height * scale).toInt().coerceAtLeast(1),
                     Bitmap.Config.ARGB_8888,
                 )
                 preview.draw(Canvas(bitmap).apply { scale(scale, scale) })
-                BitmapDrawable(context.resources, bitmap)
+                bitmap.toDrawable(context.resources)
             }.getOrNull()
         }
     }

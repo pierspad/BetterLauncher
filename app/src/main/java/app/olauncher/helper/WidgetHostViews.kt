@@ -43,6 +43,7 @@ internal class ResizableWidgetHostView(context: Context) : AppWidgetHostView(con
         },
     )
 
+    @android.annotation.SuppressLint("DiscouragedApi") // The Gallery image belongs to Xiaomi's resource package.
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         if (appWidgetInfo?.provider?.isXiaomiSelectedPhotosWidget() == true) {
             val content = getChildAt(0)
@@ -63,6 +64,7 @@ internal class ResizableWidgetHostView(context: Context) : AppWidgetHostView(con
     }
 
     // The gesture detector handles the host's long press, including on empty space.
+    @android.annotation.SuppressLint("ClickableViewAccessibility") // Clicks are handled by the widget children.
     override fun onTouchEvent(event: MotionEvent): Boolean = false
 }
 

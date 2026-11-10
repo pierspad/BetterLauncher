@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rounded_dialog_surface"
@@ -11,54 +12,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:accessibilityHeading="true"
+        tools:targetApi="28"
         android:text="@string/clock_appearance" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/clockPreviewSection"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="152dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/rounded_settings_search"
+        android:padding="12dp">
 
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/clockPreview"
             android:layout_width="match_parent"
-            android:layout_height="152dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/rounded_settings_search"
-            android:padding="12dp">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/clockPreview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextClock
-                    android:id="@+id/previewTime"
-                    style="@style/TextDefault"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light" />
-
-                <TextView
-                    android:id="@+id/previewDate"
-                    style="@style/TextDefault"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="3dp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/previewHidden"
-                style="@style/TextSmall"
+            <TextClock
+                android:id="@+id/previewTime"
+                style="@style/TextDefault"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/clock_hidden"
-                android:visibility="gone" />
-        </FrameLayout>
+                android:fontFamily="sans-serif-light" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/previewDate"
+                style="@style/TextDefault"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="3dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/previewHidden"
+            style="@style/TextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/clock_hidden"
+            android:visibility="gone" />
+    </FrameLayout>
 
     <ScrollView
         android:layout_width="match_parent"

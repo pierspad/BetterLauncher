@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.app.Dialog
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import androidx.core.graphics.drawable.toDrawable
 import android.graphics.drawable.InsetDrawable
 import android.view.Window
 import androidx.core.content.ContextCompat
@@ -72,7 +72,7 @@ internal fun showClockAppearanceEditor(
                     gravity = Gravity.CENTER
                     minHeight = 48.dpToPx()
                     setPadding(6.dpToPx())
-                    symbols[value]?.let { symbol -> this.text = "$symbol  ${this.text}" }
+                    symbols[value]?.let { symbol -> this.text = context.getString(R.string.clock_symbol_label, symbol, this.text) }
                     icons[value]?.let { icon ->
                         val drawable = ContextCompat.getDrawable(context, icon)?.mutate()
                         drawable?.setBounds(0, 0, 18.dpToPx(), 18.dpToPx())
@@ -141,7 +141,7 @@ internal fun showClockAppearanceEditor(
     val dialog = Dialog(context)
     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
     dialog.setContentView(binding.root)
-    dialog.window?.setBackgroundDrawable(InsetDrawable(ColorDrawable(Color.TRANSPARENT), 10.dpToPx()))
+    dialog.window?.setBackgroundDrawable(InsetDrawable(Color.TRANSPARENT.toDrawable(), 10.dpToPx()))
     binding.clockApply.setOnClickListener { onApply(draft); dialog.dismiss() }
     binding.clockCancel.setOnClickListener { dialog.dismiss() }
     dialog.show()
