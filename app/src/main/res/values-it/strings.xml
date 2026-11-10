@@ -386,4 +386,16 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="settings_general">Generali</string>
     <string name="settings_collapse_section">Riduci %1$s</string>
     <string name="settings_expand_section">Espandi %1$s</string>
+    <string name="widget_search">Cerca widget</string>
+    <string name="widget_search_empty">Nessun widget trovato</string>
+    <string name="widget_resize">Ridimensiona widget</string>
+    <string name="widget_resize_width">Larghezza · %1$d dp</string>
+    <string name="widget_resize_height">Altezza · %1$d dp</string>
+    <string name="widget_resize_no_space">Non c’è spazio per ridimensionare questo widget.</string>
+    <string name="widget_fill_height">Usa lo spazio in altezza</string>
+    <string name="widget_home_space">Spazio sulla Home: circa %1$d × %2$d (%3$d × %4$d dp)</string>
+    <string name="widget_size_no_room">%1$s · Serve più spazio</string>
+    <string name="widget_loading">Caricamento widget…</string>
+    <string name="widget_placed_space">Widget sulla Home: %1$d × %2$d dp</string>
+    <string name="widget_not_enough_space">Spazio insufficiente sulla schermata Home</string>
 </resources><!-- Italian -->

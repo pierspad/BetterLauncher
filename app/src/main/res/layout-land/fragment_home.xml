@@ -99,6 +99,14 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
+    <FrameLayout
+        android:id="@+id/widgetContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginHorizontal="74dp"
+        android:visibility="gone" />
+
     <!-- Home apps-->
     <LinearLayout
         android:id="@+id/homeAppsLayout"
@@ -108,15 +116,6 @@
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:paddingVertical="@dimen/home_app_padding_vertical">
-
-        <!-- Home widget: below the clock, above the apps -->
-        <FrameLayout
-            android:id="@+id/widgetContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone"
-            tools:visibility="gone" />
 
         <TextView
             android:id="@+id/homeApp1"

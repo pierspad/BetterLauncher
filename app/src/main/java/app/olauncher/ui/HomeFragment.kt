@@ -1,11 +1,12 @@
 package app.olauncher.ui
 
-import app.olauncher.helper.bindWidgetHostView
 
 import android.animation.ObjectAnimator
 import android.app.admin.DevicePolicyManager
 import android.appwidget.AppWidgetHost
+import android.appwidget.AppWidgetHostView
 import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetProviderInfo
 import android.content.Context
 import android.content.Intent
 import android.content.pm.LauncherApps
@@ -18,6 +19,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.WindowInsets
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.OnBackPressedCallback
@@ -29,6 +31,7 @@ import android.widget.FrameLayout
 import android.widget.GridView
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import android.util.TypedValue
@@ -42,6 +45,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import app.olauncher.helper.ResizableWidgetHostView
+import app.olauncher.helper.bindWidgetHostView
+import kotlin.math.roundToInt
 import app.olauncher.MainViewModel
 import app.olauncher.R
 import app.olauncher.data.AppModel
@@ -76,6 +82,10 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     private lateinit var prefs: Prefs
     private lateinit var viewModel: MainViewModel
     private lateinit var deviceManager: DevicePolicyManager
+
+    private val widgetPickerState by lazy { ViewModelProvider(requireActivity())[WidgetPickerState::class.java] }
+    private val widgetLayoutListener = ViewTreeObserver.OnGlobalLayoutListener(::positionWidget)
+    private var widgetResizeDialog: AlertDialog? = null
 
     private var appWidgetManager: AppWidgetManager? = null
     private var appWidgetHost: AppWidgetHost? = null
@@ -138,7 +148,11 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         deviceManager = context?.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
         appWidgetManager = AppWidgetManager.getInstance(requireContext().applicationContext)
-        appWidgetHost = AppWidgetHost(requireContext().applicationContext, Constants.WIDGET_HOST_ID)
+        appWidgetHost = object : AppWidgetHost(requireContext().applicationContext, Constants.WIDGET_HOST_ID) {
+            override fun onCreateView(context: Context, appWidgetId: Int, info: AppWidgetProviderInfo) =
+                ResizableWidgetHostView(context)
+        }
+        binding.mainLayout.viewTreeObserver.addOnGlobalLayoutListener(widgetLayoutListener)
 
         initObservers()
         setHomeAlignment(prefs.homeAlignment)
@@ -1200,48 +1214,188 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                 imageView.visibility = View.GONE
             }
         }
-        positionWidget()
     }
 
-    /**
-     * Positions the widget container just above the taller of the apps block or the
-     * shortcut-icons column, with a small gap for visual breathing room.
-     * Must be called after layout has been measured; uses post{} to defer safely.
-     */
+    private fun widgetSpace(): WidgetSpace {
+        val root = binding.mainLayout
+        val containerParams = binding.widgetContainer.layoutParams as FrameLayout.LayoutParams
+        val width = root.width - root.paddingLeft - root.paddingRight -
+            containerParams.leftMargin - containerParams.rightMargin
+        val parentBottom = root.height - root.paddingBottom
+        val apps = binding.homeAppsLayout
+        val icons = binding.shortcutIconsLayout
+        val appsTop = homeAppViews().firstOrNull { it.isVisible }?.let { apps.top + it.top }
+        val iconsTop = shortcutIconViews().firstOrNull { it.isVisible }
+            ?.takeIf { icons.isVisible }?.let { icons.top + it.top }
+        val gap = 12.dpToPx()
+        val bottom = minOf(appsTop ?: parentBottom, iconsTop ?: parentBottom, parentBottom) - gap
+        val top = maxOf(root.paddingTop, listOf(binding.dateTimeLayout, binding.tvScreenTime, binding.reorderDone)
+            .filter { it.isVisible }.maxOfOrNull { it.bottom + gap } ?: 0)
+        fun column(view: View) = WidgetHomeColumn(view.top, view.height, view.paddingTop, view.paddingBottom)
+        val previous = widgetPickerState.home
+        val shortcuts = if (icons.isVisible) column(icons) else previous?.shortcuts?.takeIf {
+            previous.bottom == parentBottom
+        } ?: column(apps)
+        widgetPickerState.home = WidgetHomeSpace(width.coerceAtLeast(0), parentBottom, top, gap,
+            calculateRowHeight(requireContext()), column(apps), shortcuts)
+        return WidgetSpace(width.coerceAtLeast(0), (bottom - top).coerceAtLeast(0), parentBottom - bottom)
+    }
+
+    private data class WidgetSpace(val width: Int, val height: Int, val bottomMargin: Int)
+
     private fun positionWidget() {
         val b = _binding ?: return
-        if (!b.widgetContainer.isVisible) return
-        b.mainLayout.post {
-            val binding = _binding ?: return@post
-            val parentHeight = binding.mainLayout.height - binding.mainLayout.paddingBottom
-            if (parentHeight == 0) return@post
-
-            // shortcutIconsLayout is a direct child of mainLayout → .top + child.top is in parent coords
-            val iconsTop = if (binding.shortcutIconsLayout.isVisible) {
-                val firstIcon = shortcutIconViews().firstOrNull { it.visibility != View.GONE }
-                if (firstIcon != null) {
-                    binding.shortcutIconsLayout.top + firstIcon.top
-                } else {
-                    parentHeight
-                }
-            } else {
-                parentHeight
-            }
-
-            // homeAppsLayout fills the parent (top == 0), so firstVisibleApp.top is in parent coords
-            val appsTop = homeAppViews().firstOrNull { it.visibility != View.GONE }?.top ?: parentHeight
-
-            // Whichever block starts higher on screen (smaller y) drives the widget bottom
-            val blockTop = minOf(iconsTop, appsTop)
-            val gapPx = 12.dpToPx()
-
-            // With gravity=bottom: view.bottom = parentHeight - bottomMargin
-            // We want: view.bottom = blockTop - gapPx
-            // → bottomMargin = parentHeight - blockTop + gapPx
-            val lp = binding.widgetContainer.layoutParams as FrameLayout.LayoutParams
-            lp.bottomMargin = (parentHeight - blockTop + gapPx).coerceAtLeast(0)
-            binding.widgetContainer.layoutParams = lp
+        val container = b.widgetContainer
+        if (b.mainLayout.width == 0 || b.mainLayout.height == 0) return
+        val space = widgetSpace()
+        if (!container.isVisible) {
+            widgetPickerState.placed = null
+            return
         }
+        val hostView = container.getChildAt(0) as? AppWidgetHostView ?: return
+        val info = hostView.appWidgetInfo ?: return
+        val params = container.layoutParams as FrameLayout.LayoutParams
+        val saved = prefs.widgetSize.split(':')
+        val hasSavedSize = saved.size == 3 && saved[0].toIntOrNull() == hostView.appWidgetId
+        val (widthRange, heightRange) = widgetSizeRanges(hostView, info, space)
+        val fixed = info.resizeMode == AppWidgetProviderInfo.RESIZE_NONE && info.minWidth > 0 && info.minHeight > 0
+        val width: Int
+        val height: Int
+        if (fixed) {
+            width = info.minWidth + hostView.paddingLeft + hostView.paddingRight
+            height = info.minHeight + hostView.paddingTop + hostView.paddingBottom
+        } else {
+            width = widgetDimension(widthRange, space.width, space.width, saved.getOrNull(1), hasSavedSize)
+            height = widgetDimension(heightRange, info.minHeight.coerceAtLeast(MIN_WIDGET_HEIGHT_DP.dpToPx()),
+                space.height, saved.getOrNull(2), hasSavedSize)
+        }
+
+        // Fixed widgets render at their declared size. Scale the resulting view uniformly
+        // if the user has already placed one and the available space is now smaller.
+        val scale = if (fixed) minOf(1f, space.width.toFloat() / width, space.height.toFloat() / height) else 1f
+        val displayedHeight = (height * scale).toInt()
+        val containerHeight = if (fixed) displayedHeight else FrameLayout.LayoutParams.WRAP_CONTENT
+        if (params.bottomMargin != space.bottomMargin || params.height != containerHeight) {
+            params.bottomMargin = space.bottomMargin
+            params.height = containerHeight
+            container.layoutParams = params
+        }
+        hostView.pivotX = width / 2f
+        hostView.pivotY = height.toFloat()
+        hostView.scaleX = scale
+        hostView.scaleY = scale
+        widgetPickerState.placed = PlacedWidgetSize(hostView.appWidgetId, (width * scale).toInt(), displayedHeight)
+        val current = hostView.layoutParams as? FrameLayout.LayoutParams
+        val gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+        if (current?.width == width && current.height == height && current.gravity == gravity) return
+
+        hostView.layoutParams = FrameLayout.LayoutParams(width, height, gravity)
+        if (width > 0 && height > 0) {
+            val widthDp = widgetPxToDp(width)
+            val heightDp = widgetPxToDp(height)
+            try {
+                hostView.updateAppWidgetSize(Bundle(), widthDp, heightDp, widthDp, heightDp)
+            } catch (e: RuntimeException) {
+                Log.w(WIDGET_TAG, "Could not update widget size for id=${hostView.appWidgetId}", e)
+            }
+        }
+    }
+
+    private fun widgetDimension(range: IntRange, default: Int, available: Int, saved: String?, useSaved: Boolean): Int {
+        if (range.isEmpty()) return default.coerceAtMost(available)
+        val stored = saved?.toIntOrNull()?.takeIf { useSaved }
+        val preferred = when {
+            stored == WIDGET_FILL_AVAILABLE -> range.last
+            stored != null && stored > 0 -> stored.dpToPx()
+            else -> default
+        }
+        return preferred.coerceIn(range)
+    }
+
+    private fun widgetSizeRanges(
+        hostView: AppWidgetHostView,
+        info: AppWidgetProviderInfo,
+        space: WidgetSpace,
+    ): Pair<IntRange, IntRange> {
+        val horizontalPadding = hostView.paddingLeft + hostView.paddingRight
+        val verticalPadding = hostView.paddingTop + hostView.paddingBottom
+        val maxWidth = if (Build.VERSION.SDK_INT >= 31) info.maxResizeWidth else 0
+        val maxHeight = if (Build.VERSION.SDK_INT >= 31) info.maxResizeHeight else 0
+        fun range(axis: Int, min: Int, default: Int, max: Int, padding: Int, available: Int): IntRange {
+            if (info.resizeMode and axis == 0) return IntRange.EMPTY
+            val minimum = minimumWidgetDimension(info, axis, default, min)
+            val limit = if (max > 0 && max >= default) minOf(available, max + padding) else available
+            return (minimum + padding).coerceAtLeast(1)..limit
+        }
+        return range(AppWidgetProviderInfo.RESIZE_HORIZONTAL, info.minResizeWidth, info.minWidth,
+            maxWidth, horizontalPadding, space.width) to
+            range(AppWidgetProviderInfo.RESIZE_VERTICAL, info.minResizeHeight, info.minHeight,
+                maxHeight, verticalPadding, space.height)
+    }
+
+    private fun widgetPxToDp(px: Int) = (px / resources.displayMetrics.density).roundToInt()
+
+    private fun showWidgetResize(hostView: AppWidgetHostView): Boolean {
+        if (reorderMode || widgetResizeDialog?.isShowing == true) return false
+        val info = hostView.appWidgetInfo ?: return false
+        val (widthRange, heightRange) = widgetSizeRanges(hostView, info, widgetSpace())
+        val canResizeWidth = !widthRange.isEmpty() && widthRange.first < widthRange.last
+        val canResizeHeight = !heightRange.isEmpty() && heightRange.first < heightRange.last
+        if (!canResizeWidth && !canResizeHeight) {
+            Toast.makeText(requireContext(), R.string.widget_resize_no_space, Toast.LENGTH_SHORT).show()
+            return true
+        }
+        val context = requireContext()
+        val controls = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(24.dpToPx(), 12.dpToPx(), 24.dpToPx(), 0)
+        }
+        fun addSlider(title: Int, range: IntRange, current: Int): SeekBar {
+            val label = TextView(context)
+            controls.addView(label)
+            return SeekBar(context).apply {
+                max = range.last - range.first
+                progress = current.coerceIn(range) - range.first
+                fun updateLabel(value: Int) {
+                    label.text = getString(title, widgetPxToDp(range.first + value))
+                    contentDescription = label.text
+                }
+                updateLabel(progress)
+                setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(bar: SeekBar, value: Int, fromUser: Boolean) = updateLabel(value)
+                    override fun onStartTrackingTouch(bar: SeekBar) = Unit
+                    override fun onStopTrackingTouch(bar: SeekBar) = Unit
+                })
+                controls.addView(this)
+            }
+        }
+        val width = if (canResizeWidth) addSlider(R.string.widget_resize_width, widthRange, hostView.width) else null
+        val height = if (canResizeHeight) addSlider(R.string.widget_resize_height, heightRange, hostView.height) else null
+        val saved = prefs.widgetSize.split(':')
+        val previousSize = saved.takeIf { it.size == 3 && it[0].toIntOrNull() == hostView.appWidgetId }
+        fun saveSize(fillHeight: Boolean) {
+            if (hostView.appWidgetId != prefs.widgetId) return
+            val newWidth = width?.let { widgetPxToDp(widthRange.first + it.progress) }
+                ?: previousSize?.get(1)?.toIntOrNull() ?: 0
+            val newHeight = if (fillHeight) WIDGET_FILL_AVAILABLE else {
+                height?.let { widgetPxToDp(heightRange.first + it.progress) }
+                    ?: previousSize?.get(2)?.toIntOrNull() ?: 0
+            }
+            prefs.widgetSize = "${hostView.appWidgetId}:$newWidth:$newHeight"
+            positionWidget()
+        }
+        widgetResizeDialog = AlertDialog.Builder(context)
+            .setTitle(R.string.widget_resize)
+            .setView(controls)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(android.R.string.ok) { _, _ -> saveSize(fillHeight = false) }
+            .apply {
+                if (canResizeHeight) {
+                    setNeutralButton(R.string.widget_fill_height) { _, _ -> saveSize(fillHeight = true) }
+                }
+            }
+            .show()
+        return true
     }
 
     private fun launchShortcutSlot(slot: Int) {
@@ -1453,22 +1607,21 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                 host.createView(appContext, id, info)
             }
 
-            val density = resources.displayMetrics.density
-            val minHeightPx = info.minHeight.coerceAtLeast(MIN_WIDGET_HEIGHT_DP.dpToPx())
-
-            hostView.layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                minHeightPx
-            ).apply { gravity = Gravity.CENTER_HORIZONTAL }
+            hostView.setOnLongClickListener(
+                if (info.resizeMode != AppWidgetProviderInfo.RESIZE_NONE) View.OnLongClickListener {
+                    showWidgetResize(hostView)
+                } else null
+            )
+            hostView.outlineProvider = object : android.view.ViewOutlineProvider() {
+                override fun getOutline(view: View, outline: android.graphics.Outline) {
+                    outline.setRoundRect(view.paddingLeft, view.paddingTop,
+                        view.width - view.paddingRight, view.height - view.paddingBottom, 6.dpToPx().toFloat())
+                }
+            }
+            hostView.clipToOutline = true
+            hostView.isLongClickable = info.resizeMode != AppWidgetProviderInfo.RESIZE_NONE
             container.isVisible = true
-            positionWidget()
-
-            val widthPx = (resources.displayMetrics.widthPixels - 48.dpToPx()).coerceAtLeast(0)
-            val widthDp = (widthPx / density).toInt()
-            val heightDp = (minHeightPx / density).toInt()
-
-            hostView.updateAppWidgetSize(Bundle(), widthDp, heightDp, widthDp, heightDp)
-            Log.d(WIDGET_TAG, "renderWidget: drew id=$id provider=${info.provider} ${widthDp}x${heightDp}dp")
+            container.post { positionWidget() }
         } catch (e: Exception) {
             Log.e(WIDGET_TAG, "renderWidget: createView failed for id=$id", e)
             container.removeAllViews()
@@ -1477,6 +1630,9 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     override fun onDestroyView() {
+        widgetResizeDialog?.dismiss()
+        widgetResizeDialog = null
+        binding.mainLayout.viewTreeObserver.removeOnGlobalLayoutListener(widgetLayoutListener)
         super.onDestroyView()
         clearWiggle()
         reorderMode = false
@@ -1487,6 +1643,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
 
     companion object {
         private const val WIDGET_TAG = "BLWidget"
+        private const val WIDGET_FILL_AVAILABLE = -1
         private const val MIN_WIDGET_HEIGHT_DP = 72
 
         // Wiggle amplitude/speed: subtle for wide text labels, pronounced for small icons.

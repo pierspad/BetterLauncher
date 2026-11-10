@@ -12,11 +12,9 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.os.Process
 import android.provider.Settings
 import android.util.Log
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -98,19 +96,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         return if (fromData != AppWidgetManager.INVALID_APPWIDGET_ID) fromData else pendingWidgetId
     }
 
-    private val pickWidgetLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            val id = resultWidgetId(result)
-            Log.d(WIDGET_TAG, "pick result: code=${result.resultCode} id=$id")
-            if (result.resultCode == Activity.RESULT_OK && id != AppWidgetManager.INVALID_APPWIDGET_ID)
-                afterWidgetBound(id)
-            else {
-                if (id != AppWidgetManager.INVALID_APPWIDGET_ID)
-                    appWidgetHost.deleteAppWidgetId(id)
-                pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
-            }
-        }
-
     private val configureWidgetLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val id = resultWidgetId(result)
@@ -118,9 +103,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             if (result.resultCode == Activity.RESULT_OK && id != AppWidgetManager.INVALID_APPWIDGET_ID)
                 setWidget(id)
             else {
-                if (id != AppWidgetManager.INVALID_APPWIDGET_ID)
-                    appWidgetHost.deleteAppWidgetId(id)
-                pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+                discardPendingWidget(id)
             }
         }
 
@@ -131,9 +114,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             if (result.resultCode == Activity.RESULT_OK && id != AppWidgetManager.INVALID_APPWIDGET_ID)
                 afterWidgetBound(id)
             else {
-                if (id != AppWidgetManager.INVALID_APPWIDGET_ID)
-                    appWidgetHost.deleteAppWidgetId(id)
-                pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+                discardPendingWidget(id)
             }
         }
 
@@ -1282,7 +1263,10 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         val enabled = prefs.widgetEnabled
         binding.widgetEnabled.isChecked = enabled
         binding.widgetChooseRow.visibility = if (enabled) View.VISIBLE else View.GONE
-        binding.widget.text = getString(if (prefs.widgetId != -1) R.string.active else R.string.none)
+        val info = prefs.widgetId.takeIf { it != AppWidgetManager.INVALID_APPWIDGET_ID }
+            ?.let(appWidgetManager::getAppWidgetInfo)
+        val label = info?.loadLabel(requireContext().packageManager)?.takeIf { it.isNotBlank() }
+        binding.widget.text = label ?: info?.provider?.packageName ?: getString(R.string.none)
     }
 
     private fun toggleWidget() {
@@ -1298,78 +1282,34 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             viewModel.resetLauncherLiveData.call()
             return
         }
-        val appWidgetId = appWidgetHost.allocateAppWidgetId()
+        showWidgetProviderPicker()
+    }
+
+    private fun allocatePendingWidget(): Int? {
+        val appWidgetId = try {
+            appWidgetHost.allocateAppWidgetId()
+        } catch (e: RuntimeException) {
+            Log.w(WIDGET_TAG, "Could not allocate widget ID", e)
+            requireContext().showToast(getString(R.string.widget_bind_failed))
+            return null
+        }
         pendingWidgetId = appWidgetId
         prefs.pendingWidgetId = appWidgetId
         Log.d(WIDGET_TAG, "startWidgetPick: allocated id=$appWidgetId")
-
-        val pickIntent = Intent(AppWidgetManager.ACTION_APPWIDGET_PICK).apply {
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            putParcelableArrayListExtra(AppWidgetManager.EXTRA_CUSTOM_INFO, ArrayList<Parcelable>())
-            putParcelableArrayListExtra(AppWidgetManager.EXTRA_CUSTOM_EXTRAS, ArrayList<Parcelable>())
-        }
-        if (pickIntent.resolveActivity(requireContext().packageManager) != null) {
-            try {
-                pickWidgetLauncher.launch(pickIntent)
-            } catch (e: Exception) {
-                showWidgetProviderPicker(appWidgetId)
-            }
-        } else {
-            showWidgetProviderPicker(appWidgetId)
-        }
+        return appWidgetId
     }
 
-    // Self-hosted widget chooser used when the OEM system picker is unavailable.
-    // Lists every installed widget provider and binds the chosen one via the
-    // official permission flow (bindAppWidgetIdIfAllowed → ACTION_APPWIDGET_BIND).
-    private fun showWidgetProviderPicker(appWidgetId: Int) {
-        val providers = appWidgetManager.installedProviders
-        if (providers.isEmpty()) {
-            appWidgetHost.deleteAppWidgetId(appWidgetId)
-            pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
-            requireContext().showToast(getString(R.string.no_widgets_available))
-            return
-        }
-        val pm = requireContext().packageManager
-        val view = layoutInflater.inflate(R.layout.dialog_list_picker, null)
-        val titleView = view.findViewById<TextView>(R.id.pickerTitle)
-        val list = view.findViewById<LinearLayout>(R.id.pickerList)
-        titleView.setText(R.string.widget_choose)
-        titleView.visibility = View.VISIBLE
+    private var widgetPicker: AlertDialog? = null
 
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(view)
-            .create()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setOnCancelListener {
-            appWidgetHost.deleteAppWidgetId(appWidgetId)
-            pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
-            prefs.pendingWidgetId = -1
+    private fun showWidgetProviderPicker() {
+        if (widgetPicker?.isShowing == true) return
+        val state = ViewModelProvider(requireActivity())[WidgetPickerState::class.java]
+        widgetPicker = showWidgetPicker(layoutInflater, appWidgetManager, state, prefs, onDismiss = {
+            if (widgetPicker?.isShowing == false) widgetPicker = null
+        }) { info ->
+            val appWidgetId = allocatePendingWidget() ?: return@showWidgetPicker
+            bindWidget(appWidgetId, info.provider)
         }
-
-        val ctx = requireContext()
-        val padV = 14.dpToPx()
-        val padH = 10.dpToPx()
-        val rippleBg = TypedValue().also {
-            ctx.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
-        }.resourceId
-
-        providers.forEach { info ->
-            val itemView = TextView(ctx).apply {
-                text = info.loadLabel(pm)
-                textSize = 18f
-                setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
-                gravity = Gravity.CENTER_VERTICAL
-                setPadding(padH, padV, padH, padV)
-                setBackgroundResource(rippleBg)
-                setOnClickListener {
-                    dialog.dismiss()
-                    bindWidget(appWidgetId, info.provider)
-                }
-            }
-            list.addView(itemView)
-        }
-        dialog.show()
     }
 
     private fun bindWidget(appWidgetId: Int, provider: ComponentName) {
@@ -1391,8 +1331,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
                 }
                 bindWidgetLauncher.launch(intent)
             } catch (e: Exception) {
-                appWidgetHost.deleteAppWidgetId(appWidgetId)
-                pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+                discardPendingWidget(appWidgetId)
                 requireContext().showToast(getString(R.string.widget_bind_failed))
             }
         }
@@ -1420,9 +1359,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         val info = appWidgetManager.getAppWidgetInfo(appWidgetId)
         if (info == null) {
             Log.w(WIDGET_TAG, "setWidget: id=$appWidgetId is NOT bound -> aborting, not persisting")
-            try { appWidgetHost.deleteAppWidgetId(appWidgetId) } catch (_: Exception) {}
-            pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
-            prefs.pendingWidgetId = -1
+            discardPendingWidget(appWidgetId)
             requireContext().showToast(getString(R.string.widget_bind_failed))
             return
         }
@@ -1445,6 +1382,18 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         requireContext().showToast(getString(R.string.widget_added))
     }
 
+    private fun discardPendingWidget(id: Int) {
+        if (id != AppWidgetManager.INVALID_APPWIDGET_ID && id != prefs.widgetId) {
+            try {
+                appWidgetHost.deleteAppWidgetId(id)
+            } catch (e: RuntimeException) {
+                Log.w(WIDGET_TAG, "Could not delete pending widget ID $id", e)
+            }
+        }
+        pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+        prefs.pendingWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+    }
+
     private fun removeWidget() {
         val id = prefs.widgetId
         if (id == -1) {
@@ -1465,6 +1414,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     override fun onDestroyView() {
+        widgetPicker?.dismiss()
+        widgetPicker = null
         super.onDestroyView()
         settingsSearch = null
         _binding = null

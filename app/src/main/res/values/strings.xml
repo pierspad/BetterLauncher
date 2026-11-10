@@ -398,4 +398,18 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="settings_general">General</string>
     <string name="settings_collapse_section">Collapse %1$s</string>
     <string name="settings_expand_section">Expand %1$s</string>
+    <string name="widget_search">Search widgets</string>
+    <string name="widget_search_empty">No matching widgets</string>
+    <string name="widget_resize">Resize widget</string>
+    <string name="widget_resize_width">Width · %1$d dp</string>
+    <string name="widget_resize_height">Height · %1$d dp</string>
+    <string name="widget_resize_no_space">There is no room to resize this widget.</string>
+    <string name="widget_fill_height">Use available height</string>
+    <string name="widget_home_space">Home space: about %1$d × %2$d (%3$d × %4$d dp)</string>
+    <string name="widget_cells">%1$d × %2$d</string>
+    <string name="widget_cells_estimated">≈ %1$d × %2$d</string>
+    <string name="widget_size_no_room">%1$s · Needs more room</string>
+    <string name="widget_loading">Loading widgets…</string>
+    <string name="widget_placed_space">Widget on Home: %1$d × %2$d dp</string>
+    <string name="widget_not_enough_space">Not enough space on the Home screen</string>
 </resources>

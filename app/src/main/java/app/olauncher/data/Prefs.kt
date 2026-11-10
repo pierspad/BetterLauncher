@@ -230,6 +230,7 @@ class Prefs(private val context: Context) {
     var autostartSetupOpened by bool("AUTOSTART_SETUP_OPENED")
     var autostartSetupConfirmed by bool("AUTOSTART_SETUP_CONFIRMED")
 
+    var widgetSize by string("WIDGET_SIZE")
     var widgetId by int("WIDGET_ID", -1)
     var pendingWidgetId by int("PENDING_WIDGET_ID", -1)
     var widgetEnabled by bool("WIDGET_ENABLED")
