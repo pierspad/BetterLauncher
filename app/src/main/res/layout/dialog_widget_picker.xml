@@ -55,7 +55,8 @@
             android:id="@+id/widgetList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@null" />
+            android:divider="@null"
+            android:listSelector="@drawable/widget_picker_row_selector" />
 
         <TextView
             android:id="@+id/widgetEmpty"

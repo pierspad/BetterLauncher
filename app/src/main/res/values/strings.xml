@@ -405,7 +405,7 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="widget_resize_height">Height · %1$d dp</string>
     <string name="widget_resize_no_space">There is no room to resize this widget.</string>
     <string name="widget_fill_height">Use available height</string>
-    <string name="widget_home_space">Home space: about %1$d × %2$d (%3$d × %4$d dp)</string>
+    <string name="widget_home_space">Widget area: about %1$d × %2$d (%3$d × %4$d dp)</string>
     <string name="widget_cells">%1$d × %2$d</string>
     <string name="widget_cells_estimated">≈ %1$d × %2$d</string>
     <string name="widget_size_no_room">%1$s · Needs more room</string>
