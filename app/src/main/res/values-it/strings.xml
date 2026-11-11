@@ -117,7 +117,6 @@
     <string name="accept">Accetta</string>
     <string name="permission">Autorizza</string>
     <string name="double_tap_lock">Tocca due volte per bloccare</string>
-    <string name="home_button_show_recents">Tasto Home per i recenti</string>
     <string name="enable">Abilita</string>
     <string name="disable">disattiva</string>
     <string name="not_working"><u>Problemi?</u></string>
@@ -294,27 +293,7 @@ per rimuovere serve che sia ≤ 2</string>
 
     <string name="hidden_apps_instructions">Per nascondere un\'app, tieni premuto il suo nome nel drawer delle app e seleziona \'Nascondi\'. Per ripristinare un\'app nascosta, apri questa schermata, tieni premuta l\'app e seleziona \'Mostra\'.</string>
 
-    <string name="app_name">BetterLauncher</string>
-    <string name="website">pierspad.com</string>
-    <string name="github">Github</string>
-    <string name="lock_layout_description">la descrizione del layout di blocco deve essere utilizzata come ID univoco per bloccare la schermata</string>
-    <string name="olauncher_pro">BetterLauncher Pro</string>
-    <string name="digital_minimalism"></string>
-    <string name="new_app_note_safe"></string>
-    <string name="new_app_minimal_todo_lists"></string>
-    <string name="day_battery">%1$s, %2$d%%</string>
-    <string name="tag_0">0</string>
-    <string name="tag_1">1</string>
-    <string name="tag_2">2</string>
-    <string name="tag_3">3</string>
-    <string name="tag_4">4</string>
-    <string name="tag_5">5</string>
-    <string name="tag_6">6</string>
-    <string name="tag_7">7</string>
-    <string name="tag_8">8</string>
 
-    <string name="x_twitter">X/Twitter</string>
-    <string name="instagram">Instagram</string>
     <string name="unable_to_open_app_info">Impossibile aprire le informazioni sull\'app</string>
     <string name="private_space">Spazio privato</string>
     <string name="invalid_pin_request">Richiesta pin non valida</string>
@@ -392,14 +371,14 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="widget_resize_width">Larghezza · %1$d dp</string>
     <string name="widget_resize_height">Altezza · %1$d dp</string>
     <string name="widget_resize_no_space">Non c’è spazio per ridimensionare questo widget.</string>
+    <string name="time_only">Solo orario</string>
+    <string name="clock_seconds">Mostra i secondi</string>
     <string name="widget_fill_height">Usa lo spazio in altezza</string>
     <string name="widget_home_space">Area widget: circa %1$d × %2$d (%3$d × %4$d dp)</string>
     <string name="widget_size_no_room">%1$s · Serve più spazio</string>
     <string name="widget_loading">Caricamento widget…</string>
     <string name="widget_placed_space">Widget sulla Home: %1$d × %2$d dp</string>
     <string name="widget_not_enough_space">Spazio insufficiente sulla schermata Home</string>
-    <string name="time_only">Solo orario</string>
-    <string name="clock_seconds">Mostra i secondi</string>
     <string name="widget_size_scaled">%1$s · Ridotto per entrare</string>
     <string name="clock_appearance">Orologio e data sulla Home</string>
     <string name="clock_hidden">Nascondi</string>
@@ -407,7 +386,9 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="clock_date_and_time">Data e ora</string>
     <string name="clock_arrangement">Disposizione</string>
     <string name="clock_above_date">Ora sopra la data</string>
+    <string name="date_above_clock">Data sopra l’ora</string>
     <string name="clock_beside_date">Ora a sinistra</string>
+    <string name="date_beside_clock">Data a sinistra</string>
     <string name="clock_size_small">Piccola</string>
     <string name="clock_size_default">Standard</string>
     <string name="clock_size_large">Grande</string>
@@ -417,6 +398,5 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="clock_hours">Ore</string>
     <string name="clock_with_minutes">Minuti</string>
     <string name="clock_with_seconds">Secondi</string>
-    <string name="date_above_clock">Data sopra l’ora</string>
-    <string name="date_beside_clock">Data a sinistra</string>
+    <string name="search_mode_title">Modalità di ricerca</string>
 </resources><!-- Italian -->

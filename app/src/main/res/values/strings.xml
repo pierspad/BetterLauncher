@@ -398,40 +398,40 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="settings_general">General</string>
     <string name="settings_collapse_section">Collapse %1$s</string>
     <string name="settings_expand_section">Expand %1$s</string>
-    <string name="widget_search" tools:ignore="MissingTranslation">Search widgets</string>
-    <string name="widget_search_empty" tools:ignore="MissingTranslation">No matching widgets</string>
-    <string name="widget_resize" tools:ignore="MissingTranslation">Resize widget</string>
-    <string name="widget_resize_width" tools:ignore="MissingTranslation">Width · %1$d dp</string>
-    <string name="widget_resize_height" tools:ignore="MissingTranslation">Height · %1$d dp</string>
-    <string name="widget_resize_no_space" tools:ignore="MissingTranslation">There is no room to resize this widget.</string>
-    <string name="widget_fill_height" tools:ignore="MissingTranslation">Use available height</string>
-    <string name="widget_home_space" tools:ignore="MissingTranslation">Widget area: about %1$d × %2$d (%3$d × %4$d dp)</string>
+    <string name="widget_search">Search widgets</string>
+    <string name="widget_search_empty">No matching widgets</string>
+    <string name="widget_resize">Resize widget</string>
+    <string name="widget_resize_width">Width · %1$d dp</string>
+    <string name="widget_resize_height">Height · %1$d dp</string>
+    <string name="widget_resize_no_space">There is no room to resize this widget.</string>
+    <string name="time_only">Time only</string>
+    <string name="clock_seconds" tools:ignore="UnusedResources">Show seconds</string>
+    <string name="widget_fill_height">Use available height</string>
+    <string name="widget_home_space">Widget area: about %1$d × %2$d (%3$d × %4$d dp)</string>
     <string name="widget_cells" translatable="false">%1$d × %2$d</string>
     <string name="widget_cells_estimated" translatable="false">≈ %1$d × %2$d</string>
-    <string name="widget_size_no_room" tools:ignore="MissingTranslation">%1$s · Needs more room</string>
-    <string name="widget_loading" tools:ignore="MissingTranslation">Loading widgets…</string>
-    <string name="widget_placed_space" tools:ignore="MissingTranslation">Widget on Home: %1$d × %2$d dp</string>
-    <string name="widget_not_enough_space" tools:ignore="MissingTranslation">Not enough space on the Home screen</string>
-    <string name="time_only" tools:ignore="MissingTranslation">Time only</string>
-    <string name="clock_seconds" tools:ignore="MissingTranslation,UnusedResources">Show seconds</string>
-    <string name="widget_size_scaled" tools:ignore="MissingTranslation">%1$s · Scaled to fit</string>
-    <string name="clock_appearance" tools:ignore="MissingTranslation">Home clock and date</string>
-    <string name="clock_hidden" tools:ignore="MissingTranslation">Hidden</string>
-    <string name="clock_visibility" tools:ignore="MissingTranslation">Show</string>
-    <string name="clock_date_and_time" tools:ignore="MissingTranslation">Date and time</string>
-    <string name="clock_arrangement" tools:ignore="MissingTranslation">Layout</string>
-    <string name="clock_above_date" tools:ignore="MissingTranslation">Time above date</string>
-    <string name="clock_beside_date" tools:ignore="MissingTranslation">Time on left</string>
-    <string name="clock_size_small" tools:ignore="MissingTranslation">Small</string>
-    <string name="clock_size_default" tools:ignore="MissingTranslation">Default</string>
-    <string name="clock_size_large" tools:ignore="MissingTranslation">Large</string>
-    <string name="clock_time_size" tools:ignore="MissingTranslation">Time size</string>
-    <string name="clock_date_size" tools:ignore="MissingTranslation">Date size</string>
-    <string name="clock_precision" tools:ignore="MissingTranslation">Time detail</string>
-    <string name="clock_hours" tools:ignore="MissingTranslation">Hours</string>
-    <string name="clock_with_minutes" tools:ignore="MissingTranslation">Minutes</string>
-    <string name="clock_with_seconds" tools:ignore="MissingTranslation">Seconds</string>
-    <string name="date_above_clock" tools:ignore="MissingTranslation">Date above time</string>
-    <string name="date_beside_clock" tools:ignore="MissingTranslation">Date on left</string>
+    <string name="widget_size_no_room">%1$s · Needs more room</string>
+    <string name="widget_loading">Loading widgets…</string>
+    <string name="widget_placed_space">Widget on Home: %1$d × %2$d dp</string>
+    <string name="widget_not_enough_space">Not enough space on the Home screen</string>
+    <string name="widget_size_scaled">%1$s · Scaled to fit</string>
+    <string name="clock_appearance">Home clock and date</string>
+    <string name="clock_hidden">Hidden</string>
+    <string name="clock_visibility">Show</string>
+    <string name="clock_date_and_time">Date and time</string>
+    <string name="clock_arrangement">Layout</string>
+    <string name="clock_above_date">Time above date</string>
+    <string name="date_above_clock">Date above time</string>
+    <string name="clock_beside_date">Time on left</string>
+    <string name="date_beside_clock">Date on left</string>
+    <string name="clock_size_small">Small</string>
+    <string name="clock_size_default">Default</string>
+    <string name="clock_size_large">Large</string>
+    <string name="clock_time_size">Time size</string>
+    <string name="clock_date_size">Date size</string>
+    <string name="clock_precision">Time detail</string>
+    <string name="clock_hours">Hours</string>
+    <string name="clock_with_minutes">Minutes</string>
+    <string name="clock_with_seconds">Seconds</string>
     <string name="clock_symbol_label" translatable="false">%1$s  %2$s</string>
 </resources>
