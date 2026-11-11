@@ -1,3 +1,9 @@
+## [1.7.1](https://github.com/pierspad/BetterLauncher/compare/v1.7.0...v1.7.1) (2026-11-11)
+
+### Bug Fixes
+
+* **i18n:** complete Android translations and verify store assets ([0fc09c4](https://github.com/pierspad/BetterLauncher/commit/0fc09c4f29c0816fb2224f4a2d9d097284ac9750))
+
 ## [1.7.0](https://github.com/pierspad/BetterLauncher/compare/v1.6.4...v1.7.0) (2026-11-10)
 
 ### Features
