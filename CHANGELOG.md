@@ -1,3 +1,9 @@
+## [1.7.2](https://github.com/pierspad/BetterLauncher/compare/v1.7.1...v1.7.2) (2026-11-11)
+
+### Bug Fixes
+
+* match dialog colors to launcher settings ([78a3481](https://github.com/pierspad/BetterLauncher/commit/78a3481b8e08d5c053ea44a4f6ca3b6ae7b6498d))
+
 ## [1.7.1](https://github.com/pierspad/BetterLauncher/compare/v1.7.0...v1.7.1) (2026-11-11)
 
 ### Bug Fixes
