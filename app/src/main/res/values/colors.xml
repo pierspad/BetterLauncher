@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Opaque surface for dialogs (light theme; overridden in values-night). -->
-    <color name="dialogSurface">#FFF3F5F9</color>
+    <color name="dialogSurface">#FFF5F5F5</color>
     <color name="colorPrimary">@android:color/white</color>
     <color name="colorPrimaryDark">@android:color/darker_gray</color>
     <color name="colorAccent">#FFEB3B</color>
@@ -32,7 +32,7 @@
     <color name="blackInverseTrans80">#CCFFFFFF</color>
     <color name="blackInverseTrans90">#E6FFFFFF</color>
 
-    <color name="dialogActionSurface">#FFDCE9FA</color>
-    <color name="dialogActionText">#FF174A7E</color>
-    <color name="dialogActionRipple">#22174A7E</color>
+    <color name="dialogActionSurface">#FFE0E0E0</color>
+    <color name="dialogActionText">#FF212121</color>
+    <color name="dialogActionRipple">#22000000</color>
 </resources>
