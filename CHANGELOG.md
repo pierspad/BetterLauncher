@@ -1,3 +1,9 @@
+## [1.7.3](https://github.com/pierspad/BetterLauncher/compare/v1.7.2...v1.7.3) (2026-11-15)
+
+### Bug Fixes
+
+* improve launcher theme contrast and build diagnostics ([3023c7e](https://github.com/pierspad/BetterLauncher/commit/3023c7ef36a64f6fa1a0ace3a36f6313e8459c79))
+
 ## [1.7.2](https://github.com/pierspad/BetterLauncher/compare/v1.7.1...v1.7.2) (2026-11-11)
 
 ### Bug Fixes
