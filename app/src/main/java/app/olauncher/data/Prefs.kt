@@ -69,7 +69,8 @@ class Prefs(private val context: Context) {
     var settingsScrollY by int("SETTINGS_SCROLL_Y")
 
     // ---- Look & feel ----
-    var appTheme by int("APP_THEME", AppCompatDelegate.MODE_NIGHT_YES)
+    // Keep the legacy key registered so older backups can still be imported.
+    private val legacyAppTheme by int("APP_THEME", AppCompatDelegate.MODE_NIGHT_YES)
     var textSizeScale by float("TEXT_SIZE_SCALE", 1.0f)
     var clockMinutes by bool("CLOCK_MINUTES", true)
     var clockSizeOption by int("CLOCK_SIZE_OPTION", 1)
@@ -91,6 +92,7 @@ class Prefs(private val context: Context) {
 
     // Scrim intensity (0f..1f) for the home screen and the app drawer respectively.
     // A value of 0 means no scrim.
+    var homeContrastProtection by bool("HOME_CONTRAST_PROTECTION", true)
     var opacityHome by float("OPACITY_HOME", 0.05f)
     var opacityDrawer by float("OPACITY_DRAWER", 0.4f)
 

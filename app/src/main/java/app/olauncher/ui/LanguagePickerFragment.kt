@@ -317,11 +317,6 @@ class LanguagePickerFragment : Fragment() {
         dialog.show()
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = true)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

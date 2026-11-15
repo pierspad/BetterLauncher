@@ -83,10 +83,6 @@
     <string name="show_date_time">显示日期时间</string>
     <string name="appearance">外观</string>
     <string name="gestures">手势</string>
-    <string name="theme_mode">主题模式</string>
-    <string name="system_default">系统</string>
-    <string name="dark">黑暗</string>
-    <string name="light">光</string>
     <string name="welcome_to_olauncher_settings">欢迎来到设置！
         \n\n请记住，如果您有任何问题，我们的“关于”页面有答案。</string>
     <string name="rate_us_message">您好，您不会再看到此消息。
@@ -212,6 +208,7 @@
     <string name="font_import_failed">无法加载所选字体</string>
     <string name="font_imported">应用自定义字体</string>
     <string name="background_opacity">背景不透明度</string>
+    <string name="home_contrast_protection">主屏幕自适应对比度</string>
     <string name="opacity_home">主页不透明度</string>
     <string name="opacity_drawer">应用程序抽屉不透明度</string>
     <string name="search_drawer_title">抽屉搜索</string>

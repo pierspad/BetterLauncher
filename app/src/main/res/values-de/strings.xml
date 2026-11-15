@@ -82,10 +82,6 @@
     <string name="show_date_time">Datum und Uhrzeit anzeigen</string>
     <string name="appearance">Aussehen</string>
     <string name="gestures">Gesten</string>
-    <string name="theme_mode">Stil</string>
-    <string name="system_default">System</string>
-    <string name="dark">Dunkel</string>
-    <string name="light">Hell</string>
     <string name="welcome_to_olauncher_settings">Willkommen in den Einstellungen!
         \n\nDenken Sie daran, wenn Sie Fragen haben, unsere Seite „Über“ hat die Antwort.</string>
     <string name="rate_us_message">Hallo, diese Nachricht wird Ihnen nicht mehr angezeigt.
@@ -211,6 +207,7 @@
     <string name="font_import_failed">Die ausgewählte Schriftart konnte nicht geladen werden</string>
     <string name="font_imported">Benutzerdefinierte Schriftart angewendet</string>
     <string name="background_opacity">Hintergrundopazität</string>
+    <string name="home_contrast_protection">Adaptiver Kontrast auf dem Startbildschirm</string>
     <string name="opacity_home">Undurchsichtigkeit zu Hause</string>
     <string name="opacity_drawer">Deckkraft der App-Schublade</string>
     <string name="search_drawer_title">Schubladensuche</string>

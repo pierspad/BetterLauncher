@@ -48,10 +48,6 @@
     <string name="show_date_time">הצג תאריך ושעה</string>
     <string name="appearance">מראה</string>
     <string name="gestures">מחוות</string>
-    <string name="theme_mode">ערכת נושא</string>
-    <string name="system_default">מערכת</string>
-    <string name="dark">כהה</string>
-    <string name="light">בהירה</string>
     <string name="welcome_to_olauncher_settings">למטה מופיע קישור לעמוד "מידע כללי", ובו אפשר למצוא תשובות לכל השאלות. לא לשכוח :)
         \n\nThank you.</string>
     <string name="rate_us_message">היי, לא נציג לך הודעה זו בשנית.
@@ -203,6 +199,7 @@
     <string name="font_import_failed">לא ניתן לטעון את הגופן שנבחר</string>
     <string name="font_imported">הוחל גופן מותאם אישית</string>
     <string name="background_opacity">אטימות רקע</string>
+    <string name="home_contrast_protection">ניגודיות מותאמת במסך הבית</string>
     <string name="opacity_home">אטימות ביתית</string>
     <string name="opacity_drawer">אטימות מגירת האפליקציה</string>
     <string name="search_drawer_title">חיפוש במגירה</string>

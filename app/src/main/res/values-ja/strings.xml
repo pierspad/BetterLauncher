@@ -83,10 +83,6 @@
     <string name="show_date_time">日付時刻を表示する</string>
     <string name="appearance">外観</string>
     <string name="gestures">ジェスチャー</string>
-    <string name="theme_mode">テーマモード</string>
-    <string name="system_default">システム</string>
-    <string name="dark">ダーク</string>
-    <string name="light">ライト</string>
     <string name="welcome_to_olauncher_settings">設定へようこそ！
         \n\n質問がある場合は、私たちの「About」ページに答えがありますので、覚えておいてください。</string>
     <string name="rate_us_message">ねえ、BetterLauncher は役に立つと思いますか? 「はい」の場合、5 つ星の評価が私たちをサポートする最善の方法です。\n\nありがとう、もうこれを見ることはないだろう。</string>
@@ -210,6 +206,7 @@
     <string name="font_import_failed">選択したフォントを読み込めませんでした</string>
     <string name="font_imported">カスタムフォントが適用されました</string>
     <string name="background_opacity">背景の不透明度</string>
+    <string name="home_contrast_protection">ホーム画面のコントラストを自動調整</string>
     <string name="opacity_home">ホームの不透明度</string>
     <string name="opacity_drawer">アプリドロワーの不透明度</string>
     <string name="search_drawer_title">引き出し検索</string>

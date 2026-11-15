@@ -38,6 +38,7 @@ class WallpaperHoleView @JvmOverloads constructor(
     private val scrimPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.TRANSPARENT }
     private val appTextPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private var foreground = Color.WHITE
+    private var protection = Color.TRANSPARENT
 
     private val iconPhone by lazy {
         androidx.core.content.ContextCompat.getDrawable(context, R.drawable.ic_sc_phone)?.mutate()
@@ -75,10 +76,12 @@ class WallpaperHoleView @JvmOverloads constructor(
         if (syncHole()) invalidate()
     }
 
-    fun setPreviewColors(scrim: Int, foreground: Int) {
-        if (scrimPaint.color == scrim && this.foreground == foreground) return
+    fun setPreviewColors(scrim: Int, foreground: Int, protectionEnabled: Boolean) {
+        val protection = HomeWallpaperContrast.protectionColor(scrim, foreground, protectionEnabled)
+        if (scrimPaint.color == scrim && this.foreground == foreground && this.protection == protection) return
         scrimPaint.color = scrim
         this.foreground = foreground
+        this.protection = protection
         invalidate()
     }
 
@@ -131,14 +134,16 @@ class WallpaperHoleView @JvmOverloads constructor(
             // Draw preview app names and icons on top of the hole for legibility reference
             val density = resources.displayMetrics.density
             appTextPaint.color = foreground
-            val shadow = if (foreground == Color.WHITE) Color.BLACK else Color.WHITE
-            appTextPaint.setShadowLayer(2f * density, 0f, 0f, shadow)
+            appTextPaint.setShadowLayer(HomeWallpaperContrast.TEXT_SHADOW_RADIUS_DP * density, 0f, 0f, protection)
+            val haloDiameter = (48f * density).toInt()
+            val halo = if (Color.alpha(protection) > 0) {
+                HomeWallpaperContrast.shortcutHalo(protection, haloDiameter)
+            } else null
 
             val paddingLeft = 24f * density
             val paddingRight = 24f * density
             val centerY = holeRect.centerY()
             val spaceBetweenText = 32f * density
-            val spaceBetweenIcons = spaceBetweenText
 
             val appPhone = context.getString(R.string.preview_app_phone)
             val appCamera = context.getString(R.string.preview_app_camera)
@@ -153,18 +158,19 @@ class WallpaperHoleView @JvmOverloads constructor(
             val iconLeft = holeRect.right - paddingRight - iconSize
             val iconRight = holeRect.right - paddingRight
 
-            iconPhone?.let {
-                it.setTint(foreground)
-                val icon1Top = centerY - spaceBetweenIcons / 2f - iconSize / 2f
-                it.setBounds(iconLeft.toInt(), icon1Top.toInt(), iconRight.toInt(), (icon1Top + iconSize).toInt())
-                it.draw(canvas)
-            }
-
-            iconCamera?.let {
-                it.setTint(foreground)
-                val icon2Top = centerY + spaceBetweenIcons / 2f - iconSize / 2f
-                it.setBounds(iconLeft.toInt(), icon2Top.toInt(), iconRight.toInt(), (icon2Top + iconSize).toInt())
-                it.draw(canvas)
+            listOf(iconPhone, iconCamera).forEachIndexed { index, icon ->
+                if (icon == null) return@forEachIndexed
+                val iconCenterY = centerY + (index - 0.5f) * spaceBetweenText
+                halo?.let {
+                    val left = (iconLeft + (iconSize - haloDiameter) / 2f).toInt()
+                    val top = (iconCenterY - haloDiameter / 2f).toInt()
+                    it.setBounds(left, top, left + haloDiameter, top + haloDiameter)
+                    it.draw(canvas)
+                }
+                icon.setTint(foreground)
+                val iconTop = iconCenterY - iconSize / 2
+                icon.setBounds(iconLeft.toInt(), iconTop.toInt(), iconRight.toInt(), (iconTop + iconSize).toInt())
+                icon.draw(canvas)
             }
         }
     }

@@ -29,7 +29,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -59,6 +58,7 @@ import app.olauncher.helper.openAppInfo
 import app.olauncher.helper.openUrl
 import app.olauncher.helper.rateApp
 import app.olauncher.helper.scrimColor
+import app.olauncher.helper.themedSurfaceOpacity
 import app.olauncher.helper.shareApp
 import app.olauncher.helper.showToast
 import app.olauncher.listener.DeviceAdmin
@@ -156,7 +156,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         }, 500)
         val query = binding.settingsSearch.text.toString()
         if (query.isNotBlank()) binding.settingsNoResults.isVisible = settingsSearch?.filter(query) == 0
-        (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -190,7 +189,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         populateLockSettings()
         // Home button for recents feature disabled
         // populateHomeButtonRecents()
-        populateTheme()
         populateFont()
         populateTextSize()
         populateAlignment()
@@ -270,6 +268,13 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             }
             DeviceSettings.navigation(requireContext())
         }
+        binding.settingsBuildVersion.text = getString(
+            R.string.settings_build_version,
+            getString(R.string.app_name),
+            BuildConfig.VERSION_NAME,
+            BuildConfig.VERSION_CODE,
+            BuildConfig.BUILD_TYPE,
+        )
         settingsSearch = SettingsSearch(requireContext(), binding.scrollLayout)
         binding.settingsSearch.doAfterTextChanged { query ->
             val count = settingsSearch?.filter(query.toString()) ?: 0
@@ -365,7 +370,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             R.id.clockAppRow -> showAppListIfEnabled(Constants.FLAG_SET_CLOCK_APP)
             R.id.calendarAppRow -> showAppListIfEnabled(Constants.FLAG_SET_CALENDAR_APP)
             R.id.fontText -> findNavController().navigate(R.id.action_settingsFragment_to_fontPickerFragment)
-            R.id.themeChooseRow -> cycleTheme()
             R.id.actionAccessibility -> openAccessibilityService()
             R.id.closeAccessibility -> toggleAccessibilityVisibility(false)
             R.id.notWorking -> {
@@ -451,7 +455,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.search.setOnClickListener(this)
         binding.notifications.setOnClickListener(this)
         binding.fontText.setOnClickListener(this)
-        binding.themeChooseRow.setOnClickListener(this)
         binding.actionAccessibility.setOnClickListener(this)
         binding.closeAccessibility.setOnClickListener(this)
         binding.notWorking.setOnClickListener(this)
@@ -703,7 +706,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     // Re-apply theme and rebuild the UI after a settings restore.
     private fun restartLauncher() {
-        AppCompatDelegate.setDefaultNightMode(prefs.appTheme)
         requireActivity().recreate()
     }
 
@@ -888,12 +890,16 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             emptyList()
         }
         fun updatePreview(progress: Int, label: Int) {
-            val scrim = context.scrimColor(progress * 255 / OPACITY_STEPS)
-            val foreground = HomeWallpaperContrast.foreground(
-                wallpaperSamples, scrim, context.getColorFromAttr(R.attr.primaryColor)
-            )
-            binding.wallpaperHole.setPreviewColors(scrim, foreground)
-            val percent = java.text.NumberFormat.getPercentInstance().format(progress.toDouble() / OPACITY_STEPS)
+            val isHome = label == R.string.opacity_home
+            val opacity = progress.toFloat() / OPACITY_STEPS
+            val effectiveOpacity = if (isHome) opacity else context.themedSurfaceOpacity(opacity)
+            val scrim = context.scrimColor((effectiveOpacity * 255).toInt())
+            val themeForeground = context.getColorFromAttr(R.attr.primaryColor)
+            val foreground = if (isHome) {
+                HomeWallpaperContrast.foreground(wallpaperSamples, scrim, themeForeground)
+            } else themeForeground
+            binding.wallpaperHole.setPreviewColors(scrim, foreground, isHome && prefs.homeContrastProtection)
+            val percent = java.text.NumberFormat.getPercentInstance().format(effectiveOpacity.toDouble())
             binding.opacityPreviewCaption.text = getString(R.string.opacity_preview_caption, getString(label), percent)
         }
 
@@ -921,6 +927,12 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             },
             onStop = { progress -> prefs.opacityDrawer = progress.toFloat() / OPACITY_STEPS },
         )
+
+        binding.switchHomeContrastProtection.isChecked = prefs.homeContrastProtection
+        binding.switchHomeContrastProtection.setOnCheckedChangeListener { _, enabled ->
+            prefs.homeContrastProtection = enabled
+            updatePreview(binding.homeOpacitySeekBar.progress, R.string.opacity_home)
+        }
 
         // Initial preview reflects the home slider.
         updatePreview(binding.homeOpacitySeekBar.progress, R.string.opacity_home)
@@ -961,51 +973,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             prefs.autoShowKeyboard = !prefs.autoShowKeyboard
             populateKeyboardText()
         }
-    }
-
-    private fun updateTheme(appTheme: Int) {
-        if (prefs.appTheme == appTheme) return
-        prefs.appTheme = appTheme
-        // setDefaultNightMode applies the change and recreates the activity once,
-        // re-inflating all views (and re-tinting icons) with the new theme.
-        AppCompatDelegate.setDefaultNightMode(appTheme)
-        recreateSettingsWithScroll()
-    }
-
-    private fun getThemeName(appTheme: Int): String {
-        return when (appTheme) {
-            AppCompatDelegate.MODE_NIGHT_NO -> getString(R.string.light)
-            AppCompatDelegate.MODE_NIGHT_YES -> getString(R.string.dark)
-            else -> getString(R.string.system_default)
-        }
-    }
-
-    private fun populateTheme() {
-        val currentTheme = prefs.appTheme
-        binding.themeValue.text = getThemeName(currentTheme)
-
-        val iconRes = when (currentTheme) {
-            AppCompatDelegate.MODE_NIGHT_NO -> R.drawable.ic_sun
-            AppCompatDelegate.MODE_NIGHT_YES -> R.drawable.ic_moon
-            else -> R.drawable.ic_contrast
-        }
-
-        val ctx = requireContext()
-        val drawable = androidx.core.content.ContextCompat.getDrawable(ctx, iconRes)?.mutate()
-        if (drawable != null) {
-            val color = ctx.getColorFromAttr(R.attr.primaryColor)
-            androidx.core.graphics.drawable.DrawableCompat.setTint(drawable, color)
-            binding.themeLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
-        }
-    }
-
-    private fun cycleTheme() {
-        val nextTheme = when (prefs.appTheme) {
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> AppCompatDelegate.MODE_NIGHT_NO
-            AppCompatDelegate.MODE_NIGHT_NO -> AppCompatDelegate.MODE_NIGHT_YES
-            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-        }
-        updateTheme(nextTheme)
     }
 
     private fun populateTextSize() {

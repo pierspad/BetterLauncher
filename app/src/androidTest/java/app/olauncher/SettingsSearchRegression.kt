@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.view.isVisible
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -91,10 +93,49 @@ fun runSettingsSearchRegression(context: Context) {
         }
         image.recycle()
     }
+    checkLocalizedContrastSearch(context)
     val prefs = app.olauncher.data.Prefs(context)
+    check(prefs.homeContrastProtection) { "Home contrast protection must be enabled by default" }
+    prefs.homeContrastProtection = false
+    check(prefs.importFromJson(prefs.exportToJson()))
+    check(!prefs.homeContrastProtection) { "Explicitly disabling Home contrast protection must survive restore" }
+    prefs.homeContrastProtection = true
     check(!prefs.xiaomiGestures) { "Gesture navigation must be opt-in" }
     prefs.xiaomiGestures = true
     check(prefs.importFromJson(prefs.exportToJson()))
     check(!prefs.xiaomiGestures) { "Restoring a backup must not silently enable a global touch service" }
     check(SettingsSearch.normalize("ACCESSIBILITÀ") == "accessibilita")
+}
+
+
+private fun checkLocalizedContrastSearch(context: Context) {
+    val localeTags = listOf(
+        "en", "ar", "ca", "de", "es-ES", "es-US", "fr", "he", "hr", "hu", "id",
+        "it", "ja", "nl", "pl", "pt-BR", "ru-RU", "sv", "tr", "uk", "zh",
+    )
+    for (tag in localeTags) {
+        for (orientation in listOf(Configuration.ORIENTATION_PORTRAIT, Configuration.ORIENTATION_LANDSCAPE)) {
+            val config = Configuration(context.resources.configuration).apply {
+                setLocale(Locale.forLanguageTag(tag))
+                this.orientation = orientation
+            }
+            val themed = ContextThemeWrapper(context.createConfigurationContext(config), R.style.AppTheme)
+            val root = LayoutInflater.from(themed).inflate(R.layout.fragment_settings, null)
+            val toggle = root.findViewById<TextView>(R.id.switchHomeContrastProtection)
+            val localizedLabel = themed.getString(R.string.home_contrast_protection)
+            check(toggle.text.toString() == localizedLabel) { "$tag/$orientation: wrong contrast switch label" }
+            val search = SettingsSearch(themed, root.findViewById(R.id.scrollLayout))
+            for (query in listOf(localizedLabel, "adaptive home contrast")) {
+                check(search.filter(query) > 0 && toggle.isVisible) {
+                    "$tag/$orientation: contrast switch missing for query '$query'"
+                }
+                check(!root.findViewById<View>(R.id.drawerOpacitySeekBar).isVisible) {
+                    "$tag/$orientation: drawer opacity must not match the Home contrast switch"
+                }
+            }
+            check(search.filter("adaptive home contrast missing-test") == 0 && !toggle.isVisible)
+            search.filter("")
+            check(toggle.isVisible)
+        }
+    }
 }

@@ -174,7 +174,6 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         if (prefs.showStatusBar) showStatusBar()
         else hideStatusBar()
         applyOpacityScrim()
-        (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = true)
     }
 
     // Darkens the wallpaper behind the UI. The alpha is baked into the background
@@ -430,13 +429,15 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     private fun populateHomeScreen(appCountUpdated: Boolean) {
-        val foreground = HomeWallpaperContrast.foreground(wallpaperSamples,
-            requireContext().scrimColor((prefs.opacityHome * 255).toInt()),
-            requireContext().getColorFromAttr(R.attr.primaryColor))
-        HomeWallpaperContrast.apply(binding.root, foreground)
+        val context = requireContext()
+        val scrim = context.scrimColor((prefs.opacityHome * 255).toInt())
+        val foreground = HomeWallpaperContrast.foreground(
+            wallpaperSamples, scrim, context.getColorFromAttr(R.attr.primaryColor)
+        )
         if (appCountUpdated) hideHomeApps()
         populateDateTime()
         populateShortcutIcons()
+        HomeWallpaperContrast.apply(binding.root, foreground, scrim, prefs.homeContrastProtection)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
             populateScreenTime()

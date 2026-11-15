@@ -1111,47 +1111,6 @@
                     android:layout_marginVertical="4dp"
                     android:background="@drawable/divider_light" />
 
-                <!-- Theme mode: clickable row that opens a dialog -->
-                <FrameLayout
-                    android:id="@+id/themeChooseRow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/themeLabel"
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        app:drawableStartCompat="@drawable/ic_contrast"
-                        android:drawablePadding="12dp"
-                        android:text="@string/theme_mode"
-                        android:textColor="?attr/primaryColor" 
-                    app:drawableTint="?attr/primaryColor"  android:tag="settings:theme_mode" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/themeValue"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="20dp"
-                        android:padding="8dp"
-                        tools:text="Sistema" />
-                </FrameLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_marginVertical="4dp"
-                    android:background="@drawable/divider_light" />
-
                 <!-- Text size (slider 0.8..1.5) -->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1317,6 +1276,34 @@
                     android:progressBackgroundTint="#619E9E9E"
                     android:progressTint="#3B82F6"
                     android:thumbTint="#3B82F6" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchHomeContrastProtection"
+                    style="@style/TextSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="4dp"
+                    app:switchPadding="12dp"
+                    android:tag="settings:home_contrast_protection"
+                    android:text="@string/home_contrast_protection"
+                    app:thumbTint="@color/switch_thumb"
+                    app:trackTint="@color/switch_track" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1896,6 +1883,24 @@
                     android:text="@string/privacy_policy"
                     android:textColor="?attr/primaryColor"  android:tag="settings:privacy_policy" />
             </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/settingsBuildVersion"
+                    style="@style/TextSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="12dp"
+                    android:textColor="?attr/primaryColorTrans80"
+                    android:text="@string/app_name"
+                    android:textDirection="ltr"
+                    android:textIsSelectable="true" />
+            </FrameLayout>
 
         </LinearLayout>
 

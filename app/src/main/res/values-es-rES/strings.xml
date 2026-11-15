@@ -50,10 +50,6 @@
     <string name="show_date_time">Mostrar fecha y hora</string>
     <string name="appearance">Apariencia</string>
     <string name="gestures">Gestos</string>
-    <string name="theme_mode">Tema</string>
-    <string name="system_default">Sistema</string>
-    <string name="dark">Oscuro</string>
-    <string name="light">Claro</string>
     <string name="welcome_to_olauncher_settings">¡Bienvenido a la configuración!
         \n\nRecuerda, si tienes alguna pregunta, nuestra página Acerca de tiene la respuesta.</string>
     <string name="rate_us_message">Hola, no volverás a ver este mensaje.
@@ -211,6 +207,7 @@
     <string name="font_import_failed">No se pudo cargar la fuente seleccionada</string>
     <string name="font_imported">Fuente personalizada aplicada</string>
     <string name="background_opacity">Opacidad del fondo</string>
+    <string name="home_contrast_protection">Contraste adaptativo de la pantalla de inicio</string>
     <string name="opacity_home">Opacidad del hogar</string>
     <string name="opacity_drawer">Opacidad del cajón de aplicaciones</string>
     <string name="search_drawer_title">Búsqueda de cajones</string>

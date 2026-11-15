@@ -49,10 +49,6 @@
     <string name="show_date_time">Prikaži datum i vrijeme</string>
     <string name="appearance">Izgled</string>
     <string name="gestures">Geste</string>
-    <string name="theme_mode">Tema</string>
-    <string name="system_default">Sustav</string>
-    <string name="dark">Tamna</string>
-    <string name="light">Svijetla</string>
     <string name="welcome_to_olauncher_settings">Dobrodošli u postavke!
         \n\nZapamtite, ako imate bilo kakvih pitanja, naša stranica O nama ima odgovor.</string>
     <string name="rate_us_message">Ovu poruku više nećeš vidjeti.
@@ -210,6 +206,7 @@
     <string name="font_import_failed">Nije moguće učitati odabrani font</string>
     <string name="font_imported">Primijenjen je prilagođeni font</string>
     <string name="background_opacity">Neprozirnost pozadine</string>
+    <string name="home_contrast_protection">Prilagodljivi kontrast početnog zaslona</string>
     <string name="opacity_home">Početna neprozirnost</string>
     <string name="opacity_drawer">Neprozirnost ladice aplikacije</string>
     <string name="search_drawer_title">Pretraga ladica</string>

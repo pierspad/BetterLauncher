@@ -83,10 +83,6 @@
     <string name="show_date_time">إظهار التاريخ والوقت</string>
     <string name="appearance">المظهر</string>
     <string name="gestures">إيماءات</string>
-    <string name="theme_mode">النمط</string>
-    <string name="system_default">نظام</string>
-    <string name="dark">مظلم</string>
-    <string name="light">مضيء</string>
     <string name="welcome_to_olauncher_settings">مرحبًا بك في الإعدادات!\n\nتذكر، إذا كان لديك أي سؤال، فإن صفحة "حول" لدينا تحتوي على الإجابة.</string>
     <string name="rate_us_message">مرحبًا ، لن ترى هذه الرسالة مرة أخرى.
         \n\nإذا كنت تحب BetterLauncher ، فهل يمكنك أن تعطينا تصنيف 5 نجوم؟ يساعدنا ذلك على تحسين تصنيفنا ويجعلنا سعداء. شكرًا لك!</string>
@@ -209,6 +205,7 @@
     <string name="font_import_failed">تعذر تحميل الخط المحدد</string>
     <string name="font_imported">تم تطبيق الخط المخصص</string>
     <string name="background_opacity">عتامة الخلفية</string>
+    <string name="home_contrast_protection">تباين الشاشة الرئيسية التلقائي</string>
     <string name="opacity_home">عتامة المنزل</string>
     <string name="opacity_drawer">عتامة درج التطبيق</string>
     <string name="search_drawer_title">بحث درج</string>

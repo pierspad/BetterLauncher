@@ -82,10 +82,6 @@
     <string name="show_date_time">Pokaż datę i godzinę</string>
     <string name="appearance">Wygląd</string>
     <string name="gestures">Gesty</string>
-    <string name="theme_mode">Temat</string>
-    <string name="system_default">System</string>
-    <string name="dark">Ciemny</string>
-    <string name="light">Jasny</string>
     <string name="welcome_to_olauncher_settings">Witamy w ustawieniach!
         \n\nPamiętaj, jeśli masz jakiekolwiek pytania, nasza strona „O nas” ma odpowiedź.</string>
     <string name="rate_us_message">Hej, czy uważasz, że BetterLauncher jest przydatny? Jeśli tak, ocena 5 gwiazdek to najlepszy sposób, aby nas wesprzeć.\n\nDziękuję i więcej tego nie zobaczysz.</string>
@@ -209,6 +205,7 @@
     <string name="font_import_failed">Nie można załadować wybranej czcionki</string>
     <string name="font_imported">Zastosowano niestandardową czcionkę</string>
     <string name="background_opacity">Nieprzezroczystość tła</string>
+    <string name="home_contrast_protection">Adaptacyjny kontrast ekranu głównego</string>
     <string name="opacity_home">Nieprzezroczystość domu</string>
     <string name="opacity_drawer">Nieprzezroczystość szuflady aplikacji</string>
     <string name="search_drawer_title">Przeszukanie szuflady</string>

@@ -50,10 +50,6 @@
     <string name="show_date_time">Показувати дату та час</string>
     <string name="appearance">Поява</string>
     <string name="gestures">Жести</string>
-    <string name="theme_mode">Тема</string>
-    <string name="system_default">Системна</string>
-    <string name="dark">Темна</string>
-    <string name="light">Світла</string>
     <string name="welcome_to_olauncher_settings">Ласкаво просимо до налаштувань!
         \n\nПам\'ятайте, якщо у вас є питання, на нашій сторінці «Про нас» є відповідь.</string>
     <string name="rate_us_message">Привіт, ти більше не побачиш це повідомлення.
@@ -211,6 +207,7 @@
     <string name="font_import_failed">Не вдалося завантажити вибраний шрифт</string>
     <string name="font_imported">Застосовано спеціальний шрифт</string>
     <string name="background_opacity">Непрозорість фону</string>
+    <string name="home_contrast_protection">Адаптивний контраст головного екрана</string>
     <string name="opacity_home">Домашня непрозорість</string>
     <string name="opacity_drawer">Непрозорість панелі програм</string>
     <string name="search_drawer_title">Пошук ящика</string>

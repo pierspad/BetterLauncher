@@ -49,10 +49,6 @@
     <string name="show_date_time">Dátum és idő megjelenítése</string>
     <string name="appearance">Megjelenés</string>
     <string name="gestures">Mozdulatok</string>
-    <string name="theme_mode">Téma mód</string>
-    <string name="system_default">Rendszer</string>
-    <string name="dark">Sötét</string>
-    <string name="light">Világos</string>
     <string name="welcome_to_olauncher_settings">Üdvözöljük a beállításokban!
         \n\nNe feledje, ha bármilyen kérdése van, az „Rólunk” oldalunk tartalmazza a választ.</string>
     <string name="rate_us_message">Üdv, ezt az üzenetet nem fogja újra látni.
@@ -213,6 +209,7 @@
     <string name="font_import_failed">Nem sikerült betölteni a kiválasztott betűtípust</string>
     <string name="font_imported">Egyéni betűtípus alkalmazva</string>
     <string name="background_opacity">Háttér átlátszatlansága</string>
+    <string name="home_contrast_protection">Adaptív kontraszt a kezdőképernyőn</string>
     <string name="opacity_home">Otthoni átlátszóság</string>
     <string name="opacity_drawer">Alkalmazásfiók átlátszatlansága</string>
     <string name="search_drawer_title">Fiókos keresés</string>

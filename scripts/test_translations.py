@@ -117,6 +117,26 @@ class TranslationsAndMetadataTest(unittest.TestCase):
                             f"{locale}: unescaped apostrophe in XML segment {body[:60]!r}",
                         )
 
+    def test_settings_search_tags_reference_translated_strings(self):
+        android = "{http://schemas.android.com/apk/res/android}"
+        for layout in sorted(RES_DIR.glob("layout*/fragment_settings.xml")):
+            tags = [
+                elem.get(android + "tag", "")
+                for elem in ET.parse(layout).iter()
+            ]
+            keys = {
+                key
+                for tag in tags
+                if tag.startswith("settings:")
+                for key in tag.removeprefix("settings:").split(",")
+            }
+            with self.subTest(layout=layout.parent.name):
+                self.assertTrue(keys, "Settings must expose localized search tags")
+                self.assertFalse(
+                    keys - self.base_strings.keys(),
+                    f"Search keys missing string resources: {sorted(keys - self.base_strings.keys())}",
+                )
+
     def test_hebrew_folders_are_synchronized(self):
         he_strings, _, _ = parse_strings_xml(RES_DIR / "values-he" / "strings.xml")
         iw_strings, _, _ = parse_strings_xml(RES_DIR / "values-iw" / "strings.xml")

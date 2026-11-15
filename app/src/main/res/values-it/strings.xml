@@ -73,10 +73,6 @@
     <string name="show_date_time">Mostra data e ora</string>
     <string name="appearance">Aspetto</string>
     <string name="gestures">Gesti</string>
-    <string name="theme_mode">Modalità tema</string>
-    <string name="system_default">di sistema</string>
-    <string name="dark">Scuro</string>
-    <string name="light">Chiaro</string>
     <string name="welcome_to_olauncher_settings">Benvenuto nelle impostazioni!
         \n\nRicorda, se hai domande, la nostra pagina Informazioni ha la risposta.</string>
     <string name="rate_us_message">Ehi, trovi utile BetterLauncher? Se sì, una valutazione a 5 stelle è il modo migliore per sostenerci.
@@ -261,6 +257,7 @@ per rimuovere serve che sia ≤ 2</string>
 
     <!-- Opacità sfondo -->
     <string name="background_opacity">Opacità sfondo</string>
+    <string name="home_contrast_protection">Contrasto adattivo della Home</string>
     <string name="opacity_home">Opacità home</string>
     <string name="opacity_drawer">Opacità menù app</string>
 

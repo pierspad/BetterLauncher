@@ -82,10 +82,6 @@
     <string name="show_date_time">Tarih ve saati göster</string>
     <string name="appearance">Görünüm</string>
     <string name="gestures">Hareket</string>
-    <string name="theme_mode">Tema modu</string>
-    <string name="system_default">Sistem</string>
-    <string name="dark">Koyu</string>
-    <string name="light">Açık</string>
     <string name="welcome_to_olauncher_settings">Ayarlar sayfasına hoş geldiniz!
         \n\nUnutmayın, herhangi bir sorunuz olursa "Hakkında" sayfamıza danışabilirsiniz.</string>
     <string name="rate_us_message">Merhaba, bu mesajı bir daha görmeyeceksiniz.
@@ -211,6 +207,7 @@
     <string name="font_import_failed">Seçilen yazı tipi yüklenemedi</string>
     <string name="font_imported">Özel yazı tipi uygulandı</string>
     <string name="background_opacity">Arka plan opaklığı</string>
+    <string name="home_contrast_protection">Ana ekranda uyarlanabilir kontrast</string>
     <string name="opacity_home">Ev opaklığı</string>
     <string name="opacity_drawer">Uygulama çekmecesi opaklığı</string>
     <string name="search_drawer_title">Çekmece arama</string>

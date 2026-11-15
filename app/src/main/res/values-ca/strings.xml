@@ -73,10 +73,6 @@
     <string name="show_date_time">Mostra la data i l\'hora</string>
     <string name="appearance">Aparença</string>
     <string name="gestures">Gestos</string>
-    <string name="theme_mode">Mode del tema</string>
-    <string name="system_default">Sistema</string>
-    <string name="dark">Fosc</string>
-    <string name="light">Clar</string>
     <string name="welcome_to_olauncher_settings">Et donem la benvinguda a la configuració!
         \n\nRecorda que, si tens cap pregunta, trobaràs la resposta a la pàgina Quant a.</string>
     <string name="rate_us_message">Hola, no tornaràs a veure aquest missatge.
@@ -260,6 +256,7 @@ Per eliminar-lo, ha de ser ≤ 2</string>
 
     <!-- Opacitat del fons -->
     <string name="background_opacity">Opacitat del fons</string>
+    <string name="home_contrast_protection">Contrast adaptatiu de la pantalla d’inici</string>
     <string name="opacity_home">Opacitat d\'Inici</string>
     <string name="opacity_drawer">Opacitat del calaix d\'aplicacions</string>
 

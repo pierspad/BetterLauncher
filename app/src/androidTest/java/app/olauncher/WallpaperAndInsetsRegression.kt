@@ -14,6 +14,8 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 import app.olauncher.ui.HomeWallpaperContrast
+import app.olauncher.helper.scrimColor
+import app.olauncher.helper.themedSurfaceOpacity
 import app.olauncher.ui.SettingsInsets
 import app.olauncher.ui.SettingsSearch
 import app.olauncher.ui.ScreenInsets
@@ -25,6 +27,22 @@ fun runWallpaperAndInsetsRegression(context: Context) {
                 if (night) Configuration.UI_MODE_NIGHT_YES else Configuration.UI_MODE_NIGHT_NO
         }
         val themed = ContextThemeWrapper(context.createConfigurationContext(configuration), R.style.AppTheme)
+        val themedForeground = if (night) Color.WHITE else Color.BLACK
+        val minimumOpacity = themed.themedSurfaceOpacity(0f)
+        val minimumScrim = themed.scrimColor((minimumOpacity * 255).toInt())
+        val worstWallpaper = if (night) Color.WHITE else Color.BLACK
+        val minimumBackground = ColorUtils.compositeColors(minimumScrim, worstWallpaper)
+        check(ColorUtils.calculateContrast(themedForeground, minimumBackground) >= 4.5)
+        val noScrim = themed.scrimColor(0)
+        val maximumScrim = themed.scrimColor(255)
+        fun protectionAlpha(scrim: Int) =
+            Color.alpha(HomeWallpaperContrast.protectionColor(scrim, themedForeground, true))
+        check(protectionAlpha(noScrim) > protectionAlpha(minimumScrim))
+        check(protectionAlpha(minimumScrim) > protectionAlpha(maximumScrim))
+        val alphas = (0..255).map { protectionAlpha(themed.scrimColor(it)) }
+        check(alphas.zipWithNext().all { (a, b) -> a - b in 0..5 }) { "Protection must fade smoothly" }
+        check(Color.alpha(HomeWallpaperContrast.protectionColor(noScrim, themedForeground, false)) == 0)
+        check(themed.themedSurfaceOpacity(1f) == 1f)
         val home = LayoutInflater.from(themed).inflate(R.layout.fragment_home, null)
         val reorder = home.findViewById<TextView>(R.id.reorderDone)
         val reorderColor = reorder.currentTextColor
@@ -37,13 +55,23 @@ fun runWallpaperAndInsetsRegression(context: Context) {
                 check(ColorUtils.calculateContrast(color, composite) >= 4.5) {
                     "Unreadable home foreground: night=$night background=$background opacity=$opacity"
                 }
-                HomeWallpaperContrast.apply(home, color)
+                HomeWallpaperContrast.apply(home, color, scrim, true)
                 check(home.findViewById<TextView>(R.id.clock).currentTextColor == color)
                 check(home.findViewById<TextView>(R.id.homeApp1).hintTextColors.defaultColor == ColorUtils.setAlphaComponent(color, 204))
                 check(home.findViewById<ImageView>(R.id.ivShortcut1).imageTintList!!.defaultColor == color)
                 check(reorder.currentTextColor == reorderColor) { "Do not recolor an opaque themed button" }
             }
         }
+        val clock = home.findViewById<TextView>(R.id.clock)
+        val label = home.findViewById<TextView>(R.id.homeApp1)
+        val shortcut = home.findViewById<ImageView>(R.id.ivShortcut1)
+        HomeWallpaperContrast.apply(home, themedForeground, noScrim, true)
+        check(Color.alpha(clock.shadowColor) > 0 && clock.shadowColor == label.shadowColor)
+        check(shortcut.background != null)
+        HomeWallpaperContrast.apply(home, themedForeground, noScrim, false)
+        check(Color.alpha(clock.shadowColor) == 0 && Color.alpha(label.shadowColor) == 0)
+        check(shortcut.background == null && shortcut.foreground != null)
+        check(clock.currentTextColor == themedForeground)
         check(HomeWallpaperContrast.foreground(emptyList(), Color.TRANSPARENT, Color.MAGENTA) == Color.MAGENTA)
     }
     for (landscape in listOf(false, true)) {

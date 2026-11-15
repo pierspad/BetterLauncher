@@ -50,10 +50,6 @@
     <string name="show_date_time">Mostrar data e hora</string>
     <string name="appearance">Aparência</string>
     <string name="gestures">Gestos</string>
-    <string name="theme_mode">Modo de tema</string>
-    <string name="system_default">Sistema</string>
-    <string name="dark">Escuro</string>
-    <string name="light">Claro</string>
     <string name="welcome_to_olauncher_settings">Bem-vindo às configurações!
         \n\nLembre-se, se você tiver alguma dúvida, nossa página Sobre tem a resposta.</string>
     <string name="rate_us_message">Ei, você acha BetterLauncher útil? Se sim, uma classificação de 5 estrelas é a melhor maneira de nos apoiar. Obrigado.</string>
@@ -210,6 +206,7 @@
     <string name="font_import_failed">Não foi possível carregar a fonte selecionada</string>
     <string name="font_imported">Fonte personalizada aplicada</string>
     <string name="background_opacity">Opacidade de fundo</string>
+    <string name="home_contrast_protection">Contraste adaptativo da tela inicial</string>
     <string name="opacity_home">Opacidade inicial</string>
     <string name="opacity_drawer">Opacidade da gaveta de aplicativos</string>
     <string name="search_drawer_title">Pesquisa de gaveta</string>

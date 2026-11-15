@@ -15,6 +15,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import androidx.core.view.WindowCompat
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
@@ -35,14 +36,13 @@ import app.olauncher.helper.FontHelper
 import app.olauncher.helper.IconManager
 import app.olauncher.helper.AppLimiter
 import app.olauncher.helper.scrimColor
+import app.olauncher.helper.themedSurfaceOpacity
 import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.hasBeenDays
 import app.olauncher.helper.hasBeenHours
 import app.olauncher.helper.hasBeenMinutes
 import app.olauncher.helper.isDaySince
 import app.olauncher.helper.isDefaultLauncher
-import app.olauncher.helper.isDarkThemeOn
-import app.olauncher.helper.isEinkDisplay
 import app.olauncher.helper.isOlauncherDefault
 import app.olauncher.helper.isTablet
 import app.olauncher.helper.openUrl
@@ -68,8 +68,6 @@ class MainActivity : AppCompatActivity() {
     private var profileReceiver: BroadcastReceiver? = null
     private var launcherRefreshCallback: LauncherRefreshCallback? = null
     private var packageRefreshJob: Job? = null
-
-    private fun effectiveNightMode() = if (isEinkDisplay()) AppCompatDelegate.MODE_NIGHT_NO else prefs.appTheme
 
     private fun registerLauncherRefresh() {
         val launcher = getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
@@ -107,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         )
         prefs = Prefs(this)
         IconManager.init(this)
-        AppCompatDelegate.setDefaultNightMode(effectiveNightMode())
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         if (prefs.appLanguageTag.isNotEmpty()) {
             val current = AppCompatDelegate.getApplicationLocales()
             val tag = if (current.isEmpty) "" else current.get(0)?.toLanguageTag() ?: ""
@@ -125,6 +123,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         navController = this.findNavController(R.id.nav_host_fragment)
+        navController.addOnDestinationChangedListener { _, _, _ ->
+            updateGlobalOpacityScrim(animate = true)
+        }
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         // A settings-initiated recreate (theme/font/text size) drops to the home via
@@ -225,7 +226,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        AppCompatDelegate.setDefaultNightMode(effectiveNightMode())
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         checkTheme()
     }
 
@@ -444,13 +445,7 @@ class MainActivity : AppCompatActivity() {
         timerJob?.cancel()
         timerJob = lifecycleScope.launch {
             delay(200)
-            val isDark = when (effectiveNightMode()) {
-                AppCompatDelegate.MODE_NIGHT_YES -> true
-                AppCompatDelegate.MODE_NIGHT_NO -> false
-                else -> isDarkThemeOn()
-            }
-            val expectedColor = if (isDark) getColor(R.color.white) else getColor(R.color.black)
-            if (getColorFromAttr(R.attr.primaryColor) != expectedColor) {
+            if (getColorFromAttr(R.attr.primaryColor) != getColor(R.color.white)) {
                 restartLauncherOrCheckTheme(true)
             }
         }
@@ -490,7 +485,7 @@ class MainActivity : AppCompatActivity() {
 
     fun updateGlobalOpacityScrim(animate: Boolean = false) {
         val destinationId = if (::navController.isInitialized) navController.currentDestination?.id else null
-        val opacity = when (destinationId) {
+        val requestedOpacity = when (destinationId) {
             R.id.mainFragment -> prefs.opacityHome
             R.id.appListFragment -> prefs.opacityDrawer
             R.id.settingsFragment -> prefs.opacityHome
@@ -498,6 +493,19 @@ class MainActivity : AppCompatActivity() {
             R.id.fontPickerFragment -> prefs.opacityDrawer
             R.id.languagePickerFragment -> prefs.opacityDrawer
             else -> 0f
+        }
+        val isHome = destinationId == R.id.mainFragment
+        val opacity = when {
+            isHome || destinationId == null -> requestedOpacity.coerceIn(0f, 1f)
+            else -> themedSurfaceOpacity(requestedOpacity)
+        }
+        val lightSurface = scrimColor(255) == Color.WHITE
+        WindowCompat.getInsetsController(window, binding.root).apply {
+            isAppearanceLightStatusBars = lightSurface
+            isAppearanceLightNavigationBars = lightSurface
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = isHome
         }
         android.util.Log.d("BetterLauncher", "updateGlobalOpacityScrim: dest=$destinationId, opacity=$opacity, current=$currentOpacity, animate=$animate")
 

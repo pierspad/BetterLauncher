@@ -49,10 +49,6 @@
     <string name="show_date_time">Visa datum och tid</string>
     <string name="appearance">Utseende</string>
     <string name="gestures">Gester</string>
-    <string name="theme_mode">Tema</string>
-    <string name="system_default">System</string>
-    <string name="dark">Mörkt</string>
-    <string name="light">Ljust</string>
     <string name="welcome_to_olauncher_settings">Välkommen till inställningarna!
         \n\nKom ihåg, om du har några frågor har vår sida Om oss svaret.</string>
     <string name="rate_us_message">Hejsan, du kommer inte att se detta meddelande igen.
@@ -209,6 +205,7 @@
     <string name="font_import_failed">Det gick inte att läsa in det valda teckensnittet</string>
     <string name="font_imported">Anpassat teckensnitt tillämpas</string>
     <string name="background_opacity">Bakgrundens opacitet</string>
+    <string name="home_contrast_protection">Adaptiv kontrast på startskärmen</string>
     <string name="opacity_home">Hemmets opacitet</string>
     <string name="opacity_drawer">Opacitet för applådan</string>
     <string name="search_drawer_title">Lådsökning</string>

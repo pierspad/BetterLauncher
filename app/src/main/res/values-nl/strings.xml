@@ -49,10 +49,6 @@
     <string name="show_date_time">Datum en tijd weergeven</string>
     <string name="appearance">Uiterlijk</string>
     <string name="gestures">Gebaren</string>
-    <string name="theme_mode">Thema modus</string>
-    <string name="system_default">Systeem</string>
-    <string name="dark">Donker</string>
-    <string name="light">Licht</string>
     <string name="welcome_to_olauncher_settings">Welkom bij de instellingen!
         \n\nOnthoud, als je vragen hebt, heeft onze Over-pagina het antwoord.</string>
     <string name="rate_us_message">Hoi, je zult dit bericht niet meer zien.
@@ -210,6 +206,7 @@
     <string name="font_import_failed">Kan het geselecteerde lettertype niet laden</string>
     <string name="font_imported">Aangepast lettertype toegepast</string>
     <string name="background_opacity">Achtergronddekking</string>
+    <string name="home_contrast_protection">Adaptief contrast op het startscherm</string>
     <string name="opacity_home">Dekking van het huis</string>
     <string name="opacity_drawer">Dekking van de app-lade</string>
     <string name="search_drawer_title">Lade zoeken</string>

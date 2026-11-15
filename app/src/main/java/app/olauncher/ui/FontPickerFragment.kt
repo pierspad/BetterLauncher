@@ -15,7 +15,6 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -324,7 +323,6 @@ class FontPickerFragment : Fragment() {
                 }
                 if (saved) {
                     FontHelper.reload(context)
-                    AppCompatDelegate.setDefaultNightMode(prefs.appTheme)
                     requireActivity().recreate()
                 } else {
                     context.showToast(getString(R.string.font_import_failed))
@@ -401,11 +399,6 @@ class FontPickerFragment : Fragment() {
         }
 
         dialog.show()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = true)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

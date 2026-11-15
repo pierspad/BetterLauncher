@@ -220,6 +220,13 @@ fun Context.scrimColor(alpha: Int): Int {
     return android.graphics.Color.argb(alpha.coerceIn(0, 255), channel, channel, channel)
 }
 
+// A themed label must remain readable even over the opposite end of the wallpaper's
+// luminance range. The two alpha floors give black/white text at least 4.5:1.
+fun Context.themedSurfaceOpacity(opacity: Float): Float {
+    val minimumAlpha = if (scrimColor(255) == android.graphics.Color.BLACK) 137 else 117
+    return opacity.coerceIn(minimumAlpha / 255f, 1f)
+}
+
 fun Context.getAppLabel(packageName: String): String {
     if (packageName.isBlank()) return ""
     return try {

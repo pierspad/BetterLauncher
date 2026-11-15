@@ -480,7 +480,6 @@ class AppDrawerFragment : Fragment() {
                     rv.scheduleLayoutAnimation()
                 }
             }
-            (activity as? app.olauncher.MainActivity)?.updateGlobalOpacityScrim(animate = true)
         }
     }
 
