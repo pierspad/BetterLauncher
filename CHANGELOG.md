@@ -1,3 +1,9 @@
+## [1.7.4](https://github.com/pierspad/BetterLauncher/compare/v1.7.3...v1.7.4) (2026-11-16)
+
+### Bug Fixes
+
+* refresh localized store listings and screenshots ([a70505c](https://github.com/pierspad/BetterLauncher/commit/a70505c9e4d77c81f0e3810b255572fb0daea829))
+
 ## [1.7.3](https://github.com/pierspad/BetterLauncher/compare/v1.7.2...v1.7.3) (2026-11-15)
 
 ### Bug Fixes
