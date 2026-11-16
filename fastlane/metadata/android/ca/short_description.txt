@@ -1,1 +1,1 @@
-Llançador amb ginys, carpetes i límits d’aplicacions. Sense anuncis.
+Pantalla d’inici de text amb dreceres, ginys i límits d’ús opcionals.

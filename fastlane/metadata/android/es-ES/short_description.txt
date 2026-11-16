@@ -1,1 +1,1 @@
-Launcher con widgets, carpetas y límites de aplicaciones. Sin anuncios.
+Pantalla de inicio textual con accesos directos, widgets y límites opcionales.

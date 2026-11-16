@@ -149,7 +149,13 @@ class TranslationsAndMetadataTest(unittest.TestCase):
         actual_dirs = {
             p.name for p in FASTLANE_DIR.iterdir() if p.is_dir()
         }
-        self.assertEqual(actual_dirs, set(PLAY_LOCALES))
+        self.assertEqual(actual_dirs, set(PLAY_LOCALES) | {"de"})
+        # F-Droid also serves a language-only German listing.
+        for name in ("title.txt", "short_description.txt", "full_description.txt"):
+            self.assertEqual(
+                (FASTLANE_DIR / "de" / name).read_text(encoding="utf-8"),
+                (FASTLANE_DIR / "de-DE" / name).read_text(encoding="utf-8"),
+            )
 
         for locale, data in listings.items():
             with self.subTest(locale=locale):
@@ -162,7 +168,7 @@ class TranslationsAndMetadataTest(unittest.TestCase):
         screenshots = sorted((images_dir / "phoneScreenshots").glob("*.jpg"))
         self.assertEqual(
             [p.name for p in screenshots],
-            ["01.jpg", "02.jpg", "03.jpg", "04.jpg", "05.jpg", "06.jpg"],
+            ["01.jpg", "02.jpg", "03.jpg", "04.jpg"],
         )
         for shot in screenshots:
             self.assertGreater(

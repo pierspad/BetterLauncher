@@ -1,13 +1,6 @@
-<p><b>BetterLauncher</b> est un lanceur d'applications libre et open source pour Android, basé sur Olauncher. Profitez d'un écran d'accueil textuel et épuré avec les fonctionnalités dont vous avez besoin, sans publicités ni achats intégrés.</p>
-<ul>
-<li>Choisissez et réorganisez jusqu'à huit applications et huit raccourcis sur l'écran d'accueil.</li>
-<li>Ajoutez un widget Android, des dossiers et des icônes monochromes facultatives.</li>
-<li>Personnalisez le texte, les polices, l'alignement, le thème et l'opacité de l'arrière-plan.</li>
-<li>Recherchez des applications par préfixes, initiales ou recherche floue. La recherche de contacts est facultative (avec autorisation).</li>
-<li>Protégez l'ouverture des applications depuis BetterLauncher avec vos identifiants ou la biométrie de l'appareil.</li>
-<li>Définissez des limites d'utilisation facultatives avec des temps d'attente progressifs (cooldowns).</li>
-<li>Exportez ou importez vos paramètres au format JSON (y compris une police personnalisée).</li>
-</ul>
-<p><b>Service d'accessibilité facultatif :</b> Le service d'accessibilité d'Android permet le verrouillage de l'écran par double appui et applique les limites d'applications configurées. Pour cela, il observe les changements de fenêtre et l'application au premier plan. Toutes les données sont traitées exclusivement sur votre appareil. Vous pouvez refuser ou désactiver ce service à tout moment tout en continuant à utiliser les autres fonctionnalités.</p>
-<p>BetterLauncher ne demande pas l'autorisation Internet d'Android et ne contient aucune publicité ni aucun outil de suivi.</p>
-<p>Logiciel libre sous licence GPL-3.0.</p>
+<p>BetterLauncher est un lanceur Android libre et open source. Gardez vos applications et raccourcis favoris à portée de main sur un écran d’accueil textuel, sans publicité ni fonctionnalités payantes.</p>
+<p><b>Personnalisez l’accueil.</b> Placez jusqu’à huit applications et huit raccourcis. Ajoutez des dossiers et un widget Android, ajustez les polices et l’alignement, et améliorez la lisibilité sur votre fond d’écran.</p>
+<p><b>Retrouvez vos applications.</b> Utilisez la recherche précise ou souple dans la liste des applications. Vous pouvez aussi rechercher des paramètres Android et, avec votre autorisation, des contacts.</p>
+<p><b>Faites une pause.</b> Définissez des délais d’attente facultatifs ou exigez l’authentification de l’appareil pour certaines applications ouvertes depuis BetterLauncher. Sauvegardez ou restaurez vos réglages au format JSON.</p>
+<p><b>Service d’accessibilité facultatif.</b> Le verrouillage par double appui, les délais d’attente et les gestes Xiaomi facultatifs utilisent l’accessibilité d’Android. Le service observe les changements de fenêtre et l’application au premier plan pour appliquer les délais. Il peut lire des informations sur les éléments à l’écran pour reconnaître le geste de verrouillage. Le traitement se fait sur votre appareil. Vous pouvez désactiver le service et continuer à utiliser les autres fonctions.</p>
+<p>BetterLauncher ne demande pas l’autorisation Internet d’Android et n’intègre aucun outil d’analyse. Si vous partagez une sauvegarde, Android la transmet à l’application ou au service de votre choix. Licence GPL-3.0.</p>

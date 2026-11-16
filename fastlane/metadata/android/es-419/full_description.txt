@@ -1,13 +1,6 @@
-<p><b>BetterLauncher</b> es un lanzador libre para Android basado en Olauncher, sin anuncios ni compras integradas.</p>
-<ul>
-<li>Elige y organiza hasta ocho aplicaciones y ocho atajos en la pantalla de inicio.</li>
-<li>Agrega un widget de Android, carpetas e íconos monocromáticos opcionales.</li>
-<li>Personaliza texto, fuentes, alineación, tema y opacidad del fondo.</li>
-<li>Busca aplicaciones por prefijos, iniciales o búsqueda aproximada. Búsqueda opcional de contactos (requiere permiso).</li>
-<li>Protege la apertura de aplicaciones desde BetterLauncher con biometría o credenciales del dispositivo.</li>
-<li>Configura límites opcionales de aplicaciones con tiempos de espera progresivos.</li>
-<li>Exporta o importa configuraciones en formato JSON (incluyendo fuentes personalizadas).</li>
-</ul>
-<p><b>Servicio de accesibilidad opcional:</b> El servicio de accesibilidad de Android permite bloquear la pantalla con doble toque y aplicar los límites configurados. Para ello, detecta cambios de ventana y la app en primer plano. Todos los datos se procesan localmente en el dispositivo. Puedes desactivar el servicio en cualquier momento sin afectar las demás funciones.</p>
-<p>BetterLauncher no solicita permiso de internet y no contiene publicidad ni herramientas de rastreo.</p>
-<p>Código abierto bajo licencia GPL-3.0.</p>
+<p>BetterLauncher es un lanzador gratuito y de código abierto para Android. Ten a mano tus aplicaciones y accesos directos favoritos en una pantalla de inicio de texto, sin anuncios ni funciones de pago.</p>
+<p><b>Personaliza la pantalla de inicio.</b> Organiza hasta ocho aplicaciones y ocho accesos directos. Añade carpetas y un widget de Android, ajusta las fuentes y la alineación, y mejora la legibilidad sobre el fondo de pantalla.</p>
+<p><b>Encuentra tus aplicaciones.</b> Usa la búsqueda precisa o flexible en el lista de apps. También puedes buscar configuración de Android y, con tu permiso, contactos.</p>
+<p><b>Haz una pausa.</b> Configura pausas opcionales o solicita la autenticación del dispositivo al abrir determinadas aplicaciones desde BetterLauncher. Guarda o restaura tus configuración con una copia en JSON.</p>
+<p><b>Servicio de accesibilidad opcional.</b> El bloqueo con doble toque, las pausas de uso y los gestos opcionales de Xiaomi usan la accesibilidad de Android. El servicio observa los cambios de ventana y la aplicación en primer plano para aplicar las pausas. Puede leer información de los elementos en pantalla para reconocer el gesto de bloqueo. El procesamiento se realiza en el dispositivo. Puedes desactivar el servicio y seguir usando las demás funciones.</p>
+<p>BetterLauncher no solicita el permiso de Internet de Android ni incluye herramientas de análisis. Si compartes una copia de seguridad, Android la entrega a la aplicación o al servicio que elijas. Licencia GPL-3.0.</p>

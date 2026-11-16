@@ -1,1 +1,1 @@
-Pantalla de inicio con widgets, carpetas y límites de apps. Sin anuncios.
+Pantalla de inicio de texto con accesos directos, widgets y límites opcionales.

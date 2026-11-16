@@ -43,9 +43,13 @@ runs:
         if [ "$PLAY_CHANGES_NOT_SENT_FOR_REVIEW" = "true" ]; then
           EXTRA_ARGS+=(--changes-not-sent-for-review)
         fi
+        if [ "$PLAY_TRACK" = "production" ]; then
+          EXTRA_ARGS+=(--all-metadata-locales --sync-phone-screenshots)
+        else
+          EXTRA_ARGS+=(--metadata-locales en-US it-IT ca es-ES)
+        fi
         python scripts/publish_google_play.py \
           --bundle "$RUNNER_TEMP/play-artifact/betterlauncher-release.aab" \
           --version-name "$RELEASE_TAG" --track "$PLAY_TRACK" --status "$PLAY_STATUS" \
           --metadata-dir fastlane/metadata/android \
-          --metadata-locales en-US it-IT ca es-ES \
           "${EXTRA_ARGS[@]}"

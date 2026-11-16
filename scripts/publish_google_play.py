@@ -24,7 +24,7 @@ def request(session, method, url, **kwargs):
 
 
 PLAY_LOCALES = (
-    "en-US", "it-IT", "ca", "es-ES", "es-419", "de-DE", "de", "fr-FR",
+    "en-US", "it-IT", "ca", "es-ES", "es-419", "de-DE", "fr-FR",
     "ru-RU", "pt-BR", "zh-CN", "ja-JP", "nl-NL", "pl-PL", "tr-TR",
     "uk", "ar", "id", "iw-IL", "hu-HU", "hr", "sv-SE",
 )
@@ -58,8 +58,22 @@ def read_listings(metadata_dir, locales):
     return listings
 
 
+def sync_phone_screenshots(session, edit_id, screenshots):
+    path = f"/edits/{quote(edit_id, safe='')}/listings/en-US/phoneScreenshots"
+    current = request(session, "GET", API + path).get("images", [])
+    if [image.get("sha256") for image in current] == [
+        hashlib.sha256(image).hexdigest() for image in screenshots
+    ]:
+        return False
+    request(session, "DELETE", API + path)
+    for image in screenshots:
+        request(session, "POST", UPLOAD + path, params={"uploadType": "media"},
+                headers={"Content-Type": "image/jpeg"}, data=image)
+    return True
+
+
 def publish(session, bundle, track, status, version_name, metadata_dir=None,
-            metadata_locales=(), changes_not_sent_for_review=False):
+            metadata_locales=(), changes_not_sent_for_review=False, sync_screenshots=False):
     if track not in ("production", "beta"):
         raise ValueError("Choose production or beta (open testing)")
     if track == "production" and "-" in version_name.removeprefix("v"):
@@ -67,6 +81,14 @@ def publish(session, bundle, track, status, version_name, metadata_dir=None,
     if status not in ("draft", "completed"):
         raise ValueError("Release status must be draft or completed")
     desired_listings = read_listings(metadata_dir, metadata_locales) if metadata_locales else {}
+    screenshots = []
+    if sync_screenshots:
+        if "en-US" not in desired_listings:
+            raise ValueError("Phone screenshots require the en-US listing")
+        folder = Path(metadata_dir) / "en-US" / "images" / "phoneScreenshots"
+        screenshots = [path.read_bytes() for path in sorted(folder.glob("*.jpg"))]
+        if not 2 <= len(screenshots) <= 8 or any(not image.startswith(b"\xff\xd8") for image in screenshots):
+            raise ValueError("Expected 2–8 JPEG phone screenshots")
     edit_id = request(session, "POST", f"{API}/edits", json={})["id"]
     edit = f"{API}/edits/{quote(edit_id, safe='')}"
     committed = False
@@ -102,7 +124,8 @@ def publish(session, bundle, track, status, version_name, metadata_dir=None,
                     merged["language"] = language
                     request(session, "PUT", f"{edit}/listings/{quote(language, safe='')}", json=merged)
                     listings_changed = True
-        if not track_changed and not listings_changed:
+        screenshots_changed = bool(screenshots) and sync_phone_screenshots(session, edit_id, screenshots)
+        if not track_changed and not listings_changed and not screenshots_changed:
             return version_code  # Already published; finally discards the read-only edit.
         if track_changed:
             release = {"name": version_name, "versionCodes": [version_code], "status": status}
@@ -140,7 +163,10 @@ def main():
     parser.add_argument("--status", choices=("draft", "completed"), default="draft")
     parser.add_argument("--version-name", required=True)
     parser.add_argument("--metadata-dir", type=Path)
-    parser.add_argument("--metadata-locales", nargs="+", choices=PLAY_LOCALES, default=[])
+    locales = parser.add_mutually_exclusive_group()
+    locales.add_argument("--metadata-locales", nargs="+", choices=PLAY_LOCALES, default=[])
+    locales.add_argument("--all-metadata-locales", action="store_true")
+    parser.add_argument("--sync-phone-screenshots", action="store_true")
     parser.add_argument(
         "--changes-not-sent-for-review",
         action="store_true",
@@ -148,8 +174,9 @@ def main():
         help="Commit changes without automatically sending them for review (send from Console UI)",
     )
     args = parser.parse_args()
-    if bool(args.metadata_dir) != bool(args.metadata_locales):
-        parser.error("Use --metadata-dir and --metadata-locales together")
+    metadata_locales = PLAY_LOCALES if args.all_metadata_locales else args.metadata_locales
+    if bool(args.metadata_dir) != bool(metadata_locales):
+        parser.error("Use --metadata-dir and select the metadata locales together")
     if not args.bundle.is_file() or args.bundle.suffix != ".aab":
         parser.error("--bundle must point to a signed .aab file")
     credentials_json = os.environ.get("GOOGLE_PLAY_SERVICE_ACCOUNT_JSON")
@@ -162,8 +189,9 @@ def main():
     )
     with AuthorizedSession(credentials) as session:
         code = publish(session, args.bundle, args.track, args.status, args.version_name,
-                       args.metadata_dir, args.metadata_locales,
-                       changes_not_sent_for_review=args.changes_not_sent_for_review)
+                       args.metadata_dir, metadata_locales,
+                       changes_not_sent_for_review=args.changes_not_sent_for_review,
+                       sync_screenshots=args.sync_phone_screenshots)
     print(f"Published {PACKAGE} versionCode {code} to {args.track} ({args.status}).")
     print("Google Play review and managed publishing settings still apply.")
 

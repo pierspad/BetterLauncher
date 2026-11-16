@@ -190,6 +190,55 @@ class PublishTest(unittest.TestCase):
         self.assertTrue(writes[0].args[1].endswith('/listings/it-IT'))
         self.assertEqual(writes[0].kwargs['json']['language'], 'it-IT')
 
+    def screenshots(self):
+        root = self.metadata()
+        folder = root / "en-US" / "images" / "phoneScreenshots"
+        folder.mkdir(parents=True)
+        for name, content in (("02.jpg", b"\xff\xd8second"), ("01.jpg", b"\xff\xd8first")):
+            (folder / name).write_bytes(content)
+        return root
+
+    def test_unchanged_screenshots_leave_the_edit_uncommitted(self):
+        root = self.screenshots()
+        existing = [{"sha256": hashlib.sha256(b"\xff\xd8" + name).hexdigest()}
+                    for name in (b"first", b"second")]
+        self.respond({"id": "edit"}, {"tracks": [{"track": "beta", "releases": [
+            {"versionCodes": ["134"], "status": "draft"}]}]},
+            {"bundles": [{"versionCode": 134, "sha256": self.digest}]},
+            {"listings": [{"language": "en-US", "title": "Title",
+                           "shortDescription": "Short", "fullDescription": "Full"}]},
+            {"images": existing}, {})
+        publish(self.session, self.bundle, "beta", "draft", "v1.5.0", root, ["en-US"],
+                sync_screenshots=True)
+        calls = self.session.request.call_args_list
+        self.assertFalse(any(call.args[1].endswith(":commit") for call in calls))
+        self.assertEqual(calls[-1].args[0], "DELETE")
+
+    def test_replaces_only_english_phone_images_in_filename_order(self):
+        root = self.screenshots()
+        self.respond({"id": "edit"}, {"tracks": [{"track": "production", "releases": [
+            {"versionCodes": ["134"], "status": "completed"}]}]},
+            {"bundles": [{"versionCode": 134, "sha256": self.digest}]},
+            {"listings": [{"language": "en-US", "title": "Title",
+                           "shortDescription": "Short", "fullDescription": "Full"}]},
+            {"images": [{"sha256": "old"}]}, {}, {}, {}, {})
+        publish(self.session, self.bundle, "production", "completed", "v1.5.0", root, ["en-US"],
+                sync_screenshots=True)
+        calls = self.session.request.call_args_list
+        self.assertEqual(calls[5].args[0], "DELETE")
+        self.assertTrue(calls[5].args[1].endswith("/listings/en-US/phoneScreenshots"))
+        self.assertEqual([call.kwargs["data"] for call in calls[6:8]],
+                         [b"\xff\xd8first", b"\xff\xd8second"])
+        self.assertTrue(all("/upload/" in call.args[1] for call in calls[6:8]))
+        self.assertTrue(calls[-1].args[1].endswith(":commit"))
+
+    def test_missing_screenshots_fail_before_opening_play_edit(self):
+        root = self.metadata()
+        with self.assertRaisesRegex(ValueError, "JPEG phone screenshots"):
+            publish(self.session, self.bundle, "production", "completed", "v1.5.0", root,
+                    ["en-US"], sync_screenshots=True)
+        self.session.request.assert_not_called()
+
     def test_listing_failure_discards_edit(self):
         root = self.metadata()
         self.respond({'id': 'edit'}, {'tracks': [{'track': 'beta'}]},

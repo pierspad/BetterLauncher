@@ -1,1 +1,1 @@
-Android home with widgets, folders, app search and optional app limits.
+A text-based home screen with shortcuts, widgets and optional app limits.
