@@ -109,7 +109,12 @@ internal fun showClockAppearanceEditor(
     options(R.string.clock_visibility,
         listOf(DateTime.ON to R.string.clock_date_and_time, DateTime.TIME_ONLY to R.string.time_only,
             DateTime.DATE_ONLY to R.string.date_only, DateTime.OFF to R.string.clock_hidden),
-        2, icons = mapOf(DateTime.TIME_ONLY to R.drawable.ic_sc_clock, DateTime.DATE_ONLY to R.drawable.ic_sc_calendar),
+        2, icons = mapOf(
+            DateTime.ON to R.drawable.ic_clock_and_date,
+            DateTime.TIME_ONLY to R.drawable.ic_sc_clock,
+            DateTime.DATE_ONLY to R.drawable.ic_sc_calendar,
+            DateTime.OFF to R.drawable.ic_hide,
+        ),
         selected = { it.mode }) { value, mode -> value.copy(mode = mode) }
     options(R.string.clock_arrangement,
         listOf(0 to R.string.clock_above_date, 1 to R.string.date_above_clock,
