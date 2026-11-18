@@ -27,7 +27,6 @@ import androidx.core.view.WindowInsetsCompat
 import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.FrameLayout
-import android.widget.GridView
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.SeekBar
@@ -52,6 +51,7 @@ import app.olauncher.R
 import app.olauncher.data.AppModel
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
+import app.olauncher.databinding.DialogShortcutIconBinding
 import app.olauncher.databinding.FragmentHomeBinding
 import app.olauncher.helper.appUsagePermissionGranted
 import app.olauncher.helper.dpToPx
@@ -1483,14 +1483,9 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     private fun showIconPickerDialog(slot: Int) {
         val ctx = requireContext()
         val itemSize = 48.dpToPx()
-        val pad = 16.dpToPx()
-        val gridView = GridView(ctx).apply {
-            numColumns = 5
-            setPadding(pad, pad, pad, pad)
-            verticalSpacing = 8.dpToPx()
-            horizontalSpacing = 8.dpToPx()
-            isVerticalScrollBarEnabled = false
-        }
+        val picker = DialogShortcutIconBinding.inflate(layoutInflater)
+        val gridView = picker.iconGrid
+        val selected = prefs.getShortcutIconIndex(slot)
         gridView.adapter = object : BaseAdapter() {
             override fun getCount(): Int = Constants.SHORTCUT_ICONS.size
             override fun getItem(position: Int): Any = Constants.SHORTCUT_ICONS[position]
@@ -1503,20 +1498,22 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                     scaleType = ImageView.ScaleType.FIT_CENTER
                 }
                 imageView.setImageResource(Constants.SHORTCUT_ICONS[position])
+                imageView.setColorFilter(ctx.getColorFromAttr(R.attr.primaryColor))
+                imageView.isSelected = position == selected
+                imageView.setBackgroundResource(if (position == selected) R.drawable.rounded_settings_search else 0)
                 return imageView
             }
         }
-        val dialog = AlertDialog.Builder(ctx)
-            .setTitle(R.string.choose_icon)
-            .setView(gridView)
-            .setNegativeButton(R.string.close, null)
-            .create()
+        val dialog = AlertDialog.Builder(ctx).setView(picker.root).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        picker.iconPickerClose.setOnClickListener { dialog.dismiss() }
         gridView.setOnItemClickListener { _, _, position, _ ->
             prefs.setShortcutIconIndex(slot, position)
             populateShortcutIcons()
             dialog.dismiss()
         }
         dialog.show()
+        gridView.smoothScrollToPosition(selected)
     }
 
     private fun finalizePendingWidget() {

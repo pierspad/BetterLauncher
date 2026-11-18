@@ -232,7 +232,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.gestureStatus.isVisible = binding.xiaomiGestures.isVisible
         binding.xiaomiGestures.isChecked = prefs.xiaomiGestures
         binding.gestureStatus.setOnClickListener {
-            showMessageDialog(R.string.xiaomi_gestures, R.string.xiaomi_gestures_message, R.string.close)
+            showMessageDialog(R.string.xiaomi_gesture_help, R.string.xiaomi_gestures_message, R.string.close)
         }
         binding.xiaomiGestures.setOnClickListener {
             if (binding.xiaomiGestures.isChecked) {
@@ -671,6 +671,19 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         findNavController().navigate(
             R.id.action_settingsFragment_to_appListFragment,
             bundleOf(Constants.Key.FLAG to Constants.FLAG_HIDDEN_APPS)
+        if (messageRes == R.string.xiaomi_gestures_message) {
+            val closeButton = dialogBinding.dialogPositiveButton
+            closeButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_close, 0, 0, 0)
+            androidx.core.widget.TextViewCompat.setCompoundDrawableTintList(
+                closeButton,
+                android.content.res.ColorStateList.valueOf(android.graphics.Color.WHITE)
+            )
+            closeButton.compoundDrawablePadding = 8.dpToPx()
+            closeButton.layoutParams = (closeButton.layoutParams as LinearLayout.LayoutParams).apply {
+                width = ViewGroup.LayoutParams.WRAP_CONTENT
+                gravity = Gravity.CENTER_HORIZONTAL
+            }
+        }
         )
     }
 

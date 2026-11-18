@@ -50,7 +50,7 @@
                     android:contentDescription="@string/close"
                     app:srcCompat="@drawable/ic_close" />
             </LinearLayout>
-            <androidx.appcompat.widget.AppCompatEditText
+            <app.olauncher.ui.SettingsSearchField
                 android:id="@+id/settingsSearch"
                 style="@style/TextSmall"
                 android:layout_width="match_parent"

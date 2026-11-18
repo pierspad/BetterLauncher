@@ -37,6 +37,11 @@ object AccessibilityConsent {
     }
 
     private fun openSystemSettings(context: Context) {
+        // Xiaomi's direct details page displays the class name instead of the service label.
+        if (DeviceSettings.isXiaomi()) {
+            context.startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+            return
+        }
         val component = android.content.ComponentName(context, MyAccessibilityService::class.java)
         val details = Intent("android.settings.ACCESSIBILITY_DETAILS_SETTINGS")
             .putExtra("android.intent.extra.COMPONENT_NAME", component.flattenToString())
