@@ -111,7 +111,7 @@ fun runSettingsSearchRegression(context: Context) {
 private fun checkLocalizedContrastSearch(context: Context) {
     val localeTags = listOf(
         "en", "ar", "ca", "de", "es-ES", "es-US", "fr", "he", "hr", "hu", "id",
-        "it", "ja", "nl", "pl", "pt-BR", "ru-RU", "sv", "tr", "uk", "zh",
+        "it", "ja", "nl", "pl", "pt-BR", "ru-RU", "sv", "tr", "uk", "zh", "bn", "hi", "ko",
     )
     for (tag in localeTags) {
         for (orientation in listOf(Configuration.ORIENTATION_PORTRAIT, Configuration.ORIENTATION_LANDSCAPE)) {
@@ -120,7 +120,11 @@ private fun checkLocalizedContrastSearch(context: Context) {
                 this.orientation = orientation
             }
             val themed = ContextThemeWrapper(context.createConfigurationContext(config), R.style.AppTheme)
-            val root = LayoutInflater.from(themed).inflate(R.layout.fragment_settings, null)
+            val root = try {
+                LayoutInflater.from(themed).inflate(R.layout.fragment_settings, null)
+            } catch (failure: android.view.InflateException) {
+                throw IllegalStateException("Settings inflation failed for $tag, orientation=$orientation", failure)
+            }
             val toggle = root.findViewById<TextView>(R.id.switchHomeContrastProtection)
             val localizedLabel = themed.getString(R.string.home_contrast_protection)
             check(toggle.text.toString() == localizedLabel) { "$tag/$orientation: wrong contrast switch label" }

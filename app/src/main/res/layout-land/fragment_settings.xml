@@ -295,7 +295,7 @@
                     android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:minHeight="48dp" android:visibility="gone"
                     android:tag="settings:battery_setup_confirm" android:text="@string/battery_setup_confirm"
-                    app:buttonTint="@color/switch_thumb" />
+                    android:button="@drawable/settings_confirmation_checkbox" />
 
                 <View android:layout_width="match_parent" android:layout_height="1px"
                     android:background="@drawable/divider_light" />
@@ -309,7 +309,7 @@
                     android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:minHeight="48dp" android:visibility="gone"
                     android:tag="settings:autostart_setup_confirm" android:text="@string/autostart_setup_confirm"
-                    app:buttonTint="@color/switch_thumb" />
+                    android:button="@drawable/settings_confirmation_checkbox" />
 
                 <View android:layout_width="match_parent" android:layout_height="1px"
                     android:background="@drawable/divider_light" />

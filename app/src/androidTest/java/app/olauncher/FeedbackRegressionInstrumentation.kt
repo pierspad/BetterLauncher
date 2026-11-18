@@ -48,7 +48,7 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
             test("runtime optimization regressions") {
                 val failures = mutableListOf<String>()
                 fun checkCase(name: String, block: () -> Unit) {
-                    runCatching(block).onFailure { failures += "$name: ${it.message}" }
+                    runCatching(block).onFailure { failures += "$name:\n${it.stackTraceToString()}" }
                 }
                 checkCase("precise default migration") { runSearchDefaultMigrationRegression(isolated) }
                 checkCase("gesture recognition and game safety") { runGestureRecognitionRegression() }
