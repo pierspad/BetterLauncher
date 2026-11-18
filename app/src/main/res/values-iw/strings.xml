@@ -370,6 +370,8 @@
     <string name="wallpaper_once_daily">פעם ביום</string>
     <string name="wallpaper_evening_folder">תיקיית ערב</string>
     <string name="wallpaper_use_main_folder">השתמש בתיקייה הראשית</string>
+    <string name="settings_json_placeholder">הגדרות JSON יופיעו כאן</string>
+    <string name="font_preview_sample">השועל החום המהיר קופץ מעל הכלב העצלן.</string>
     <string name="wallpaper_morning_evening">פעמיים ביום</string>
     <string name="wallpaper_morning_start">תחילת הבוקר</string>
     <string name="wallpaper_evening_start">תחילת הערב</string>

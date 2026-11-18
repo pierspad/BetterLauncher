@@ -27,7 +27,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_close"
-            android:contentDescription="Close"
+            android:contentDescription="@string/close"
             app:tint="?attr/primaryColor"
             android:clickable="true"
             android:focusable="true"/>
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="12dp"
-            android:text="The quick brown fox jumps over the lazy dog."
+            android:text="@string/font_preview_sample"
             android:textSize="18sp"
             android:textColor="?attr/primaryColor"
             android:textColorHint="#808080"

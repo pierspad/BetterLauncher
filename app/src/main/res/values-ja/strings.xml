@@ -377,6 +377,8 @@
     <string name="wallpaper_once_daily">1日1回</string>
     <string name="wallpaper_evening_folder">イブニングフォルダー</string>
     <string name="wallpaper_use_main_folder">メインフォルダーを使用する</string>
+    <string name="settings_json_placeholder">設定 JSON がここに表示されます</string>
+    <string name="font_preview_sample">素早い茶色のキツネが怠惰な犬を飛び越えます。</string>
     <string name="wallpaper_morning_evening">1日2回</string>
     <string name="wallpaper_morning_start">朝の開始時刻</string>
     <string name="wallpaper_evening_start">夜の開始時刻</string>

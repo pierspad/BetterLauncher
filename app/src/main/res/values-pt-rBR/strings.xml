@@ -377,6 +377,8 @@ Para remover, deve ser ≤ 2</string>
     <string name="wallpaper_once_daily">Uma vez por dia</string>
     <string name="wallpaper_evening_folder">Pasta noturna</string>
     <string name="wallpaper_use_main_folder">Use a pasta principal</string>
+    <string name="settings_json_placeholder">As configurações JSON aparecerão aqui</string>
+    <string name="font_preview_sample">A rápida raposa marrom salta sobre o cachorro preguiçoso.</string>
     <string name="wallpaper_morning_evening">Duas vezes por dia</string>
     <string name="wallpaper_morning_start">Início da manhã</string>
     <string name="wallpaper_evening_start">Início da noite</string>

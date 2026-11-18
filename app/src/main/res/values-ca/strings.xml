@@ -403,6 +403,8 @@ No es permet amagar dreceres fixades</string>
     <string name="wallpaper_once_daily">Un cop al dia</string>
     <string name="wallpaper_evening_folder">Carpeta de nit</string>
     <string name="wallpaper_use_main_folder">Utilitzeu la carpeta principal</string>
+    <string name="settings_json_placeholder">la configuració JSON apareixerà aquí</string>
+    <string name="font_preview_sample">La guineu marró ràpida salta per sobre del gos mandrós.</string>
     <string name="wallpaper_morning_evening">Dues vegades al dia</string>
     <string name="wallpaper_morning_start">Inici del matí</string>
     <string name="wallpaper_evening_start">Inici del vespre</string>

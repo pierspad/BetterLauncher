@@ -376,6 +376,8 @@
     <string name="wallpaper_once_daily">مرة واحدة في اليوم</string>
     <string name="wallpaper_evening_folder">مجلد المساء</string>
     <string name="wallpaper_use_main_folder">استخدم المجلد الرئيسي</string>
+    <string name="settings_json_placeholder">ستظهر هنا إعدادات JSON</string>
+    <string name="font_preview_sample">الثعلب البني السريع يقفز فوق الكلب الكسول.</string>
     <string name="wallpaper_morning_evening">مرتين يوميًا</string>
     <string name="wallpaper_morning_start">بداية الصباح</string>
     <string name="wallpaper_evening_start">بداية المساء</string>

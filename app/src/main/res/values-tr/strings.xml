@@ -378,6 +378,8 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="wallpaper_once_daily">Günde bir kez</string>
     <string name="wallpaper_evening_folder">Akşam klasörü</string>
     <string name="wallpaper_use_main_folder">Ana klasörü kullan</string>
+    <string name="settings_json_placeholder">JSON ayarları burada görünecek</string>
+    <string name="font_preview_sample">Hızlı kahverengi tilki tembel köpeğin üzerinden atlıyor.</string>
     <string name="wallpaper_morning_evening">Günde iki kez</string>
     <string name="wallpaper_morning_start">Sabah başlangıcı</string>
     <string name="wallpaper_evening_start">Akşam başlangıcı</string>

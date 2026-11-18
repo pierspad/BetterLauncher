@@ -377,6 +377,8 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="wallpaper_once_daily">Jednom dnevno</string>
     <string name="wallpaper_evening_folder">Večernji folder</string>
     <string name="wallpaper_use_main_folder">Koristite glavnu mapu</string>
+    <string name="settings_json_placeholder">Ovdje će se pojaviti postavke JSON</string>
+    <string name="font_preview_sample">Brza smeđa lisica preskače lijenog psa.</string>
     <string name="wallpaper_morning_evening">Dvaput dnevno</string>
     <string name="wallpaper_morning_start">Početak jutra</string>
     <string name="wallpaper_evening_start">Početak večeri</string>

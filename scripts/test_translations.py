@@ -12,6 +12,9 @@ ROOT = Path(__file__).resolve().parent.parent
 RES_DIR = ROOT / "app" / "src" / "main" / "res"
 FASTLANE_DIR = ROOT / "fastlane" / "metadata" / "android"
 BUILD_GRADLE = ROOT / "app" / "build.gradle"
+LOCALE_CONFIG = RES_DIR / "xml" / "locales_config.xml"
+LANGUAGE_PICKER = ROOT / "app/src/main/java/app/olauncher/ui/LanguagePickerFragment.kt"
+ANDROID = "{http://schemas.android.com/apk/res/android}"
 
 FORMAT_SPECIFIER_RE = re.compile(r"%(?:\d+\$)?[-+# 0,(]*\d*(?:\.\d+)?[bBhHsScCdoxXeEfgGaAtT%]")
 UNESCAPED_APOSTROPHE_RE = re.compile(r"(?<!\\)'")
@@ -77,6 +80,26 @@ class TranslationsAndMetadataTest(unittest.TestCase):
         configured = {item.strip().strip('"\'') for item in match.group(1).split(",") if item.strip()}
         actual_locales = {"en"} | {p.parent.name.removeprefix("values-") for p in self.localized_files}
         self.assertEqual(configured, actual_locales)
+
+    def test_every_selectable_language_has_packaged_strings(self):
+        configured = {node.get(ANDROID + "name") for node in ET.parse(LOCALE_CONFIG).iter("locale")}
+        advertised = set(re.findall(r'LanguageOption\("([^"]+)"', LANGUAGE_PICKER.read_text(encoding="utf-8")))
+        packaged = {"en"} | {
+            path.parent.name.removeprefix("values-").replace("-r", "-") for path in self.localized_files
+        }
+        self.assertEqual(configured, advertised, "Android and in-app language pickers must agree")
+        self.assertFalse(advertised - packaged, f"Selectable languages without translations: {sorted(advertised - packaged)}")
+
+    def test_layouts_use_resources_for_user_visible_text(self):
+        attributes = ("text", "hint", "contentDescription", "textOff", "textOn")
+        literals = []
+        for path in sorted(RES_DIR.glob("layout*/*.xml")):
+            for node in ET.parse(path).iter():
+                for attribute in attributes:
+                    value = node.get(ANDROID + attribute, "").strip()
+                    if value and not value.startswith(("@", "?")) and any(char.isalpha() for char in value):
+                        literals.append(f"{path.relative_to(RES_DIR)} {attribute}={value!r}")
+        self.assertEqual(literals, [], "User-facing XML strings must use resources")
 
     def test_all_locales_have_complete_and_clean_translations(self):
         for path in self.localized_files:

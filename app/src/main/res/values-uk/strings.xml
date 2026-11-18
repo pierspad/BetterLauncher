@@ -378,6 +378,8 @@
     <string name="wallpaper_once_daily">Раз на день</string>
     <string name="wallpaper_evening_folder">Вечірня папка</string>
     <string name="wallpaper_use_main_folder">Використовуйте головну папку</string>
+    <string name="settings_json_placeholder">Тут з’являться налаштування JSON</string>
+    <string name="font_preview_sample">Швидка бура лисиця перестрибує ледачого пса.</string>
     <string name="wallpaper_morning_evening">Двічі на день</string>
     <string name="wallpaper_morning_start">Початок ранку</string>
     <string name="wallpaper_evening_start">Початок вечора</string>

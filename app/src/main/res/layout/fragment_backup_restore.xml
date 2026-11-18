@@ -27,7 +27,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_close"
-            android:contentDescription="Close"
+            android:contentDescription="@string/close"
             app:tint="?attr/primaryColor"
             android:clickable="true"
             android:focusable="true"/>
@@ -71,7 +71,7 @@
             android:textSize="14sp"
             android:fontFamily="monospace"
             android:inputType="textMultiLine|textNoSuggestions"
-            android:hint="Settings JSON will appear here..." />
+            android:hint="@string/settings_json_placeholder" />
     </androidx.core.widget.NestedScrollView>
 
     <!-- Buttons Panel (No background container; individual bubbles will stand out) -->

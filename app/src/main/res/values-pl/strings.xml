@@ -376,6 +376,8 @@ Aby go usunąć, musi wynosić ≤ 2</string>
     <string name="wallpaper_once_daily">Raz dziennie</string>
     <string name="wallpaper_evening_folder">Folder wieczorny</string>
     <string name="wallpaper_use_main_folder">Użyj głównego folderu</string>
+    <string name="settings_json_placeholder">Tutaj pojawią się ustawienia JSON</string>
+    <string name="font_preview_sample">Szybki brązowy lis przeskakuje leniwego psa.</string>
     <string name="wallpaper_morning_evening">Dwa razy dziennie</string>
     <string name="wallpaper_morning_start">Początek poranka</string>
     <string name="wallpaper_evening_start">Początek wieczoru</string>

@@ -376,6 +376,8 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="wallpaper_once_daily">En gång om dagen</string>
     <string name="wallpaper_evening_folder">Kvällsmapp</string>
     <string name="wallpaper_use_main_folder">Använd huvudmappen</string>
+    <string name="settings_json_placeholder">Inställningar JSON visas här</string>
+    <string name="font_preview_sample">Den kvicka bruna räven hoppar över den lata hunden.</string>
     <string name="wallpaper_morning_evening">Två gånger om dagen</string>
     <string name="wallpaper_morning_start">Morgonen börjar</string>
     <string name="wallpaper_evening_start">Kvällen börjar</string>

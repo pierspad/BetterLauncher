@@ -380,6 +380,8 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="wallpaper_once_daily">Naponta egyszer</string>
     <string name="wallpaper_evening_folder">Esti mappa</string>
     <string name="wallpaper_use_main_folder">Használja a fő mappát</string>
+    <string name="settings_json_placeholder">Itt jelenik meg a JSON beállítások</string>
+    <string name="font_preview_sample">A gyors barna róka átugrik a lusta kutyán.</string>
     <string name="wallpaper_morning_evening">Naponta kétszer</string>
     <string name="wallpaper_morning_start">Reggeli időszak kezdete</string>
     <string name="wallpaper_evening_start">Esti időszak kezdete</string>

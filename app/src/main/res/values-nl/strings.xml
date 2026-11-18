@@ -377,6 +377,8 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="wallpaper_once_daily">Eén keer per dag</string>
     <string name="wallpaper_evening_folder">Avondmap</string>
     <string name="wallpaper_use_main_folder">Gebruik de hoofdmap</string>
+    <string name="settings_json_placeholder">Instellingen JSON verschijnen hier</string>
+    <string name="font_preview_sample">De snelle bruine vos springt over de luie hond heen.</string>
     <string name="wallpaper_morning_evening">Twee keer per dag</string>
     <string name="wallpaper_morning_start">Begin van de ochtend</string>
     <string name="wallpaper_evening_start">Begin van de avond</string>
