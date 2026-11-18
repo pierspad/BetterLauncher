@@ -388,7 +388,7 @@
     <string name="wallpaper_distinct_times">Виберіть різний час для кожного періоду.</string>
     <string name="app_limit_level_short">Рівень %1$d</string>
     <string name="wallpaper_image_layout">Підгонка зображення</string>
-    <string name="wallpaper_fill_image">Заповнити екран</string>
-    <string name="wallpaper_fit_image">Показати все зображення</string>
+    <string name="wallpaper_fill_image">Обрізати до розміру екрана</string>
+    <string name="wallpaper_fit_image">Ціле фото зі смугами</string>
     <string name="edit_group_apps">Редагувати застосунки групи</string>
 </resources><!-- Ukrainian -->

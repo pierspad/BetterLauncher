@@ -390,7 +390,7 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="wallpaper_distinct_times">Minden időszakhoz más időpontot válassz.</string>
     <string name="app_limit_level_short">%1$d. szint</string>
     <string name="wallpaper_image_layout">Kép illesztése</string>
-    <string name="wallpaper_fill_image">Képernyő kitöltése</string>
-    <string name="wallpaper_fit_image">Teljes kép megjelenítése</string>
+    <string name="wallpaper_fill_image">Kitöltés kivágással</string>
+    <string name="wallpaper_fit_image">Teljes kép sávokkal</string>
     <string name="edit_group_apps">Csoport alkalmazásainak szerkesztése</string>
 </resources><!-- Hungarian -->

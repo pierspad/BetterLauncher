@@ -413,7 +413,7 @@ No es permet amagar dreceres fixades</string>
     <string name="wallpaper_distinct_times">Tria una hora diferent per a cada fase.</string>
     <string name="app_limit_level_short">Nivell %1$d</string>
     <string name="wallpaper_image_layout">Ajust de la imatge</string>
-    <string name="wallpaper_fill_image">Omple la pantalla</string>
-    <string name="wallpaper_fit_image">Mostra la imatge sencera</string>
+    <string name="wallpaper_fill_image">Retalla per omplir</string>
+    <string name="wallpaper_fit_image">Imatge sencera amb bandes</string>
     <string name="edit_group_apps">Edita les apps del grup</string>
 </resources>

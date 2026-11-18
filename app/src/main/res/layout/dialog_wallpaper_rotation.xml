@@ -1,132 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/rounded_dialog_surface">
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_dialog_surface"
+    android:orientation="vertical"
+    android:padding="20dp">
 
-    <LinearLayout
+    <TextView
+        style="@style/TextSectionTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="22dp">
+        android:shadowRadius="0"
+        android:text="@string/daily_wallpaper_update" />
 
-        <TextView
-            style="@style/TextSectionTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:shadowRadius="0"
-            android:text="@string/daily_wallpaper_update" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="6dp"
+        android:layout_weight="1">
 
-        <TextView
-            style="@style/TextSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:shadowRadius="0"
-            android:text="@string/wallpaper_offline_description"
-            android:textColor="?attr/primaryColorTrans80" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/wallpaperEnabled"
-            style="@style/SettingsShortcut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:shadowRadius="0"
-            android:switchPadding="12dp"
-            android:text="@string/wallpaper_automatic"
-            app:thumbTint="@color/switch_thumb"
-            app:trackTint="@color/switch_track" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginVertical="8dp"
-            android:background="?attr/cardStrokeColor" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/wallpaperFolder"
-            style="@style/DialogSecondaryAction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawablePadding="12dp"
-            android:gravity="start|center_vertical"
-            app:drawableStartCompat="@drawable/ic_sc_folder"
-            app:drawableTint="?attr/primaryColor" />
-
-        <TextView
-            style="@style/TextSmallBold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:shadowRadius="0"
-            android:text="@string/wallpaper_frequency" />
-
-        <RadioGroup
-            android:id="@+id/wallpaperFrequency"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/wallpaperOnce"
-                style="@style/TextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:shadowRadius="0"
-                android:text="@string/wallpaper_once_daily"
-                app:buttonTint="@drawable/text_colors_default" />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/wallpaperTwice"
-                style="@style/TextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:shadowRadius="0"
-                android:text="@string/wallpaper_morning_evening"
-                app:buttonTint="@drawable/text_colors_default" />
-        </RadioGroup>
-
-        <LinearLayout
-            android:id="@+id/wallpaperEveningOptions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
 
             <TextView
                 style="@style/TextSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:shadowRadius="0"
-                android:textColor="?attr/primaryColorTrans80"
-                android:text="@string/wallpaper_schedule_description" />
+                android:text="@string/wallpaper_offline_description"
+                android:textColor="?attr/primaryColorTrans80" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/wallpaperMorningStart"
-                style="@style/DialogSecondaryAction"
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/wallpaperEnabled"
+                style="@style/SettingsShortcut"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="12dp"
-                android:gravity="start|center_vertical"
-                app:drawableStartCompat="@drawable/ic_sc_clock"
-                app:drawableTint="?attr/primaryColor" />
+                android:layout_marginTop="10dp"
+                android:shadowRadius="0"
+                android:switchPadding="12dp"
+                android:text="@string/wallpaper_automatic"
+                app:thumbTint="@color/switch_thumb"
+                app:trackTint="@color/switch_track" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/wallpaperEveningStart"
-                style="@style/DialogSecondaryAction"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="12dp"
-                android:gravity="start|center_vertical"
-                app:drawableStartCompat="@drawable/ic_sc_clock"
-                app:drawableTint="?attr/primaryColor" />
+                android:layout_height="1dp"
+                android:layout_marginVertical="8dp"
+                android:background="?attr/cardStrokeColor" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/wallpaperEveningFolder"
+                android:id="@+id/wallpaperFolder"
                 style="@style/DialogSecondaryAction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,57 +62,147 @@
                 app:drawableStartCompat="@drawable/ic_sc_folder"
                 app:drawableTint="?attr/primaryColor" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/wallpaperClearEvening"
-                style="@style/DialogSecondaryAction"
+            <TextView
+                style="@style/TextSmallBold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:text="@string/wallpaper_use_main_folder" />
+                android:layout_marginTop="12dp"
+                android:shadowRadius="0"
+                android:text="@string/wallpaper_frequency" />
+
+            <RadioGroup
+                android:id="@+id/wallpaperFrequency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/wallpaperOnce"
+                    style="@style/WallpaperOption"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="3dp"
+                    android:text="@string/wallpaper_once_daily"
+                    app:drawableTopCompat="@drawable/ic_sc_calendar"
+                    app:drawableTint="@color/wallpaper_option_text" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/wallpaperTwice"
+                    style="@style/WallpaperOption"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="3dp"
+                    android:text="@string/wallpaper_morning_evening"
+                    app:drawableTopCompat="@drawable/ic_sc_clock"
+                    app:drawableTint="@color/wallpaper_option_text" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/wallpaperEveningOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/TextSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:shadowRadius="0"
+                    android:textColor="?attr/primaryColorTrans80"
+                    android:text="@string/wallpaper_schedule_description" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/wallpaperMorningStart"
+                    style="@style/DialogSecondaryAction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="12dp"
+                    android:gravity="start|center_vertical"
+                    app:drawableStartCompat="@drawable/ic_sc_clock"
+                    app:drawableTint="?attr/primaryColor" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/wallpaperEveningStart"
+                    style="@style/DialogSecondaryAction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="12dp"
+                    android:gravity="start|center_vertical"
+                    app:drawableStartCompat="@drawable/ic_sc_clock"
+                    app:drawableTint="?attr/primaryColor" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/wallpaperEveningFolder"
+                    style="@style/DialogSecondaryAction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="12dp"
+                    android:gravity="start|center_vertical"
+                    app:drawableStartCompat="@drawable/ic_sc_folder"
+                    app:drawableTint="?attr/primaryColor" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/wallpaperClearEvening"
+                    style="@style/DialogSecondaryAction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/wallpaper_use_main_folder" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/TextSmallBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:shadowRadius="0"
+                android:text="@string/wallpaper_image_layout" />
+
+            <RadioGroup
+                android:id="@+id/wallpaperImageLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/wallpaperFill"
+                    style="@style/WallpaperOption"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="3dp"
+                    android:text="@string/wallpaper_fill_image"
+                    app:drawableTopCompat="@drawable/ic_wallpaper_crop"
+                    app:drawableTint="@color/wallpaper_option_text" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/wallpaperFit"
+                    style="@style/WallpaperOption"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="3dp"
+                    android:text="@string/wallpaper_fit_image"
+                    app:drawableTopCompat="@drawable/ic_wallpaper_fit"
+                    app:drawableTint="@color/wallpaper_option_text" />
+
+            </RadioGroup>
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-        <TextView
-            style="@style/TextSmallBold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:shadowRadius="0"
-            android:text="@string/wallpaper_image_layout" />
-
-        <RadioGroup
-            android:id="@+id/wallpaperImageLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/wallpaperFill"
-                style="@style/TextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:shadowRadius="0"
-                android:text="@string/wallpaper_fill_image"
-                app:buttonTint="@drawable/text_colors_default" />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/wallpaperFit"
-                style="@style/TextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:shadowRadius="0"
-                android:text="@string/wallpaper_fit_image"
-                app:buttonTint="@drawable/text_colors_default" />
-
-        </RadioGroup>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/wallpaperDone"
-            style="@style/DialogPrimaryAction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/done" />
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/wallpaperDone"
+        style="@style/DialogPrimaryAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/done" />
+</LinearLayout>

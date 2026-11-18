@@ -380,7 +380,7 @@
     <string name="wallpaper_distinct_times">בחרו שעה שונה לכל שלב.</string>
     <string name="app_limit_level_short">רמה %1$d</string>
     <string name="wallpaper_image_layout">התאמת התמונה</string>
-    <string name="wallpaper_fill_image">מילוי המסך</string>
-    <string name="wallpaper_fit_image">הצגת התמונה המלאה</string>
+    <string name="wallpaper_fill_image">חיתוך למילוי המסך</string>
+    <string name="wallpaper_fit_image">תמונה מלאה עם שוליים</string>
     <string name="edit_group_apps">עריכת אפליקציות בקבוצה</string>
 </resources>

@@ -374,7 +374,7 @@
     <string name="wallpaper_distinct_times">हर चरण के लिए अलग समय चुनें।</string>
     <string name="app_limit_level_short">स्तर %1$d</string>
     <string name="wallpaper_image_layout">चित्र का आकार</string>
-    <string name="wallpaper_fill_image">स्क्रीन भरें</string>
-    <string name="wallpaper_fit_image">पूरा चित्र दिखाएँ</string>
+    <string name="wallpaper_fill_image">स्क्रीन भरने के लिए काटें</string>
+    <string name="wallpaper_fit_image">पट्टियों के साथ पूरी फ़ोटो</string>
     <string name="edit_group_apps">समूह के ऐप बदलें</string>
 </resources>

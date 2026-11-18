@@ -387,7 +387,7 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="wallpaper_distinct_times">Odaberi različito vrijeme za svako razdoblje.</string>
     <string name="app_limit_level_short">Razina %1$d</string>
     <string name="wallpaper_image_layout">Prilagodba slike</string>
-    <string name="wallpaper_fill_image">Ispuni zaslon</string>
-    <string name="wallpaper_fit_image">Prikaži cijelu sliku</string>
+    <string name="wallpaper_fill_image">Obreži za puni zaslon</string>
+    <string name="wallpaper_fit_image">Cijela slika s trakama</string>
     <string name="edit_group_apps">Uredi aplikacije grupe</string>
 </resources><!-- Croatian -->

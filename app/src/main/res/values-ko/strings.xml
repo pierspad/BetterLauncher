@@ -372,7 +372,7 @@
     <string name="wallpaper_distinct_times">아침과 저녁의 시작 시간을 다르게 설정하세요.</string>
     <string name="app_limit_level_short">레벨 %1$d</string>
     <string name="wallpaper_image_layout">이미지 맞춤</string>
-    <string name="wallpaper_fill_image">화면 채우기</string>
-    <string name="wallpaper_fit_image">이미지 전체 보기</string>
+    <string name="wallpaper_fill_image">잘라서 화면 채우기</string>
+    <string name="wallpaper_fit_image">여백과 함께 전체 사진 표시</string>
     <string name="edit_group_apps">그룹 앱 편집</string>
 </resources>

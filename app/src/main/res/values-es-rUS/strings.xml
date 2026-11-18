@@ -386,7 +386,7 @@ Para eliminarlo debe ser ≤ 2</string>
     <string name="wallpaper_distinct_times">Elige una hora distinta para cada fase.</string>
     <string name="app_limit_level_short">Nivel %1$d</string>
     <string name="wallpaper_image_layout">Ajuste de la imagen</string>
-    <string name="wallpaper_fill_image">Llenar la pantalla</string>
-    <string name="wallpaper_fit_image">Mostrar la imagen completa</string>
+    <string name="wallpaper_fill_image">Recortar para llenar</string>
+    <string name="wallpaper_fit_image">Foto completa con bandas</string>
     <string name="edit_group_apps">Editar apps del grupo</string>
 </resources><!-- Spanish -->

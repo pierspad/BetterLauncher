@@ -386,7 +386,7 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="wallpaper_distinct_times">Välj olika tider för de två perioderna.</string>
     <string name="app_limit_level_short">Nivå %1$d</string>
     <string name="wallpaper_image_layout">Bildanpassning</string>
-    <string name="wallpaper_fill_image">Fyll skärmen</string>
-    <string name="wallpaper_fit_image">Visa hela bilden</string>
+    <string name="wallpaper_fill_image">Beskär för att fylla</string>
+    <string name="wallpaper_fit_image">Hela bilden med kanter</string>
     <string name="edit_group_apps">Redigera gruppens appar</string>
 </resources><!-- Swedish -->

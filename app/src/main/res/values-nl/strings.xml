@@ -387,7 +387,7 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="wallpaper_distinct_times">Kies voor elke fase een andere tijd.</string>
     <string name="app_limit_level_short">Niveau %1$d</string>
     <string name="wallpaper_image_layout">Afbeelding passend maken</string>
-    <string name="wallpaper_fill_image">Scherm vullen</string>
-    <string name="wallpaper_fit_image">Hele afbeelding tonen</string>
+    <string name="wallpaper_fill_image">Bijsnijden om te vullen</string>
+    <string name="wallpaper_fit_image">Hele foto met balken</string>
     <string name="edit_group_apps">Groepsapps bewerken</string>
 </resources><!-- Dutch -->

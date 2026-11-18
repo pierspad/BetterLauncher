@@ -388,7 +388,7 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="wallpaper_distinct_times">Her dönem için farklı bir saat seçin.</string>
     <string name="app_limit_level_short">Seviye %1$d</string>
     <string name="wallpaper_image_layout">Görseli sığdırma</string>
-    <string name="wallpaper_fill_image">Ekranı doldur</string>
-    <string name="wallpaper_fit_image">Görselin tamamını göster</string>
+    <string name="wallpaper_fill_image">Doldurmak için kırp</string>
+    <string name="wallpaper_fit_image">Kenarlıklı tam fotoğraf</string>
     <string name="edit_group_apps">Grup uygulamalarını düzenle</string>
 </resources><!-- Turkish -->

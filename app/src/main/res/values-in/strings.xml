@@ -386,7 +386,7 @@ Untuk menghapus harus ≤ 2</string>
     <string name="wallpaper_distinct_times">Pilih waktu yang berbeda untuk tiap fase.</string>
     <string name="app_limit_level_short">Tingkat %1$d</string>
     <string name="wallpaper_image_layout">Penyesuaian gambar</string>
-    <string name="wallpaper_fill_image">Penuhi layar</string>
-    <string name="wallpaper_fit_image">Tampilkan gambar utuh</string>
+    <string name="wallpaper_fill_image">Pangkas untuk memenuhi layar</string>
+    <string name="wallpaper_fit_image">Gambar utuh dengan bilah</string>
     <string name="edit_group_apps">Edit aplikasi grup</string>
 </resources><!-- Indonesian -->

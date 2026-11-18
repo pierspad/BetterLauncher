@@ -389,7 +389,7 @@
     <string name="wallpaper_distinct_times">请为两个时段选择不同的开始时间。</string>
     <string name="app_limit_level_short">等级 %1$d</string>
     <string name="wallpaper_image_layout">图片适配</string>
-    <string name="wallpaper_fill_image">填满屏幕</string>
-    <string name="wallpaper_fit_image">显示完整图片</string>
+    <string name="wallpaper_fill_image">裁剪以填满屏幕</string>
+    <string name="wallpaper_fit_image">完整照片，带黑边</string>
     <string name="edit_group_apps">编辑分组应用</string>
 </resources><!-- Chinese -->

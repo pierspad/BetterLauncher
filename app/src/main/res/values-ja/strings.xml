@@ -387,7 +387,7 @@
     <string name="wallpaper_distinct_times">朝と夜には異なる開始時刻を指定してください。</string>
     <string name="app_limit_level_short">レベル %1$d</string>
     <string name="wallpaper_image_layout">画像の表示方法</string>
-    <string name="wallpaper_fill_image">画面いっぱいに表示</string>
-    <string name="wallpaper_fit_image">画像全体を表示</string>
+    <string name="wallpaper_fill_image">切り抜いて画面いっぱいに</string>
+    <string name="wallpaper_fit_image">余白付きで写真全体を表示</string>
     <string name="edit_group_apps">グループ内のアプリを編集</string>
 </resources> <!-- Japanese -->

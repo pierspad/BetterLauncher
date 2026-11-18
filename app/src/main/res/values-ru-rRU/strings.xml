@@ -389,7 +389,7 @@
     <string name="wallpaper_distinct_times">Выберите разное время для каждого периода.</string>
     <string name="app_limit_level_short">Уровень %1$d</string>
     <string name="wallpaper_image_layout">Подгонка изображения</string>
-    <string name="wallpaper_fill_image">Заполнить экран</string>
-    <string name="wallpaper_fit_image">Показать изображение целиком</string>
+    <string name="wallpaper_fill_image">Обрезать до размера экрана</string>
+    <string name="wallpaper_fit_image">Фото целиком с полями</string>
     <string name="edit_group_apps">Изменить приложения группы</string>
 </resources><!-- Russian -->

@@ -2,6 +2,7 @@ package app.olauncher.ui
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.app.TimePickerDialog
 import android.app.WallpaperManager
 import android.app.admin.DevicePolicyManager
@@ -11,6 +12,8 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Color
+import android.graphics.drawable.InsetDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Process
@@ -21,6 +24,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.view.WindowInsets
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -31,6 +35,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.appcompat.app.AlertDialog
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.net.toUri
 import androidx.core.os.LocaleListCompat
 import androidx.core.os.bundleOf
@@ -81,7 +86,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
 
 
-    private var wallpaperDialog: AlertDialog? = null
+    private var wallpaperDialog: Dialog? = null
     private var wallpaperPanel: DialogWallpaperRotationBinding? = null
     private var enableWallpaperAfterPicker = false
 
@@ -1108,8 +1113,10 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     private fun showWallpaperOptions() {
         val panel = DialogWallpaperRotationBinding.inflate(layoutInflater)
-        val dialog = AlertDialog.Builder(requireContext()).setView(panel.root).create()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(panel.root)
+        dialog.window?.setBackgroundDrawable(InsetDrawable(Color.TRANSPARENT.toDrawable(), 10.dpToPx()))
         wallpaperDialog = dialog
         wallpaperPanel = panel
         populateWallpaperSource()
@@ -1152,6 +1159,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             wallpaperPanel = null
         }
         dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
     }
 
     private fun wallpaperTimeLabel(label: Int, minutes: Int): String {
