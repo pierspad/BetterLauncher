@@ -1088,16 +1088,17 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             panel.wallpaperEnabled.isChecked = enabled
             panel.wallpaperImageLayout.check(if (prefs.wallpaperFitImage) R.id.wallpaperFit else R.id.wallpaperFill)
             panel.wallpaperFrequency.check(if (prefs.wallpaperTwiceDaily) R.id.wallpaperTwice else R.id.wallpaperOnce)
+            panel.wallpaperMorningStart.isVisible = prefs.wallpaperTwiceDaily
             panel.wallpaperEveningOptions.isVisible = prefs.wallpaperTwiceDaily
+            panel.wallpaperScheduleDescription.isVisible = prefs.wallpaperTwiceDaily
             panel.wallpaperMorningStart.text = wallpaperTimeLabel(R.string.wallpaper_morning_start, prefs.wallpaperMorningStart)
             panel.wallpaperEveningStart.text = wallpaperTimeLabel(R.string.wallpaper_evening_start, prefs.wallpaperEveningStart)
-            panel.wallpaperClearEvening.isVisible = prefs.wallpaperEveningFolder.isNotEmpty()
             panel.wallpaperFolder.text = wallpaperFolderLabel(
                 if (prefs.wallpaperTwiceDaily) R.string.wallpaper_morning_folder else R.string.wallpaper_main_folder,
                 prefs.dailyWallpaperFolder
             )
             panel.wallpaperEveningFolder.text = wallpaperFolderLabel(
-                R.string.wallpaper_evening_folder, prefs.wallpaperEveningFolder, R.string.wallpaper_use_main_folder
+                R.string.wallpaper_evening_folder, prefs.wallpaperEveningFolder, R.string.wallpaper_morning_folder
             )
         }
     }
@@ -1151,8 +1152,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             }
         }
         panel.wallpaperFolder.setOnClickListener { chooseWallpaperFolder(evening = false) }
-        panel.wallpaperEveningFolder.setOnClickListener { chooseWallpaperFolder(evening = true) }
-        panel.wallpaperClearEvening.setOnClickListener { setWallpaperFolder("", evening = true) }
+        panel.wallpaperEveningFolder.setOnClickListener { showEveningFolderOptions() }
         panel.wallpaperDone.setOnClickListener { dialog.dismiss() }
         dialog.setOnDismissListener {
             wallpaperDialog = null
@@ -1193,6 +1193,31 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             setTitle(if (evening) R.string.wallpaper_evening_start else R.string.wallpaper_morning_start)
             show()
         }
+    }
+
+    private fun showEveningFolderOptions() {
+        if (prefs.wallpaperEveningFolder.isEmpty()) {
+            chooseWallpaperFolder(evening = true)
+            return
+        }
+
+        val content = app.olauncher.databinding.DialogMessageBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext()).setView(content.root).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        content.dialogTitle.text = wallpaperFolderLabel(R.string.wallpaper_evening_folder, prefs.wallpaperEveningFolder)
+        content.dialogMessage.isVisible = false
+        content.dialogPositiveButton.setText(R.string.wallpaper_evening_folder)
+        content.dialogPositiveButton.setOnClickListener {
+            dialog.dismiss()
+            chooseWallpaperFolder(evening = true)
+        }
+        content.dialogNegativeButton.isVisible = true
+        content.dialogNegativeButton.setText(R.string.wallpaper_use_main_folder)
+        content.dialogNegativeButton.setOnClickListener {
+            dialog.dismiss()
+            setWallpaperFolder("", evening = true)
+        }
+        dialog.show()
     }
 
     private fun chooseWallpaperFolder(evening: Boolean) {

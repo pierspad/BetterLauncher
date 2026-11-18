@@ -363,7 +363,6 @@
     <string name="clock_with_minutes">דקות</string>
     <string name="clock_with_seconds">שניות</string>
     <string name="wallpaper_folder_access_failed">לא ניתן לפתוח את תיקיית הטפטים</string>
-    <string name="wallpaper_offline_description">סובב תמונות מתיקיה בטלפון זה. עובד במצב לא מקוון.</string>
     <string name="wallpaper_automatic">שינוי אוטומטי</string>
     <string name="wallpaper_main_folder">תיקיה ראשית</string>
     <string name="wallpaper_frequency">תדירות</string>

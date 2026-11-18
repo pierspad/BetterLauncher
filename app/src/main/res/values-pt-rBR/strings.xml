@@ -370,7 +370,6 @@ Para remover, deve ser ≤ 2</string>
     <string name="clock_with_minutes">Minutos</string>
     <string name="clock_with_seconds">Segundos</string>
     <string name="wallpaper_folder_access_failed">Não foi possível abrir a pasta de papéis de parede</string>
-    <string name="wallpaper_offline_description">gire fotos de uma pasta neste telefone. Funciona off-line.</string>
     <string name="wallpaper_automatic">Alterar automaticamente</string>
     <string name="wallpaper_main_folder">Pasta principal</string>
     <string name="wallpaper_frequency">Frequência</string>

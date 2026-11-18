@@ -371,7 +371,6 @@ Zum Entfernen muss er ≤ 2 sein</string>
     <string name="clock_with_minutes">Minuten</string>
     <string name="clock_with_seconds">Sekunden</string>
     <string name="wallpaper_folder_access_failed">Der Hintergrundbildordner konnte nicht geöffnet werden</string>
-    <string name="wallpaper_offline_description">Fotos aus einem Ordner auf diesem Telefon drehen. Funktioniert offline.</string>
     <string name="wallpaper_automatic">Automatisch ändern</string>
     <string name="wallpaper_main_folder">Hauptordner</string>
     <string name="wallpaper_frequency">Frequenz</string>

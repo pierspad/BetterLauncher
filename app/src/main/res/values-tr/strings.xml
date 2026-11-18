@@ -371,7 +371,6 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="clock_with_minutes">Dakika</string>
     <string name="clock_with_seconds">Saniye</string>
     <string name="wallpaper_folder_access_failed">Duvar kâğıdı klasörü açılamadı</string>
-    <string name="wallpaper_offline_description">Bu telefondaki bir klasördeki fotoğrafları döndürün. Çevrimdışı çalışır.</string>
     <string name="wallpaper_automatic">Otomatik olarak değiştir</string>
     <string name="wallpaper_main_folder">Ana klasör</string>
     <string name="wallpaper_frequency">Frekans</string>

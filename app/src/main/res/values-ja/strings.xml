@@ -370,7 +370,6 @@
     <string name="clock_with_minutes">分</string>
     <string name="clock_with_seconds">秒</string>
     <string name="wallpaper_folder_access_failed">壁紙フォルダを開けませんでした</string>
-    <string name="wallpaper_offline_description">この携​​帯電話のフォルダーから写真を回転します。オフラインでも動作します。</string>
     <string name="wallpaper_automatic">自動で変更</string>
     <string name="wallpaper_main_folder">メインフォルダー</string>
     <string name="wallpaper_frequency">周波数</string>

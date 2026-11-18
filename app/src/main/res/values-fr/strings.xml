@@ -371,7 +371,6 @@ Pour la supprimer, il doit être ≤ 2</string>
     <string name="clock_with_minutes">Minutes</string>
     <string name="clock_with_seconds">Secondes</string>
     <string name="wallpaper_folder_access_failed">Impossible d’ouvrir le dossier des fonds d’écran</string>
-    <string name="wallpaper_offline_description">faire pivoter les photos d’un dossier sur ce téléphone. Fonctionne hors ligne.</string>
     <string name="wallpaper_automatic">Changer automatiquement</string>
     <string name="wallpaper_main_folder">Dossier principal</string>
     <string name="wallpaper_frequency">Fréquence</string>

@@ -369,7 +369,6 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="clock_with_minutes">Minuter</string>
     <string name="clock_with_seconds">Sekunder</string>
     <string name="wallpaper_folder_access_failed">Det gick inte att öppna mappen med bakgrundsbilder</string>
-    <string name="wallpaper_offline_description">Rotera foton från en mapp på den här telefonen. Fungerar offline.</string>
     <string name="wallpaper_automatic">Ändra automatiskt</string>
     <string name="wallpaper_main_folder">Huvudmapp</string>
     <string name="wallpaper_frequency">Frekvens</string>

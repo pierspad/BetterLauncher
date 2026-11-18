@@ -369,7 +369,6 @@ Para eliminarlo debe ser ≤ 2</string>
     <string name="clock_with_minutes">Minutos</string>
     <string name="clock_with_seconds">Segundos</string>
     <string name="wallpaper_folder_access_failed">No se pudo abrir la carpeta de fondos de pantalla</string>
-    <string name="wallpaper_offline_description">rotar fotos de una carpeta en este teléfono. Funciona sin conexión.</string>
     <string name="wallpaper_automatic">cambiar automáticamente</string>
     <string name="wallpaper_main_folder">carpeta principal</string>
     <string name="wallpaper_frequency">Frecuencia</string>

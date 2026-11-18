@@ -355,7 +355,6 @@
     <string name="clock_with_minutes">মিনিট</string>
     <string name="clock_with_seconds">সেকেন্ড</string>
     <string name="wallpaper_folder_access_failed">ওয়ালপেপার ফোল্ডার খুলতে পারেনি</string>
-    <string name="wallpaper_offline_description">এই ফোনে একটি ফোল্ডার থেকে ফটো ঘোরান। অফলাইনে কাজ করে।</string>
     <string name="wallpaper_automatic">স্বয়ংক্রিয়ভাবে পরিবর্তন করুন</string>
     <string name="wallpaper_main_folder">প্রধান ফোল্ডার</string>
     <string name="wallpaper_frequency">ফ্রিকোয়েন্সি</string>

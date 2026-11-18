@@ -369,7 +369,6 @@
     <string name="clock_with_minutes">دقائق</string>
     <string name="clock_with_seconds">ثوانٍ</string>
     <string name="wallpaper_folder_access_failed">تعذّر فتح مجلد الخلفيات</string>
-    <string name="wallpaper_offline_description">تدوير الصور من مجلد على هذا الهاتف. يعمل حاليا.</string>
     <string name="wallpaper_automatic">التغيير تلقائيًا</string>
     <string name="wallpaper_main_folder">المجلد الرئيسي</string>
     <string name="wallpaper_frequency">التردد</string>

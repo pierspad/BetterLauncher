@@ -370,7 +370,6 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="clock_with_minutes">Minuten</string>
     <string name="clock_with_seconds">Seconden</string>
     <string name="wallpaper_folder_access_failed">Kan de achtergrondmap niet openen</string>
-    <string name="wallpaper_offline_description">foto’s uit een map op deze telefoon draaien. Werkt offline.</string>
     <string name="wallpaper_automatic">Automatisch wijzigen</string>
     <string name="wallpaper_main_folder">Hoofdmap</string>
     <string name="wallpaper_frequency">Frequentie</string>

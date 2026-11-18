@@ -437,7 +437,6 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="clock_symbol_label" translatable="false">%1$s  %2$s</string>
     <string name="wallpaper_folder_access_failed">Could not open the wallpaper folder</string>
     <string name="wallpaper_setting_summary" translatable="false">%1$s · %2$s</string>
-    <string name="wallpaper_offline_description">Rotate photos from a folder on this phone. Works offline.</string>
     <string name="wallpaper_automatic">Change automatically</string>
     <string name="wallpaper_main_folder">Main folder</string>
     <string name="wallpaper_frequency">Frequency</string>

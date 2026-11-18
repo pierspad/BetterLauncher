@@ -357,7 +357,6 @@
     <string name="clock_with_minutes">मिनट</string>
     <string name="clock_with_seconds">सेकंड</string>
     <string name="wallpaper_folder_access_failed">वॉलपेपर फ़ोल्डर नहीं खुल सका</string>
-    <string name="wallpaper_offline_description">इस फ़ोन पर किसी फ़ोल्डर से फ़ोटो घुमाएँ। ऑफ़लाइन काम करता है.</string>
     <string name="wallpaper_automatic">स्वचालित रूप से बदलें</string>
     <string name="wallpaper_main_folder">मुख्य फ़ोल्डर</string>
     <string name="wallpaper_frequency">आवृत्ति</string>

@@ -373,7 +373,6 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="clock_with_minutes">Perc</string>
     <string name="clock_with_seconds">Másodperc</string>
     <string name="wallpaper_folder_access_failed">Nem sikerült megnyitni a háttérképek mappáját</string>
-    <string name="wallpaper_offline_description">Fényképek elforgatása egy mappából ezen a telefonon. Offline módban működik.</string>
     <string name="wallpaper_automatic">Változás automatikusan</string>
     <string name="wallpaper_main_folder">Főmappa</string>
     <string name="wallpaper_frequency">Frekvencia</string>

@@ -369,7 +369,6 @@ Untuk menghapus harus ≤ 2</string>
     <string name="clock_with_minutes">Menit</string>
     <string name="clock_with_seconds">Detik</string>
     <string name="wallpaper_folder_access_failed">Tidak dapat membuka folder wallpaper</string>
-    <string name="wallpaper_offline_description">Memutar foto dari folder di ponsel ini. Bekerja offline.</string>
     <string name="wallpaper_automatic">Berubah secara otomatis</string>
     <string name="wallpaper_main_folder">Folder utama</string>
     <string name="wallpaper_frequency">Frekuensi</string>

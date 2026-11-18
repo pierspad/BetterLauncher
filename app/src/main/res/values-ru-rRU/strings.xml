@@ -372,7 +372,6 @@
     <string name="clock_with_minutes">Минуты</string>
     <string name="clock_with_seconds">Секунды</string>
     <string name="wallpaper_folder_access_failed">Не удалось открыть папку с обоями</string>
-    <string name="wallpaper_offline_description">повернуть фотографии из папки на этом телефоне. Работает в автономном режиме.</string>
     <string name="wallpaper_automatic">Изменить автоматически</string>
     <string name="wallpaper_main_folder">Основная папка</string>
     <string name="wallpaper_frequency">Частота</string>

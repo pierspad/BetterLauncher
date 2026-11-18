@@ -369,7 +369,6 @@ Aby go usunąć, musi wynosić ≤ 2</string>
     <string name="clock_with_minutes">Minuty</string>
     <string name="clock_with_seconds">Sekundy</string>
     <string name="wallpaper_folder_access_failed">Nie udało się otworzyć folderu z tapetami</string>
-    <string name="wallpaper_offline_description">Obróć zdjęcia z folderu w tym telefonie. Działa w trybie offline.</string>
     <string name="wallpaper_automatic">Zmień automatycznie</string>
     <string name="wallpaper_main_folder">Folder główny</string>
     <string name="wallpaper_frequency">Częstotliwość</string>

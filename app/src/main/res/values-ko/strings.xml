@@ -355,7 +355,6 @@
     <string name="clock_with_minutes">분</string>
     <string name="clock_with_seconds">초</string>
     <string name="wallpaper_folder_access_failed">배경화면 폴더를 열 수 없습니다</string>
-    <string name="wallpaper_offline_description">이 휴대폰의 폴더에서 사진을 회전합니다. 오프라인으로 작동합니다.</string>
     <string name="wallpaper_automatic">자동으로 변경</string>
     <string name="wallpaper_main_folder">메인 폴더</string>
     <string name="wallpaper_frequency">주파수</string>
