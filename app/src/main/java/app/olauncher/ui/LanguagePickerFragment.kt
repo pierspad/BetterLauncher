@@ -22,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import app.olauncher.R
 import app.olauncher.data.Prefs
 import app.olauncher.databinding.FragmentLanguagePickerBinding
+import app.olauncher.helper.FontHelper
 import app.olauncher.helper.dpToPx
 import app.olauncher.helper.getColorFromAttr
 
@@ -162,6 +163,7 @@ class LanguagePickerFragment : Fragment() {
                     textSize = 18f
                     setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
                     typeface = if (selected) Typeface.create(Typeface.DEFAULT, Typeface.BOLD) else Typeface.DEFAULT
+                    FontHelper.applyTo(this)
                     layoutParams = LinearLayout.LayoutParams(
                         0,
                         LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -177,6 +179,7 @@ class LanguagePickerFragment : Fragment() {
                     textAlignment = View.TEXT_ALIGNMENT_CENTER
                     setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
                     typeface = if (selected) Typeface.create(Typeface.DEFAULT, Typeface.BOLD) else Typeface.DEFAULT
+                    FontHelper.applyTo(this)
                     layoutParams = LinearLayout.LayoutParams(
                         0,
                         LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -191,6 +194,7 @@ class LanguagePickerFragment : Fragment() {
                     textAlignment = View.TEXT_ALIGNMENT_CENTER
                     setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
                     typeface = if (selected) Typeface.create(Typeface.DEFAULT, Typeface.BOLD) else Typeface.DEFAULT
+                    FontHelper.applyTo(this)
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
@@ -207,6 +211,7 @@ class LanguagePickerFragment : Fragment() {
                     textAlignment = View.TEXT_ALIGNMENT_CENTER
                     setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
                     typeface = if (selected) Typeface.create(Typeface.DEFAULT, Typeface.BOLD) else Typeface.DEFAULT
+                    FontHelper.applyTo(this)
                     layoutParams = LinearLayout.LayoutParams(
                         0,
                         LinearLayout.LayoutParams.WRAP_CONTENT,

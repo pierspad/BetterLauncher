@@ -43,6 +43,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import app.olauncher.helper.FontHelper
 import app.olauncher.helper.ResizableWidgetHostView
 import app.olauncher.helper.bindWidgetHostView
 import kotlin.math.roundToInt
@@ -573,6 +574,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             val itemView = TextView(ctx).apply {
                 text = member.label
                 textSize = 18f
+                FontHelper.applyTo(this)
                 setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
                 gravity = Gravity.CENTER_VERTICAL
                 setPadding(padH, padV, padH, padV)
@@ -1440,6 +1442,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             val row = TextView(ctx).apply {
                 text = items[i]
                 textSize = 18f
+                FontHelper.applyTo(this)
                 setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
                 gravity = Gravity.CENTER_VERTICAL
                 setPadding(padH, padV, padH, padV)

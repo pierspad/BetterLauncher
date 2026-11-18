@@ -47,6 +47,12 @@ object FontHelper {
         return typeface
     }
 
+    /** Applies the selected font to a TextView created in code, preserving its style. */
+    fun applyTo(view: TextView) {
+        val base = typeface ?: return
+        view.typeface = Typeface.create(base, view.typeface?.style ?: Typeface.NORMAL)
+    }
+
     /** Installs the typeface-rewriting factory on the activity's LayoutInflater. */
     fun install(activity: AppCompatActivity) {
         val inflater = activity.layoutInflater
@@ -61,11 +67,19 @@ object FontHelper {
                 attrs: AttributeSet,
             ): View? {
                 val view = delegate.createView(parent, name, context, attrs)
-                val base = typeface
-                if (base != null && view is TextView) {
-                    val style = view.typeface?.style ?: Typeface.NORMAL
-                    view.typeface = Typeface.create(base, style)
-                }
+                    ?: if (typeface != null && name != "view") {
+                        // AppCompat leaves some widgets to the platform inflater when it returns null.
+                        // Create them here so explicit AppCompat tags and native TextClocks are styled too.
+                        val prefix = if ('.' in name) null else "android.widget."
+                        try {
+                            inflater.cloneInContext(context).createView(name, prefix, attrs)
+                        } catch (_: ClassNotFoundException) {
+                            null
+                        }
+                    } else {
+                        null
+                    }
+                if (view is TextView) applyTo(view)
                 return view
             }
 

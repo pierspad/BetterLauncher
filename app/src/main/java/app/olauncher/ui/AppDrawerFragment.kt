@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
 import app.olauncher.MainViewModel
+import app.olauncher.helper.FontHelper
 import app.olauncher.helper.IconManager
 import app.olauncher.R
 import app.olauncher.data.AppModel
@@ -829,6 +830,7 @@ class AppDrawerFragment : Fragment() {
                 val row = AppCompatCheckBox(list.context).apply {
                     text = folder.name
                     textSize = 16f
+                    FontHelper.applyTo(this)
                     setTextColor(context.getColorFromAttr(R.attr.primaryColor))
                     buttonTintList = android.content.res.ColorStateList.valueOf(
                         context.getColorFromAttr(R.attr.primaryColor)
@@ -929,6 +931,7 @@ class AppDrawerFragment : Fragment() {
         ).apply {
             text = label
             textSize = 16f
+            FontHelper.applyTo(this)
             isAllCaps = false
             gravity = Gravity.START or Gravity.CENTER_VERTICAL
             minimumHeight = 52.dpToPx()

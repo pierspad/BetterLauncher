@@ -19,6 +19,7 @@ import app.olauncher.R
 import app.olauncher.data.AppModel
 import app.olauncher.data.Folder
 import app.olauncher.databinding.DialogGroupAppsBinding
+import app.olauncher.helper.FontHelper
 import app.olauncher.helper.FuzzySearch
 import app.olauncher.helper.SearchMode
 import app.olauncher.helper.dpToPx
@@ -87,6 +88,7 @@ private class GroupAppsAdapter(private val selected: MutableSet<String>) :
             setPaddingRelative(8.dpToPx(), 8.dpToPx(), 8.dpToPx(), 8.dpToPx())
             setTextColor(color)
             buttonTintList = ColorStateList.valueOf(color)
+            FontHelper.applyTo(this)
         }
     )
 
