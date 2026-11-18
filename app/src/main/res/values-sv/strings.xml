@@ -161,6 +161,7 @@
     <string name="widget_requires_default_launcher">Ställ in BetterLauncher som din standardstartare för att lägga till widgets</string>
     <string name="home_icons_count">Favoritappikoner</string>
     <string name="group">Grupp</string>
+    <string name="drawer_groups">Grupper</string>
     <string name="add_to_group">Lägg till i grupp</string>
     <string name="new_folder">Ny grupp...</string>
     <string name="folder_name">Gruppnamn</string>
@@ -172,6 +173,8 @@
     <string name="folder_deleted">Grupp raderad</string>
     <string name="folder_is_empty">Den här gruppen är tom</string>
     <string name="manage_group">Hantera grupp</string>
+    <string name="move_group_up">Flytta upp gruppen</string>
+    <string name="move_group_down">Flytta ner gruppen</string>
     <string name="set_up_screen_lock_for_app_lock">Ställ in ett skärmlås (PIN, mönster eller lösenord) i enhetens inställningar för att låsa appar.</string>
     <string name="unlock_app">Lås upp appen</string>
     <string name="lock_apps">Skydda appar</string>
@@ -365,4 +368,5 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="clock_hours">Timmar</string>
     <string name="clock_with_minutes">Minuter</string>
     <string name="clock_with_seconds">Sekunder</string>
+    <string name="app_limit_level_short">Nivå %1$d</string>
 </resources><!-- Swedish -->

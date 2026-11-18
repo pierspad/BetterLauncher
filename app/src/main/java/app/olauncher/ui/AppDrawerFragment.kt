@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.BaseInputConnection
-import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -27,6 +26,8 @@ import kotlinx.coroutines.delay
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
@@ -37,13 +38,18 @@ import app.olauncher.data.AppModel
 import app.olauncher.data.Constants
 import app.olauncher.data.Folder
 import app.olauncher.data.Prefs
+import app.olauncher.databinding.DialogFolderInputBinding
+import app.olauncher.databinding.DialogListPickerBinding
+import app.olauncher.databinding.DialogMessageBinding
 import app.olauncher.databinding.FragmentAppDrawerBinding
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.core.view.ViewCompat
 import app.olauncher.helper.AndroidSettingsCatalog
 import app.olauncher.helper.ContactsHelper
 import app.olauncher.helper.SearchMode
@@ -67,6 +73,8 @@ class AppDrawerFragment : Fragment() {
     private lateinit var prefs: Prefs
     private lateinit var adapter: AppDrawerAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private var groupDragHelper: ItemTouchHelper? = null
+    private var groupDragActive = false
 
     private var flag = Constants.FLAG_LAUNCH_APP
     private var canRename = false
@@ -370,7 +378,7 @@ class AppDrawerFragment : Fragment() {
             appDeleteListener = { appModel ->
                 when (appModel) {
                     is AppModel.PrivateSpaceHeader -> {}
-                    is AppModel.FolderHeader -> {}
+                    is AppModel.FolderHeader, is AppModel.GroupsSection, AppModel.GroupsDivider -> {}
                     is AppModel.SettingTile -> {}
                     is AppModel.Contact -> {}
                     is AppModel.PinnedShortcut ->
@@ -434,6 +442,13 @@ class AppDrawerFragment : Fragment() {
             appFolderListener = { appModel -> showFolderAssignDialog(appModel) },
             appAddToHomeListener = { _ -> viewModel.refreshHome(false) },
             folderManageListener = { folderId -> showFolderManageDialog(folderId) },
+            folderMoveListener = ::moveFolder,
+            startFolderDrag = { groupDragHelper?.startDrag(it) },
+            groupsCollapsed = { prefs.drawerGroupsCollapsed },
+            groupsToggleListener = {
+                prefs.drawerGroupsCollapsed = !prefs.drawerGroupsCollapsed
+                adapter.applyFilter(binding.search.query)
+            },
             privateSpaceToggleListener = {
                 viewModel.togglePrivateSpaceLock()
             },
@@ -456,14 +471,21 @@ class AppDrawerFragment : Fragment() {
             ): Int {
                 val scrollRange = super.scrollVerticallyBy(dx, recycler, state)
                 val overScroll = dx - scrollRange
-                if (overScroll < -10 && binding.recyclerView.scrollState == RecyclerView.SCROLL_STATE_DRAGGING)
+                if (!groupDragActive && overScroll < -10 &&
+                    binding.recyclerView.scrollState == RecyclerView.SCROLL_STATE_DRAGGING
+                ) {
                     checkMessageAndExit()
+                }
                 return scrollRange
             }
         }
 
         binding.recyclerView.layoutManager = linearLayoutManager
         binding.recyclerView.adapter = adapter
+        if (flag == Constants.FLAG_LAUNCH_APP) {
+            binding.recyclerView.addItemDecoration(adapter.groupTreeDecoration())
+            attachGroupDragHelper()
+        }
         binding.recyclerView.addOnScrollListener(getRecyclerViewOnScrollListener())
         binding.recyclerView.itemAnimator = null
         // Play the entrance animation once, *after* the first real list is committed.
@@ -481,6 +503,81 @@ class AppDrawerFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun attachGroupDragHelper() {
+        var draggedHeader: AppDrawerAdapter.FolderHeaderViewHolder? = null
+        val moveAnimator = object : DefaultItemAnimator() {
+            override fun animateMove(holder: RecyclerView.ViewHolder, fromX: Int, fromY: Int, toX: Int, toY: Int): Boolean {
+                if (holder === draggedHeader) {
+                    dispatchMoveFinished(holder)
+                    return false
+                }
+                return super.animateMove(holder, fromX, fromY, toX, toY)
+            }
+        }.apply {
+            supportsChangeAnimations = false
+            addDuration = 0L
+            removeDuration = 0L
+            moveDuration = 125L
+        }
+        val callback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
+            override fun isLongPressDragEnabled() = false
+
+            override fun getDragDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+                return if (viewHolder is AppDrawerAdapter.FolderHeaderViewHolder &&
+                    adapter.visibleFolderIds().size > 1
+                ) super.getDragDirs(recyclerView, viewHolder) else 0
+            }
+
+            override fun canDropOver(
+                recyclerView: RecyclerView,
+                current: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder,
+            ) = target is AppDrawerAdapter.FolderHeaderViewHolder
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                source: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder,
+            ): Boolean {
+                if (source !is AppDrawerAdapter.FolderHeaderViewHolder ||
+                    target !is AppDrawerAdapter.FolderHeaderViewHolder
+                ) return false
+                val from = source.bindingAdapterPosition
+                val to = target.bindingAdapterPosition
+                if (from == RecyclerView.NO_POSITION || to == RecyclerView.NO_POSITION) return false
+                if (!prefs.moveFolderTo(source.folderId, target.folderId, after = from < to)) return false
+                adapter.updateGroups(prefs.folders)
+                return true
+            }
+
+            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                super.onSelectedChanged(viewHolder, actionState)
+                if (actionState != ItemTouchHelper.ACTION_STATE_DRAG) return
+                val header = viewHolder as? AppDrawerAdapter.FolderHeaderViewHolder ?: return
+                draggedHeader = header
+                groupDragActive = true
+                header.setDragging(true)
+                binding.search.hideKeyboard()
+                if (!requireContext().isEinkDisplay()) binding.recyclerView.itemAnimator = moveAnimator
+                adapter.showGroupReorderRows(true)
+            }
+
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                super.clearView(recyclerView, viewHolder)
+                (viewHolder as? AppDrawerAdapter.FolderHeaderViewHolder)?.setDragging(false)
+                if (viewHolder === draggedHeader) {
+                    draggedHeader = null
+                    groupDragActive = false
+                    recyclerView.itemAnimator = null
+                    if (_binding != null) adapter.showGroupReorderRows(false)
+                }
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
+        }
+        groupDragHelper = ItemTouchHelper(callback).also { it.attachToRecyclerView(binding.recyclerView) }
     }
 
     private fun initObservers() {
@@ -618,64 +715,39 @@ class AppDrawerFragment : Fragment() {
         buttonTextRes: Int,
         onConfirm: (String) -> Unit
     ) {
-        val ctx = requireContext()
-        val view = layoutInflater.inflate(R.layout.dialog_folder_input, null)
-        val titleView = view.findViewById<TextView>(R.id.dialogTitle)
-        val inputView = view.findViewById<EditText>(R.id.dialogInput)
-        val btnCancel = view.findViewById<TextView>(R.id.btnCancel)
-        val btnConfirm = view.findViewById<TextView>(R.id.btnConfirm)
+        val form = DialogFolderInputBinding.inflate(layoutInflater)
+        form.dialogTitle.setText(titleRes)
+        form.btnConfirm.setText(buttonTextRes)
+        form.dialogInput.setText(prefill.orEmpty())
+        form.dialogInput.selectAll()
 
-        titleView.setText(titleRes)
-        btnConfirm.setText(buttonTextRes)
-
-        if (prefill != null) {
-            inputView.setText(prefill)
-            inputView.setSelection(prefill.length)
-        }
-
-        val cancelIcon = ContextCompat.getDrawable(ctx, R.drawable.ic_close)?.apply {
-            val size = (16 * resources.displayMetrics.density).toInt()
-            setBounds(0, 0, size, size)
-            setTint(ctx.getColorFromAttr(R.attr.primaryColorTrans80))
-        }
-        btnCancel.setCompoundDrawablesRelative(cancelIcon, null, null, null)
-        btnCancel.compoundDrawablePadding = (8 * resources.displayMetrics.density).toInt()
-
-        val confirmIcon = ContextCompat.getDrawable(ctx, R.drawable.ic_check)?.apply {
-            val size = (16 * resources.displayMetrics.density).toInt()
-            setBounds(0, 0, size, size)
-            setTint(ctx.getColorFromAttr(R.attr.primaryColor))
-        }
-        btnConfirm.setCompoundDrawablesRelative(confirmIcon, null, null, null)
-        btnConfirm.compoundDrawablePadding = (8 * resources.displayMetrics.density).toInt()
-
-        val dialog = AlertDialog.Builder(ctx)
-            .setView(view)
-            .create()
-
+        val dialog = AlertDialog.Builder(requireContext()).setView(form.root).create()
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-        btnCancel.setOnClickListener { dialog.dismiss() }
-
+        fun updateConfirm() {
+            val hasName = form.dialogInput.text?.isNotBlank() == true
+            form.btnConfirm.isEnabled = hasName
+            form.btnConfirm.alpha = if (hasName) 1f else 0.45f
+        }
         fun submit() {
-            val name = inputView.text.toString().trim()
-            if (name.isNotEmpty()) {
-                onConfirm(name)
-                dialog.dismiss()
-            }
+            val name = form.dialogInput.text.toString().trim()
+            if (name.isEmpty()) return
+            dialog.dismiss()
+            onConfirm(name)
         }
 
-        btnConfirm.setOnClickListener { submit() }
-
-        inputView.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                submit()
-                true
-            } else false
+        updateConfirm()
+        form.dialogInput.doAfterTextChanged { updateConfirm() }
+        form.btnCancel.setOnClickListener { dialog.dismiss() }
+        form.btnConfirm.setOnClickListener { submit() }
+        form.dialogInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId != EditorInfo.IME_ACTION_DONE) return@setOnEditorActionListener false
+            submit()
+            true
         }
 
         dialog.show()
-        inputView.showKeyboard()
+        form.dialogInput.showKeyboard()
     }
 
     private fun showCreateFolderDialog(appKey: String?) {
@@ -723,170 +795,127 @@ class AppDrawerFragment : Fragment() {
             return
         }
 
-        val ctx = requireContext()
-        val view = layoutInflater.inflate(R.layout.dialog_list_picker, null)
-        val titleView = view.findViewById<TextView>(R.id.pickerTitle)
-        val list = view.findViewById<LinearLayout>(R.id.pickerList)
-
-        titleView.setText(R.string.add_to_group)
-        titleView.visibility = View.VISIBLE
-
-        val dialog = AlertDialog.Builder(ctx).setView(view).create()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        val padV = 14.dpToPx()
-        val padH = 10.dpToPx()
-        val rippleBg = TypedValue().also {
-            ctx.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
-        }.resourceId
-
-        val checkedState = currentFolders.map { it.apps.contains(key) }.toMutableList()
-
-        currentFolders.forEachIndexed { idx, folder ->
-            val row = TextView(ctx).apply {
-                text = (if (checkedState[idx]) "✓  " else "    ") + folder.name
-                textSize = 18f
-                setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
-                gravity = Gravity.CENTER_VERTICAL
-                setPadding(padH, padV, padH, padV)
-                setBackgroundResource(rippleBg)
-                val icon = ContextCompat.getDrawable(ctx, R.drawable.ic_sc_folder)?.apply {
-                    val size = (20 * resources.displayMetrics.density).toInt()
-                    setBounds(0, 0, size, size)
-                    setTint(ctx.getColorFromAttr(R.attr.primaryColor))
+        showGroupOptions(getString(R.string.add_to_group)) { list, dialog ->
+            for (folder in currentFolders) {
+                val row = AppCompatCheckBox(list.context).apply {
+                    text = folder.name
+                    textSize = 16f
+                    setTextColor(context.getColorFromAttr(R.attr.primaryColor))
+                    buttonTintList = android.content.res.ColorStateList.valueOf(
+                        context.getColorFromAttr(R.attr.primaryColor)
+                    )
+                    minimumHeight = 52.dpToPx()
+                    setPaddingRelative(8.dpToPx(), 8.dpToPx(), 12.dpToPx(), 8.dpToPx())
+                    isChecked = key in folder.apps
+                    setOnCheckedChangeListener { _, _ ->
+                        prefs.toggleAppInFolder(folder.id, key)
+                        updateCombinedAppList()
+                    }
                 }
-                setCompoundDrawablesRelative(icon, null, null, null)
-                compoundDrawablePadding = 14.dpToPx()
-                setOnClickListener {
-                    checkedState[idx] = !checkedState[idx]
-                    text = (if (checkedState[idx]) "✓  " else "    ") + folder.name
-                    if (checkedState[idx] && !folder.apps.contains(key)) folder.apps.add(key)
-                    else if (!checkedState[idx] && folder.apps.contains(key)) folder.apps.remove(key)
-                    prefs.folders = currentFolders
-                    updateCombinedAppList()
-                }
+                list.addView(row)
             }
-            list.addView(row)
-        }
-
-        val newFolderRow = TextView(ctx).apply {
-            text = getString(R.string.new_folder)
-            textSize = 18f
-            setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
-            gravity = Gravity.CENTER_VERTICAL
-            setPadding(padH, padV, padH, padV)
-            setBackgroundResource(rippleBg)
-            val icon = ContextCompat.getDrawable(ctx, R.drawable.ic_check)?.apply {
-                val size = (20 * resources.displayMetrics.density).toInt()
-                setBounds(0, 0, size, size)
-                setTint(ctx.getColorFromAttr(R.attr.primaryColor))
-            }
-            setCompoundDrawablesRelative(icon, null, null, null)
-            compoundDrawablePadding = 14.dpToPx()
-            setOnClickListener {
+            addGroupAction(list, getString(R.string.new_folder), R.drawable.ic_add) {
                 dialog.dismiss()
                 showCreateFolderDialog(key)
             }
+            addGroupAction(list, getString(R.string.done), R.drawable.ic_check) { dialog.dismiss() }
         }
-        list.addView(newFolderRow)
-
-        dialog.show()
     }
 
     private fun showFolderManageDialog(folderId: String) {
         val folder = prefs.getFolder(folderId) ?: return
-        val ctx = requireContext()
-        val view = layoutInflater.inflate(R.layout.dialog_list_picker, null)
-        val titleView = view.findViewById<TextView>(R.id.pickerTitle)
-        val list = view.findViewById<LinearLayout>(R.id.pickerList)
+        showGroupOptions(folder.name) { list, dialog ->
+            fun action(label: Int, icon: Int, run: () -> Unit) {
+                addGroupAction(list, getString(label), icon) {
+                    dialog.dismiss()
+                    run()
+                }
+            }
 
-        titleView.text = folder.name
-        titleView.visibility = View.VISIBLE
+            action(R.string.rename_folder, R.drawable.ic_rename) { showRenameFolderDialog(folder) }
+            action(R.string.add_to_home, R.drawable.ic_sc_grid) { showAddFolderToHomeDialog(folder) }
+            action(R.string.delete_folder, R.drawable.ic_delete) { confirmDeleteFolder(folder) }
+        }
+    }
 
-        val items = listOf(
-            Triple(getString(R.string.rename_folder), R.drawable.ic_rename) { showRenameFolderDialog(folder) },
-            Triple(getString(R.string.add_to_home), R.drawable.ic_sc_grid) { showAddFolderToHomeDialog(folder) },
-            Triple(getString(R.string.delete_folder), R.drawable.ic_delete) {
-                prefs.deleteFolder(folderId)
-                ctx.showToast(getString(R.string.folder_deleted))
+    private fun confirmDeleteFolder(folder: Folder) {
+        val context = requireContext()
+        val content = DialogMessageBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(context).setView(content.root).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        content.dialogTitle.setText(R.string.delete_folder)
+        content.dialogMessage.text = folder.name
+        content.dialogNegativeButton.apply {
+            isVisible = true
+            setText(R.string.close)
+            setOnClickListener { dialog.dismiss() }
+        }
+        content.dialogPositiveButton.apply {
+            setText(R.string.delete_folder)
+            setOnClickListener {
+                dialog.dismiss()
+                prefs.deleteFolder(folder.id)
+                context.showToast(getString(R.string.folder_deleted))
                 viewModel.refreshHome(false)
                 updateCombinedAppList()
             }
-        )
-
-        val dialog = AlertDialog.Builder(ctx).setView(view).create()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        val padV = 14.dpToPx()
-        val padH = 10.dpToPx()
-        val rippleBg = TypedValue().also {
-            ctx.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
-        }.resourceId
-
-        for ((label, iconRes, action) in items) {
-            val row = TextView(ctx).apply {
-                text = label
-                textSize = 18f
-                setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
-                gravity = Gravity.CENTER_VERTICAL
-                setPadding(padH, padV, padH, padV)
-                setBackgroundResource(rippleBg)
-                val icon = ContextCompat.getDrawable(ctx, iconRes)?.apply {
-                    val size = (20 * resources.displayMetrics.density).toInt()
-                    setBounds(0, 0, size, size)
-                    setTint(ctx.getColorFromAttr(R.attr.primaryColor))
-                }
-                setCompoundDrawablesRelative(icon, null, null, null)
-                compoundDrawablePadding = 14.dpToPx()
-                setOnClickListener {
-                    dialog.dismiss()
-                    action()
-                }
-            }
-            list.addView(row)
         }
-
         dialog.show()
     }
 
+    private fun moveFolder(folderId: String, up: Boolean) {
+        val visibleFolderIds = adapter.visibleFolderIds()
+        if (prefs.moveFolder(folderId, up) { it.id in visibleFolderIds }) updateCombinedAppList()
+    }
+
     private fun showAddFolderToHomeDialog(folder: Folder) {
-        val ctx = requireContext()
         val count = prefs.homeAppsNum.coerceIn(1, 8)
-        val view = layoutInflater.inflate(R.layout.dialog_list_picker, null)
-        val titleView = view.findViewById<TextView>(R.id.pickerTitle)
-        val list = view.findViewById<LinearLayout>(R.id.pickerList)
-
-        titleView.setText(R.string.choose_home_position)
-        titleView.visibility = View.VISIBLE
-
-        val dialog = AlertDialog.Builder(ctx).setView(view).create()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        val padV = 14.dpToPx()
-        val padH = 10.dpToPx()
-        val rippleBg = TypedValue().also {
-            ctx.theme.resolveAttribute(android.R.attr.selectableItemBackground, it, true)
-        }.resourceId
-
-        for (pos in 1..count) {
-            val currentTarget = prefs.getAppName(pos).ifEmpty { getString(R.string.app) }
-            val row = TextView(ctx).apply {
-                text = "$pos.  $currentTarget"
-                textSize = 18f
-                setTextColor(ctx.getColorFromAttr(R.attr.primaryColor))
-                gravity = Gravity.CENTER_VERTICAL
-                setPadding(padH, padV, padH, padV)
-                setBackgroundResource(rippleBg)
-                setOnClickListener {
-                    prefs.assignFolderToHome(pos, folder)
+        showGroupOptions(getString(R.string.choose_home_position)) { list, dialog ->
+            for (position in 1..count) {
+                val currentTarget = prefs.getAppName(position).ifEmpty { getString(R.string.app) }
+                addGroupAction(list, "$position.  $currentTarget") {
+                    prefs.assignFolderToHome(position, folder)
                     viewModel.refreshHome(false)
                     dialog.dismiss()
                 }
             }
-            list.addView(row)
         }
+    }
 
+    private fun showGroupOptions(title: String, populate: (LinearLayout, AlertDialog) -> Unit) {
+        val picker = DialogListPickerBinding.inflate(layoutInflater)
+        picker.pickerTitle.text = title
+        picker.pickerTitle.isVisible = true
+        ViewCompat.setAccessibilityHeading(picker.pickerTitle, true)
+        val dialog = AlertDialog.Builder(requireContext()).setView(picker.root).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        populate(picker.pickerList, dialog)
         dialog.show()
+    }
+
+    private fun addGroupAction(list: LinearLayout, label: String, icon: Int = 0, onClick: () -> Unit) {
+        val row = androidx.appcompat.widget.AppCompatButton(
+            list.context, null, androidx.appcompat.R.attr.borderlessButtonStyle
+        ).apply {
+            text = label
+            textSize = 16f
+            isAllCaps = false
+            gravity = Gravity.START or Gravity.CENTER_VERTICAL
+            minimumHeight = 52.dpToPx()
+            setPaddingRelative(10.dpToPx(), 8.dpToPx(), 10.dpToPx(), 8.dpToPx())
+            val color = context.getColorFromAttr(R.attr.primaryColor)
+            setTextColor(color)
+            if (icon != 0) {
+                val drawable = ContextCompat.getDrawable(context, icon)?.mutate()?.apply {
+                    setTint(color)
+                    setBounds(0, 0, 20.dpToPx(), 20.dpToPx())
+                }
+                setCompoundDrawablesRelative(drawable, null, null, null)
+                compoundDrawablePadding = 14.dpToPx()
+            }
+            setOnClickListener { onClick() }
+        }
+        list.addView(row, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     private fun getRecyclerViewOnScrollListener(): RecyclerView.OnScrollListener {
@@ -972,6 +1001,9 @@ class AppDrawerFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        groupDragHelper?.attachToRecyclerView(null)
+        groupDragHelper = null
+        groupDragActive = false
         try {
             searchOptionsPopup?.dismiss()
         } catch (e: Exception) {

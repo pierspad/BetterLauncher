@@ -212,6 +212,7 @@ Please type a new name first</string>
     <!-- Folders / groups -->
     <string name="home_icons_count">Favorite app icons</string>
     <string name="group">Group</string>
+    <string name="drawer_groups">Groups</string>
     <string name="add_to_group">Add to group</string>
     <string name="new_folder">New group…</string>
     <string name="folder_name">Group name</string>
@@ -223,6 +224,8 @@ Please type a new name first</string>
     <string name="folder_deleted">Group deleted</string>
     <string name="folder_is_empty">This group is empty</string>
     <string name="manage_group">Manage group</string>
+    <string name="move_group_up">Move group up</string>
+    <string name="move_group_down">Move group down</string>
 
     <!-- App locking -->
     <string name="set_up_screen_lock_for_app_lock">Please set up a screen lock (PIN, pattern or password) in your device settings to lock apps.</string>
@@ -432,4 +435,5 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="clock_with_minutes">Minutes</string>
     <string name="clock_with_seconds">Seconds</string>
     <string name="clock_symbol_label" translatable="false">%1$s  %2$s</string>
+    <string name="app_limit_level_short">Level %1$d</string>
 </resources>

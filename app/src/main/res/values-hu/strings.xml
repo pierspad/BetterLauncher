@@ -165,6 +165,7 @@
     <string name="widget_requires_default_launcher">Állítsa be a BetterLaunchert alapértelmezett indítóként widgetek hozzáadásához</string>
     <string name="home_icons_count">Kedvenc alkalmazásikonok</string>
     <string name="group">Csoport</string>
+    <string name="drawer_groups">Csoportok</string>
     <string name="add_to_group">Hozzáadás a csoporthoz</string>
     <string name="new_folder">Új csoport…</string>
     <string name="folder_name">Csoport neve</string>
@@ -176,6 +177,8 @@
     <string name="folder_deleted">Csoport törölve</string>
     <string name="folder_is_empty">Ez a csoport üres</string>
     <string name="manage_group">Csoport kezelése</string>
+    <string name="move_group_up">Csoport feljebb</string>
+    <string name="move_group_down">Csoport lejjebb</string>
     <string name="set_up_screen_lock_for_app_lock">Az alkalmazások zárolásához állítson be képernyőzárat (PIN-kód, minta vagy jelszó) az eszköz beállításaiban.</string>
     <string name="unlock_app">Oldja fel az alkalmazást</string>
     <string name="lock_apps">Alkalmazások védelme</string>
@@ -369,4 +372,5 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="clock_hours">Óra</string>
     <string name="clock_with_minutes">Perc</string>
     <string name="clock_with_seconds">Másodperc</string>
+    <string name="app_limit_level_short">%1$d. szint</string>
 </resources><!-- Hungarian -->

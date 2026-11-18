@@ -1,9 +1,12 @@
 package app.olauncher.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.LauncherApps
 import android.os.UserHandle
 import android.graphics.Typeface
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -13,10 +16,14 @@ import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
 import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
+import androidx.core.view.updatePaddingRelative
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.AccessibilityActionCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -26,12 +33,15 @@ import app.olauncher.data.Constants
 import app.olauncher.data.Folder
 import app.olauncher.databinding.AdapterAppDrawerBinding
 import app.olauncher.databinding.AdapterFolderHeaderBinding
+import app.olauncher.databinding.AdapterGroupsSectionBinding
 import app.olauncher.databinding.AdapterPrivateSpaceHeaderBinding
 import app.olauncher.data.Prefs
 import app.olauncher.helper.FuzzySearch
 import app.olauncher.helper.IconManager
 import app.olauncher.helper.SearchMode
 import app.olauncher.helper.hideKeyboard
+import app.olauncher.helper.dpToPx
+import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.isSystemApp
 import app.olauncher.helper.showToast
 import app.olauncher.helper.showKeyboard
@@ -51,6 +61,10 @@ class AppDrawerAdapter(
     private val appFolderListener: (AppModel) -> Unit = {},
     private val appAddToHomeListener: (AppModel) -> Unit = {},
     private val folderManageListener: (String) -> Unit = {},
+    private val folderMoveListener: (String, Boolean) -> Unit = { _, _ -> },
+    private val groupsCollapsed: () -> Boolean = { false },
+    private val startFolderDrag: (FolderHeaderViewHolder) -> Unit = {},
+    private val groupsToggleListener: () -> Unit = {},
     private val privateSpaceToggleListener: () -> Unit = {},
     private val privateSpaceSettingsListener: () -> Unit = {},
     // Per-item launch count, used to rank search results by frequency of use.
@@ -62,12 +76,15 @@ class AppDrawerAdapter(
         const val VIEW_TYPE_APP = 0
         const val VIEW_TYPE_PRIVATE_HEADER = 1
         const val VIEW_TYPE_FOLDER_HEADER = 2
+        const val VIEW_TYPE_GROUPS_SECTION = 3
+        const val VIEW_TYPE_GROUPS_DIVIDER = 4
 
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AppModel>() {
             override fun areItemsTheSame(oldItem: AppModel, newItem: AppModel): Boolean = when {
                 oldItem is AppModel.App && newItem is AppModel.App ->
                     oldItem.appPackage == newItem.appPackage && oldItem.user == newItem.user
                         && oldItem.activityClassName == newItem.activityClassName
+                        && oldItem.drawerGroupId == newItem.drawerGroupId
 
                 oldItem is AppModel.PinnedShortcut && newItem is AppModel.PinnedShortcut ->
                     oldItem.shortcutId == newItem.shortcutId && oldItem.user == newItem.user
@@ -77,6 +94,9 @@ class AppDrawerAdapter(
 
                 oldItem is AppModel.FolderHeader && newItem is AppModel.FolderHeader ->
                     oldItem.folderId == newItem.folderId
+
+                oldItem is AppModel.GroupsSection && newItem is AppModel.GroupsSection -> true
+                oldItem === AppModel.GroupsDivider && newItem === AppModel.GroupsDivider -> true
 
                 oldItem is AppModel.SettingTile && newItem is AppModel.SettingTile ->
                     oldItem.intentAction == newItem.intentAction
@@ -134,6 +154,13 @@ class AppDrawerAdapter(
     // currentList: what is currently on screen (sections + apps, or filtered apps).
     private var appsList: List<AppModel> = emptyList()
     private var folderSections: List<AppModel> = emptyList()
+    private var reorderingGroups = false
+
+    fun showGroupReorderRows(reordering: Boolean) {
+        if (reorderingGroups == reordering) return
+        reorderingGroups = reordering
+        applyFilter(lastQuery)
+    }
 
 
     // Extra items (settings tiles, contacts) shown only while a query is active.
@@ -145,10 +172,51 @@ class AppDrawerAdapter(
         applyFilter(lastQuery)
     }
 
+    fun groupTreeDecoration(): RecyclerView.ItemDecoration = object : RecyclerView.ItemDecoration() {
+        private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+        override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+            paint.color = parent.context.getColorFromAttr(R.attr.cardStrokeColor)
+            paint.strokeWidth = 1.dpToPx().toFloat()
+            val trunkInset = 36.dpToPx()
+            val branchWidth = 12.dpToPx()
+            for (index in 0 until parent.childCount) {
+                val row = parent.getChildAt(index)
+                val position = parent.getChildAdapterPosition(row)
+                val item = currentList.getOrNull(position) ?: continue
+                val top = row.y
+                val bottom = top + row.height
+                val middle = (top + bottom) / 2f
+                val rtl = row.layoutDirection == View.LAYOUT_DIRECTION_RTL
+                val trunk = (if (rtl) row.right - trunkInset else row.left + trunkInset) + row.translationX
+                when (item) {
+                    is AppModel.FolderHeader -> {
+                        // The 24dp folder icon is vertically centered in the header.
+                        val next = currentList.getOrNull(position + 1) as? AppModel.App
+                        if (next?.drawerGroupId == item.folderId) {
+                            canvas.drawLine(trunk, middle + 15.dpToPx(), trunk, bottom, paint)
+                        }
+                    }
+                    is AppModel.App -> {
+                        val group = item.drawerGroupId ?: continue
+                        val next = currentList.getOrNull(position + 1) as? AppModel.App
+                        val trunkEnd = if (next?.drawerGroupId == group) bottom else middle
+                        val branchEnd = trunk + if (rtl) -branchWidth else branchWidth
+                        canvas.drawLine(trunk, top, trunk, trunkEnd, paint)
+                        canvas.drawLine(trunk, middle, branchEnd, middle, paint)
+                    }
+                    else -> Unit
+                }
+            }
+        }
+    }
+
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is AppModel.PrivateSpaceHeader -> VIEW_TYPE_PRIVATE_HEADER
             is AppModel.FolderHeader -> VIEW_TYPE_FOLDER_HEADER
+            is AppModel.GroupsSection -> VIEW_TYPE_GROUPS_SECTION
+            AppModel.GroupsDivider -> VIEW_TYPE_GROUPS_DIVIDER
             else -> VIEW_TYPE_APP
         }
     }
@@ -161,6 +229,12 @@ class AppDrawerAdapter(
 
             VIEW_TYPE_FOLDER_HEADER ->
                 FolderHeaderViewHolder(AdapterFolderHeaderBinding.inflate(inflater, parent, false))
+
+            VIEW_TYPE_GROUPS_SECTION ->
+                GroupsSectionViewHolder(AdapterGroupsSectionBinding.inflate(inflater, parent, false))
+
+            VIEW_TYPE_GROUPS_DIVIDER ->
+                GroupsDividerViewHolder(inflater.inflate(R.layout.adapter_groups_divider, parent, false))
 
             else -> ViewHolder(AdapterAppDrawerBinding.inflate(inflater, parent, false))
         }
@@ -176,8 +250,21 @@ class AppDrawerAdapter(
                     privateSpaceSettingsListener,
                 )
 
-                is FolderHeaderViewHolder -> if (appModel is AppModel.FolderHeader)
-                    holder.bind(appModel, appLabelGravity, folderManageListener)
+                is FolderHeaderViewHolder -> if (appModel is AppModel.FolderHeader) {
+                    val folderIds = visibleFolderIds().toList()
+                    val index = folderIds.indexOf(appModel.folderId)
+                    holder.bind(
+                        appModel, appLabelGravity, folderManageListener,
+                        startDrag = if (folderIds.size > 1) startFolderDrag else null,
+                        moveUp = if (index > 0) ({ folderMoveListener(appModel.folderId, true) }) else null,
+                        moveDown = if (index in 0 until folderIds.lastIndex) {
+                            { folderMoveListener(appModel.folderId, false) }
+                        } else null,
+                    )
+                }
+
+                is GroupsSectionViewHolder -> if (appModel is AppModel.GroupsSection)
+                    holder.bind(appModel.collapsed, groupsToggleListener)
 
                 is ViewHolder -> holder.bind(
                     flag,
@@ -215,7 +302,14 @@ class AppDrawerAdapter(
 
         val result: MutableList<AppModel> = if (q.isBlank()) {
             ArrayList<AppModel>(folderSections.size + appsList.size).apply {
-                addAll(folderSections)
+                if (folderSections.isNotEmpty()) {
+                    val collapsed = groupsCollapsed()
+                    add(AppModel.GroupsSection(collapsed))
+                    if (!collapsed) {
+                        addAll(if (reorderingGroups) folderSections.filterIsInstance<AppModel.FolderHeader>() else folderSections)
+                    }
+                    add(AppModel.GroupsDivider)
+                }
                 addAll(appsList)
             }
         } else {
@@ -298,8 +392,12 @@ class AppDrawerAdapter(
     // Sets app list and folders for the main launcher drawer
     fun setAppList(appsList: MutableList<AppModel>, folders: List<Folder>) {
         this.appsList = appsList.toList() + paddingApp()
-        this.folderSections = buildFolderSections(folders, appsList)
         refreshSearchIndex()
+        updateGroups(folders)
+    }
+
+    fun updateGroups(folders: List<Folder>) {
+        folderSections = buildFolderSections(folders, appsList)
         applyFilter(lastQuery)
     }
 
@@ -312,6 +410,9 @@ class AppDrawerAdapter(
         refreshSearchIndex()
         applyFilter(lastQuery)
     }
+
+    fun visibleFolderIds(): Set<String> = folderSections.filterIsInstance<AppModel.FolderHeader>()
+        .mapTo(linkedSetOf()) { it.folderId }
 
     // Groups apps under their respective folder headers
     private fun buildFolderSections(folders: List<Folder>, apps: List<AppModel>): List<AppModel> {
@@ -326,7 +427,7 @@ class AppDrawerAdapter(
             val members = folder.apps.mapNotNull { byKey[it] }
             if (members.isEmpty()) continue
             out.add(AppModel.FolderHeader(folder.id, folder.name))
-            out.addAll(members)
+            out.addAll(members.map { it.copy(drawerGroupId = folder.id) })
         }
         return out
     }
@@ -354,34 +455,72 @@ class AppDrawerAdapter(
         }
     }
 
+    class GroupsSectionViewHolder(private val binding: AdapterGroupsSectionBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(collapsed: Boolean, toggle: () -> Unit) = with(binding.root) {
+            val icon = if (collapsed) R.drawable.ic_section_expand else R.drawable.ic_section_collapse
+            setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, icon, 0)
+            val action = if (collapsed) R.string.settings_expand_section else R.string.settings_collapse_section
+            ViewCompat.setAccessibilityHeading(this, true)
+            setOnClickListener { toggle() }
+            ViewCompat.replaceAccessibilityAction(
+                this,
+                AccessibilityActionCompat.ACTION_CLICK,
+                context.getString(action, text),
+                null,
+            )
+        }
+    }
+
+    class GroupsDividerViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
     class FolderHeaderViewHolder(private val binding: AdapterFolderHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val prefs = Prefs(binding.root.context)
+        var folderId: String = ""
+            private set
+        private val moveActions = mutableListOf<Int>()
+        private val rowBackground = binding.root.background
+
+        fun setDragging(dragging: Boolean) {
+            if (dragging) binding.root.setBackgroundResource(R.drawable.rounded_dialog_surface)
+            else binding.root.background = rowBackground
+        }
+
+        @SuppressLint("ClickableViewAccessibility") // Reordering also has explicit accessibility actions.
         fun bind(
             folder: AppModel.FolderHeader,
             appLabelGravity: Int,
             manageListener: (String) -> Unit,
+            startDrag: ((FolderHeaderViewHolder) -> Unit)?,
+            moveUp: (() -> Unit)?,
+            moveDown: (() -> Unit)?,
         ) = with(binding) {
+            folderId = folder.folderId
             folderTitle.text = folder.name
             folderTitle.gravity = appLabelGravity
-            folderTitle.setOnClickListener { manageListener(folder.folderId) }
-            folderTitle.setOnLongClickListener {
-                manageListener(folder.folderId)
-                true
-            }
-
-            if (prefs.showDrawerIcons) {
-                val icon = ContextCompat.getDrawable(folderTitle.context, R.drawable.ic_sc_folder)
-                icon?.let {
-                    val iconSize = (folderTitle.textSize * 1.2).toInt()
-                    it.setBounds(0, 0, iconSize, iconSize)
-                    it.mutate().setTint(folderTitle.currentTextColor)
-                    folderTitle.setCompoundDrawables(it, null, null, null)
-                    folderTitle.compoundDrawablePadding = (8 * folderTitle.context.resources.displayMetrics.density).toInt()
+            root.setOnClickListener { manageListener(folder.folderId) }
+            dragHandle.isVisible = startDrag != null
+            for (handle in listOf(folderIcon, dragHandle)) {
+                handle.setOnClickListener { root.performClick() }
+                handle.isFocusable = false
+                handle.setOnTouchListener { _, event ->
+                    if (event.actionMasked == MotionEvent.ACTION_DOWN) startDrag?.invoke(this@FolderHeaderViewHolder)
+                    false
                 }
-            } else {
-                folderTitle.setCompoundDrawables(null, null, null, null)
             }
+            ViewCompat.setAccessibilityHeading(root, true)
+            moveActions.forEach { ViewCompat.removeAccessibilityAction(root, it) }
+            moveActions.clear()
+
+            fun addMoveAction(label: Int, move: (() -> Unit)?) {
+                if (move == null) return
+                moveActions += ViewCompat.addAccessibilityAction(root, root.context.getString(label)) { _, _ ->
+                    move()
+                    true
+                }
+            }
+            addMoveAction(R.string.move_group_up, moveUp)
+            addMoveAction(R.string.move_group_down, moveDown)
         }
     }
 
@@ -416,6 +555,8 @@ class AppDrawerAdapter(
             appHideLayout.visibility = View.GONE
             renameLayout.visibility = View.GONE
             appTitle.visibility = View.VISIBLE
+            val inGroup = (appModel as? AppModel.App)?.drawerGroupId != null
+            appTitle.updatePaddingRelative(start = (if (inGroup) 56 else 24).dpToPx())
 
             // Show indicators in title based on app type and state
             val builder = SpannableStringBuilder(appModel.appLabel)
@@ -477,11 +618,8 @@ class AppDrawerAdapter(
 
             if (showLimit) {
                 val level = appLimitLevel(appModel)
-                if (showLock) {
-                    builder.append("\u00A0liv.\u00A0$level")
-                } else {
-                    builder.append("  liv.\u00A0$level")
-                }
+                builder.append(if (showLock) "\u00A0" else "  ")
+                builder.append(appTitle.context.getString(R.string.app_limit_level_short, level))
 
                 val remainingMs = appCooldownRemainingMillis(appModel)
                 if (remainingMs > 0) {

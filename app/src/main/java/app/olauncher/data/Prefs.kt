@@ -99,6 +99,7 @@ class Prefs(private val context: Context) {
     // ---- Alignment ----
     var homeAlignment by int("HOME_ALIGNMENT", Gravity.START)
     var homeBottomAlignment by bool("HOME_BOTTOM_ALIGNMENT")
+    var drawerGroupsCollapsed by bool("DRAWER_GROUPS_COLLAPSED")
     var clockAlignment by int("CLOCK_ALIGNMENT", Gravity.START)
     var shortcutIconsAlignment by int("SHORTCUT_ICONS_ALIGNMENT", Gravity.END)
     var screenTimeAlignment by int("SCREEN_TIME_ALIGNMENT", Gravity.END)
@@ -375,6 +376,32 @@ class Prefs(private val context: Context) {
     // ---- Home-slot folders ----
     // A home slot can hold a folder instead of an app/shortcut. We reuse the slot's
     // name field for the display label and flag it with IS_FOLDER_/FOLDER_ID_.
+
+    /**
+     * Moves a group one visible position up or down. Groups for which [isVisible] is false
+     * (e.g. all members uninstalled, so the drawer hides them) are skipped, so every move
+     * produces a visible change. Returns true when the order changed.
+     */
+    fun moveFolder(id: String, up: Boolean, isVisible: (Folder) -> Boolean = { true }): Boolean {
+        val list = folders
+        val from = list.indexOfFirst { it.id == id }
+        if (from < 0) return false
+        val range = if (up) (from - 1 downTo 0) else (from + 1 until list.size)
+        val target = range.firstOrNull { isVisible(list[it]) } ?: return false
+        return moveFolderTo(id, list[target].id, after = !up)
+    }
+
+    fun moveFolderTo(id: String, targetId: String, after: Boolean): Boolean {
+        val list = folders
+        val from = list.indexOfFirst { it.id == id }
+        val target = list.indexOfFirst { it.id == targetId }
+        if (from < 0 || target < 0 || from == target) return false
+        val insertion = target - (if (from < target) 1 else 0) + (if (after) 1 else 0)
+        if (from == insertion) return false
+        list.add(insertion, list.removeAt(from))
+        folders = list
+        return true
+    }
 
     fun getIsFolder(location: Int): Boolean = prefs.getBoolean("IS_FOLDER_$location", false)
     fun getFolderIdAt(location: Int): String = prefs.getString("FOLDER_ID_$location", "").orEmpty()

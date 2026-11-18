@@ -161,6 +161,7 @@
     <string name="widget_requires_default_launcher">قم بتعيين BetterLauncher كمشغل افتراضي لإضافة عناصر واجهة المستخدم</string>
     <string name="home_icons_count">أيقونات التطبيقات المفضلة</string>
     <string name="group">مجموعة</string>
+    <string name="drawer_groups">المجموعات</string>
     <string name="add_to_group">أضف إلى المجموعة</string>
     <string name="new_folder">مجموعة جديدة…</string>
     <string name="folder_name">اسم المجموعة</string>
@@ -172,6 +173,8 @@
     <string name="folder_deleted">تم حذف المجموعة</string>
     <string name="folder_is_empty">هذه المجموعة فارغة</string>
     <string name="manage_group">إدارة المجموعة</string>
+    <string name="move_group_up">نقل المجموعة لأعلى</string>
+    <string name="move_group_down">نقل المجموعة لأسفل</string>
     <string name="set_up_screen_lock_for_app_lock">يرجى إعداد قفل الشاشة (رقم التعريف الشخصي أو النمط أو كلمة المرور) في إعدادات جهازك لقفل التطبيقات.</string>
     <string name="unlock_app">فتح التطبيق</string>
     <string name="lock_apps">حماية التطبيقات</string>
@@ -365,4 +368,5 @@
     <string name="clock_hours">ساعات</string>
     <string name="clock_with_minutes">دقائق</string>
     <string name="clock_with_seconds">ثوانٍ</string>
+    <string name="app_limit_level_short">المستوى %1$d</string>
 </resources>

@@ -161,6 +161,7 @@
     <string name="widget_requires_default_launcher">Configure BetterLauncher como su iniciador predeterminado para agregar widgets</string>
     <string name="home_icons_count">Iconos de aplicaciones favoritas</string>
     <string name="group">Grupo</string>
+    <string name="drawer_groups">Grupos</string>
     <string name="add_to_group">Agregar al grupo</string>
     <string name="new_folder">Nuevo grupo…</string>
     <string name="folder_name">Nombre del grupo</string>
@@ -172,6 +173,8 @@
     <string name="folder_deleted">Grupo eliminado</string>
     <string name="folder_is_empty">Este grupo está vacío.</string>
     <string name="manage_group">Administrar grupo</string>
+    <string name="move_group_up">Subir grupo</string>
+    <string name="move_group_down">Bajar grupo</string>
     <string name="set_up_screen_lock_for_app_lock">Configure un bloqueo de pantalla (PIN, patrón o contraseña) en la configuración de su dispositivo para bloquear aplicaciones.</string>
     <string name="unlock_app">Desbloquear aplicación</string>
     <string name="lock_apps">Proteger aplicaciones</string>
@@ -365,4 +368,5 @@ Para eliminarlo debe ser ≤ 2</string>
     <string name="clock_hours">Horas</string>
     <string name="clock_with_minutes">Minutos</string>
     <string name="clock_with_seconds">Segundos</string>
+    <string name="app_limit_level_short">Nivel %1$d</string>
 </resources><!-- Spanish -->

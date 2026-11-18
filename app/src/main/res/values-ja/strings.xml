@@ -162,6 +162,7 @@
     <string name="widget_requires_default_launcher">BetterLauncher をデフォルトのランチャーとして設定してウィジェットを追加します</string>
     <string name="home_icons_count">お気に入りのアプリのアイコン</string>
     <string name="group">グループ</string>
+    <string name="drawer_groups">グループ</string>
     <string name="add_to_group">グループに追加</string>
     <string name="new_folder">新しいグループ…</string>
     <string name="folder_name">グループ名</string>
@@ -173,6 +174,8 @@
     <string name="folder_deleted">グループが削除されました</string>
     <string name="folder_is_empty">このグループは空です</string>
     <string name="manage_group">グループの管理</string>
+    <string name="move_group_up">グループを上へ移動</string>
+    <string name="move_group_down">グループを下へ移動</string>
     <string name="set_up_screen_lock_for_app_lock">アプリをロックするには、デバイスの設定で画面ロック (PIN、パターン、またはパスワード) を設定してください。</string>
     <string name="unlock_app">アプリのロックを解除する</string>
     <string name="lock_apps">アプリを保護する</string>
@@ -366,4 +369,5 @@
     <string name="clock_hours">時</string>
     <string name="clock_with_minutes">分</string>
     <string name="clock_with_seconds">秒</string>
+    <string name="app_limit_level_short">レベル %1$d</string>
 </resources> <!-- Japanese -->

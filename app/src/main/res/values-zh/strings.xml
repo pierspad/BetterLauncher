@@ -164,6 +164,7 @@
     <string name="widget_requires_default_launcher">将 BetterLauncher 设置为默认启动器以添加小部件</string>
     <string name="home_icons_count">最喜欢的应用程序图标</string>
     <string name="group">团体</string>
+    <string name="drawer_groups">分组</string>
     <string name="add_to_group">添加到群组</string>
     <string name="new_folder">新组…</string>
     <string name="folder_name">团体名称</string>
@@ -175,6 +176,8 @@
     <string name="folder_deleted">群组已删除</string>
     <string name="folder_is_empty">该组是空的</string>
     <string name="manage_group">管理群组</string>
+    <string name="move_group_up">上移分组</string>
+    <string name="move_group_down">下移分组</string>
     <string name="set_up_screen_lock_for_app_lock">请在您的设备设置中设置屏幕锁定（PIN、图案或密码）以锁定应用程序。</string>
     <string name="unlock_app">解锁应用程序</string>
     <string name="lock_apps">保护应用程序</string>
@@ -368,4 +371,5 @@
     <string name="clock_hours">小时</string>
     <string name="clock_with_minutes">分钟</string>
     <string name="clock_with_seconds">秒</string>
+    <string name="app_limit_level_short">等级 %1$d</string>
 </resources><!-- Chinese -->

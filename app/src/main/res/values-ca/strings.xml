@@ -184,6 +184,7 @@ Primer escriu un nom nou</string>
     <!-- Carpetes / grups -->
     <string name="home_icons_count">Icones d\'aplicacions preferides</string>
     <string name="group">Grup</string>
+    <string name="drawer_groups">Grups</string>
     <string name="add_to_group">Afegeix al grup</string>
     <string name="new_folder">Grup nou…</string>
     <string name="folder_name">Nom del grup</string>
@@ -195,6 +196,8 @@ Primer escriu un nom nou</string>
     <string name="folder_deleted">S\'ha suprimit el grup</string>
     <string name="folder_is_empty">Aquest grup és buit</string>
     <string name="manage_group">Gestiona el grup</string>
+    <string name="move_group_up">Mou el grup amunt</string>
+    <string name="move_group_down">Mou el grup avall</string>
 
     <!-- Bloqueig d'aplicacions -->
     <string name="set_up_screen_lock_for_app_lock">Configura un bloqueig de pantalla (PIN, patró o contrasenya) als ajustos del dispositiu per bloquejar aplicacions.</string>
@@ -392,4 +395,5 @@ No es permet amagar dreceres fixades</string>
     <string name="clock_hours">Hores</string>
     <string name="clock_with_minutes">Minuts</string>
     <string name="clock_with_seconds">Segons</string>
+    <string name="app_limit_level_short">Nivell %1$d</string>
 </resources>

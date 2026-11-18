@@ -161,6 +161,7 @@
     <string name="widget_requires_default_launcher">Tetapkan BetterLauncher sebagai peluncur default Anda untuk menambahkan widget</string>
     <string name="home_icons_count">Ikon aplikasi favorit</string>
     <string name="group">Kelompok</string>
+    <string name="drawer_groups">Kelompok</string>
     <string name="add_to_group">Tambahkan ke grup</string>
     <string name="new_folder">Grup baru…</string>
     <string name="folder_name">Nama grup</string>
@@ -172,6 +173,8 @@
     <string name="folder_deleted">Grup dihapus</string>
     <string name="folder_is_empty">Grup ini kosong</string>
     <string name="manage_group">Kelola grup</string>
+    <string name="move_group_up">Pindahkan grup ke atas</string>
+    <string name="move_group_down">Pindahkan grup ke bawah</string>
     <string name="set_up_screen_lock_for_app_lock">Harap siapkan kunci layar (PIN, pola, atau kata sandi) di pengaturan perangkat Anda untuk mengunci aplikasi.</string>
     <string name="unlock_app">Buka kunci aplikasi</string>
     <string name="lock_apps">Lindungi aplikasi</string>
@@ -365,4 +368,5 @@ Untuk menghapus harus ≤ 2</string>
     <string name="clock_hours">Jam</string>
     <string name="clock_with_minutes">Menit</string>
     <string name="clock_with_seconds">Detik</string>
+    <string name="app_limit_level_short">Tingkat %1$d</string>
 </resources><!-- Indonesian -->

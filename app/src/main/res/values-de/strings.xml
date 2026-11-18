@@ -163,6 +163,7 @@
     <string name="widget_requires_default_launcher">Legen Sie BetterLauncher als Standard-Launcher fest, um Widgets hinzuzufügen</string>
     <string name="home_icons_count">Lieblings-App-Symbole</string>
     <string name="group">Gruppe</string>
+    <string name="drawer_groups">Gruppen</string>
     <string name="add_to_group">Zur Gruppe hinzufügen</string>
     <string name="new_folder">Neue Gruppe…</string>
     <string name="folder_name">Gruppenname</string>
@@ -174,6 +175,8 @@
     <string name="folder_deleted">Gruppe gelöscht</string>
     <string name="folder_is_empty">Diese Gruppe ist leer</string>
     <string name="manage_group">Gruppe verwalten</string>
+    <string name="move_group_up">Gruppe nach oben</string>
+    <string name="move_group_down">Gruppe nach unten</string>
     <string name="set_up_screen_lock_for_app_lock">Bitte richten Sie in Ihren Geräteeinstellungen eine Bildschirmsperre (PIN, Muster oder Passwort) ein, um Apps zu sperren.</string>
     <string name="unlock_app">App entsperren</string>
     <string name="lock_apps">Apps schützen</string>
@@ -367,4 +370,5 @@ Zum Entfernen muss er ≤ 2 sein</string>
     <string name="clock_hours">Stunden</string>
     <string name="clock_with_minutes">Minuten</string>
     <string name="clock_with_seconds">Sekunden</string>
+    <string name="app_limit_level_short">Stufe %1$d</string>
 </resources>

@@ -17,6 +17,7 @@ sealed class AppModel : Comparable<AppModel> {
         val activityClassName: String?,
         override val isNew: Boolean = false,
         override val user: UserHandle,
+        val drawerGroupId: String? = null,
     ) : AppModel()
 
     data class PinnedShortcut(
@@ -69,6 +70,22 @@ sealed class AppModel : Comparable<AppModel> {
         override val appLabel: String = name
         override val key: CollationKey? = null
         override val appPackage: String = ""
+        override val isNew: Boolean = false
+    }
+
+    data class GroupsSection(val collapsed: Boolean) : AppModel() {
+        override val appLabel: String = ""
+        override val key: CollationKey? = null
+        override val appPackage: String = ""
+        override val user: UserHandle = android.os.Process.myUserHandle()
+        override val isNew: Boolean = false
+    }
+
+    data object GroupsDivider : AppModel() {
+        override val appLabel: String = ""
+        override val key: CollationKey? = null
+        override val appPackage: String = ""
+        override val user: UserHandle = android.os.Process.myUserHandle()
         override val isNew: Boolean = false
     }
 

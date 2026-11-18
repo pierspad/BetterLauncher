@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rounded_dialog_surface"
-    android:orientation="vertical"
-    android:paddingHorizontal="24dp"
-    android:paddingTop="26dp"
-    android:paddingBottom="16dp">
-
-    <TextView
-        android:id="@+id/dialogTitle"
-        style="@style/TextSectionTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/new_folder" />
-
-    <EditText
-        android:id="@+id/dialogInput"
-        style="@style/TextMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/circle_shade_color_glass"
-        android:hint="@string/folder_name"
-        android:imeOptions="actionDone"
-        android:inputType="textCapWords"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="14dp"
-        android:singleLine="true"
-        android:textColor="?attr/primaryColor"
-        android:textColorHint="?attr/primaryColorTrans50" />
+    android:background="@drawable/rounded_dialog_surface">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="end"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <TextView
-            android:id="@+id/btnCancel"
-            style="@style/TextSmallBold"
-            android:layout_width="wrap_content"
+            android:id="@+id/dialogTitle"
+            style="@style/TextSectionTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="10dp"
-            android:text="@string/close"
-            android:textAllCaps="true"
-            android:textColor="?attr/primaryColorTrans80" />
+            android:layout_marginBottom="18dp"
+            android:shadowRadius="0"
+            android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/btnConfirm"
             style="@style/TextSmallBold"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="10dp"
-            android:text="@string/create"
-            android:textAllCaps="true"
-            android:textColor="?attr/primaryColor" />
+            android:layout_marginBottom="6dp"
+            android:labelFor="@id/dialogInput"
+            android:shadowRadius="0"
+            android:text="@string/folder_name" />
 
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/dialogInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/group_name_field"
+            android:imeOptions="actionDone"
+            android:inputType="textCapWords"
+            android:minHeight="52dp"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="12dp"
+            android:singleLine="true"
+            android:textColor="?attr/primaryColor"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCancel"
+                style="@style/DialogSecondaryAction"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/close" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnConfirm"
+                style="@style/DialogPrimaryAction"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>

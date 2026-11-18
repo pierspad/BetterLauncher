@@ -155,6 +155,7 @@
     <string name="widget_requires_default_launcher">הגדר את BetterLauncher כמפעיל ברירת המחדל שלך להוספת ווידג\'טים</string>
     <string name="home_icons_count">סמלי אפליקציה מועדפים</string>
     <string name="group">קְבוּצָה</string>
+    <string name="drawer_groups">קבוצות</string>
     <string name="add_to_group">הוסף לקבוצה</string>
     <string name="new_folder">קבוצה חדשה…</string>
     <string name="folder_name">שם הקבוצה</string>
@@ -166,6 +167,8 @@
     <string name="folder_deleted">הקבוצה נמחקה</string>
     <string name="folder_is_empty">הקבוצה הזו ריקה</string>
     <string name="manage_group">ניהול קבוצה</string>
+    <string name="move_group_up">הזזת הקבוצה למעלה</string>
+    <string name="move_group_down">הזזת הקבוצה למטה</string>
     <string name="set_up_screen_lock_for_app_lock">אנא הגדר נעילת מסך (PIN, דפוס או סיסמה) בהגדרות המכשיר שלך כדי לנעול אפליקציות.</string>
     <string name="unlock_app">בטל את נעילת האפליקציה</string>
     <string name="lock_apps">הגן על אפליקציות</string>
@@ -359,4 +362,5 @@
     <string name="clock_hours">שעות</string>
     <string name="clock_with_minutes">דקות</string>
     <string name="clock_with_seconds">שניות</string>
+    <string name="app_limit_level_short">רמה %1$d</string>
 </resources>

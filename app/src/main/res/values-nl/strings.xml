@@ -162,6 +162,7 @@
     <string name="widget_requires_default_launcher">Stel BetterLauncher in als uw standaardopstartprogramma om widgets toe te voegen</string>
     <string name="home_icons_count">Favoriete app-iconen</string>
     <string name="group">Groep</string>
+    <string name="drawer_groups">Groepen</string>
     <string name="add_to_group">Toevoegen aan groep</string>
     <string name="new_folder">Nieuwe groep…</string>
     <string name="folder_name">Groepsnaam</string>
@@ -173,6 +174,8 @@
     <string name="folder_deleted">Groep verwijderd</string>
     <string name="folder_is_empty">Deze groep is leeg</string>
     <string name="manage_group">Groep beheren</string>
+    <string name="move_group_up">Groep omhoog</string>
+    <string name="move_group_down">Groep omlaag</string>
     <string name="set_up_screen_lock_for_app_lock">Stel een schermvergrendeling (pincode, patroon of wachtwoord) in uw apparaatinstellingen in om apps te vergrendelen.</string>
     <string name="unlock_app">Ontgrendel app</string>
     <string name="lock_apps">Apps beveiligen</string>
@@ -366,4 +369,5 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="clock_hours">Uren</string>
     <string name="clock_with_minutes">Minuten</string>
     <string name="clock_with_seconds">Seconden</string>
+    <string name="app_limit_level_short">Niveau %1$d</string>
 </resources><!-- Dutch -->

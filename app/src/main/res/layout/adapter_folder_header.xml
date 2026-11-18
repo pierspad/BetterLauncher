@@ -4,8 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:focusable="true"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:minHeight="52dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="24dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/folderIcon"
+        android:layout_width="34dp"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="no"
+        android:paddingStart="0dp"
+        android:paddingEnd="10dp"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/ic_sc_folder"
+        app:tint="?attr/primaryColor" />
 
     <TextView
         android:id="@+id/folderTitle"
@@ -13,13 +28,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:alpha="0.6"
-        android:drawablePadding="12dp"
-        android:maxLines="1"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="@dimen/app_padding_vertical"
-        app:drawableStartCompat="@drawable/ic_sc_folder"
-        app:drawableTint="?attr/primaryColor"
+        android:paddingVertical="10dp"
+        android:textStyle="bold"
         tools:text="Work" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/dragHandle"
+        android:layout_width="32dp"
+        android:layout_height="match_parent"
+        android:paddingStart="12dp"
+        android:paddingEnd="0dp"
+        android:scaleType="centerInside"
+        android:importantForAccessibility="no"
+        app:srcCompat="@drawable/ic_drag_handle"
+        app:tint="?attr/primaryColorTrans80" />
 </LinearLayout>

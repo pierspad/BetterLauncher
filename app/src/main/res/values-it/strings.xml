@@ -182,6 +182,7 @@ Inserisci prima un nuovo nome per l\'app</string>
     <!-- Cartelle / gruppi -->
     <string name="home_icons_count">Icone app preferite</string>
     <string name="group">Gruppo</string>
+    <string name="drawer_groups">Gruppi</string>
     <string name="add_to_group">Aggiungi al gruppo</string>
     <string name="new_folder">Nuovo gruppo…</string>
     <string name="folder_name">Nome gruppo</string>
@@ -193,6 +194,8 @@ Inserisci prima un nuovo nome per l\'app</string>
     <string name="folder_deleted">Gruppo eliminato</string>
     <string name="folder_is_empty">Questo gruppo è vuoto</string>
     <string name="manage_group">Gestisci gruppo</string>
+    <string name="move_group_up">Sposta gruppo su</string>
+    <string name="move_group_down">Sposta gruppo giù</string>
 
     <!-- App locking -->
     <string name="set_up_screen_lock_for_app_lock">Imposta un blocco schermo (PIN, sequenza o password) nelle impostazioni del dispositivo per bloccare le app.</string>
@@ -396,4 +399,5 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="clock_with_minutes">Minuti</string>
     <string name="clock_with_seconds">Secondi</string>
     <string name="search_mode_title">Modalità di ricerca</string>
+    <string name="app_limit_level_short">Liv. %1$d</string>
 </resources><!-- Italian -->

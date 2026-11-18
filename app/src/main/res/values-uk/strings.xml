@@ -163,6 +163,7 @@
     <string name="widget_requires_default_launcher">Встановіть BetterLauncher як програму запуску за умовчанням, щоб додавати віджети</string>
     <string name="home_icons_count">Піктограми улюблених програм</string>
     <string name="group">Група</string>
+    <string name="drawer_groups">Групи</string>
     <string name="add_to_group">Додати до групи</string>
     <string name="new_folder">Нова група…</string>
     <string name="folder_name">Назва групи</string>
@@ -174,6 +175,8 @@
     <string name="folder_deleted">Групу видалено</string>
     <string name="folder_is_empty">Ця група порожня</string>
     <string name="manage_group">Керувати групою</string>
+    <string name="move_group_up">Перемістити групу вгору</string>
+    <string name="move_group_down">Перемістити групу вниз</string>
     <string name="set_up_screen_lock_for_app_lock">Налаштуйте блокування екрана (PIN-код, ключ або пароль) у налаштуваннях пристрою, щоб блокувати програми.</string>
     <string name="unlock_app">Розблокувати додаток</string>
     <string name="lock_apps">Захист програм</string>
@@ -367,4 +370,5 @@
     <string name="clock_hours">Години</string>
     <string name="clock_with_minutes">Хвилини</string>
     <string name="clock_with_seconds">Секунди</string>
+    <string name="app_limit_level_short">Рівень %1$d</string>
 </resources><!-- Ukrainian -->
