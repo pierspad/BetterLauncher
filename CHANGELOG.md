@@ -1,3 +1,16 @@
+## [1.8.0](https://github.com/pierspad/BetterLauncher/compare/v1.7.4...v1.8.0) (2026-11-18)
+
+### Features
+
+* add searchable bulk app selection for groups ([76a5a9e](https://github.com/pierspad/BetterLauncher/commit/76a5a9ef50db6ccf0ae42a29ca6ec6db8aaa39ac))
+* organize and reorder app drawer groups ([9fe8347](https://github.com/pierspad/BetterLauncher/commit/9fe8347437c116de1081b00a508a17bc516aa20b))
+* rotate local wallpapers on a configurable schedule ([ab1e360](https://github.com/pierspad/BetterLauncher/commit/ab1e3600ee19ae51e8d63bd11554b70f83e239df))
+
+### Bug Fixes
+
+* apply the selected font to switches and launcher menus ([3defcb0](https://github.com/pierspad/BetterLauncher/commit/3defcb0a30cdd51760014b20f8cd3a25f3380d26))
+* harden settings checkbox inflation on Android 10 ([2ec1d62](https://github.com/pierspad/BetterLauncher/commit/2ec1d62416c92f6cec678a5a94e5a1b22d977144))
+
 ## [1.7.4](https://github.com/pierspad/BetterLauncher/compare/v1.7.3...v1.7.4) (2026-11-16)
 
 ### Bug Fixes
