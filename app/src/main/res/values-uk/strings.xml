@@ -390,4 +390,5 @@
     <string name="wallpaper_image_layout">Підгонка зображення</string>
     <string name="wallpaper_fill_image">Заповнити екран</string>
     <string name="wallpaper_fit_image">Показати все зображення</string>
+    <string name="edit_group_apps">Редагувати застосунки групи</string>
 </resources><!-- Ukrainian -->

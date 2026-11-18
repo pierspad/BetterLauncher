@@ -419,4 +419,5 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="wallpaper_image_layout">Adattamento foto</string>
     <string name="wallpaper_fill_image">Riempi lo schermo</string>
     <string name="wallpaper_fit_image">Mostra foto intera</string>
+    <string name="edit_group_apps">Modifica app del gruppo</string>
 </resources><!-- Italian -->

@@ -415,4 +415,5 @@ No es permet amagar dreceres fixades</string>
     <string name="wallpaper_image_layout">Ajust de la imatge</string>
     <string name="wallpaper_fill_image">Omple la pantalla</string>
     <string name="wallpaper_fit_image">Mostra la imatge sencera</string>
+    <string name="edit_group_apps">Edita les apps del grup</string>
 </resources>

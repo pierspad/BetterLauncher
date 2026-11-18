@@ -374,4 +374,5 @@
     <string name="wallpaper_image_layout">이미지 맞춤</string>
     <string name="wallpaper_fill_image">화면 채우기</string>
     <string name="wallpaper_fit_image">이미지 전체 보기</string>
+    <string name="edit_group_apps">그룹 앱 편집</string>
 </resources>

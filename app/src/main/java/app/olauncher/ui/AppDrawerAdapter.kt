@@ -61,6 +61,7 @@ class AppDrawerAdapter(
     private val appFolderListener: (AppModel) -> Unit = {},
     private val appAddToHomeListener: (AppModel) -> Unit = {},
     private val folderManageListener: (String) -> Unit = {},
+    private val folderEditListener: (String) -> Unit = {},
     private val folderMoveListener: (String, Boolean) -> Unit = { _, _ -> },
     private val groupsCollapsed: () -> Boolean = { false },
     private val startFolderDrag: (FolderHeaderViewHolder) -> Unit = {},
@@ -154,6 +155,7 @@ class AppDrawerAdapter(
     // currentList: what is currently on screen (sections + apps, or filtered apps).
     private var appsList: List<AppModel> = emptyList()
     private var folderSections: List<AppModel> = emptyList()
+    private var drawerFolders: List<Folder> = emptyList()
     private var reorderingGroups = false
 
     fun showGroupReorderRows(reordering: Boolean) {
@@ -254,7 +256,7 @@ class AppDrawerAdapter(
                     val folderIds = visibleFolderIds().toList()
                     val index = folderIds.indexOf(appModel.folderId)
                     holder.bind(
-                        appModel, appLabelGravity, folderManageListener,
+                        appModel, appLabelGravity, folderManageListener, folderEditListener,
                         startDrag = if (folderIds.size > 1) startFolderDrag else null,
                         moveUp = if (index > 0) ({ folderMoveListener(appModel.folderId, true) }) else null,
                         moveDown = if (index in 0 until folderIds.lastIndex) {
@@ -291,7 +293,7 @@ class AppDrawerAdapter(
     /**
      * Filters the app list based on [query] and submits the filtered results.
      */
-    fun applyFilter(query: CharSequence) {
+    fun applyFilter(query: CharSequence, onCommitted: (() -> Unit)? = null) {
         val q = query.toString()
         if (q != lastQuery) queryGeneration++
         lastQuery = q
@@ -347,6 +349,7 @@ class AppDrawerAdapter(
                 firstNonEmptyCommitDone = true
                 onFirstNonEmptyCommit?.invoke()
             }
+            onCommitted?.invoke()
         }
     }
 
@@ -384,9 +387,8 @@ class AppDrawerAdapter(
     // Sets app list for flat-list views (hidden/locked apps, pickers)
     fun setAppList(appsList: MutableList<AppModel>) {
         this.appsList = appsList.toList() + paddingApp()
-        this.folderSections = emptyList()
         refreshSearchIndex()
-        applyFilter(lastQuery)
+        updateGroups(emptyList())
     }
 
     // Sets app list and folders for the main launcher drawer
@@ -396,19 +398,16 @@ class AppDrawerAdapter(
         updateGroups(folders)
     }
 
-    fun updateGroups(folders: List<Folder>) {
+    fun updateGroups(folders: List<Folder>, onCommitted: (() -> Unit)? = null) {
+        drawerFolders = folders
         folderSections = buildFolderSections(folders, appsList)
-        applyFilter(lastQuery)
+        applyFilter(lastQuery, onCommitted)
     }
 
     fun removeApp(app: AppModel) {
         appsList = appsList.filterNot { it.appPackage == app.appPackage && it.user == app.user }
-        val remaining = folderSections.filterNot { it.appPackage == app.appPackage && it.user == app.user }
-        folderSections = remaining.filterIndexed { index, item ->
-            item !is AppModel.FolderHeader || remaining.getOrNull(index + 1)?.let { it !is AppModel.FolderHeader } == true
-        }
         refreshSearchIndex()
-        applyFilter(lastQuery)
+        updateGroups(drawerFolders)
     }
 
     fun visibleFolderIds(): Set<String> = folderSections.filterIsInstance<AppModel.FolderHeader>()
@@ -425,7 +424,7 @@ class AppDrawerAdapter(
         val out = ArrayList<AppModel>()
         for (folder in folders) {
             val members = folder.apps.mapNotNull { byKey[it] }
-            if (members.isEmpty()) continue
+            if (members.isEmpty() && folder.apps.isNotEmpty()) continue
             out.add(AppModel.FolderHeader(folder.id, folder.name))
             out.addAll(members.map { it.copy(drawerGroupId = folder.id) })
         }
@@ -491,6 +490,7 @@ class AppDrawerAdapter(
             folder: AppModel.FolderHeader,
             appLabelGravity: Int,
             manageListener: (String) -> Unit,
+            editListener: (String) -> Unit,
             startDrag: ((FolderHeaderViewHolder) -> Unit)?,
             moveUp: (() -> Unit)?,
             moveDown: (() -> Unit)?,
@@ -499,6 +499,13 @@ class AppDrawerAdapter(
             folderTitle.text = folder.name
             folderTitle.gravity = appLabelGravity
             root.setOnClickListener { manageListener(folder.folderId) }
+            root.setOnLongClickListener {
+                editListener(folder.folderId)
+                true
+            }
+            ViewCompat.replaceAccessibilityAction(
+                root, AccessibilityActionCompat.ACTION_LONG_CLICK, root.context.getString(R.string.edit_group_apps), null
+            )
             dragHandle.isVisible = startDrag != null
             for (handle in listOf(folderIcon, dragHandle)) {
                 handle.setOnClickListener { root.performClick() }

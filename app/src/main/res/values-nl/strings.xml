@@ -389,4 +389,5 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="wallpaper_image_layout">Afbeelding passend maken</string>
     <string name="wallpaper_fill_image">Scherm vullen</string>
     <string name="wallpaper_fit_image">Hele afbeelding tonen</string>
+    <string name="edit_group_apps">Groepsapps bewerken</string>
 </resources><!-- Dutch -->

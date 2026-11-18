@@ -388,4 +388,5 @@
     <string name="wallpaper_image_layout">عرض الصورة</string>
     <string name="wallpaper_fill_image">ملء الشاشة</string>
     <string name="wallpaper_fit_image">عرض الصورة كاملة</string>
+    <string name="edit_group_apps">تعديل تطبيقات المجموعة</string>
 </resources>

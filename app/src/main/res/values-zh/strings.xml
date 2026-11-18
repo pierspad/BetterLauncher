@@ -391,4 +391,5 @@
     <string name="wallpaper_image_layout">图片适配</string>
     <string name="wallpaper_fill_image">填满屏幕</string>
     <string name="wallpaper_fit_image">显示完整图片</string>
+    <string name="edit_group_apps">编辑分组应用</string>
 </resources><!-- Chinese -->

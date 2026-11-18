@@ -456,4 +456,5 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="wallpaper_image_layout">Image layout</string>
     <string name="wallpaper_fill_image">Fill screen</string>
     <string name="wallpaper_fit_image">Show full image</string>
+    <string name="edit_group_apps">Edit group apps</string>
 </resources>

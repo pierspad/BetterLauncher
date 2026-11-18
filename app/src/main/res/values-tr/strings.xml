@@ -390,4 +390,5 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="wallpaper_image_layout">Görseli sığdırma</string>
     <string name="wallpaper_fill_image">Ekranı doldur</string>
     <string name="wallpaper_fit_image">Görselin tamamını göster</string>
+    <string name="edit_group_apps">Grup uygulamalarını düzenle</string>
 </resources><!-- Turkish -->

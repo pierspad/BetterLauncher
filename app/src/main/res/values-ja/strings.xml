@@ -389,4 +389,5 @@
     <string name="wallpaper_image_layout">画像の表示方法</string>
     <string name="wallpaper_fill_image">画面いっぱいに表示</string>
     <string name="wallpaper_fit_image">画像全体を表示</string>
+    <string name="edit_group_apps">グループ内のアプリを編集</string>
 </resources> <!-- Japanese -->

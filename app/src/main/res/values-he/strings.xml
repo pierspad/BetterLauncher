@@ -382,4 +382,5 @@
     <string name="wallpaper_image_layout">התאמת התמונה</string>
     <string name="wallpaper_fill_image">מילוי המסך</string>
     <string name="wallpaper_fit_image">הצגת התמונה המלאה</string>
+    <string name="edit_group_apps">עריכת אפליקציות בקבוצה</string>
 </resources>

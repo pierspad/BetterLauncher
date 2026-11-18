@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_dialog_surface"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/groupAppsTitle"
+        style="@style/TextSectionTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:shadowRadius="0" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/groupAppsSearch"
+        style="@style/TextSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/group_name_field"
+        android:hint="@string/search"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:paddingHorizontal="12dp"
+        android:shadowRadius="0"
+        android:singleLine="true"
+        android:textColorHint="?attr/primaryColorTrans80" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/groupAppsList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:clipToPadding="false" />
+
+    <TextView
+        android:id="@+id/groupAppsSave"
+        style="@style/DialogPrimaryAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save" />
+
+    <TextView
+        android:id="@+id/groupAppsCancel"
+        style="@style/DialogSecondaryAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@android:string/cancel" />
+</LinearLayout>

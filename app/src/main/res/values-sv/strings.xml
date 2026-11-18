@@ -388,4 +388,5 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="wallpaper_image_layout">Bildanpassning</string>
     <string name="wallpaper_fill_image">Fyll skärmen</string>
     <string name="wallpaper_fit_image">Visa hela bilden</string>
+    <string name="edit_group_apps">Redigera gruppens appar</string>
 </resources><!-- Swedish -->

@@ -390,4 +390,5 @@ Zum Entfernen muss er ≤ 2 sein</string>
     <string name="wallpaper_image_layout">Bildanpassung</string>
     <string name="wallpaper_fill_image">Bildschirm füllen</string>
     <string name="wallpaper_fit_image">Ganzes Bild anzeigen</string>
+    <string name="edit_group_apps">Gruppen-Apps bearbeiten</string>
 </resources>

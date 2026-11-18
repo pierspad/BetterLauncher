@@ -73,6 +73,7 @@ class AppDrawerFragment : Fragment() {
     private lateinit var prefs: Prefs
     private lateinit var adapter: AppDrawerAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private var groupAppsEditor: android.app.Dialog? = null
     private var groupDragHelper: ItemTouchHelper? = null
     private var groupDragActive = false
 
@@ -132,6 +133,13 @@ class AppDrawerFragment : Fragment() {
     private fun setupDrawerSearchSources() {
         if (flag != Constants.FLAG_LAUNCH_APP) return
         binding.searchOptions.visibility = View.VISIBLE
+        binding.newGroup.isVisible = binding.search.query.isBlank()
+        binding.newGroup.isEnabled = currentAppList != null
+        binding.newGroup.setOnClickListener {
+            binding.search.hideKeyboard()
+            showCreateFolderDialog(null)
+        }
+        androidx.appcompat.widget.TooltipCompat.setTooltipText(binding.newGroup, getString(R.string.new_folder))
         binding.searchOptions.setOnClickListener { showSearchOptionsMenu() }
         refreshSettingTiles()
         refreshContacts()
@@ -290,6 +298,7 @@ class AppDrawerFragment : Fragment() {
             override fun onQueryTextChange(newText: String): Boolean {
                 try {
                     binding.btnClearSearch?.isVisible = newText.isNotEmpty()
+                    binding.newGroup.isVisible = flag == Constants.FLAG_LAUNCH_APP && newText.isBlank()
                     adapter.allowAutoLaunch = !isSearchComposing()
                     adapter.applyFilter(newText)
                     binding.appRename.visibility =
@@ -441,7 +450,8 @@ class AppDrawerFragment : Fragment() {
             },
             appFolderListener = { appModel -> showFolderAssignDialog(appModel) },
             appAddToHomeListener = { _ -> viewModel.refreshHome(false) },
-            folderManageListener = { folderId -> showFolderManageDialog(folderId) },
+            folderManageListener = ::showFolderManageDialog,
+            folderEditListener = { id -> prefs.getFolder(id)?.let { editFolderApps(it) } },
             folderMoveListener = ::moveFolder,
             startFolderDrag = { groupDragHelper?.startDrag(it) },
             groupsCollapsed = { prefs.drawerGroupsCollapsed },
@@ -596,6 +606,7 @@ class AppDrawerFragment : Fragment() {
         } else {
             viewModel.appList.observe(viewLifecycleOwner) {
                 currentAppList = it
+                binding.newGroup.isEnabled = it != null
                 updateCombinedAppList()
             }
             if (flag == Constants.FLAG_LAUNCH_APP) {
@@ -761,10 +772,28 @@ class AppDrawerFragment : Fragment() {
                     name = name,
                     apps = if (appKey != null) mutableListOf(appKey) else mutableListOf(),
                 )
-                prefs.upsertFolder(folder)
-                updateCombinedAppList()
+                editFolderApps(folder, creating = true)
             }
         )
+    }
+
+    private fun editFolderApps(folder: Folder, creating: Boolean = false) {
+        binding.search.hideKeyboard()
+        val privateApps = if (currentPrivateSpaceLocked) emptyList() else currentPrivateSpaceApps.orEmpty()
+        val apps = (currentAppList.orEmpty() + privateApps).filterIsInstance<AppModel.App>()
+            .filter { it.appPackage.isNotBlank() }.sorted()
+        groupAppsEditor?.dismiss()
+        groupAppsEditor = showGroupAppsPicker(layoutInflater, folder, apps, SearchMode.fromValue(prefs.searchMode)) {
+            prefs.upsertFolder(it)
+            viewModel.refreshHome(false)
+            if (creating) {
+                prefs.drawerGroupsCollapsed = false
+                binding.search.setQuery("", false)
+                adapter.updateGroups(prefs.folders) { _binding?.recyclerView?.scrollToPosition(0) }
+            } else {
+                adapter.updateGroups(prefs.folders)
+            }
+        }
     }
 
     private fun showRenameFolderDialog(folder: Folder) {
@@ -832,6 +861,7 @@ class AppDrawerFragment : Fragment() {
                 }
             }
 
+            action(R.string.edit_group_apps, R.drawable.ic_sc_grid) { editFolderApps(folder) }
             action(R.string.rename_folder, R.drawable.ic_rename) { showRenameFolderDialog(folder) }
             action(R.string.add_to_home, R.drawable.ic_sc_grid) { showAddFolderToHomeDialog(folder) }
             action(R.string.delete_folder, R.drawable.ic_delete) { confirmDeleteFolder(folder) }
@@ -1001,6 +1031,8 @@ class AppDrawerFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        groupAppsEditor?.dismiss()
+        groupAppsEditor = null
         groupDragHelper?.attachToRecyclerView(null)
         groupDragHelper = null
         groupDragActive = false

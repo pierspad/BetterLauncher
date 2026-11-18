@@ -48,6 +48,19 @@
             app:searchIcon="@null"
             app:theme="@style/AppSearchText" />
 
+        <ImageView
+            android:id="@+id/newGroup"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/new_folder"
+            android:padding="12dp"
+            android:src="@drawable/ic_add"
+            android:visibility="gone"
+            app:tint="?attr/primaryColor" />
+
         <!-- Drawer-local search options (Android settings / contacts). Shown only in the
              main launch drawer; replaces the toggles that used to live in Settings. -->
         <ImageView

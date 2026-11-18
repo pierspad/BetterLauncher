@@ -389,4 +389,5 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="wallpaper_image_layout">Prilagodba slike</string>
     <string name="wallpaper_fill_image">Ispuni zaslon</string>
     <string name="wallpaper_fit_image">Prikaži cijelu sliku</string>
+    <string name="edit_group_apps">Uredi aplikacije grupe</string>
 </resources><!-- Croatian -->

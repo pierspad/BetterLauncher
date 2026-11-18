@@ -376,4 +376,5 @@
     <string name="wallpaper_image_layout">चित्र का आकार</string>
     <string name="wallpaper_fill_image">स्क्रीन भरें</string>
     <string name="wallpaper_fit_image">पूरा चित्र दिखाएँ</string>
+    <string name="edit_group_apps">समूह के ऐप बदलें</string>
 </resources>

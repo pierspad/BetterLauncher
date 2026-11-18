@@ -388,4 +388,5 @@ Para eliminarlo debe ser ≤ 2</string>
     <string name="wallpaper_image_layout">Ajuste de la imagen</string>
     <string name="wallpaper_fill_image">Llenar la pantalla</string>
     <string name="wallpaper_fit_image">Mostrar la imagen completa</string>
+    <string name="edit_group_apps">Editar apps del grupo</string>
 </resources><!-- Spanish -->

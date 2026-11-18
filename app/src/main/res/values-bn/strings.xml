@@ -374,4 +374,5 @@
     <string name="wallpaper_image_layout">ছবি দেখানোর ধরন</string>
     <string name="wallpaper_fill_image">পুরো স্ক্রিন ভরুন</string>
     <string name="wallpaper_fit_image">পুরো ছবি দেখান</string>
+    <string name="edit_group_apps">গ্রুপের অ্যাপ সম্পাদনা করুন</string>
 </resources>

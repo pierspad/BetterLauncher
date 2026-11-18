@@ -391,4 +391,5 @@
     <string name="wallpaper_image_layout">Подгонка изображения</string>
     <string name="wallpaper_fill_image">Заполнить экран</string>
     <string name="wallpaper_fit_image">Показать изображение целиком</string>
+    <string name="edit_group_apps">Изменить приложения группы</string>
 </resources><!-- Russian -->

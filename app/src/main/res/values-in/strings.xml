@@ -388,4 +388,5 @@ Untuk menghapus harus ≤ 2</string>
     <string name="wallpaper_image_layout">Penyesuaian gambar</string>
     <string name="wallpaper_fill_image">Penuhi layar</string>
     <string name="wallpaper_fit_image">Tampilkan gambar utuh</string>
+    <string name="edit_group_apps">Edit aplikasi grup</string>
 </resources><!-- Indonesian -->
