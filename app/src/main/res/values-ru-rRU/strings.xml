@@ -377,7 +377,7 @@
     <string name="wallpaper_frequency">Частота</string>
     <string name="wallpaper_once_daily">Один раз в день</string>
     <string name="wallpaper_evening_folder">Вечерняя папка</string>
-    <string name="wallpaper_use_main_folder">Использовать основную папку</string>
+    <string name="wallpaper_use_main_folder">Как утром</string>
     <string name="settings_json_placeholder">Здесь появятся настройки JSON.</string>
     <string name="font_preview_sample">Быстрая бурая лиса прыгает через ленивую собаку.</string>
     <string name="wallpaper_morning_evening">Дважды в день</string>
@@ -391,4 +391,5 @@
     <string name="wallpaper_fill_image">Обрезать до размера экрана</string>
     <string name="wallpaper_fit_image">Фото целиком с полями</string>
     <string name="edit_group_apps">Изменить приложения группы</string>
+    <string name="wallpaper_choose_folder">Выбрать папку</string>
 </resources><!-- Russian -->

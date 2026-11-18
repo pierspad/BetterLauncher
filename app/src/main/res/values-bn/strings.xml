@@ -360,7 +360,7 @@
     <string name="wallpaper_frequency">ফ্রিকোয়েন্সি</string>
     <string name="wallpaper_once_daily">দিনে একবার</string>
     <string name="wallpaper_evening_folder">সন্ধ্যা ফোল্ডার</string>
-    <string name="wallpaper_use_main_folder">প্রধান ফোল্ডার ব্যবহার করুন</string>
+    <string name="wallpaper_use_main_folder">সকালের মতোই</string>
     <string name="settings_json_placeholder">সেটিংস JSON এখানে প্রদর্শিত হবে</string>
     <string name="font_preview_sample">দ্রুত বাদামী শিয়াল অলস কুকুরের উপর ঝাঁপিয়ে পড়ে।</string>
     <string name="wallpaper_morning_evening">দিনে দুবার</string>
@@ -374,4 +374,5 @@
     <string name="wallpaper_fill_image">স্ক্রিন ভরতে কাটুন</string>
     <string name="wallpaper_fit_image">বর্ডারসহ পুরো ছবি</string>
     <string name="edit_group_apps">গ্রুপের অ্যাপ সম্পাদনা করুন</string>
+    <string name="wallpaper_choose_folder">ফোল্ডার বেছে নিন</string>
 </resources>

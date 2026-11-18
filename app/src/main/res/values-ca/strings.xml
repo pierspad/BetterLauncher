@@ -401,7 +401,7 @@ No es permet amagar dreceres fixades</string>
     <string name="wallpaper_frequency">freqüència</string>
     <string name="wallpaper_once_daily">Un cop al dia</string>
     <string name="wallpaper_evening_folder">Carpeta de nit</string>
-    <string name="wallpaper_use_main_folder">Utilitzeu la carpeta principal</string>
+    <string name="wallpaper_use_main_folder">Igual que al matí</string>
     <string name="settings_json_placeholder">la configuració JSON apareixerà aquí</string>
     <string name="font_preview_sample">La guineu marró ràpida salta per sobre del gos mandrós.</string>
     <string name="wallpaper_morning_evening">Dues vegades al dia</string>
@@ -415,4 +415,5 @@ No es permet amagar dreceres fixades</string>
     <string name="wallpaper_fill_image">Retalla per omplir</string>
     <string name="wallpaper_fit_image">Imatge sencera amb bandes</string>
     <string name="edit_group_apps">Edita les apps del grup</string>
+    <string name="wallpaper_choose_folder">Tria una carpeta</string>
 </resources>

@@ -362,7 +362,7 @@
     <string name="wallpaper_frequency">आवृत्ति</string>
     <string name="wallpaper_once_daily">दिन में एक बार</string>
     <string name="wallpaper_evening_folder">इवनिंग फोल्डर</string>
-    <string name="wallpaper_use_main_folder">मुख्य फ़ोल्डर का उपयोग करें</string>
+    <string name="wallpaper_use_main_folder">सुबह वाला फ़ोल्डर</string>
     <string name="settings_json_placeholder">सेटिंग्स JSON यहां दिखाई देंगी</string>
     <string name="font_preview_sample">तेज भूरी लोमड़ी आलसी कुत्ते के ऊपर से छलांग लगाती है।</string>
     <string name="wallpaper_morning_evening">दिन में दो बार</string>
@@ -376,4 +376,5 @@
     <string name="wallpaper_fill_image">स्क्रीन भरने के लिए काटें</string>
     <string name="wallpaper_fit_image">पट्टियों के साथ पूरी फ़ोटो</string>
     <string name="edit_group_apps">समूह के ऐप बदलें</string>
+    <string name="wallpaper_choose_folder">फ़ोल्डर चुनें</string>
 </resources>

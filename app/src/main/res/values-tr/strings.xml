@@ -376,7 +376,7 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="wallpaper_frequency">Frekans</string>
     <string name="wallpaper_once_daily">Günde bir kez</string>
     <string name="wallpaper_evening_folder">Akşam klasörü</string>
-    <string name="wallpaper_use_main_folder">Ana klasörü kullan</string>
+    <string name="wallpaper_use_main_folder">Sabahla aynı</string>
     <string name="settings_json_placeholder">JSON ayarları burada görünecek</string>
     <string name="font_preview_sample">Hızlı kahverengi tilki tembel köpeğin üzerinden atlıyor.</string>
     <string name="wallpaper_morning_evening">Günde iki kez</string>
@@ -390,4 +390,5 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="wallpaper_fill_image">Doldurmak için kırp</string>
     <string name="wallpaper_fit_image">Kenarlıklı tam fotoğraf</string>
     <string name="edit_group_apps">Grup uygulamalarını düzenle</string>
+    <string name="wallpaper_choose_folder">Klasör seç</string>
 </resources><!-- Turkish -->

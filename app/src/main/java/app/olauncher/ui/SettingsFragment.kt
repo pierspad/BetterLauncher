@@ -1098,7 +1098,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
                 prefs.dailyWallpaperFolder
             )
             panel.wallpaperEveningFolder.text = wallpaperFolderLabel(
-                R.string.wallpaper_evening_folder, prefs.wallpaperEveningFolder, R.string.wallpaper_morning_folder
+                R.string.wallpaper_evening_folder, prefs.wallpaperEveningFolder, R.string.wallpaper_use_main_folder
             )
         }
     }
@@ -1206,7 +1206,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         content.dialogTitle.text = wallpaperFolderLabel(R.string.wallpaper_evening_folder, prefs.wallpaperEveningFolder)
         content.dialogMessage.isVisible = false
-        content.dialogPositiveButton.setText(R.string.wallpaper_evening_folder)
+        content.dialogPositiveButton.setText(R.string.wallpaper_choose_folder)
         content.dialogPositiveButton.setOnClickListener {
             dialog.dismiss()
             chooseWallpaperFolder(evening = true)

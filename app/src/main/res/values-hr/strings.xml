@@ -375,7 +375,7 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="wallpaper_frequency">Učestalost</string>
     <string name="wallpaper_once_daily">Jednom dnevno</string>
     <string name="wallpaper_evening_folder">Večernji folder</string>
-    <string name="wallpaper_use_main_folder">Koristite glavnu mapu</string>
+    <string name="wallpaper_use_main_folder">Isto kao ujutro</string>
     <string name="settings_json_placeholder">Ovdje će se pojaviti postavke JSON</string>
     <string name="font_preview_sample">Brza smeđa lisica preskače lijenog psa.</string>
     <string name="wallpaper_morning_evening">Dvaput dnevno</string>
@@ -389,4 +389,5 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="wallpaper_fill_image">Obreži za puni zaslon</string>
     <string name="wallpaper_fit_image">Cijela slika s trakama</string>
     <string name="edit_group_apps">Uredi aplikacije grupe</string>
+    <string name="wallpaper_choose_folder">Odaberi mapu</string>
 </resources><!-- Croatian -->

@@ -375,7 +375,7 @@
     <string name="wallpaper_frequency">周波数</string>
     <string name="wallpaper_once_daily">1日1回</string>
     <string name="wallpaper_evening_folder">イブニングフォルダー</string>
-    <string name="wallpaper_use_main_folder">メインフォルダーを使用する</string>
+    <string name="wallpaper_use_main_folder">朝と同じフォルダ</string>
     <string name="settings_json_placeholder">設定 JSON がここに表示されます</string>
     <string name="font_preview_sample">素早い茶色のキツネが怠惰な犬を飛び越えます。</string>
     <string name="wallpaper_morning_evening">1日2回</string>
@@ -389,4 +389,5 @@
     <string name="wallpaper_fill_image">切り抜いて画面いっぱいに</string>
     <string name="wallpaper_fit_image">余白付きで写真全体を表示</string>
     <string name="edit_group_apps">グループ内のアプリを編集</string>
+    <string name="wallpaper_choose_folder">フォルダを選択</string>
 </resources> <!-- Japanese -->

@@ -442,7 +442,7 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="wallpaper_frequency">Frequency</string>
     <string name="wallpaper_once_daily">Once a day</string>
     <string name="wallpaper_evening_folder">Evening folder</string>
-    <string name="wallpaper_use_main_folder">Use the main folder</string>
+    <string name="wallpaper_use_main_folder">Same as morning</string>
     <string name="settings_json_placeholder">Settings JSON will appear here</string>
     <string name="font_preview_sample">The quick brown fox jumps over the lazy dog.</string>
     <string name="wallpaper_morning_evening">Twice a day</string>
@@ -456,4 +456,5 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="wallpaper_fill_image">Crop to fill</string>
     <string name="wallpaper_fit_image">Full image with borders</string>
     <string name="edit_group_apps">Edit group apps</string>
+    <string name="wallpaper_choose_folder">Choose folder</string>
 </resources>

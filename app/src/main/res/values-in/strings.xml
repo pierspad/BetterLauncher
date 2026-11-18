@@ -374,7 +374,7 @@ Untuk menghapus harus ≤ 2</string>
     <string name="wallpaper_frequency">Frekuensi</string>
     <string name="wallpaper_once_daily">Sekali sehari</string>
     <string name="wallpaper_evening_folder">Map malam</string>
-    <string name="wallpaper_use_main_folder">Gunakan folder utama</string>
+    <string name="wallpaper_use_main_folder">Sama seperti pagi</string>
     <string name="settings_json_placeholder">Pengaturan JSON akan muncul di sini</string>
     <string name="font_preview_sample">Rubah coklat yang gesit melompati anjing pemalas.</string>
     <string name="wallpaper_morning_evening">Dua kali sehari</string>
@@ -388,4 +388,5 @@ Untuk menghapus harus ≤ 2</string>
     <string name="wallpaper_fill_image">Pangkas untuk memenuhi layar</string>
     <string name="wallpaper_fit_image">Gambar utuh dengan bilah</string>
     <string name="edit_group_apps">Edit aplikasi grup</string>
+    <string name="wallpaper_choose_folder">Pilih folder</string>
 </resources><!-- Indonesian -->

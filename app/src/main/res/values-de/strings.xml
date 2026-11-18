@@ -376,7 +376,7 @@ Zum Entfernen muss er ≤ 2 sein</string>
     <string name="wallpaper_frequency">Frequenz</string>
     <string name="wallpaper_once_daily">Einmal am Tag</string>
     <string name="wallpaper_evening_folder">Abendordner</string>
-    <string name="wallpaper_use_main_folder">Verwenden Sie den Hauptordner</string>
+    <string name="wallpaper_use_main_folder">Wie morgens</string>
     <string name="settings_json_placeholder">Einstellungen JSON erscheint hier</string>
     <string name="font_preview_sample">Der schnelle Braunfuchs springt über den faulen Hund.</string>
     <string name="wallpaper_morning_evening">Zweimal täglich</string>
@@ -390,4 +390,5 @@ Zum Entfernen muss er ≤ 2 sein</string>
     <string name="wallpaper_fill_image">Zuschneiden und füllen</string>
     <string name="wallpaper_fit_image">Ganzes Bild mit Balken</string>
     <string name="edit_group_apps">Gruppen-Apps bearbeiten</string>
+    <string name="wallpaper_choose_folder">Ordner auswählen</string>
 </resources>

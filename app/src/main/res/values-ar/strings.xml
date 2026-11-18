@@ -374,7 +374,7 @@
     <string name="wallpaper_frequency">التردد</string>
     <string name="wallpaper_once_daily">مرة واحدة في اليوم</string>
     <string name="wallpaper_evening_folder">مجلد المساء</string>
-    <string name="wallpaper_use_main_folder">استخدم المجلد الرئيسي</string>
+    <string name="wallpaper_use_main_folder">مثل الصباح</string>
     <string name="settings_json_placeholder">ستظهر هنا إعدادات JSON</string>
     <string name="font_preview_sample">الثعلب البني السريع يقفز فوق الكلب الكسول.</string>
     <string name="wallpaper_morning_evening">مرتين يوميًا</string>
@@ -388,4 +388,5 @@
     <string name="wallpaper_fill_image">قصّ لملء الشاشة</string>
     <string name="wallpaper_fit_image">الصورة كاملة مع أشرطة</string>
     <string name="edit_group_apps">تعديل تطبيقات المجموعة</string>
+    <string name="wallpaper_choose_folder">اختيار مجلد</string>
 </resources>

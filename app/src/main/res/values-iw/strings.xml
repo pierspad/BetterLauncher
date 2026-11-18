@@ -368,7 +368,7 @@
     <string name="wallpaper_frequency">תדירות</string>
     <string name="wallpaper_once_daily">פעם ביום</string>
     <string name="wallpaper_evening_folder">תיקיית ערב</string>
-    <string name="wallpaper_use_main_folder">השתמש בתיקייה הראשית</string>
+    <string name="wallpaper_use_main_folder">כמו בבוקר</string>
     <string name="settings_json_placeholder">הגדרות JSON יופיעו כאן</string>
     <string name="font_preview_sample">השועל החום המהיר קופץ מעל הכלב העצלן.</string>
     <string name="wallpaper_morning_evening">פעמיים ביום</string>
@@ -382,4 +382,5 @@
     <string name="wallpaper_fill_image">חיתוך למילוי המסך</string>
     <string name="wallpaper_fit_image">תמונה מלאה עם שוליים</string>
     <string name="edit_group_apps">עריכת אפליקציות בקבוצה</string>
+    <string name="wallpaper_choose_folder">בחירת תיקייה</string>
 </resources>

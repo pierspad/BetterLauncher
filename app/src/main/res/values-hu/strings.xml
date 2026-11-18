@@ -378,7 +378,7 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="wallpaper_frequency">Frekvencia</string>
     <string name="wallpaper_once_daily">Naponta egyszer</string>
     <string name="wallpaper_evening_folder">Esti mappa</string>
-    <string name="wallpaper_use_main_folder">Használja a fő mappát</string>
+    <string name="wallpaper_use_main_folder">Ugyanaz, mint reggel</string>
     <string name="settings_json_placeholder">Itt jelenik meg a JSON beállítások</string>
     <string name="font_preview_sample">A gyors barna róka átugrik a lusta kutyán.</string>
     <string name="wallpaper_morning_evening">Naponta kétszer</string>
@@ -392,4 +392,5 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="wallpaper_fill_image">Kitöltés kivágással</string>
     <string name="wallpaper_fit_image">Teljes kép sávokkal</string>
     <string name="edit_group_apps">Csoport alkalmazásainak szerkesztése</string>
+    <string name="wallpaper_choose_folder">Mappa kiválasztása</string>
 </resources><!-- Hungarian -->

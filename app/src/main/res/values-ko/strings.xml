@@ -360,7 +360,7 @@
     <string name="wallpaper_frequency">주파수</string>
     <string name="wallpaper_once_daily">하루에 한 번</string>
     <string name="wallpaper_evening_folder">이브닝 폴더</string>
-    <string name="wallpaper_use_main_folder">메인폴더를 활용하세요</string>
+    <string name="wallpaper_use_main_folder">아침과 같은 폴더</string>
     <string name="settings_json_placeholder">JSON 설정이 여기에 표시됩니다</string>
     <string name="font_preview_sample">날렵한 갈색여우가 게으른 개를 뛰어넘습니다.</string>
     <string name="wallpaper_morning_evening">하루 두 번</string>
@@ -374,4 +374,5 @@
     <string name="wallpaper_fill_image">잘라서 화면 채우기</string>
     <string name="wallpaper_fit_image">여백과 함께 전체 사진 표시</string>
     <string name="edit_group_apps">그룹 앱 편집</string>
+    <string name="wallpaper_choose_folder">폴더 선택</string>
 </resources>

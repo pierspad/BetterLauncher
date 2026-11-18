@@ -377,7 +377,7 @@
     <string name="wallpaper_frequency">频率</string>
     <string name="wallpaper_once_daily">每天一次</string>
     <string name="wallpaper_evening_folder">晚间文件夹</string>
-    <string name="wallpaper_use_main_folder">使用主文件夹</string>
+    <string name="wallpaper_use_main_folder">与早间相同</string>
     <string name="settings_json_placeholder">设置JSON将出现在这里</string>
     <string name="font_preview_sample">敏捷的棕色狐狸跳过了懒狗。</string>
     <string name="wallpaper_morning_evening">每天两次</string>
@@ -391,4 +391,5 @@
     <string name="wallpaper_fill_image">裁剪以填满屏幕</string>
     <string name="wallpaper_fit_image">完整照片，带黑边</string>
     <string name="edit_group_apps">编辑分组应用</string>
+    <string name="wallpaper_choose_folder">选择文件夹</string>
 </resources><!-- Chinese -->

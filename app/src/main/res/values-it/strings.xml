@@ -405,7 +405,7 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="wallpaper_frequency">Frequenza</string>
     <string name="wallpaper_once_daily">Una volta al giorno</string>
     <string name="wallpaper_evening_folder">Cartella serale</string>
-    <string name="wallpaper_use_main_folder">Usa la cartella principale</string>
+    <string name="wallpaper_use_main_folder">Come al mattino</string>
     <string name="settings_json_placeholder">Qui verrà mostrato il JSON delle impostazioni</string>
     <string name="font_preview_sample">Quel vituperabile xenofobo zelante assaggia il whisky ed esclama: alleluja!</string>
     <string name="wallpaper_morning_evening">Due volte al giorno</string>
@@ -419,4 +419,5 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="wallpaper_fill_image">Ritaglia per riempire</string>
     <string name="wallpaper_fit_image">Foto intera con bande</string>
     <string name="edit_group_apps">Modifica app del gruppo</string>
+    <string name="wallpaper_choose_folder">Scegli cartella</string>
 </resources><!-- Italian -->
