@@ -22,7 +22,7 @@
     <string name="donate">תרומה</string>
     <string name="swipe_up_for_apps">1. החלקה כלפי מעלה תפתח את הרשימה של כל היישומים\n2. לפתיחת הגדרות מסך הבית יש ללחוץ לחיצה ארוכה מכל מקום על גבי המסך.</string>
     <string name="apps_on_home_screen">יישומים במסך הבית</string>
-    <string name="daily_wallpaper_update">רקע חדש בכל יום</string>
+    <string name="daily_wallpaper_update">החלפת טפטים</string>
     <string name="left">ימין</string>
     <string name="right">שמאל</string>
     <string name="center">מרכז</string>
@@ -362,5 +362,22 @@
     <string name="clock_hours">שעות</string>
     <string name="clock_with_minutes">דקות</string>
     <string name="clock_with_seconds">שניות</string>
+    <string name="wallpaper_folder_access_failed">לא ניתן לפתוח את תיקיית הטפטים</string>
+    <string name="wallpaper_offline_description">סובב תמונות מתיקיה בטלפון זה. עובד במצב לא מקוון.</string>
+    <string name="wallpaper_automatic">שינוי אוטומטי</string>
+    <string name="wallpaper_main_folder">תיקיה ראשית</string>
+    <string name="wallpaper_frequency">תדירות</string>
+    <string name="wallpaper_once_daily">פעם ביום</string>
+    <string name="wallpaper_evening_folder">תיקיית ערב</string>
+    <string name="wallpaper_use_main_folder">השתמש בתיקייה הראשית</string>
+    <string name="wallpaper_morning_evening">פעמיים ביום</string>
+    <string name="wallpaper_morning_start">תחילת הבוקר</string>
+    <string name="wallpaper_evening_start">תחילת הערב</string>
+    <string name="wallpaper_morning_folder">תיקיית הבוקר</string>
+    <string name="wallpaper_schedule_description">כל שלב נמשך עד לתחילת השלב הבא. Android עשויה לעכב את ההחלפה.</string>
+    <string name="wallpaper_distinct_times">בחרו שעה שונה לכל שלב.</string>
     <string name="app_limit_level_short">רמה %1$d</string>
+    <string name="wallpaper_image_layout">התאמת התמונה</string>
+    <string name="wallpaper_fill_image">מילוי המסך</string>
+    <string name="wallpaper_fit_image">הצגת התמונה המלאה</string>
 </resources>

@@ -164,6 +164,7 @@ class MainActivity : AppCompatActivity() {
         initObservers(viewModel)
         registerLauncherRefresh()
         viewModel.getAppList()
+        viewModel.syncWallpaperWorker()
         setupOrientation()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {

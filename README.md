@@ -22,6 +22,13 @@ An Android launcher based on [Olauncher](https://github.com/tanujnotes/olauncher
 - Custom TrueType/OpenType fonts and an app language independent of the system.
 - Settings import/export through JSON files or clipboard.
 - Optional double tap to lock the screen.
+- Offline wallpaper rotation from folders you choose, once a day or morning and evening.
+
+## Wallpaper rotation
+
+Download images in your browser and save them in a folder such as `Pictures/Wallpapers`. In BetterLauncher, open **Settings → Appearance → Wallpaper rotation** and select the main folder. Enable automatic rotation and pick a frequency. If you choose twice a day, set when the morning and evening phases begin and optionally choose a separate evening folder. BetterLauncher rotates the images stored there and has no Android Internet permission.
+
+For images sized for phones, see [Pexels Wallpapers](https://www.pexels.com/discover/wallpapers/) or [Unsplash Phone Backgrounds](https://unsplash.com/backgrounds/phone).
 
 ## Screenshots
 

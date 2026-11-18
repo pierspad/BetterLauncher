@@ -17,6 +17,7 @@ import app.olauncher.data.Prefs
 import app.olauncher.helper.AppLimiter
 import app.olauncher.helper.ContactsHelper
 import app.olauncher.helper.SingleLiveEvent
+import app.olauncher.helper.WallpaperSchedule
 import app.olauncher.helper.appListFromCacheJson
 import app.olauncher.helper.appListToCacheJson
 import app.olauncher.helper.formattedTimeSpent
@@ -514,6 +515,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         isOlauncherDefault.value = isOlauncherDefault(appContext)
     }
 
+    fun scheduleWallpaperFromNextPeriod() = WallpaperSchedule.restart(appContext, prefs)
+
+    fun cancelWallpaperWorker() {
+        prefs.dailyWallpaper = false
+        WallpaperSchedule.cancel(appContext)
+    }
+
+    fun syncWallpaperWorker() {
+        if (prefs.dailyWallpaper && prefs.dailyWallpaperFolder.isNotEmpty()) {
+            WallpaperSchedule.ensureScheduled(appContext, prefs)
+        } else {
+            cancelWallpaperWorker()
+        }
+    }
 
     fun updateHomeAlignment(gravity: Int) {
         prefs.homeAlignment = gravity

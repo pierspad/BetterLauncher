@@ -69,7 +69,7 @@
     <string name="donate">寄付</string>
     <string name="swipe_up_for_apps">1. 上にスワイプしてすべてのアプリを表示します\n2. 設定を行うには任意の場所を長押しします</string>
     <string name="apps_on_home_screen">ホーム画面のアプリ</string>
-    <string name="daily_wallpaper_update">毎日新しい壁紙</string>
+    <string name="daily_wallpaper_update">壁紙の自動切り替え</string>
     <string name="left">左</string>
     <string name="right">右</string>
     <string name="center">中心</string>
@@ -369,5 +369,22 @@
     <string name="clock_hours">時</string>
     <string name="clock_with_minutes">分</string>
     <string name="clock_with_seconds">秒</string>
+    <string name="wallpaper_folder_access_failed">壁紙フォルダを開けませんでした</string>
+    <string name="wallpaper_offline_description">この携​​帯電話のフォルダーから写真を回転します。オフラインでも動作します。</string>
+    <string name="wallpaper_automatic">自動で変更</string>
+    <string name="wallpaper_main_folder">メインフォルダー</string>
+    <string name="wallpaper_frequency">周波数</string>
+    <string name="wallpaper_once_daily">1日1回</string>
+    <string name="wallpaper_evening_folder">イブニングフォルダー</string>
+    <string name="wallpaper_use_main_folder">メインフォルダーを使用する</string>
+    <string name="wallpaper_morning_evening">1日2回</string>
+    <string name="wallpaper_morning_start">朝の開始時刻</string>
+    <string name="wallpaper_evening_start">夜の開始時刻</string>
+    <string name="wallpaper_morning_folder">朝のフォルダ</string>
+    <string name="wallpaper_schedule_description">各時間帯は次の時間帯が始まるまで続きます。Android により切り替えが遅れる場合があります。</string>
+    <string name="wallpaper_distinct_times">朝と夜には異なる開始時刻を指定してください。</string>
     <string name="app_limit_level_short">レベル %1$d</string>
+    <string name="wallpaper_image_layout">画像の表示方法</string>
+    <string name="wallpaper_fill_image">画面いっぱいに表示</string>
+    <string name="wallpaper_fit_image">画像全体を表示</string>
 </resources> <!-- Japanese -->

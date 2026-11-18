@@ -23,7 +23,7 @@
     <string name="donate">Doniraj</string>
     <string name="swipe_up_for_apps">1. Povuci prema gore za aplikacije\n2. Dugo pritisnite bilo gdje za postavke</string>
     <string name="apps_on_home_screen">Aplikacije na početnoj stranici</string>
-    <string name="daily_wallpaper_update">Dnevne pozadine</string>
+    <string name="daily_wallpaper_update">Izmjena pozadine</string>
     <string name="left">Lijevo</string>
     <string name="right">Desno</string>
     <string name="center">Sredina</string>
@@ -369,5 +369,22 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="clock_hours">Sati</string>
     <string name="clock_with_minutes">Minute</string>
     <string name="clock_with_seconds">Sekunde</string>
+    <string name="wallpaper_folder_access_failed">Nije moguće otvoriti mapu s pozadinama</string>
+    <string name="wallpaper_offline_description">Rotirajte fotografije iz mape na ovom telefonu. Radi izvan mreže.</string>
+    <string name="wallpaper_automatic">Promijeni automatski</string>
+    <string name="wallpaper_main_folder">Glavna mapa</string>
+    <string name="wallpaper_frequency">Učestalost</string>
+    <string name="wallpaper_once_daily">Jednom dnevno</string>
+    <string name="wallpaper_evening_folder">Večernji folder</string>
+    <string name="wallpaper_use_main_folder">Koristite glavnu mapu</string>
+    <string name="wallpaper_morning_evening">Dvaput dnevno</string>
+    <string name="wallpaper_morning_start">Početak jutra</string>
+    <string name="wallpaper_evening_start">Početak večeri</string>
+    <string name="wallpaper_morning_folder">Jutarnja mapa</string>
+    <string name="wallpaper_schedule_description">Svako razdoblje traje do početka sljedećeg. Android može odgoditi izmjenu.</string>
+    <string name="wallpaper_distinct_times">Odaberi različito vrijeme za svako razdoblje.</string>
     <string name="app_limit_level_short">Razina %1$d</string>
+    <string name="wallpaper_image_layout">Prilagodba slike</string>
+    <string name="wallpaper_fill_image">Ispuni zaslon</string>
+    <string name="wallpaper_fit_image">Prikaži cijelu sliku</string>
 </resources><!-- Croatian -->

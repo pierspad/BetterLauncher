@@ -24,7 +24,7 @@
     <string name="donate">Donasi</string>
     <string name="swipe_up_for_apps">1. Geser ke atas untuk semua aplikasi\n2. Tekan lama di mana saja untuk pengaturan</string>
     <string name="apps_on_home_screen">Aplikasi di layar awal</string>
-    <string name="daily_wallpaper_update">Wallpaper baru setiap hari</string>
+    <string name="daily_wallpaper_update">Rotasi wallpaper</string>
     <string name="left">Kiri</string>
     <string name="right">kanan</string>
     <string name="center">Tengah</string>
@@ -368,5 +368,22 @@ Untuk menghapus harus ≤ 2</string>
     <string name="clock_hours">Jam</string>
     <string name="clock_with_minutes">Menit</string>
     <string name="clock_with_seconds">Detik</string>
+    <string name="wallpaper_folder_access_failed">Tidak dapat membuka folder wallpaper</string>
+    <string name="wallpaper_offline_description">Memutar foto dari folder di ponsel ini. Bekerja offline.</string>
+    <string name="wallpaper_automatic">Berubah secara otomatis</string>
+    <string name="wallpaper_main_folder">Folder utama</string>
+    <string name="wallpaper_frequency">Frekuensi</string>
+    <string name="wallpaper_once_daily">Sekali sehari</string>
+    <string name="wallpaper_evening_folder">Map malam</string>
+    <string name="wallpaper_use_main_folder">Gunakan folder utama</string>
+    <string name="wallpaper_morning_evening">Dua kali sehari</string>
+    <string name="wallpaper_morning_start">Mulai pagi</string>
+    <string name="wallpaper_evening_start">Mulai malam</string>
+    <string name="wallpaper_morning_folder">Folder pagi</string>
+    <string name="wallpaper_schedule_description">Setiap fase berlangsung hingga fase berikutnya dimulai. Android mungkin menunda pergantian.</string>
+    <string name="wallpaper_distinct_times">Pilih waktu yang berbeda untuk tiap fase.</string>
     <string name="app_limit_level_short">Tingkat %1$d</string>
+    <string name="wallpaper_image_layout">Penyesuaian gambar</string>
+    <string name="wallpaper_fill_image">Penuhi layar</string>
+    <string name="wallpaper_fit_image">Tampilkan gambar utuh</string>
 </resources><!-- Indonesian -->

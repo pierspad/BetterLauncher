@@ -24,7 +24,7 @@
     <string name="donate">Fazer donativo</string>
     <string name="swipe_up_for_apps">1. Deslize para cima para ver todos os aplicativos\n2. Pressione continuamente em qualquer ponto do ecrã para aceder às configurações</string>
     <string name="apps_on_home_screen">Aplicativos na home</string>
-    <string name="daily_wallpaper_update">Novo fundo de ecrã diariamente</string>
+    <string name="daily_wallpaper_update">Rotação de papéis de parede</string>
     <string name="left">Esquerda</string>
     <string name="right">Direita</string>
     <string name="center">Centro</string>
@@ -369,5 +369,22 @@ Para remover, deve ser ≤ 2</string>
     <string name="clock_hours">Horas</string>
     <string name="clock_with_minutes">Minutos</string>
     <string name="clock_with_seconds">Segundos</string>
+    <string name="wallpaper_folder_access_failed">Não foi possível abrir a pasta de papéis de parede</string>
+    <string name="wallpaper_offline_description">gire fotos de uma pasta neste telefone. Funciona off-line.</string>
+    <string name="wallpaper_automatic">Alterar automaticamente</string>
+    <string name="wallpaper_main_folder">Pasta principal</string>
+    <string name="wallpaper_frequency">Frequência</string>
+    <string name="wallpaper_once_daily">Uma vez por dia</string>
+    <string name="wallpaper_evening_folder">Pasta noturna</string>
+    <string name="wallpaper_use_main_folder">Use a pasta principal</string>
+    <string name="wallpaper_morning_evening">Duas vezes por dia</string>
+    <string name="wallpaper_morning_start">Início da manhã</string>
+    <string name="wallpaper_evening_start">Início da noite</string>
+    <string name="wallpaper_morning_folder">Pasta da manhã</string>
+    <string name="wallpaper_schedule_description">Cada período dura até o início do próximo. O Android pode atrasar a troca.</string>
+    <string name="wallpaper_distinct_times">Escolha um horário diferente para cada período.</string>
     <string name="app_limit_level_short">Nível %1$d</string>
+    <string name="wallpaper_image_layout">Ajuste da imagem</string>
+    <string name="wallpaper_fill_image">Preencher a tela</string>
+    <string name="wallpaper_fit_image">Mostrar a imagem inteira</string>
 </resources><!-- Portuguese -->

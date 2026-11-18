@@ -23,7 +23,7 @@
     <string name="donate">Adományozás</string>
     <string name="swipe_up_for_apps">1. Simítson felfelé az összes alkalmazás megjelenítéséhez\n2. Nyomja meg hosszan bármelyik ponton a beállításokhoz</string>
     <string name="apps_on_home_screen">Alkalmazások a kezdőképernyőn</string>
-    <string name="daily_wallpaper_update">Naponta új háttérkép</string>
+    <string name="daily_wallpaper_update">Váltakozó háttérkép</string>
     <string name="left">Bal</string>
     <string name="right">Jobb</string>
     <string name="center">Közép</string>
@@ -372,5 +372,22 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="clock_hours">Óra</string>
     <string name="clock_with_minutes">Perc</string>
     <string name="clock_with_seconds">Másodperc</string>
+    <string name="wallpaper_folder_access_failed">Nem sikerült megnyitni a háttérképek mappáját</string>
+    <string name="wallpaper_offline_description">Fényképek elforgatása egy mappából ezen a telefonon. Offline módban működik.</string>
+    <string name="wallpaper_automatic">Változás automatikusan</string>
+    <string name="wallpaper_main_folder">Főmappa</string>
+    <string name="wallpaper_frequency">Frekvencia</string>
+    <string name="wallpaper_once_daily">Naponta egyszer</string>
+    <string name="wallpaper_evening_folder">Esti mappa</string>
+    <string name="wallpaper_use_main_folder">Használja a fő mappát</string>
+    <string name="wallpaper_morning_evening">Naponta kétszer</string>
+    <string name="wallpaper_morning_start">Reggeli időszak kezdete</string>
+    <string name="wallpaper_evening_start">Esti időszak kezdete</string>
+    <string name="wallpaper_morning_folder">Reggeli mappa</string>
+    <string name="wallpaper_schedule_description">Minden időszak a következő kezdetéig tart. Az Android késleltetheti a váltást.</string>
+    <string name="wallpaper_distinct_times">Minden időszakhoz más időpontot válassz.</string>
     <string name="app_limit_level_short">%1$d. szint</string>
+    <string name="wallpaper_image_layout">Kép illesztése</string>
+    <string name="wallpaper_fill_image">Képernyő kitöltése</string>
+    <string name="wallpaper_fit_image">Teljes kép megjelenítése</string>
 </resources><!-- Hungarian -->

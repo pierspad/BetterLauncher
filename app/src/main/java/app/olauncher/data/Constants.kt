@@ -47,6 +47,8 @@ object Constants {
         "com.miui.clock", //Xiaomi Clock
     )
 
+    const val WALLPAPER_WORKER_NAME = "WALLPAPER_WORKER_NAME"
+
     const val FLAG_LAUNCH_APP = 100
     const val FLAG_HIDDEN_APPS = 101
     const val FLAG_LOCKED_APPS = 102

@@ -68,7 +68,7 @@
     <string name="donate">Bağış yap</string>
     <string name="swipe_up_for_apps">1. Tüm uygulamalar için yukarı kaydırın\n2. Ayarlar için herhangi bir yere uzun basın</string>
     <string name="apps_on_home_screen">Ana ekran uygulamaları</string>
-    <string name="daily_wallpaper_update">Günlük duvar kağıtları</string>
+    <string name="daily_wallpaper_update">Duvar kâğıdı döngüsü</string>
     <string name="left">Sol</string>
     <string name="right">Sağ</string>
     <string name="center">Merkez</string>
@@ -370,5 +370,22 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="clock_hours">Saat</string>
     <string name="clock_with_minutes">Dakika</string>
     <string name="clock_with_seconds">Saniye</string>
+    <string name="wallpaper_folder_access_failed">Duvar kâğıdı klasörü açılamadı</string>
+    <string name="wallpaper_offline_description">Bu telefondaki bir klasördeki fotoğrafları döndürün. Çevrimdışı çalışır.</string>
+    <string name="wallpaper_automatic">Otomatik olarak değiştir</string>
+    <string name="wallpaper_main_folder">Ana klasör</string>
+    <string name="wallpaper_frequency">Frekans</string>
+    <string name="wallpaper_once_daily">Günde bir kez</string>
+    <string name="wallpaper_evening_folder">Akşam klasörü</string>
+    <string name="wallpaper_use_main_folder">Ana klasörü kullan</string>
+    <string name="wallpaper_morning_evening">Günde iki kez</string>
+    <string name="wallpaper_morning_start">Sabah başlangıcı</string>
+    <string name="wallpaper_evening_start">Akşam başlangıcı</string>
+    <string name="wallpaper_morning_folder">Sabah klasörü</string>
+    <string name="wallpaper_schedule_description">Her dönem bir sonraki başlayana kadar sürer. Android değişikliği geciktirebilir.</string>
+    <string name="wallpaper_distinct_times">Her dönem için farklı bir saat seçin.</string>
     <string name="app_limit_level_short">Seviye %1$d</string>
+    <string name="wallpaper_image_layout">Görseli sığdırma</string>
+    <string name="wallpaper_fill_image">Ekranı doldur</string>
+    <string name="wallpaper_fit_image">Görselin tamamını göster</string>
 </resources><!-- Turkish -->

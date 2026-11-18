@@ -23,7 +23,7 @@
     <string name="donate">Donera</string>
     <string name="swipe_up_for_apps">1. Svep uppåt för alla appar\n2. Långtryck var som helst för inställningar</string>
     <string name="apps_on_home_screen">Appar på startskärmen</string>
-    <string name="daily_wallpaper_update">Daglig ny bakgrundsbild</string>
+    <string name="daily_wallpaper_update">Växlande bakgrundsbild</string>
     <string name="left">Vänster</string>
     <string name="right">Höger</string>
     <string name="center">Mitten</string>
@@ -368,5 +368,22 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="clock_hours">Timmar</string>
     <string name="clock_with_minutes">Minuter</string>
     <string name="clock_with_seconds">Sekunder</string>
+    <string name="wallpaper_folder_access_failed">Det gick inte att öppna mappen med bakgrundsbilder</string>
+    <string name="wallpaper_offline_description">Rotera foton från en mapp på den här telefonen. Fungerar offline.</string>
+    <string name="wallpaper_automatic">Ändra automatiskt</string>
+    <string name="wallpaper_main_folder">Huvudmapp</string>
+    <string name="wallpaper_frequency">Frekvens</string>
+    <string name="wallpaper_once_daily">En gång om dagen</string>
+    <string name="wallpaper_evening_folder">Kvällsmapp</string>
+    <string name="wallpaper_use_main_folder">Använd huvudmappen</string>
+    <string name="wallpaper_morning_evening">Två gånger om dagen</string>
+    <string name="wallpaper_morning_start">Morgonen börjar</string>
+    <string name="wallpaper_evening_start">Kvällen börjar</string>
+    <string name="wallpaper_morning_folder">Morgonmapp</string>
+    <string name="wallpaper_schedule_description">Varje period varar tills nästa börjar. Android kan fördröja bytet.</string>
+    <string name="wallpaper_distinct_times">Välj olika tider för de två perioderna.</string>
     <string name="app_limit_level_short">Nivå %1$d</string>
+    <string name="wallpaper_image_layout">Bildanpassning</string>
+    <string name="wallpaper_fill_image">Fyll skärmen</string>
+    <string name="wallpaper_fit_image">Visa hela bilden</string>
 </resources><!-- Swedish -->

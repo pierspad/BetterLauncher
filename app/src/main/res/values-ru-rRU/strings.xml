@@ -24,7 +24,7 @@
     <string name="donate">Пожертвовать</string>
     <string name="swipe_up_for_apps">1. Проведите вверх чтобы открыть все приложения.\n2. Длительным нажатием в любом месте открываются настройки</string>
     <string name="apps_on_home_screen">Количество приложений на главном экране</string>
-    <string name="daily_wallpaper_update">Ежедневно новые обои</string>
+    <string name="daily_wallpaper_update">Смена обоев</string>
     <string name="left">Слева</string>
     <string name="right">Справа</string>
     <string name="center">Центр</string>
@@ -371,5 +371,22 @@
     <string name="clock_hours">Часы</string>
     <string name="clock_with_minutes">Минуты</string>
     <string name="clock_with_seconds">Секунды</string>
+    <string name="wallpaper_folder_access_failed">Не удалось открыть папку с обоями</string>
+    <string name="wallpaper_offline_description">повернуть фотографии из папки на этом телефоне. Работает в автономном режиме.</string>
+    <string name="wallpaper_automatic">Изменить автоматически</string>
+    <string name="wallpaper_main_folder">Основная папка</string>
+    <string name="wallpaper_frequency">Частота</string>
+    <string name="wallpaper_once_daily">Один раз в день</string>
+    <string name="wallpaper_evening_folder">Вечерняя папка</string>
+    <string name="wallpaper_use_main_folder">Использовать основную папку</string>
+    <string name="wallpaper_morning_evening">Дважды в день</string>
+    <string name="wallpaper_morning_start">Начало утра</string>
+    <string name="wallpaper_evening_start">Начало вечера</string>
+    <string name="wallpaper_morning_folder">Папка для утра</string>
+    <string name="wallpaper_schedule_description">Каждый период длится до начала следующего. Android может задержать смену обоев.</string>
+    <string name="wallpaper_distinct_times">Выберите разное время для каждого периода.</string>
     <string name="app_limit_level_short">Уровень %1$d</string>
+    <string name="wallpaper_image_layout">Подгонка изображения</string>
+    <string name="wallpaper_fill_image">Заполнить экран</string>
+    <string name="wallpaper_fit_image">Показать изображение целиком</string>
 </resources><!-- Russian -->

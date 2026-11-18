@@ -24,7 +24,7 @@
     <string name="donate">Donner</string>
     <string name="swipe_up_for_apps">1. Balayez vers le haut pour toutes les applications.\n2. Appuyez longuement n\'importe où pour les paramètres.</string>
     <string name="apps_on_home_screen">Applications sur l\'écran d\'accueil</string>
-    <string name="daily_wallpaper_update">Nouveau fond d\'écran quotidien</string>
+    <string name="daily_wallpaper_update">Rotation des fonds d’écran</string>
     <string name="left">Gauche</string>
     <string name="right">Droite</string>
     <string name="center">Centre</string>
@@ -370,5 +370,22 @@ Pour la supprimer, il doit être ≤ 2</string>
     <string name="clock_hours">Heures</string>
     <string name="clock_with_minutes">Minutes</string>
     <string name="clock_with_seconds">Secondes</string>
+    <string name="wallpaper_folder_access_failed">Impossible d’ouvrir le dossier des fonds d’écran</string>
+    <string name="wallpaper_offline_description">faire pivoter les photos d’un dossier sur ce téléphone. Fonctionne hors ligne.</string>
+    <string name="wallpaper_automatic">Changer automatiquement</string>
+    <string name="wallpaper_main_folder">Dossier principal</string>
+    <string name="wallpaper_frequency">Fréquence</string>
+    <string name="wallpaper_once_daily">Une fois par jour</string>
+    <string name="wallpaper_evening_folder">Dossier du soir</string>
+    <string name="wallpaper_use_main_folder">Utiliser le dossier principal</string>
+    <string name="wallpaper_morning_evening">Deux fois par jour</string>
+    <string name="wallpaper_morning_start">Début du matin</string>
+    <string name="wallpaper_evening_start">Début du soir</string>
+    <string name="wallpaper_morning_folder">Dossier du matin</string>
+    <string name="wallpaper_schedule_description">Chaque phase dure jusqu’au début de la suivante. Android peut retarder le changement.</string>
+    <string name="wallpaper_distinct_times">Choisissez une heure différente pour chaque phase.</string>
     <string name="app_limit_level_short">Niveau %1$d</string>
+    <string name="wallpaper_image_layout">Ajustement de l’image</string>
+    <string name="wallpaper_fill_image">Remplir l’écran</string>
+    <string name="wallpaper_fit_image">Afficher l’image entière</string>
 </resources><!-- French -->

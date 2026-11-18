@@ -1,5 +1,6 @@
 package app.olauncher.data
 
+import app.olauncher.helper.WallpaperPeriod
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Base64
@@ -71,6 +72,17 @@ class Prefs(private val context: Context) {
     // ---- Look & feel ----
     // Keep the legacy key registered so older backups can still be imported.
     private val legacyAppTheme by int("APP_THEME", AppCompatDelegate.MODE_NIGHT_YES)
+    var dailyWallpaper by bool("DAILY_WALLPAPER")
+    var dailyWallpaperLastDay by string("DAILY_WALLPAPER_LAST_DAY")
+    var dailyWallpaperFolder by string("DAILY_WALLPAPER_FOLDER")
+    var dailyWallpaperLastPhoto by string("DAILY_WALLPAPER_LAST_PHOTO")
+    var wallpaperFitImage by bool("WALLPAPER_FIT_IMAGE")
+    var wallpaperScheduleToken by string("WALLPAPER_SCHEDULE_TOKEN")
+    var wallpaperTwiceDaily by bool("WALLPAPER_TWICE_DAILY")
+    var wallpaperMorningStart by int("WALLPAPER_MORNING_START", WallpaperPeriod.DEFAULT_MORNING_START)
+    var wallpaperEveningStart by int("WALLPAPER_EVENING_START", WallpaperPeriod.DEFAULT_EVENING_START)
+    var wallpaperEveningFolder by string("WALLPAPER_EVENING_FOLDER")
+    var wallpaperEveningLastPhoto by string("WALLPAPER_EVENING_LAST_PHOTO")
     var textSizeScale by float("TEXT_SIZE_SCALE", 1.0f)
     var clockMinutes by bool("CLOCK_MINUTES", true)
     var clockSizeOption by int("CLOCK_SIZE_OPTION", 1)
@@ -87,6 +99,7 @@ class Prefs(private val context: Context) {
 
     var showHomeIcons by bool("SHOW_HOME_ICONS")
     var showDrawerIcons by bool("SHOW_DRAWER_ICONS")
+    var drawerGroupsCollapsed by bool("DRAWER_GROUPS_COLLAPSED")
     var showHomeOnlyIcons by bool("SHOW_HOME_ONLY_ICONS")
     var useColorfulIcons by bool("USE_COLORFUL_ICONS")
 
@@ -99,7 +112,6 @@ class Prefs(private val context: Context) {
     // ---- Alignment ----
     var homeAlignment by int("HOME_ALIGNMENT", Gravity.START)
     var homeBottomAlignment by bool("HOME_BOTTOM_ALIGNMENT")
-    var drawerGroupsCollapsed by bool("DRAWER_GROUPS_COLLAPSED")
     var clockAlignment by int("CLOCK_ALIGNMENT", Gravity.START)
     var shortcutIconsAlignment by int("SHORTCUT_ICONS_ALIGNMENT", Gravity.END)
     var screenTimeAlignment by int("SCREEN_TIME_ALIGNMENT", Gravity.END)
@@ -365,18 +377,6 @@ class Prefs(private val context: Context) {
         for (i in 1..HOME_SLOTS) if (getIsFolder(i) && getFolderIdAt(i) == id) clearHomeSlot(i)
     }
 
-    // Toggles an app's membership in a folder and persists the change.
-    fun toggleAppInFolder(folderId: String, appKey: String) {
-        val list = folders
-        val folder = list.firstOrNull { it.id == folderId } ?: return
-        if (!folder.apps.remove(appKey)) folder.apps.add(appKey)
-        folders = list
-    }
-
-    // ---- Home-slot folders ----
-    // A home slot can hold a folder instead of an app/shortcut. We reuse the slot's
-    // name field for the display label and flag it with IS_FOLDER_/FOLDER_ID_.
-
     /**
      * Moves a group one visible position up or down. Groups for which [isVisible] is false
      * (e.g. all members uninstalled, so the drawer hides them) are skipped, so every move
@@ -402,6 +402,18 @@ class Prefs(private val context: Context) {
         folders = list
         return true
     }
+
+    // Toggles an app's membership in a folder and persists the change.
+    fun toggleAppInFolder(folderId: String, appKey: String) {
+        val list = folders
+        val folder = list.firstOrNull { it.id == folderId } ?: return
+        if (!folder.apps.remove(appKey)) folder.apps.add(appKey)
+        folders = list
+    }
+
+    // ---- Home-slot folders ----
+    // A home slot can hold a folder instead of an app/shortcut. We reuse the slot's
+    // name field for the display label and flag it with IS_FOLDER_/FOLDER_ID_.
 
     fun getIsFolder(location: Int): Boolean = prefs.getBoolean("IS_FOLDER_$location", false)
     fun getFolderIdAt(location: Int): String = prefs.getString("FOLDER_ID_$location", "").orEmpty()
@@ -536,6 +548,14 @@ class Prefs(private val context: Context) {
             val values = backup.preferences.toMutableMap().apply {
                 put(LOCK_MODE, false)
                 put("XIAOMI_GESTURES", false)
+                // A document tree grant belongs to this installation and cannot be restored from JSON.
+                remove("WALLPAPER_SCHEDULE_TOKEN")
+                remove("DAILY_WALLPAPER_FOLDER")
+                remove("WALLPAPER_EVENING_FOLDER")
+                remove("WALLPAPER_EVENING_LAST_PHOTO")
+                put("DAILY_WALLPAPER", false)
+                remove("DAILY_WALLPAPER_LAST_PHOTO")
+                remove("DAILY_WALLPAPER_LAST_DAY")
                 put("BATTERY_SETUP_CONFIRMED", false)
                 put("AUTOSTART_SETUP_CONFIRMED", false)
                 put(SCREEN_TIME_APP_PACKAGE, "")

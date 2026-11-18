@@ -69,7 +69,7 @@
     <string name="donate">تبرّع</string>
     <string name="swipe_up_for_apps">1. مرر لأعلى لجميع التطبيقات\n2. اضغط مطوّلًا في أي مكان للإعدادات</string>
     <string name="apps_on_home_screen">التطبيقات على الشاشة الرئيسية</string>
-    <string name="daily_wallpaper_update">تحديث الخلفية يوميّا</string>
+    <string name="daily_wallpaper_update">تدوير خلفية الشاشة</string>
     <string name="left">يسار</string>
     <string name="right">يمين</string>
     <string name="center">مركز</string>
@@ -368,5 +368,22 @@
     <string name="clock_hours">ساعات</string>
     <string name="clock_with_minutes">دقائق</string>
     <string name="clock_with_seconds">ثوانٍ</string>
+    <string name="wallpaper_folder_access_failed">تعذّر فتح مجلد الخلفيات</string>
+    <string name="wallpaper_offline_description">تدوير الصور من مجلد على هذا الهاتف. يعمل حاليا.</string>
+    <string name="wallpaper_automatic">التغيير تلقائيًا</string>
+    <string name="wallpaper_main_folder">المجلد الرئيسي</string>
+    <string name="wallpaper_frequency">التردد</string>
+    <string name="wallpaper_once_daily">مرة واحدة في اليوم</string>
+    <string name="wallpaper_evening_folder">مجلد المساء</string>
+    <string name="wallpaper_use_main_folder">استخدم المجلد الرئيسي</string>
+    <string name="wallpaper_morning_evening">مرتين يوميًا</string>
+    <string name="wallpaper_morning_start">بداية الصباح</string>
+    <string name="wallpaper_evening_start">بداية المساء</string>
+    <string name="wallpaper_morning_folder">مجلد الصباح</string>
+    <string name="wallpaper_schedule_description">تستمر كل فترة حتى تبدأ الفترة التالية. قد يؤخّر Android تغيير الخلفية.</string>
+    <string name="wallpaper_distinct_times">اختر وقتًا مختلفًا لكل فترة.</string>
     <string name="app_limit_level_short">المستوى %1$d</string>
+    <string name="wallpaper_image_layout">عرض الصورة</string>
+    <string name="wallpaper_fill_image">ملء الشاشة</string>
+    <string name="wallpaper_fit_image">عرض الصورة كاملة</string>
 </resources>

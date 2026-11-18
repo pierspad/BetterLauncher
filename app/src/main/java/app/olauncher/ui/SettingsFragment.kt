@@ -2,6 +2,7 @@ package app.olauncher.ui
 
 import android.Manifest
 import android.app.Activity
+import android.app.TimePickerDialog
 import android.app.WallpaperManager
 import android.app.admin.DevicePolicyManager
 import android.appwidget.AppWidgetHost
@@ -13,6 +14,7 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Process
+import android.provider.DocumentsContract
 import android.provider.Settings
 import android.util.Log
 import android.view.Gravity
@@ -29,6 +31,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.core.os.LocaleListCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -42,6 +45,7 @@ import app.olauncher.MainViewModel
 import app.olauncher.R
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
+import app.olauncher.databinding.DialogWallpaperRotationBinding
 import app.olauncher.databinding.FragmentSettingsBinding
 import app.olauncher.helper.IconManager
 import app.olauncher.helper.ContactsHelper
@@ -62,6 +66,7 @@ import app.olauncher.helper.themedSurfaceOpacity
 import app.olauncher.helper.shareApp
 import app.olauncher.helper.showToast
 import app.olauncher.listener.DeviceAdmin
+import java.util.Calendar
 
 class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListener {
 
@@ -75,6 +80,30 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     private var settingsSearch: SettingsSearch? = null
 
 
+
+    private var wallpaperDialog: AlertDialog? = null
+    private var wallpaperPanel: DialogWallpaperRotationBinding? = null
+    private var enableWallpaperAfterPicker = false
+
+    private val wallpaperFolderPicker = registerWallpaperFolderPicker(evening = false)
+    private val wallpaperEveningFolderPicker = registerWallpaperFolderPicker(evening = true)
+
+    private fun registerWallpaperFolderPicker(evening: Boolean) =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val enableOnSelection = !evening && enableWallpaperAfterPicker
+            if (!evening) enableWallpaperAfterPicker = false
+            if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+            val uri = result.data?.data ?: return@registerForActivityResult
+            try {
+                requireContext().contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            } catch (e: SecurityException) {
+                requireContext().showToast(getString(R.string.wallpaper_folder_access_failed))
+                return@registerForActivityResult
+            }
+            if (enableOnSelection) prefs.dailyWallpaper = true
+            setWallpaperFolder(uri.toString(), evening)
+            if (wallpaperPanel == null && _binding != null) showWallpaperOptions()
+        }
 
     private val enableAdminLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -160,6 +189,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        enableWallpaperAfterPicker = savedInstanceState?.getBoolean("enableWallpaperAfterPicker") == true
         savedInstanceState?.let {
             pendingWidgetId = it.getInt(KEY_PENDING_WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
         }
@@ -185,6 +215,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
 
         binding.homeAppsNum.text = prefs.homeAppsNum.toString()
         populateKeyboardText()
+        populateWallpaperSource()
         populateScreenTimeOnOff()
         populateLockSettings()
         // Home button for recents feature disabled
@@ -347,6 +378,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             // Home button for recents feature disabled
             // R.id.homeButtonRecents -> toggleHomeButtonRecents()
             R.id.autoShowKeyboard -> toggleKeyboardText()
+            R.id.dailyWallpaper -> showWallpaperOptions()
             R.id.alignHomeLeft -> updateHomeHorizontalAlignment(Gravity.START)
             R.id.alignHomeCenter -> updateHomeHorizontalAlignment(Gravity.CENTER)
             R.id.alignHomeRight -> updateHomeHorizontalAlignment(Gravity.END)
@@ -425,6 +457,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.scrollLayout.setOnClickListener(this)
         binding.setLauncher.setOnClickListener(this)
         binding.autoShowKeyboard.setOnClickListener(this)
+        binding.dailyWallpaper.setOnClickListener(this)
         binding.toggleLock.setOnClickListener(this)
         // Home button for recents feature disabled
         // binding.homeButtonRecents.setOnClickListener(this)
@@ -638,6 +671,19 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
             getString(messageRes) + "\n\n" + getString(R.string.xiaomi_game_gesture_help)
         else getString(messageRes)
         dialogBinding.dialogPositiveButton.setText(positiveBtnRes)
+        if (messageRes == R.string.xiaomi_gestures_message) {
+            val closeButton = dialogBinding.dialogPositiveButton
+            closeButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_close, 0, 0, 0)
+            androidx.core.widget.TextViewCompat.setCompoundDrawableTintList(
+                closeButton,
+                android.content.res.ColorStateList.valueOf(android.graphics.Color.WHITE)
+            )
+            closeButton.compoundDrawablePadding = 8.dpToPx()
+            closeButton.layoutParams = (closeButton.layoutParams as LinearLayout.LayoutParams).apply {
+                width = ViewGroup.LayoutParams.WRAP_CONTENT
+                gravity = Gravity.CENTER_HORIZONTAL
+            }
+        }
 
         val dialog = AlertDialog.Builder(requireContext()).setView(dialogBinding.root).create()
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
@@ -671,19 +717,6 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         findNavController().navigate(
             R.id.action_settingsFragment_to_appListFragment,
             bundleOf(Constants.Key.FLAG to Constants.FLAG_HIDDEN_APPS)
-        if (messageRes == R.string.xiaomi_gestures_message) {
-            val closeButton = dialogBinding.dialogPositiveButton
-            closeButton.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_close, 0, 0, 0)
-            androidx.core.widget.TextViewCompat.setCompoundDrawableTintList(
-                closeButton,
-                android.content.res.ColorStateList.valueOf(android.graphics.Color.WHITE)
-            )
-            closeButton.compoundDrawablePadding = 8.dpToPx()
-            closeButton.layoutParams = (closeButton.layoutParams as LinearLayout.LayoutParams).apply {
-                width = ViewGroup.LayoutParams.WRAP_CONTENT
-                gravity = Gravity.CENTER_HORIZONTAL
-            }
-        }
         )
     }
 
@@ -1035,6 +1068,169 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.autoShowKeyboard.isChecked = prefs.autoShowKeyboard
     }
 
+    private fun populateWallpaperSource() {
+        val enabled = prefs.dailyWallpaper && prefs.dailyWallpaperFolder.isNotEmpty()
+        val state = when {
+            !enabled -> R.string.off
+            prefs.wallpaperTwiceDaily -> R.string.wallpaper_morning_evening
+            else -> R.string.wallpaper_once_daily
+        }
+        _binding?.dailyWallpaper?.text = getString(
+            R.string.wallpaper_setting_summary, getString(R.string.daily_wallpaper_update), getString(state)
+        )
+
+        wallpaperPanel?.let { panel ->
+            panel.wallpaperEnabled.isChecked = enabled
+            panel.wallpaperImageLayout.check(if (prefs.wallpaperFitImage) R.id.wallpaperFit else R.id.wallpaperFill)
+            panel.wallpaperFrequency.check(if (prefs.wallpaperTwiceDaily) R.id.wallpaperTwice else R.id.wallpaperOnce)
+            panel.wallpaperEveningOptions.isVisible = prefs.wallpaperTwiceDaily
+            panel.wallpaperMorningStart.text = wallpaperTimeLabel(R.string.wallpaper_morning_start, prefs.wallpaperMorningStart)
+            panel.wallpaperEveningStart.text = wallpaperTimeLabel(R.string.wallpaper_evening_start, prefs.wallpaperEveningStart)
+            panel.wallpaperClearEvening.isVisible = prefs.wallpaperEveningFolder.isNotEmpty()
+            panel.wallpaperFolder.text = wallpaperFolderLabel(
+                if (prefs.wallpaperTwiceDaily) R.string.wallpaper_morning_folder else R.string.wallpaper_main_folder,
+                prefs.dailyWallpaperFolder
+            )
+            panel.wallpaperEveningFolder.text = wallpaperFolderLabel(
+                R.string.wallpaper_evening_folder, prefs.wallpaperEveningFolder, R.string.wallpaper_use_main_folder
+            )
+        }
+    }
+
+    private fun wallpaperFolderLabel(label: Int, tree: String, fallback: Int? = null): String {
+        val name = if (tree.isBlank()) "" else runCatching {
+            DocumentsContract.getTreeDocumentId(tree.toUri()).substringAfterLast('/').substringAfterLast(':')
+        }.getOrDefault("")
+        val detail = name.ifEmpty { fallback?.let(::getString).orEmpty() }
+        return if (detail.isBlank()) getString(label)
+        else getString(R.string.wallpaper_setting_summary, getString(label), detail)
+    }
+
+    private fun showWallpaperOptions() {
+        val panel = DialogWallpaperRotationBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext()).setView(panel.root).create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        wallpaperDialog = dialog
+        wallpaperPanel = panel
+        populateWallpaperSource()
+
+        panel.wallpaperMorningStart.setOnClickListener { pickWallpaperTime(evening = false) }
+        panel.wallpaperEveningStart.setOnClickListener { pickWallpaperTime(evening = true) }
+        panel.wallpaperEnabled.setOnClickListener {
+            if (!panel.wallpaperEnabled.isChecked) {
+                viewModel.cancelWallpaperWorker()
+                populateWallpaperSource()
+            } else if (prefs.dailyWallpaperFolder.isEmpty()) {
+                panel.wallpaperEnabled.isChecked = false
+                enableWallpaperAfterPicker = true
+                chooseWallpaperFolder(evening = false)
+            } else {
+                prefs.dailyWallpaper = true
+                rescheduleWallpaper()
+            }
+        }
+        panel.wallpaperFrequency.setOnCheckedChangeListener { _, checkedId ->
+            val twiceDaily = checkedId == R.id.wallpaperTwice
+            if (prefs.wallpaperTwiceDaily != twiceDaily) {
+                prefs.wallpaperTwiceDaily = twiceDaily
+                rescheduleWallpaper()
+            }
+        }
+        panel.wallpaperImageLayout.setOnCheckedChangeListener { _, checkedId ->
+            val fit = checkedId == R.id.wallpaperFit
+            if (prefs.wallpaperFitImage != fit) {
+                prefs.wallpaperFitImage = fit
+                rescheduleWallpaper()
+            }
+        }
+        panel.wallpaperFolder.setOnClickListener { chooseWallpaperFolder(evening = false) }
+        panel.wallpaperEveningFolder.setOnClickListener { chooseWallpaperFolder(evening = true) }
+        panel.wallpaperClearEvening.setOnClickListener { setWallpaperFolder("", evening = true) }
+        panel.wallpaperDone.setOnClickListener { dialog.dismiss() }
+        dialog.setOnDismissListener {
+            wallpaperDialog = null
+            wallpaperPanel = null
+        }
+        dialog.show()
+    }
+
+    private fun wallpaperTimeLabel(label: Int, minutes: Int): String {
+        val time = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, minutes / 60)
+            set(Calendar.MINUTE, minutes % 60)
+        }.time
+        val userTime = android.text.format.DateFormat.getTimeFormat(requireContext()).format(time)
+        return getString(R.string.wallpaper_setting_summary, getString(label), userTime)
+    }
+
+    private fun pickWallpaperTime(evening: Boolean) {
+        val context = requireContext()
+        val oldStart = if (evening) prefs.wallpaperEveningStart else prefs.wallpaperMorningStart
+        val otherStart = if (evening) prefs.wallpaperMorningStart else prefs.wallpaperEveningStart
+        TimePickerDialog(
+            context,
+            { _, hour, minute ->
+                val start = hour * 60 + minute
+                if (start == otherStart) {
+                    context.showToast(getString(R.string.wallpaper_distinct_times))
+                } else if (start != oldStart) {
+                    if (evening) prefs.wallpaperEveningStart = start else prefs.wallpaperMorningStart = start
+                    rescheduleWallpaper()
+                }
+            },
+            oldStart / 60,
+            oldStart % 60,
+            android.text.format.DateFormat.is24HourFormat(context),
+        ).apply {
+            setTitle(if (evening) R.string.wallpaper_evening_start else R.string.wallpaper_morning_start)
+            show()
+        }
+    }
+
+    private fun chooseWallpaperFolder(evening: Boolean) {
+        val folder = if (evening) prefs.wallpaperEveningFolder else prefs.dailyWallpaperFolder
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+            .putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && folder.isNotEmpty()) {
+            intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, folder.toUri())
+        }
+        try {
+            (if (evening) wallpaperEveningFolderPicker else wallpaperFolderPicker).launch(intent)
+        } catch (e: android.content.ActivityNotFoundException) {
+            if (!evening) enableWallpaperAfterPicker = false
+            requireContext().showToast(getString(R.string.wallpaper_folder_access_failed))
+        }
+    }
+
+    private fun setWallpaperFolder(folder: String, evening: Boolean) {
+        val previous = if (evening) prefs.wallpaperEveningFolder else prefs.dailyWallpaperFolder
+        if (previous != folder) {
+            if (evening) {
+                prefs.wallpaperEveningFolder = folder
+                prefs.wallpaperEveningLastPhoto = ""
+            } else {
+                prefs.dailyWallpaperFolder = folder
+                prefs.dailyWallpaperLastPhoto = ""
+            }
+            if (previous.isNotEmpty() && previous != prefs.dailyWallpaperFolder && previous != prefs.wallpaperEveningFolder) {
+                runCatching {
+                    requireContext().contentResolver.releasePersistableUriPermission(
+                        previous.toUri(), Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                }
+            }
+        }
+        rescheduleWallpaper()
+    }
+
+    private fun rescheduleWallpaper() {
+        if (prefs.dailyWallpaper) {
+            viewModel.scheduleWallpaperFromNextPeriod()
+        }
+        populateWallpaperSource()
+    }
+
     private fun populateAlignment() {
         // Each horizontal-alignment control only makes sense when its block is on screen,
         // so we hide a whole row (and its divider) when the matching slider is at 0.
@@ -1380,6 +1576,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     }
 
     override fun onDestroyView() {
+        wallpaperDialog?.dismiss()
         clockEditor?.dismiss()
         clockEditor = null
         widgetPicker?.dismiss()
@@ -1392,6 +1589,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(KEY_PENDING_WIDGET_ID, pendingWidgetId)
+        outState.putBoolean("enableWallpaperAfterPicker", enableWallpaperAfterPicker)
     }
 
     override fun onDestroy() {

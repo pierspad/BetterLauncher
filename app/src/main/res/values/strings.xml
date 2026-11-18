@@ -60,7 +60,7 @@
     <string name="donate">Donate</string>
     <string name="swipe_up_for_apps">1. Swipe up for all apps\n2. Long press anywhere for settings</string>
     <string name="apps_on_home_screen">Apps on home screen</string>
-    <string name="daily_wallpaper_update">Daily new wallpaper</string>
+    <string name="daily_wallpaper_update">Wallpaper rotation</string>
     <string name="left">Left</string>
     <string name="right">Right</string>
     <string name="center">Center</string>
@@ -435,5 +435,23 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="clock_with_minutes">Minutes</string>
     <string name="clock_with_seconds">Seconds</string>
     <string name="clock_symbol_label" translatable="false">%1$s  %2$s</string>
+    <string name="wallpaper_folder_access_failed">Could not open the wallpaper folder</string>
+    <string name="wallpaper_setting_summary" translatable="false">%1$s · %2$s</string>
+    <string name="wallpaper_offline_description">Rotate photos from a folder on this phone. Works offline.</string>
+    <string name="wallpaper_automatic">Change automatically</string>
+    <string name="wallpaper_main_folder">Main folder</string>
+    <string name="wallpaper_frequency">Frequency</string>
+    <string name="wallpaper_once_daily">Once a day</string>
+    <string name="wallpaper_evening_folder">Evening folder</string>
+    <string name="wallpaper_use_main_folder">Use the main folder</string>
+    <string name="wallpaper_morning_evening">Twice a day</string>
+    <string name="wallpaper_morning_start">Morning starts</string>
+    <string name="wallpaper_evening_start">Evening starts</string>
+    <string name="wallpaper_morning_folder">Morning folder</string>
+    <string name="wallpaper_schedule_description">Each phase lasts until the next starts. Android may delay changes.</string>
+    <string name="wallpaper_distinct_times">Choose a different time for each phase.</string>
     <string name="app_limit_level_short">Level %1$d</string>
+    <string name="wallpaper_image_layout">Image layout</string>
+    <string name="wallpaper_fill_image">Fill screen</string>
+    <string name="wallpaper_fit_image">Show full image</string>
 </resources>

@@ -33,7 +33,7 @@
     <string name="donate">Fes una donació</string>
     <string name="swipe_up_for_apps">1. Llisca cap amunt per veure totes les aplicacions\n2. Mantén premut qualsevol punt per obrir la configuració</string>
     <string name="apps_on_home_screen">Aplicacions a la pantalla d\'inici</string>
-    <string name="daily_wallpaper_update">Fons de pantalla nou cada dia</string>
+    <string name="daily_wallpaper_update">Fons de pantalla rotatiu</string>
     <string name="left">Esquerra</string>
     <string name="right">Dreta</string>
     <string name="center">Centre</string>
@@ -395,5 +395,22 @@ No es permet amagar dreceres fixades</string>
     <string name="clock_hours">Hores</string>
     <string name="clock_with_minutes">Minuts</string>
     <string name="clock_with_seconds">Segons</string>
+    <string name="wallpaper_folder_access_failed">No s’ha pogut obrir la carpeta de fons de pantalla</string>
+    <string name="wallpaper_offline_description">gira les fotos d’una carpeta d’aquest telèfon. Funciona fora de línia.</string>
+    <string name="wallpaper_automatic">Canvia automàticament</string>
+    <string name="wallpaper_main_folder">Carpeta principal</string>
+    <string name="wallpaper_frequency">freqüència</string>
+    <string name="wallpaper_once_daily">Un cop al dia</string>
+    <string name="wallpaper_evening_folder">Carpeta de nit</string>
+    <string name="wallpaper_use_main_folder">Utilitzeu la carpeta principal</string>
+    <string name="wallpaper_morning_evening">Dues vegades al dia</string>
+    <string name="wallpaper_morning_start">Inici del matí</string>
+    <string name="wallpaper_evening_start">Inici del vespre</string>
+    <string name="wallpaper_morning_folder">Carpeta del matí</string>
+    <string name="wallpaper_schedule_description">Cada fase dura fins que comença la següent. Android pot endarrerir el canvi.</string>
+    <string name="wallpaper_distinct_times">Tria una hora diferent per a cada fase.</string>
     <string name="app_limit_level_short">Nivell %1$d</string>
+    <string name="wallpaper_image_layout">Ajust de la imatge</string>
+    <string name="wallpaper_fill_image">Omple la pantalla</string>
+    <string name="wallpaper_fit_image">Mostra la imatge sencera</string>
 </resources>

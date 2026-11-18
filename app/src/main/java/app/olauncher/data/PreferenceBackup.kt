@@ -1,5 +1,6 @@
 package app.olauncher.data
 
+import app.olauncher.helper.WallpaperPeriod
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -73,11 +74,16 @@ internal data class PreferenceBackup(
                     key == "HOME_SHORTCUT_ICONS_NUM" -> require(value as Int in 0..Constants.SHORTCUT_COUNT)
                     iconIndex.matches(key) -> require(value as Int in Constants.SHORTCUT_ICONS.indices)
                     key == "SEARCH_MODE" -> require(value as Int in 0..2)
+                    key == "WALLPAPER_MORNING_START" || key == "WALLPAPER_EVENING_START" ->
+                        require(value as Int in 0 until WallpaperPeriod.MINUTES_PER_DAY)
                     key.startsWith("LIMIT_") || key.startsWith("USAGE_") -> require((value as Number).toLong() >= 0)
                 }
                 if (key == "CUSTOM_FONT_BASE64") font = value as String
                 else values[key] = value
             }
+            val morning = values["WALLPAPER_MORNING_START"] ?: WallpaperPeriod.DEFAULT_MORNING_START
+            val evening = values["WALLPAPER_EVENING_START"] ?: WallpaperPeriod.DEFAULT_EVENING_START
+            require(morning != evening)
             return PreferenceBackup(values, font)
         }
     }

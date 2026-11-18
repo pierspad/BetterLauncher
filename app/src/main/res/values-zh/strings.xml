@@ -60,7 +60,7 @@
     <string name="donate">捐赠</string>
     <string name="swipe_up_for_apps">1. 向上滑动查看所有应用\n2.长按任意位置进行设置</string>
     <string name="apps_on_home_screen">主屏幕上的应用程序</string>
-    <string name="daily_wallpaper_update">每日新壁纸</string>
+    <string name="daily_wallpaper_update">壁纸轮换</string>
     <string name="left">左对齐</string>
     <string name="right">右对齐</string>
     <string name="center">居中</string>
@@ -371,5 +371,22 @@
     <string name="clock_hours">小时</string>
     <string name="clock_with_minutes">分钟</string>
     <string name="clock_with_seconds">秒</string>
+    <string name="wallpaper_folder_access_failed">无法打开壁纸文件夹</string>
+    <string name="wallpaper_offline_description">旋转本手机上文件夹中的照片。离线工作。</string>
+    <string name="wallpaper_automatic">自动改变</string>
+    <string name="wallpaper_main_folder">主文件夹</string>
+    <string name="wallpaper_frequency">频率</string>
+    <string name="wallpaper_once_daily">每天一次</string>
+    <string name="wallpaper_evening_folder">晚间文件夹</string>
+    <string name="wallpaper_use_main_folder">使用主文件夹</string>
+    <string name="wallpaper_morning_evening">每天两次</string>
+    <string name="wallpaper_morning_start">早间开始时间</string>
+    <string name="wallpaper_evening_start">晚间开始时间</string>
+    <string name="wallpaper_morning_folder">早间文件夹</string>
+    <string name="wallpaper_schedule_description">每个时段持续到下一个时段开始。Android 可能会延迟切换。</string>
+    <string name="wallpaper_distinct_times">请为两个时段选择不同的开始时间。</string>
     <string name="app_limit_level_short">等级 %1$d</string>
+    <string name="wallpaper_image_layout">图片适配</string>
+    <string name="wallpaper_fill_image">填满屏幕</string>
+    <string name="wallpaper_fit_image">显示完整图片</string>
 </resources><!-- Chinese -->

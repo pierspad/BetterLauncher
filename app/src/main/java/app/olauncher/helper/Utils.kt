@@ -12,6 +12,10 @@ import android.content.pm.LauncherApps
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.Point
 import android.net.Uri
 import android.os.Build
 import android.os.UserHandle
@@ -445,6 +449,80 @@ fun openAppInfo(context: Context, userHandle: UserHandle, packageName: String) {
         launcher.startAppDetailsActivity(component, userHandle, null, null)
     else
         context.showToast(context.getString(R.string.unable_to_open_app_info))
+}
+
+suspend fun getWallpaperBitmap(originalImage: Bitmap, width: Int, height: Int, fit: Boolean): Bitmap {
+    return withContext(Dispatchers.IO) {
+        val background = createBitmap(width, height)
+
+        val originalWidth = originalImage.width.toFloat()
+        val originalHeight = originalImage.height.toFloat()
+
+        val canvas = Canvas(background)
+        val heightScale = height / originalHeight
+        val widthScale = width / originalWidth
+        val scale = if (fit) minOf(heightScale, widthScale) else maxOf(heightScale, widthScale)
+        val xTranslation = (width - originalWidth * scale) / 2f
+        val yTranslation = (height - originalHeight * scale) / 2f
+        canvas.drawColor(android.graphics.Color.BLACK)
+
+        val transformation = Matrix().apply {
+            postTranslate(xTranslation, yTranslation)
+            preScale(scale, scale)
+        }
+
+        val paint = Paint().apply { isFilterBitmap = true }
+        canvas.drawBitmap(originalImage, transformation, paint)
+
+        background
+    }
+}
+
+suspend fun setWallpaper(appContext: Context, originalImageBitmap: Bitmap, fit: Boolean, isEnabled: () -> Boolean): Boolean {
+    return withContext(Dispatchers.IO) {
+        var scaledBitmap: Bitmap? = null
+        try {
+            val wallpaperManager = WallpaperManager.getInstance(appContext)
+            if (!wallpaperManager.isWallpaperSupported || !wallpaperManager.isSetWallpaperAllowed) {
+                return@withContext false
+            }
+
+            val (rawWidth, rawHeight) = getScreenDimensions(appContext)
+            val (width, height) = if (!isTablet(appContext) && rawWidth > rawHeight) {
+                Pair(rawHeight, rawWidth)
+            } else {
+                Pair(rawWidth, rawHeight)
+            }
+            if (width <= 0 || height <= 0) return@withContext false
+
+            scaledBitmap = getWallpaperBitmap(originalImageBitmap, width, height, fit)
+            ensureActive()
+            if (!isEnabled()) return@withContext false
+            wallpaperManager.setBitmap(
+                scaledBitmap, null, false, WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK
+            ) != 0
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            android.util.Log.w("DailyWallpaper", "Could not apply the wallpaper", e)
+            false
+        } finally {
+            runCatching { scaledBitmap?.recycle() }
+        }
+    }
+}
+
+fun getScreenDimensions(context: Context): Pair<Int, Int> {
+    val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        val bounds = windowManager.maximumWindowMetrics.bounds
+        Pair(bounds.width(), bounds.height())
+    } else {
+        val point = Point()
+        @Suppress("DEPRECATION")
+        windowManager.defaultDisplay.getRealSize(point)
+        Pair(point.x, point.y)
+    }
 }
 
 fun openSearch(context: Context) {

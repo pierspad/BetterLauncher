@@ -1111,6 +1111,36 @@
                     android:layout_marginVertical="4dp"
                     android:background="@drawable/divider_light" />
 
+                <!-- Daily wallpaper source -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/dailyWallpaper"
+                        style="@style/SettingsShortcut"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="12dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:tag="settings:daily_wallpaper_update,wallpaper_main_folder,wallpaper_frequency"
+                        android:text="@string/daily_wallpaper_update"
+                        android:textColor="?attr/primaryColor"
+                        app:drawableStartCompat="@drawable/ic_sc_image"
+                        app:drawableTint="?attr/primaryColor" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/divider_light" />
+
                 <!-- Text size (slider 0.8..1.5) -->
                 <LinearLayout
                     android:layout_width="match_parent"

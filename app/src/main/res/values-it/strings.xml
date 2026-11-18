@@ -33,7 +33,7 @@
     <string name="donate">Donazioni</string>
     <string name="swipe_up_for_apps">1. Scorri verso l\'alto per tutte le app\n2. Premi a lungo in qualsiasi punto per le impostazioni</string>
     <string name="apps_on_home_screen">App sulla schermata iniziale</string>
-    <string name="daily_wallpaper_update">Nuovo sfondo quotidiano</string>
+    <string name="daily_wallpaper_update">Sfondo cangiante</string>
     <string name="left">Sinistra</string>
     <string name="right">Destra</string>
     <string name="center">Centrato</string>
@@ -399,5 +399,22 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="clock_with_minutes">Minuti</string>
     <string name="clock_with_seconds">Secondi</string>
     <string name="search_mode_title">Modalità di ricerca</string>
+    <string name="wallpaper_folder_access_failed">Impossibile aprire la cartella degli sfondi</string>
+    <string name="wallpaper_offline_description">Cambia sfondo usando le foto in una cartella del telefono. Funziona offline.</string>
+    <string name="wallpaper_automatic">Cambio automatico</string>
+    <string name="wallpaper_main_folder">Cartella principale</string>
+    <string name="wallpaper_frequency">Frequenza</string>
+    <string name="wallpaper_once_daily">Una volta al giorno</string>
+    <string name="wallpaper_evening_folder">Cartella serale</string>
+    <string name="wallpaper_use_main_folder">Usa la cartella principale</string>
+    <string name="wallpaper_morning_evening">Due volte al giorno</string>
+    <string name="wallpaper_morning_start">Inizio mattina</string>
+    <string name="wallpaper_evening_start">Inizio sera</string>
+    <string name="wallpaper_morning_folder">Cartella mattutina</string>
+    <string name="wallpaper_schedule_description">Ogni fase dura fino all’inizio dell’altra. Android può ritardare il cambio.</string>
+    <string name="wallpaper_distinct_times">Scegli un orario diverso per ciascuna fase.</string>
     <string name="app_limit_level_short">Liv. %1$d</string>
+    <string name="wallpaper_image_layout">Adattamento foto</string>
+    <string name="wallpaper_fill_image">Riempi lo schermo</string>
+    <string name="wallpaper_fit_image">Mostra foto intera</string>
 </resources><!-- Italian -->

@@ -106,6 +106,7 @@ dependencies {
     implementation libs.navigation.fragment.ktx
 
     // Work Manager
+    implementation libs.work.runtime.ktx
 
     //Material dependency
     implementation libs.material

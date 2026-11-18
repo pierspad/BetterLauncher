@@ -23,7 +23,7 @@
     <string name="donate">Doneren</string>
     <string name="swipe_up_for_apps">1. Veeg omhoog voor alle apps\n2. Ergens lang indrukken voor instellingen</string>
     <string name="apps_on_home_screen">Apps op startscherm</string>
-    <string name="daily_wallpaper_update">Dagelijks nieuwe achtergrond</string>
+    <string name="daily_wallpaper_update">Wisselende achtergronden</string>
     <string name="left">Links</string>
     <string name="right">Rechts</string>
     <string name="center">Midden</string>
@@ -369,5 +369,22 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="clock_hours">Uren</string>
     <string name="clock_with_minutes">Minuten</string>
     <string name="clock_with_seconds">Seconden</string>
+    <string name="wallpaper_folder_access_failed">Kan de achtergrondmap niet openen</string>
+    <string name="wallpaper_offline_description">foto’s uit een map op deze telefoon draaien. Werkt offline.</string>
+    <string name="wallpaper_automatic">Automatisch wijzigen</string>
+    <string name="wallpaper_main_folder">Hoofdmap</string>
+    <string name="wallpaper_frequency">Frequentie</string>
+    <string name="wallpaper_once_daily">Eén keer per dag</string>
+    <string name="wallpaper_evening_folder">Avondmap</string>
+    <string name="wallpaper_use_main_folder">Gebruik de hoofdmap</string>
+    <string name="wallpaper_morning_evening">Twee keer per dag</string>
+    <string name="wallpaper_morning_start">Begin van de ochtend</string>
+    <string name="wallpaper_evening_start">Begin van de avond</string>
+    <string name="wallpaper_morning_folder">Map voor de ochtend</string>
+    <string name="wallpaper_schedule_description">Elke fase duurt totdat de volgende begint. Android kan de wissel vertragen.</string>
+    <string name="wallpaper_distinct_times">Kies voor elke fase een andere tijd.</string>
     <string name="app_limit_level_short">Niveau %1$d</string>
+    <string name="wallpaper_image_layout">Afbeelding passend maken</string>
+    <string name="wallpaper_fill_image">Scherm vullen</string>
+    <string name="wallpaper_fit_image">Hele afbeelding tonen</string>
 </resources><!-- Dutch -->
