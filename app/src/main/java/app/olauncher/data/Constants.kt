@@ -1,6 +1,5 @@
 package app.olauncher.data
 
-import app.olauncher.R
 
 object Constants {
 
@@ -93,42 +92,8 @@ object Constants {
     const val SHORTCUT_ACTION_DIALER = 4
     const val SHORTCUT_ACTION_SETTINGS = 5
 
-    // Default glyph (index into SHORTCUT_ICONS) for each of the 8 slots
+    // Default glyph (index into ShortcutIcons.entries) for each of the 8 slots
     val SHORTCUT_DEFAULT_ICONS = intArrayOf(0, 2, 3, 4, 5, 6, 7, 8)
-
-    // The selectable icon set (~20). Stored as index in prefs (resource ids can change between builds).
-    val SHORTCUT_ICONS = intArrayOf(
-        R.drawable.ic_sc_search,    // 0
-        R.drawable.ic_sc_globe,     // 1
-        R.drawable.ic_sc_image,     // 2
-        R.drawable.ic_sc_camera,    // 3
-        R.drawable.ic_sc_message,   // 4
-        R.drawable.ic_sc_phone,     // 5
-        R.drawable.ic_sc_settings,  // 6
-        R.drawable.ic_sc_mail,      // 7
-        R.drawable.ic_sc_music,     // 8
-        R.drawable.ic_sc_calendar,  // 9
-        R.drawable.ic_sc_clock,     // 10
-        R.drawable.ic_sc_map,       // 11
-        R.drawable.ic_sc_calculator,// 12
-        R.drawable.ic_sc_note,      // 13
-        R.drawable.ic_sc_cloud,     // 14
-        R.drawable.ic_sc_person,    // 15
-        R.drawable.ic_sc_play,      // 16
-        R.drawable.ic_sc_heart,     // 17
-        R.drawable.ic_sc_star,      // 18
-        R.drawable.ic_sc_grid,      // 19
-        R.drawable.ic_sc_folder,    // 20
-        R.drawable.ic_sc_download,  // 21
-        R.drawable.ic_sc_wifi,      // 22
-        R.drawable.ic_sc_bluetooth, // 23
-        R.drawable.ic_sc_alarm,     // 24
-        R.drawable.ic_sc_video,     // 25
-        R.drawable.ic_sc_cart,      // 26
-        R.drawable.ic_sc_wallet,    // 27
-        R.drawable.ic_sc_book,      // 28
-        R.drawable.ic_sc_game,      // 29
-    )
 
     // AppWidget host id for the single home-screen widget
     const val WIDGET_HOST_ID = 4242

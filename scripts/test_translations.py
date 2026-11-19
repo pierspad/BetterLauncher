@@ -73,6 +73,17 @@ class TranslationsAndMetadataTest(unittest.TestCase):
                 f"Translatable string {key!r} in values/strings.xml must not be empty",
             )
 
+    def test_shortcut_icon_catalog_is_translated(self):
+        filename = "shortcut_icons.xml"
+        default, _, duplicates = parse_strings_xml(RES_DIR / "values" / filename)
+        self.assertFalse(duplicates)
+        for locale in self.localized_files:
+            with self.subTest(locale=locale.parent.name):
+                translations, _, duplicates = parse_strings_xml(locale.with_name(filename))
+                self.assertFalse(duplicates)
+                self.assertEqual(set(default), set(translations))
+                self.assertTrue(all(value.strip() for value in translations.values()))
+
     def test_gradle_resource_configurations_match_values_folders(self):
         gradle_text = BUILD_GRADLE.read_text(encoding="utf-8")
         match = re.search(r"resourceConfigurations\s*\+=\s*\[([^\]]+)\]", gradle_text)

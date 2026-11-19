@@ -24,8 +24,6 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import android.widget.AbsListView
-import android.widget.BaseAdapter
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -52,7 +50,7 @@ import app.olauncher.R
 import app.olauncher.data.AppModel
 import app.olauncher.data.Constants
 import app.olauncher.data.Prefs
-import app.olauncher.databinding.DialogShortcutIconBinding
+import app.olauncher.data.ShortcutIcons
 import app.olauncher.databinding.FragmentHomeBinding
 import app.olauncher.helper.appUsagePermissionGranted
 import app.olauncher.helper.dpToPx
@@ -1186,8 +1184,8 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                     imageView.visibility = View.VISIBLE
                     val iconSlot = location - topGap - 1
                     val iconIndex = prefs.getShortcutIconIndex(iconSlot)
-                        .coerceIn(0, Constants.SHORTCUT_ICONS.size - 1)
-                    imageView.setImageResource(Constants.SHORTCUT_ICONS[iconIndex])
+                        .coerceIn(ShortcutIcons.entries.indices)
+                    imageView.setImageResource(ShortcutIcons.entries[iconIndex].drawable)
                     imageView.setPadding(targetPadding, targetPadding, targetPadding, targetPadding)
                     imageView.setOnClickListener { launchShortcutSlot(iconSlot) }
                     imageView.setOnLongClickListener {
@@ -1484,39 +1482,10 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     private fun showIconPickerDialog(slot: Int) {
-        val ctx = requireContext()
-        val itemSize = 48.dpToPx()
-        val picker = DialogShortcutIconBinding.inflate(layoutInflater)
-        val gridView = picker.iconGrid
-        val selected = prefs.getShortcutIconIndex(slot)
-        gridView.adapter = object : BaseAdapter() {
-            override fun getCount(): Int = Constants.SHORTCUT_ICONS.size
-            override fun getItem(position: Int): Any = Constants.SHORTCUT_ICONS[position]
-            override fun getItemId(position: Int): Long = position.toLong()
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-                val imageView = (convertView as? ImageView) ?: ImageView(ctx).apply {
-                    layoutParams = AbsListView.LayoutParams(itemSize, itemSize)
-                    val p = 10.dpToPx()
-                    setPadding(p, p, p, p)
-                    scaleType = ImageView.ScaleType.FIT_CENTER
-                }
-                imageView.setImageResource(Constants.SHORTCUT_ICONS[position])
-                imageView.setColorFilter(ctx.getColorFromAttr(R.attr.primaryColor))
-                imageView.isSelected = position == selected
-                imageView.setBackgroundResource(if (position == selected) R.drawable.rounded_settings_search else 0)
-                return imageView
-            }
-        }
-        val dialog = AlertDialog.Builder(ctx).setView(picker.root).create()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        picker.iconPickerClose.setOnClickListener { dialog.dismiss() }
-        gridView.setOnItemClickListener { _, _, position, _ ->
-            prefs.setShortcutIconIndex(slot, position)
+        showShortcutIconPicker(layoutInflater, prefs.getShortcutIconIndex(slot)) { iconIndex ->
+            prefs.setShortcutIconIndex(slot, iconIndex)
             populateShortcutIcons()
-            dialog.dismiss()
         }
-        dialog.show()
-        gridView.smoothScrollToPosition(selected)
     }
 
     private fun finalizePendingWidget() {

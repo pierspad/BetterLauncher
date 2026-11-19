@@ -72,7 +72,7 @@ internal data class PreferenceBackup(
                     key == "OPACITY_HOME" || key == "OPACITY_DRAWER" -> require(value as Float in 0f..1f)
                     key == "HOME_APPS_NUM" -> require(value as Int in 0..8)
                     key == "HOME_SHORTCUT_ICONS_NUM" -> require(value as Int in 0..Constants.SHORTCUT_COUNT)
-                    iconIndex.matches(key) -> require(value as Int in Constants.SHORTCUT_ICONS.indices)
+                    iconIndex.matches(key) -> require(value as Int in ShortcutIcons.entries.indices)
                     key == "SEARCH_MODE" -> require(value as Int in 0..2)
                     key == "WALLPAPER_MORNING_START" || key == "WALLPAPER_EVENING_START" ->
                         require(value as Int in 0 until WallpaperPeriod.MINUTES_PER_DAY)
