@@ -1,3 +1,9 @@
+## [1.10.1](https://github.com/pierspad/BetterLauncher/compare/v1.10.0...v1.10.1) (2026-11-19)
+
+### Bug Fixes
+
+* keep app icon fallbacks monochrome ([6fde538](https://github.com/pierspad/BetterLauncher/commit/6fde5385a45d308edf272551012936f7f2814fa2))
+
 ## [1.10.0](https://github.com/pierspad/BetterLauncher/compare/v1.9.0...v1.10.0) (2026-11-19)
 
 ### Features
