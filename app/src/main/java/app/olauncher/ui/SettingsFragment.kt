@@ -1246,12 +1246,8 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
                 prefs.dailyWallpaperFolder = folder
                 prefs.dailyWallpaperLastPhoto = ""
             }
-            if (previous.isNotEmpty() && previous != prefs.dailyWallpaperFolder && previous != prefs.wallpaperEveningFolder) {
-                runCatching {
-                    requireContext().contentResolver.releasePersistableUriPermission(
-                        previous.toUri(), Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    )
-                }
+            if (previous.isNotEmpty()) {
+                app.olauncher.widget.PhotoWidgetStore.releaseUnusedFolder(requireContext(), previous)
             }
         }
         rescheduleWallpaper()

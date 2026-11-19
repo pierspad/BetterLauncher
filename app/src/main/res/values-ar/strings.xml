@@ -389,4 +389,9 @@
     <string name="wallpaper_fit_image">الصورة كاملة مع أشرطة</string>
     <string name="edit_group_apps">تعديل تطبيقات المجموعة</string>
     <string name="wallpaper_choose_folder">اختيار مجلد</string>
+    <string name="photo_widget_name">أداة الصور</string>
+    <string name="photo_widget_fixed">صورة ثابتة</string>
+    <string name="photo_widget_choose">اختيار صورة</string>
+    <string name="photo_widget_unavailable">تعذّر تحميل صورة من هذا المصدر</string>
+    <string name="photo_widget_fit">الصورة كاملة</string>
 </resources>

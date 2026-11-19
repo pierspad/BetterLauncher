@@ -391,4 +391,9 @@ Kaldırmak için ≤ 2 olmalıdır</string>
     <string name="wallpaper_fit_image">Kenarlıklı tam fotoğraf</string>
     <string name="edit_group_apps">Grup uygulamalarını düzenle</string>
     <string name="wallpaper_choose_folder">Klasör seç</string>
+    <string name="photo_widget_name">Fotoğraf widget’ı</string>
+    <string name="photo_widget_fixed">Sabit fotoğraf</string>
+    <string name="photo_widget_choose">Fotoğraf seç</string>
+    <string name="photo_widget_unavailable">Bu kaynaktan fotoğraf yüklenemedi</string>
+    <string name="photo_widget_fit">Fotoğrafın tamamı</string>
 </resources><!-- Turkish -->

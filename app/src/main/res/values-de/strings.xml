@@ -391,4 +391,9 @@ Zum Entfernen muss er ≤ 2 sein</string>
     <string name="wallpaper_fit_image">Ganzes Bild mit Balken</string>
     <string name="edit_group_apps">Gruppen-Apps bearbeiten</string>
     <string name="wallpaper_choose_folder">Ordner auswählen</string>
+    <string name="photo_widget_name">Foto-Widget</string>
+    <string name="photo_widget_fixed">Festes Foto</string>
+    <string name="photo_widget_choose">Foto auswählen</string>
+    <string name="photo_widget_unavailable">Aus dieser Quelle konnte kein Foto geladen werden</string>
+    <string name="photo_widget_fit">Ganzes Foto</string>
 </resources>

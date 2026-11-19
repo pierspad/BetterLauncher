@@ -390,4 +390,9 @@
     <string name="wallpaper_fit_image">余白付きで写真全体を表示</string>
     <string name="edit_group_apps">グループ内のアプリを編集</string>
     <string name="wallpaper_choose_folder">フォルダを選択</string>
+    <string name="photo_widget_name">写真ウィジェット</string>
+    <string name="photo_widget_fixed">固定の写真</string>
+    <string name="photo_widget_choose">写真を選択</string>
+    <string name="photo_widget_unavailable">この場所から写真を読み込めませんでした</string>
+    <string name="photo_widget_fit">写真全体</string>
 </resources> <!-- Japanese -->

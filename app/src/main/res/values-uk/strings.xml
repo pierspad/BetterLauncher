@@ -391,4 +391,9 @@
     <string name="wallpaper_fit_image">Ціле фото зі смугами</string>
     <string name="edit_group_apps">Редагувати застосунки групи</string>
     <string name="wallpaper_choose_folder">Вибрати папку</string>
+    <string name="photo_widget_name">Фотовіджет</string>
+    <string name="photo_widget_fixed">Постійне фото</string>
+    <string name="photo_widget_choose">Вибрати фото</string>
+    <string name="photo_widget_unavailable">Не вдалося завантажити фото з цього джерела</string>
+    <string name="photo_widget_fit">Ціле фото</string>
 </resources><!-- Ukrainian -->

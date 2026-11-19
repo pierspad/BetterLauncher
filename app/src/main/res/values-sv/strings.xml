@@ -389,4 +389,9 @@ För att ta bort måste den vara ≤ 2</string>
     <string name="wallpaper_fit_image">Hela bilden med kanter</string>
     <string name="edit_group_apps">Redigera gruppens appar</string>
     <string name="wallpaper_choose_folder">Välj mapp</string>
+    <string name="photo_widget_name">Fotowidget</string>
+    <string name="photo_widget_fixed">Fast foto</string>
+    <string name="photo_widget_choose">Välj foto</string>
+    <string name="photo_widget_unavailable">Det gick inte att läsa in ett foto från den här källan</string>
+    <string name="photo_widget_fit">Hela fotot</string>
 </resources><!-- Swedish -->

@@ -393,4 +393,9 @@ Az eltávolításhoz ≤ 2-nek kell lennie</string>
     <string name="wallpaper_fit_image">Teljes kép sávokkal</string>
     <string name="edit_group_apps">Csoport alkalmazásainak szerkesztése</string>
     <string name="wallpaper_choose_folder">Mappa kiválasztása</string>
+    <string name="photo_widget_name">Fotówidget</string>
+    <string name="photo_widget_fixed">Állandó fotó</string>
+    <string name="photo_widget_choose">Fotó kiválasztása</string>
+    <string name="photo_widget_unavailable">Ebből a forrásból nem sikerült fotót betölteni</string>
+    <string name="photo_widget_fit">Teljes fotó</string>
 </resources><!-- Hungarian -->

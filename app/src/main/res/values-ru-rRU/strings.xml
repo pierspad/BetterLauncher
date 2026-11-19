@@ -392,4 +392,9 @@
     <string name="wallpaper_fit_image">Фото целиком с полями</string>
     <string name="edit_group_apps">Изменить приложения группы</string>
     <string name="wallpaper_choose_folder">Выбрать папку</string>
+    <string name="photo_widget_name">Фотовиджет</string>
+    <string name="photo_widget_fixed">Постоянное фото</string>
+    <string name="photo_widget_choose">Выбрать фото</string>
+    <string name="photo_widget_unavailable">Не удалось загрузить фото из этого источника</string>
+    <string name="photo_widget_fit">Фото целиком</string>
 </resources><!-- Russian -->

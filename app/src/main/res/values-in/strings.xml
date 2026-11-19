@@ -389,4 +389,9 @@ Untuk menghapus harus ≤ 2</string>
     <string name="wallpaper_fit_image">Gambar utuh dengan bilah</string>
     <string name="edit_group_apps">Edit aplikasi grup</string>
     <string name="wallpaper_choose_folder">Pilih folder</string>
+    <string name="photo_widget_name">Widget foto</string>
+    <string name="photo_widget_fixed">Foto tetap</string>
+    <string name="photo_widget_choose">Pilih foto</string>
+    <string name="photo_widget_unavailable">Tidak dapat memuat foto dari sumber ini</string>
+    <string name="photo_widget_fit">Foto utuh</string>
 </resources><!-- Indonesian -->

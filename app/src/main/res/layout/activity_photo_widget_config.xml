@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/photoConfigRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dialogSurface"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        style="@style/TextSectionTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:shadowRadius="0"
+        android:text="@string/photo_widget_name" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="12dp">
+
+            <TextView
+                style="@style/TextSmallBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/wallpaper_frequency" />
+
+            <RadioGroup
+                android:id="@+id/photoConfigFrequency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/photoConfigFixed"
+                    style="@style/WallpaperOption"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="2dp"
+                    android:text="@string/photo_widget_fixed" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/photoConfigOnce"
+                    style="@style/WallpaperOption"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="2dp"
+                    android:text="@string/wallpaper_once_daily" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/photoConfigTwice"
+                    style="@style/WallpaperOption"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="2dp"
+                    android:text="@string/wallpaper_morning_evening" />
+            </RadioGroup>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/photoConfigSource"
+                style="@style/DialogSecondaryAction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rounded_settings_search" />
+
+            <LinearLayout
+                android:id="@+id/photoConfigTimes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/photoConfigMorning"
+                    style="@style/DialogSecondaryAction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/photoConfigEvening"
+                    style="@style/DialogSecondaryAction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/TextSmallBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/wallpaper_image_layout" />
+
+            <RadioGroup
+                android:id="@+id/photoConfigLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/photoConfigFit"
+                    style="@style/WallpaperOption"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="2dp"
+                    android:text="@string/photo_widget_fit" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/photoConfigCrop"
+                    style="@style/WallpaperOption"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="2dp"
+                    android:text="@string/wallpaper_fill_image" />
+            </RadioGroup>
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/photoConfigSave"
+        style="@style/DialogPrimaryAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/photoConfigCancel"
+        style="@style/DialogSecondaryAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@android:string/cancel" />
+</LinearLayout>

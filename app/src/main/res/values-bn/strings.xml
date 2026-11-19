@@ -375,4 +375,9 @@
     <string name="wallpaper_fit_image">বর্ডারসহ পুরো ছবি</string>
     <string name="edit_group_apps">গ্রুপের অ্যাপ সম্পাদনা করুন</string>
     <string name="wallpaper_choose_folder">ফোল্ডার বেছে নিন</string>
+    <string name="photo_widget_name">ছবির উইজেট</string>
+    <string name="photo_widget_fixed">স্থির ছবি</string>
+    <string name="photo_widget_choose">ছবি বেছে নিন</string>
+    <string name="photo_widget_unavailable">এই উৎস থেকে ছবি লোড করা যায়নি</string>
+    <string name="photo_widget_fit">পুরো ছবি</string>
 </resources>

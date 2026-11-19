@@ -420,4 +420,9 @@ Non è possibile nascondere le scorciatoie bloccate</string>
     <string name="wallpaper_fit_image">Foto intera con bande</string>
     <string name="edit_group_apps">Modifica app del gruppo</string>
     <string name="wallpaper_choose_folder">Scegli cartella</string>
+    <string name="photo_widget_name">Widget foto</string>
+    <string name="photo_widget_fixed">Foto fissa</string>
+    <string name="photo_widget_choose">Scegli foto</string>
+    <string name="photo_widget_unavailable">Impossibile caricare una foto da questa sorgente</string>
+    <string name="photo_widget_fit">Foto intera</string>
 </resources><!-- Italian -->

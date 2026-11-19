@@ -457,4 +457,9 @@ Hiding pinned shortcuts is not allowed</string>
     <string name="wallpaper_fit_image">Full image with borders</string>
     <string name="edit_group_apps">Edit group apps</string>
     <string name="wallpaper_choose_folder">Choose folder</string>
+    <string name="photo_widget_name">Photo widget</string>
+    <string name="photo_widget_fixed">Still photo</string>
+    <string name="photo_widget_choose">Choose photo</string>
+    <string name="photo_widget_unavailable">Could not load a photo from this source</string>
+    <string name="photo_widget_fit">Full photo</string>
 </resources>

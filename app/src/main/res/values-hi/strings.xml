@@ -377,4 +377,9 @@
     <string name="wallpaper_fit_image">पट्टियों के साथ पूरी फ़ोटो</string>
     <string name="edit_group_apps">समूह के ऐप बदलें</string>
     <string name="wallpaper_choose_folder">फ़ोल्डर चुनें</string>
+    <string name="photo_widget_name">फ़ोटो विजेट</string>
+    <string name="photo_widget_fixed">स्थिर फ़ोटो</string>
+    <string name="photo_widget_choose">फ़ोटो चुनें</string>
+    <string name="photo_widget_unavailable">इस स्रोत से फ़ोटो लोड नहीं हो सकी</string>
+    <string name="photo_widget_fit">पूरी फ़ोटो</string>
 </resources>

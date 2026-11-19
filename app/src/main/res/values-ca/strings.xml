@@ -416,4 +416,9 @@ No es permet amagar dreceres fixades</string>
     <string name="wallpaper_fit_image">Imatge sencera amb bandes</string>
     <string name="edit_group_apps">Edita les apps del grup</string>
     <string name="wallpaper_choose_folder">Tria una carpeta</string>
+    <string name="photo_widget_name">Giny de fotos</string>
+    <string name="photo_widget_fixed">Foto fixa</string>
+    <string name="photo_widget_choose">Tria una foto</string>
+    <string name="photo_widget_unavailable">No s’ha pogut carregar cap foto d’aquesta font</string>
+    <string name="photo_widget_fit">Foto sencera</string>
 </resources>

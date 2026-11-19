@@ -390,4 +390,9 @@ Za uklanjanje mora biti ≤ 2</string>
     <string name="wallpaper_fit_image">Cijela slika s trakama</string>
     <string name="edit_group_apps">Uredi aplikacije grupe</string>
     <string name="wallpaper_choose_folder">Odaberi mapu</string>
+    <string name="photo_widget_name">Widget za fotografije</string>
+    <string name="photo_widget_fixed">Stalna fotografija</string>
+    <string name="photo_widget_choose">Odaberi fotografiju</string>
+    <string name="photo_widget_unavailable">Nije moguće učitati fotografiju iz ovog izvora</string>
+    <string name="photo_widget_fit">Cijela fotografija</string>
 </resources><!-- Croatian -->

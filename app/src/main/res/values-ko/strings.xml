@@ -375,4 +375,9 @@
     <string name="wallpaper_fit_image">여백과 함께 전체 사진 표시</string>
     <string name="edit_group_apps">그룹 앱 편집</string>
     <string name="wallpaper_choose_folder">폴더 선택</string>
+    <string name="photo_widget_name">사진 위젯</string>
+    <string name="photo_widget_fixed">고정 사진</string>
+    <string name="photo_widget_choose">사진 선택</string>
+    <string name="photo_widget_unavailable">이 위치에서 사진을 불러올 수 없습니다</string>
+    <string name="photo_widget_fit">사진 전체</string>
 </resources>

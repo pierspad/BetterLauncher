@@ -390,4 +390,9 @@ Para remover, deve ser ≤ 2</string>
     <string name="wallpaper_fit_image">Foto inteira com faixas</string>
     <string name="edit_group_apps">Editar apps do grupo</string>
     <string name="wallpaper_choose_folder">Escolher pasta</string>
+    <string name="photo_widget_name">Widget de fotos</string>
+    <string name="photo_widget_fixed">Foto fixa</string>
+    <string name="photo_widget_choose">Escolher foto</string>
+    <string name="photo_widget_unavailable">Não foi possível carregar uma foto desta origem</string>
+    <string name="photo_widget_fit">Foto inteira</string>
 </resources><!-- Portuguese -->

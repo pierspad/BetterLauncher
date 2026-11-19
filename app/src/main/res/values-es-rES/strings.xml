@@ -391,4 +391,9 @@ Para eliminarlo debe ser ≤ 2</string>
     <string name="wallpaper_fit_image">Foto completa con bandas</string>
     <string name="edit_group_apps">Editar apps del grupo</string>
     <string name="wallpaper_choose_folder">Elegir carpeta</string>
+    <string name="photo_widget_name">Widget de fotos</string>
+    <string name="photo_widget_fixed">Foto fija</string>
+    <string name="photo_widget_choose">Elegir foto</string>
+    <string name="photo_widget_unavailable">No se pudo cargar una foto de esta fuente</string>
+    <string name="photo_widget_fit">Foto completa</string>
 </resources><!-- Spanish -->

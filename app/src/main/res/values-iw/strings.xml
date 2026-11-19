@@ -383,4 +383,9 @@
     <string name="wallpaper_fit_image">תמונה מלאה עם שוליים</string>
     <string name="edit_group_apps">עריכת אפליקציות בקבוצה</string>
     <string name="wallpaper_choose_folder">בחירת תיקייה</string>
+    <string name="photo_widget_name">וידג׳ט תמונה</string>
+    <string name="photo_widget_fixed">תמונה קבועה</string>
+    <string name="photo_widget_choose">בחירת תמונה</string>
+    <string name="photo_widget_unavailable">לא ניתן לטעון תמונה ממקור זה</string>
+    <string name="photo_widget_fit">תמונה מלאה</string>
 </resources>

@@ -390,4 +390,9 @@ Om te verwijderen moet dit ≤ 2 zijn</string>
     <string name="wallpaper_fit_image">Hele foto met balken</string>
     <string name="edit_group_apps">Groepsapps bewerken</string>
     <string name="wallpaper_choose_folder">Map kiezen</string>
+    <string name="photo_widget_name">Fotowidget</string>
+    <string name="photo_widget_fixed">Vaste foto</string>
+    <string name="photo_widget_choose">Foto kiezen</string>
+    <string name="photo_widget_unavailable">Kon geen foto uit deze bron laden</string>
+    <string name="photo_widget_fit">Hele foto</string>
 </resources><!-- Dutch -->

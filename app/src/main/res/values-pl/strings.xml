@@ -389,4 +389,9 @@ Aby go usunąć, musi wynosić ≤ 2</string>
     <string name="wallpaper_fit_image">Całe zdjęcie z pasami</string>
     <string name="edit_group_apps">Edytuj aplikacje grupy</string>
     <string name="wallpaper_choose_folder">Wybierz folder</string>
+    <string name="photo_widget_name">Widżet zdjęć</string>
+    <string name="photo_widget_fixed">Stałe zdjęcie</string>
+    <string name="photo_widget_choose">Wybierz zdjęcie</string>
+    <string name="photo_widget_unavailable">Nie udało się wczytać zdjęcia z tego źródła</string>
+    <string name="photo_widget_fit">Całe zdjęcie</string>
 </resources><!-- Polish -->
