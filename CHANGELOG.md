@@ -1,3 +1,9 @@
+## [1.10.0](https://github.com/pierspad/BetterLauncher/compare/v1.9.0...v1.10.0) (2026-11-19)
+
+### Features
+
+* expand the home shortcut icon picker ([b741a4c](https://github.com/pierspad/BetterLauncher/commit/b741a4cc40e8ac93fde09c6645d47c84ac4d662d))
+
 ## [1.9.0](https://github.com/pierspad/BetterLauncher/compare/v1.8.0...v1.9.0) (2026-11-19)
 
 ### Features
