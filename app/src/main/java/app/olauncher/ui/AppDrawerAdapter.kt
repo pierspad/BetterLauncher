@@ -7,6 +7,8 @@ import android.os.UserHandle
 import android.graphics.Typeface
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -15,6 +17,7 @@ import android.text.style.LeadingMarginSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -46,6 +49,14 @@ import app.olauncher.helper.isSystemApp
 import app.olauncher.helper.showToast
 import app.olauncher.helper.showKeyboard
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 class AppDrawerAdapter(
     private var flag: Int,
     private val appLabelGravity: Int,
@@ -74,6 +85,9 @@ class AppDrawerAdapter(
 ) : ListAdapter<AppModel, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
+        @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+        private val iconDispatcher = Dispatchers.IO.limitedParallelism(2)
+
         const val VIEW_TYPE_APP = 0
         const val VIEW_TYPE_PRIVATE_HEADER = 1
         const val VIEW_TYPE_FOLDER_HEADER = 2
@@ -111,6 +125,18 @@ class AppDrawerAdapter(
             override fun areContentsTheSame(oldItem: AppModel, newItem: AppModel): Boolean =
                 oldItem == newItem
         }
+    }
+
+    private val iconScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        (holder as? ViewHolder)?.cancelIconLoad()
+        super.onViewRecycled(holder)
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        iconScope.coroutineContext.cancelChildren()
+        super.onDetachedFromRecyclerView(recyclerView)
     }
 
     private var autoLaunch = true
@@ -174,14 +200,18 @@ class AppDrawerAdapter(
         applyFilter(lastQuery)
     }
 
-    fun groupTreeDecoration(): RecyclerView.ItemDecoration = object : RecyclerView.ItemDecoration() {
-        private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    fun groupTreeDecoration(context: Context): RecyclerView.ItemDecoration = object : RecyclerView.ItemDecoration() {
+        private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = context.getColorFromAttr(R.attr.cardStrokeColor)
+            strokeWidth = 1.dpToPx().toFloat()
+        }
+        private val trunkInset = 36.dpToPx()
+        private val branchWidth = 12.dpToPx()
+        private val headerOffset = 15.dpToPx()
 
         override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-            paint.color = parent.context.getColorFromAttr(R.attr.cardStrokeColor)
-            paint.strokeWidth = 1.dpToPx().toFloat()
-            val trunkInset = 36.dpToPx()
-            val branchWidth = 12.dpToPx()
+            val groups = currentList.firstOrNull() as? AppModel.GroupsSection ?: return
+            if (groups.collapsed) return
             for (index in 0 until parent.childCount) {
                 val row = parent.getChildAt(index)
                 val position = parent.getChildAdapterPosition(row)
@@ -196,7 +226,7 @@ class AppDrawerAdapter(
                         // The 24dp folder icon is vertically centered in the header.
                         val next = currentList.getOrNull(position + 1) as? AppModel.App
                         if (next?.drawerGroupId == item.folderId) {
-                            canvas.drawLine(trunk, middle + 15.dpToPx(), trunk, bottom, paint)
+                            canvas.drawLine(trunk, middle + headerOffset, trunk, bottom, paint)
                         }
                     }
                     is AppModel.App -> {
@@ -536,6 +566,67 @@ class AppDrawerAdapter(
         private var renameWatcher: TextWatcher? = null
         private val prefs = Prefs(binding.root.context)
 
+        private var iconJob: Job? = null
+        private val iconPlaceholder = Color.TRANSPARENT.toDrawable()
+
+        init {
+            with(binding) {
+                // Use identical icon bounds: source vectors mix 22dp and 24dp sizes.
+                val actionIconSize = (24 * root.resources.displayMetrics.density).toInt()
+                listOf(appDelete, appRename, appAddToHome, appFolder, appHide, appInfo, appMenuClose).forEach { action ->
+                    val top = action.compoundDrawablesRelative[1]
+                    top?.setBounds(0, 0, actionIconSize, actionIconSize)
+                    action.setCompoundDrawablesRelative(null, top, null, null)
+                }
+            }
+        }
+
+        fun cancelIconLoad() {
+            iconJob?.cancel()
+            iconJob = null
+        }
+
+        private fun bindIcon(appModel: AppModel) {
+            cancelIconLoad()
+            val title = binding.appTitle
+            fun showIcon(icon: Drawable?) {
+                val size = (title.textSize * 1.2f).toInt()
+                icon?.setBounds(0, 0, size, size)
+                title.setCompoundDrawables(icon, null, null, null)
+                title.compoundDrawablePadding = if (icon == null) 0 else 8.dpToPx()
+            }
+
+            if (!prefs.showDrawerIcons) {
+                showIcon(null)
+                return
+            }
+            if (appModel !is AppModel.App && appModel !is AppModel.PinnedShortcut) {
+                showIcon(IconManager.getModelIcon(title.context, appModel, title.currentTextColor))
+                return
+            }
+            if (appModel.appPackage.isEmpty()) {
+                showIcon(null)
+                return
+            }
+
+            val context = title.context.applicationContext
+            val tint = title.currentTextColor
+            val cached = IconManager.cachedModelIcon(context, appModel, tint, prefs.useColorfulIcons)
+            if (cached != null) {
+                showIcon(cached)
+                return
+            }
+
+            // Reserve the final text width while the package icon is decoded.
+            showIcon(iconPlaceholder)
+            iconJob = iconScope.launch {
+                val icon = withContext(iconDispatcher) {
+                    runCatching { IconManager.getModelIcon(context, appModel, tint) }.getOrNull()
+                }
+                showIcon(icon)
+            }
+        }
+
         fun bind(
             flag: Int,
             appLabelGravity: Int,
@@ -552,13 +643,6 @@ class AppDrawerAdapter(
             appRenameListener: (AppModel, String) -> Unit,
             appFolderListener: (AppModel) -> Unit,
         ) = with(binding) {
-            // Use identical icon bounds: source vectors mix 22dp and 24dp sizes.
-            val actionIconSize = (24 * root.resources.displayMetrics.density).toInt()
-            listOf(appDelete, appRename, appAddToHome, appFolder, appHide, appInfo, appMenuClose).forEach { action ->
-                val top = action.compoundDrawablesRelative[1]
-                top?.setBounds(0, 0, actionIconSize, actionIconSize)
-                action.setCompoundDrawablesRelative(null, top, null, null)
-            }
             appHideLayout.visibility = View.GONE
             renameLayout.visibility = View.GONE
             appTitle.visibility = View.VISIBLE
@@ -596,10 +680,10 @@ class AppDrawerAdapter(
 
             if (appModel.isNew) builder.append(" ✦")
 
-            val showLock = isAppLocked(appModel) &&
-                (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_LOCKED_APPS)
-            val showLimit = isAppLimited(appModel) &&
-                (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_LIMITED_APPS)
+            val showLock = (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_LOCKED_APPS) &&
+                isAppLocked(appModel)
+            val showLimit = (flag == Constants.FLAG_LAUNCH_APP || flag == Constants.FLAG_LIMITED_APPS) &&
+                isAppLimited(appModel)
 
             if (showLock) {
                 builder.append("  ")
@@ -655,19 +739,7 @@ class AppDrawerAdapter(
             appTitle.text = builder
             appTitle.gravity = appLabelGravity
 
-            if (prefs.showDrawerIcons) {
-                val icon = IconManager.getModelIcon(appTitle.context, appModel, appTitle.currentTextColor)
-                if (icon != null) {
-                    val iconSize = (appTitle.textSize * 1.2).toInt()
-                    icon.setBounds(0, 0, iconSize, iconSize)
-                    appTitle.setCompoundDrawables(icon, null, null, null)
-                    appTitle.compoundDrawablePadding = (8 * appTitle.context.resources.displayMetrics.density).toInt()
-                } else {
-                    appTitle.setCompoundDrawables(null, null, null, null)
-                }
-            } else {
-                appTitle.setCompoundDrawables(null, null, null, null)
-            }
+            bindIcon(appModel)
 
             otherProfileIndicator.isVisible = appModel.user != myUserHandle
 

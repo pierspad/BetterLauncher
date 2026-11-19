@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.pm.LauncherApps
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -28,18 +30,36 @@ object IconManager {
     private var initializing = false
     val ready = MutableLiveData(false)
 
-    private data class CachedIcon(val state: Drawable.ConstantState, val bytes: Int)
+    private val cacheLock = Any()
+    @Volatile
+    private var cacheGeneration = 0L
+
+    private val grayscaleFilter = ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(0f) })
+
+    private data class CachedIcon(
+        val state: Drawable.ConstantState,
+        val bytes: Int,
+        val grayscale: Boolean,
+    )
     private val iconCache = object : LruCache<String, CachedIcon>(8 * 1024 * 1024) {
         override fun sizeOf(key: String, value: CachedIcon) = value.bytes
     }
 
     private fun cached(context: Context, key: String): Drawable? =
-        iconCache.get(key)?.state?.newDrawable(context.resources)?.mutate()
+        iconCache.get(key)?.let { icon ->
+            icon.state.newDrawable(context.resources).mutate().withGrayscale(icon.grayscale)
+        }
 
-    private fun cache(key: String, drawable: Drawable) {
+    private fun Drawable.withGrayscale(enabled: Boolean): Drawable = apply {
+        if (enabled) mutate().colorFilter = grayscaleFilter
+    }
+
+    private fun cache(key: String, drawable: Drawable, generation: Long, grayscale: Boolean = false) {
         val state = drawable.constantState ?: return
         val bytes = (drawable as? BitmapDrawable)?.bitmap?.allocationByteCount ?: 32 * 1024
-        iconCache.put(key, CachedIcon(state, bytes))
+        synchronized(cacheLock) {
+            if (generation == cacheGeneration) iconCache.put(key, CachedIcon(state, bytes, grayscale))
+        }
     }
 
     val hasLawnicons: Boolean
@@ -89,8 +109,10 @@ object IconManager {
         }
     }
 
-    private fun getLawnicon(context: Context, packageName: String, activityName: String?): Drawable? {
+    private fun getLawnicon(context: Context, packageName: String): Drawable? {
         val index = appFilterIndex ?: return null
+        if (index.drawableFor(packageName, null) == null) return null
+        val activityName = context.packageManager.getLaunchIntentForPackage(packageName)?.component?.className
         val drawableName = index.drawableFor(packageName, activityName)
 
         if (drawableName != null) {
@@ -111,53 +133,56 @@ object IconManager {
         return null
     }
 
+    private fun appCacheKey(packageName: String, user: UserHandle, tint: Int?, colorful: Boolean) =
+        "$packageName|$user|$tint|$colorful|$initialized"
+
+    private fun shortcutCacheKey(packageName: String, shortcutId: String, user: UserHandle) =
+        "$packageName|shortcut|$shortcutId|$user"
+
+    internal fun cachedModelIcon(context: Context, model: AppModel, tint: Int, colorful: Boolean): Drawable? {
+        return when (model) {
+            is AppModel.App -> cached(context, appCacheKey(model.appPackage, model.user, tint, colorful))
+            is AppModel.PinnedShortcut -> cached(context, shortcutCacheKey(model.appPackage, model.shortcutId, model.user))
+                ?.withGrayscale(!colorful)
+            else -> null
+        }
+    }
+
     fun getAppIcon(context: Context, packageName: String, userHandle: UserHandle, tintColor: Int? = null): Drawable? {
         init(context)
         val colorful = Prefs(context).useColorfulIcons
-        val cacheKey = "$packageName|$userHandle|$tintColor|$colorful|$initialized"
+        val generation = cacheGeneration
+        val cacheKey = appCacheKey(packageName, userHandle, tintColor, colorful)
         cached(context, cacheKey)?.let { return it }
 
-        var drawable: Drawable? = null
-
-        // 1. Try Lawnicons first
         if (!colorful) {
-            val pm = context.packageManager
-            val launchIntent = pm.getLaunchIntentForPackage(packageName)
-            val activityName = launchIntent?.component?.className
-            val lawnicon = getLawnicon(context, packageName, activityName)
+            val lawnicon = getLawnicon(context, packageName)
             if (lawnicon != null) {
-                drawable = lawnicon
-                if (tintColor != null) {
-                    drawable.mutate().setTint(tintColor)
-                }
+                if (tintColor != null) lawnicon.mutate().setTint(tintColor)
+                cache(cacheKey, lawnicon, generation)
+                return lawnicon
             }
         }
 
-        // 2. Fallback to system icon
-        if (drawable == null) {
-            try {
-                val launcherApps = context.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
-                val activities = launcherApps.getActivityList(packageName, userHandle)
-                if (activities.isNotEmpty()) {
-                    drawable = activities[0].getIcon(0)
-                } else {
-                    drawable = context.packageManager.getApplicationIcon(packageName)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+        // Keep the fallback monochrome even when the Lawnicons index is still loading.
+        val drawable = try {
+            val launcherApps = context.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+            val activity = launcherApps.getActivityList(packageName, userHandle).firstOrNull()
+            activity?.getIcon(0) ?: context.packageManager.getApplicationIcon(packageName)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
         }
-
-        if (drawable != null) {
-            cache(cacheKey, drawable)
-        }
-        return drawable
+        cache(cacheKey, drawable, generation, grayscale = !colorful)
+        return drawable.mutate().withGrayscale(!colorful)
     }
 
     fun getShortcutIcon(context: Context, packageName: String, shortcutId: String, userHandle: UserHandle): Drawable? {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return null
-        val cacheKey = "$packageName|shortcut|$shortcutId|$userHandle"
-        cached(context, cacheKey)?.let { return it }
+        val generation = cacheGeneration
+        val cacheKey = shortcutCacheKey(packageName, shortcutId, userHandle)
+        val grayscale = !Prefs(context).useColorfulIcons
+        cached(context, cacheKey)?.let { return it.withGrayscale(grayscale) }
 
         var drawable: Drawable? = null
         try {
@@ -177,9 +202,9 @@ object IconManager {
         }
 
         if (drawable != null) {
-            cache(cacheKey, drawable)
+            cache(cacheKey, drawable, generation)
         }
-        return drawable
+        return drawable?.mutate()?.withGrayscale(grayscale)
     }
 
     fun getModelIcon(context: Context, appModel: AppModel, tintColor: Int): Drawable? {
@@ -211,7 +236,8 @@ object IconManager {
     }
 
     /** Invalidates every tint/style and pinned shortcut cached for this package/profile. */
-    fun invalidatePackage(packageName: String, userHandle: UserHandle) {
+    fun invalidatePackage(packageName: String, userHandle: UserHandle) = synchronized(cacheLock) {
+        cacheGeneration++
         val appPrefix = "$packageName|$userHandle|"
         val shortcutPrefix = "$packageName|shortcut|"
         val shortcutSuffix = "|$userHandle"
@@ -223,7 +249,8 @@ object IconManager {
         }
     }
 
-    fun clearCache() {
+    fun clearCache() = synchronized(cacheLock) {
+        cacheGeneration++
         iconCache.evictAll()
     }
 }

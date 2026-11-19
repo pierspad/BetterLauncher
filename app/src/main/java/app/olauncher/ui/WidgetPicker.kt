@@ -152,23 +152,25 @@ private class WidgetPickerAdapter(
     private val previewDispatcher = Dispatchers.IO.limitedParallelism(2)
     val isIdle = MutableStateFlow(true)
     private val renderLock = Mutex()
+    private val rowSizes = mutableMapOf<WidgetPreviewKey, RowSize>()
+    private val columnWidth = ((availableWidth?.takeIf { it > 0 } ?: 320.dpToPx()) / 4f).coerceAtLeast(1f)
+
+    private data class RowSize(val label: String, val tooLarge: Boolean)
 
     override fun getCount() = entries.size
     override fun getItem(position: Int) = entries[position]
     override fun getItemId(position: Int) = position.toLong()
 
-    fun needsMoreRoom(position: Int): Boolean = fitScale(position) < minimumFitScale(position)
+    fun needsMoreRoom(position: Int): Boolean = rowSize(getItem(position)).tooLarge
 
-    private fun minimumFitScale(position: Int): Float {
-        val info = getItem(position).info
+    private fun minimumFitScale(info: AppWidgetProviderInfo): Float {
         return if (info.resizeMode == AppWidgetProviderInfo.RESIZE_NONE &&
             info.provider.isXiaomiSelectedPhotosWidget()) 0.85f else 1f
     }
 
-    private fun fitScale(position: Int): Float {
+    private fun fitScale(entry: WidgetPickerEntry): Float {
         val width = availableWidth ?: return 1f
         val height = availableHeight ?: return 1f
-        val entry = getItem(position)
         val info = entry.info
         val padding = entry.padding
         val minimumWidth = minimumWidgetDimension(info, AppWidgetProviderInfo.RESIZE_HORIZONTAL,
@@ -177,6 +179,26 @@ private class WidgetPickerAdapter(
             info.minHeight, info.minResizeHeight) + padding.top + padding.bottom
         return minOf(1f, width.toFloat() / minimumWidth.coerceAtLeast(1),
             height.toFloat() / minimumHeight.coerceAtLeast(1))
+    }
+
+    private fun rowSize(entry: WidgetPickerEntry): RowSize = rowSizes.getOrPut(entry.key) {
+        val info = entry.info
+        val targetWidth = if (Build.VERSION.SDK_INT >= 31) info.targetCellWidth else 0
+        val targetHeight = if (Build.VERSION.SDK_INT >= 31) info.targetCellHeight else 0
+        val columns = targetWidth.takeIf { it > 0 } ?: ceil(info.minWidth / columnWidth).toInt().coerceAtLeast(1)
+        val rows = targetHeight.takeIf { it > 0 } ?: ceil(info.minHeight.toDouble() / rowHeight).toInt().coerceAtLeast(1)
+        val size = context.getString(
+            if (targetWidth > 0 && targetHeight > 0) R.string.widget_cells else R.string.widget_cells_estimated,
+            columns, rows,
+        )
+        val scale = fitScale(entry)
+        val tooLarge = scale < minimumFitScale(info)
+        val text = when {
+            tooLarge -> context.getString(R.string.widget_size_no_room, size)
+            scale < 1f -> context.getString(R.string.widget_size_scaled, size)
+            else -> size
+        }
+        RowSize(text, tooLarge)
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -188,30 +210,21 @@ private class WidgetPickerAdapter(
         val (info, label, app, key) = getItem(position)
         row.widgetLabel.text = label
         row.widgetApp.text = app
-        val targetWidth = if (Build.VERSION.SDK_INT >= 31) info.targetCellWidth else 0
-        val targetHeight = if (Build.VERSION.SDK_INT >= 31) info.targetCellHeight else 0
-        val columnWidth = ((availableWidth?.takeIf { it > 0 } ?: 320.dpToPx()) / 4f).coerceAtLeast(1f)
-        val columns = targetWidth.takeIf { it > 0 } ?: ceil(info.minWidth / columnWidth).toInt().coerceAtLeast(1)
-        val rows = targetHeight.takeIf { it > 0 } ?: ceil(info.minHeight.toDouble() / rowHeight).toInt().coerceAtLeast(1)
-        val size = context.getString(
-            if (targetWidth > 0 && targetHeight > 0) R.string.widget_cells else R.string.widget_cells_estimated,
-            columns, rows,
-        )
-        val tooLarge = needsMoreRoom(position)
-        row.root.alpha = if (tooLarge) 0.65f else 1f
-        row.widgetSize.text = when {
-            tooLarge -> context.getString(R.string.widget_size_no_room, size)
-            fitScale(position) < 1f -> context.getString(R.string.widget_size_scaled, size)
-            else -> size
-        }
+        val size = rowSize(getItem(position))
+        row.root.alpha = if (size.tooLarge) 0.65f else 1f
+        row.widgetSize.text = size.label
         val cached = state.previews[key]
         if (cached != null) {
             row.widgetPreview.setImageDrawable(cached.newDrawable(context.resources))
         } else {
             row.widgetPreview.setImageResource(R.drawable.ic_widget)
             row.root.tag = scope.launch {
-                val preview = loadPreview(info)
-                preview.constantState?.let { state.previews.put(key, it) }
+                // Skip rows that are recycled during a fling. Cached previews still bind immediately.
+                delay(40)
+                isIdle.first { it }
+                val preview = state.previews[key]?.newDrawable(context.resources) ?: loadPreview(info).also {
+                    it.constantState?.let { cachedPreview -> state.previews.put(key, cachedPreview) }
+                }
                 row.widgetPreview.setImageDrawable(preview)
             }
         }

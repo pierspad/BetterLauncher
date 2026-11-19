@@ -4,6 +4,11 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Context
 import android.content.ContextWrapper
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import androidx.core.graphics.createBitmap
 import android.os.Bundle
 import android.os.Process
 import android.util.Base64
@@ -313,11 +318,38 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
                 }
             }
             test("icon cache returns independently mutable drawables") {
-                val first = IconManager.getAppIcon(targetContext, targetContext.packageName, Process.myUserHandle())!!
-                val second = IconManager.getAppIcon(targetContext, targetContext.packageName, Process.myUserHandle())!!
+                val packageName = isolated.packageName // The debug app has no bundled Lawnicon.
+                val user = Process.myUserHandle()
+                prefs.useColorfulIcons = false
+                IconManager.invalidatePackage(packageName, user)
+                val first = checkNotNull(IconManager.getAppIcon(isolated, packageName, user))
+                val second = checkNotNull(IconManager.getAppIcon(isolated, packageName, user))
                 first.setBounds(0, 0, 10, 10)
                 second.setBounds(0, 0, 20, 20)
                 check(first !== second && first.bounds.width() == 10 && second.bounds.width() == 20)
+                fun hasColor(icon: Drawable): Boolean {
+                    val size = 96
+                    val bitmap = createBitmap(size, size, Bitmap.Config.ARGB_8888)
+                    try {
+                        icon.setBounds(0, 0, size, size)
+                        icon.draw(Canvas(bitmap))
+                        val pixels = IntArray(size * size)
+                        bitmap.getPixels(pixels, 0, size, 0, 0, size, size)
+                        return pixels.any { pixel ->
+                            Color.alpha(pixel) > 0 && (Color.red(pixel) != Color.green(pixel) ||
+                                Color.green(pixel) != Color.blue(pixel))
+                        }
+                    } finally {
+                        bitmap.recycle()
+                    }
+                }
+                check(!hasColor(first) && !hasColor(second)) {
+                    "System fallback must stay grayscale on both cache misses and hits"
+                }
+
+                prefs.useColorfulIcons = true
+                val colorful = checkNotNull(IconManager.getAppIcon(isolated, packageName, user))
+                check(hasColor(colorful)) { "Colorful mode inherited the grayscale filter" }
             }
         } catch (failure: Throwable) {
             status = Activity.RESULT_CANCELED

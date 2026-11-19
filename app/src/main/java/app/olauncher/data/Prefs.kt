@@ -136,12 +136,12 @@ class Prefs(private val context: Context) {
     // Apps protected behind biometric / device-credential.
     var lockedApps by stringSet("LOCKED_APPS")
 
-    fun isAppLocked(key: String): Boolean = key in lockedApps
+    fun isAppLocked(key: String): Boolean = prefs.getStringSet("LOCKED_APPS", null)?.contains(key) == true
 
     // ---- Soft app limit ("use it less"): progressive cooldown, no password ----
     var limitedApps by stringSet("LIMITED_APPS")
 
-    fun isAppLimited(key: String): Boolean = key in limitedApps
+    fun isAppLimited(key: String): Boolean = prefs.getStringSet("LIMITED_APPS", null)?.contains(key) == true
 
     // Master switch. When off, limited apps open freely (selection is preserved).
     var appLimitEnabled by bool("APP_LIMIT_ENABLED", true)

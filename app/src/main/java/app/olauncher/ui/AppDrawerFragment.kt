@@ -494,7 +494,7 @@ class AppDrawerFragment : Fragment() {
         binding.recyclerView.layoutManager = linearLayoutManager
         binding.recyclerView.adapter = adapter
         if (flag == Constants.FLAG_LAUNCH_APP) {
-            binding.recyclerView.addItemDecoration(adapter.groupTreeDecoration())
+            binding.recyclerView.addItemDecoration(adapter.groupTreeDecoration(requireContext()))
             attachGroupDragHelper()
         }
         binding.recyclerView.addOnScrollListener(getRecyclerViewOnScrollListener())
@@ -1039,6 +1039,7 @@ class AppDrawerFragment : Fragment() {
         groupDragHelper?.attachToRecyclerView(null)
         groupDragHelper = null
         groupDragActive = false
+        _binding?.recyclerView?.adapter = null
         try {
             searchOptionsPopup?.dismiss()
         } catch (e: Exception) {
