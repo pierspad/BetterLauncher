@@ -1,3 +1,9 @@
+## [1.9.0](https://github.com/pierspad/BetterLauncher/compare/v1.8.0...v1.9.0) (2026-11-19)
+
+### Features
+
+* add an independent Android photo widget ([818837d](https://github.com/pierspad/BetterLauncher/commit/818837d7d84f8ce73406332f8a945a8e33525d29))
+
 ## [1.8.0](https://github.com/pierspad/BetterLauncher/compare/v1.7.4...v1.8.0) (2026-11-18)
 
 ### Features
