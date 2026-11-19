@@ -1,13 +1,13 @@
 # <img src="docs/images/icon.png" alt="" height="36"> BetterLauncher
 
-[![Release](https://img.shields.io/github/v/release/pierspad/BetterLauncher)](https://github.com/pierspad/BetterLauncher/releases/latest)
+[![Release](https://img.shields.io/badge/GitHub-Download%20APK-24292f?logo=github)](https://github.com/pierspad/BetterLauncher/releases/latest)
 [![CI](https://github.com/pierspad/BetterLauncher/actions/workflows/release.yml/badge.svg)](https://github.com/pierspad/BetterLauncher/actions/workflows/release.yml)
 [![License](https://img.shields.io/github/license/pierspad/BetterLauncher)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-7.0%2B-3ddc84?logo=android&logoColor=white)](https://github.com/pierspad/BetterLauncher/releases/latest)
 
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-%E2%9D%A4-ea4aaa?logo=github&style=flat)](https://github.com/sponsors/pierspad) [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-yellow?logo=buymeacoffee)](https://buymeacoffee.com/pierspad) [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-ff5e5b?logo=ko-fi)](https://ko-fi.com/pierspad)
 
-[Features](#features) · [Screenshots](#screenshots) · [Photo widget](#photo-widget) · [Install](#install) · [Search](#search) · [Gestures](#gestures-and-accessibility) · [Development](#development) · [Contributing](CONTRIBUTING.md)
+[Features](#features) · [Screenshots](#screenshots) · [Install](#install) · [Search](#search) · [Gestures](#gestures-and-accessibility) · [Development](#development) · [Contributing](CONTRIBUTING.md)
 
 An Android launcher based on [Olauncher](https://github.com/tanujnotes/olauncher), with customizable shortcuts, widgets, folders and optional tools to reduce distracting app use. Free software, without ads or premium reminders.
 
@@ -23,19 +23,7 @@ An Android launcher based on [Olauncher](https://github.com/tanujnotes/olauncher
 - Custom TrueType/OpenType fonts and an app language independent of the system.
 - Settings import/export through JSON files or clipboard.
 - Optional double tap to lock the screen.
-- Offline wallpaper rotation from folders you choose, once a day or morning and evening.
-
-## Wallpaper rotation
-
-Download images in your browser and save them in a folder such as `Pictures/Wallpapers`. In BetterLauncher, open **Settings → Appearance → Wallpaper rotation** and select the main folder. Enable automatic rotation and pick a frequency. If you choose twice a day, set when the morning and evening phases begin and optionally choose a separate evening folder. BetterLauncher rotates the images stored there and has no Android Internet permission.
-
-For images sized for phones, see [Pexels Wallpapers](https://www.pexels.com/discover/wallpapers/) or [Unsplash Phone Backgrounds](https://unsplash.com/backgrounds/phone).
-
-## Photo widget
-
-Add **BetterLauncher → Photo widget** from your launcher's widget picker. In BetterLauncher, you can find it under **Settings → Choose widget**.
-
-Choose a single photo or a folder that rotates once or twice a day. With two changes, set the morning and evening times. Tap the photo to edit its configuration. The widget can run alongside system wallpaper rotation and works offline.
+- Offline wallpaper rotation from folders you choose, once or twice a day.
 
 ## Screenshots
 
