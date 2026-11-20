@@ -1,32 +1,19 @@
 package app.olauncher.ui
 
-import android.app.WallpaperColors
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
-import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.graphics.ColorUtils
 import app.olauncher.R
 
-/** Home sits on wallpaper, so its foreground must follow the wallpaper plus the chosen scrim. */
+/** Keeps themed Home labels and icons legible over wallpaper as the scrim fades. */
 internal object HomeWallpaperContrast {
     const val TEXT_SHADOW_RADIUS_DP = 2f
-    @RequiresApi(Build.VERSION_CODES.O_MR1)
-    fun samples(colors: WallpaperColors?): List<Int> =
-        listOfNotNull(colors?.primaryColor, colors?.secondaryColor, colors?.tertiaryColor).map { it.toArgb() }
-
-    fun foreground(samples: List<Int>, scrim: Int, fallback: Int): Int {
-        if (samples.isEmpty()) return fallback
-        val backgrounds = samples.map { ColorUtils.compositeColors(scrim, ColorUtils.setAlphaComponent(it, 255)) }
-        fun worstContrast(color: Int) = backgrounds.minOf { ColorUtils.calculateContrast(color, it) }
-        return if (worstContrast(Color.BLACK) >= worstContrast(Color.WHITE)) Color.BLACK else Color.WHITE
-    }
 
     fun protectionColor(scrim: Int, foreground: Int, enabled: Boolean): Int {
         if (!enabled) return Color.TRANSPARENT

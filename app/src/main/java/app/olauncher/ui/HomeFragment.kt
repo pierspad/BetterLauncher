@@ -87,33 +87,6 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private var wallpaperSamples = emptyList<Int>()
-    private var wallpaperListener: android.app.WallpaperManager.OnColorsChangedListener? = null
-
-    override fun onStart() {
-        super.onStart()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            val manager = android.app.WallpaperManager.getInstance(requireContext())
-            fun update(colors: android.app.WallpaperColors?) {
-                wallpaperSamples = HomeWallpaperContrast.samples(colors)
-                if (_binding != null) populateHomeScreen(false)
-            }
-            update(runCatching { manager.getWallpaperColors(android.app.WallpaperManager.FLAG_SYSTEM) }.getOrNull())
-            val listener = android.app.WallpaperManager.OnColorsChangedListener { colors, which ->
-                if (which and android.app.WallpaperManager.FLAG_SYSTEM != 0) update(colors)
-            }
-            manager.addOnColorsChangedListener(listener, android.os.Handler(android.os.Looper.getMainLooper()))
-            wallpaperListener = listener
-        }
-    }
-
-    override fun onStop() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            wallpaperListener?.let { android.app.WallpaperManager.getInstance(requireContext()).removeOnColorsChangedListener(it) }
-            wallpaperListener = null
-        }
-        super.onStop()
-    }
 
     // ---- Reorder mode ----
     private var reorderMode = false
@@ -430,9 +403,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     private fun populateHomeScreen(appCountUpdated: Boolean) {
         val context = requireContext()
         val scrim = context.scrimColor((prefs.opacityHome * 255).toInt())
-        val foreground = HomeWallpaperContrast.foreground(
-            wallpaperSamples, scrim, context.getColorFromAttr(R.attr.primaryColor)
-        )
+        val foreground = context.getColorFromAttr(R.attr.primaryColor)
         if (appCountUpdated) hideHomeApps()
         populateDateTime()
         populateShortcutIcons()

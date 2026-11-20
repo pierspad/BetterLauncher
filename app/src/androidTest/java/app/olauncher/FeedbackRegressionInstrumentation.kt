@@ -89,7 +89,9 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
                 for ((key, type, value) in invalidEntries) {
                     val invalid = JSONObject(valid).put(key, JSONObject().put("t", type).put("v", value))
                     check(!prefs.importFromJson(invalid.toString())) { "Accepted $key/$type/$value" }
-                    check(JSONObject(prefs.exportToJson()).toString() == JSONObject(valid).toString())
+                    val exported = JSONObject(prefs.exportToJson()).apply { remove("BACKUP_FORMAT_VERSION") }
+                    val expected = JSONObject(valid).apply { remove("BACKUP_FORMAT_VERSION") }
+                    check(exported.toString() == expected.toString())
                 }
             }
             test("invalid fonts leave preferences and the original file intact") {
@@ -116,7 +118,13 @@ class FeedbackRegressionInstrumentation : Instrumentation() {
             test("legacy backup, dynamic keys and valid round trip") {
                 prefs.setAppRenameLabel("arbitrary-shortcut-id", "My shortcut")
                 prefs.setHomeApp(1, "Clock", "com.android.deskclock", Process.myUserHandle().toString(), "", false, "")
-                val legacy = JSONObject(prefs.exportToJson()).apply { remove("BACKUP_FORMAT_VERSION") }.toString()
+                val exported = JSONObject(prefs.exportToJson())
+                val source = exported.getJSONObject("BACKUP_FORMAT_VERSION").getJSONObject("source")
+                check(source.getString("appVersionName") == BuildConfig.VERSION_NAME)
+                check(source.getInt("appVersionCode") == BuildConfig.VERSION_CODE)
+                check(source.getInt("androidSdk") == android.os.Build.VERSION.SDK_INT)
+                check(prefs.importFromJson(exported.toString()))
+                val legacy = exported.apply { remove("BACKUP_FORMAT_VERSION") }.toString()
                 prefs.textSizeScale = 1f
                 check(prefs.importFromJson(legacy))
                 check(prefs.textSizeScale == 1.5f)

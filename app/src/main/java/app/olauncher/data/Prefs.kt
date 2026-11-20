@@ -1,12 +1,14 @@
 package app.olauncher.data
 
-import app.olauncher.helper.WallpaperPeriod
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.util.Base64
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
+import app.olauncher.BuildConfig
+import app.olauncher.helper.WallpaperPeriod
 import java.io.File
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -493,7 +495,17 @@ class Prefs(private val context: Context) {
 
     /** Serializes every stored preference (with its type) to a JSON string. */
     fun exportToJson(): String {
-        val root = JSONObject().put("BACKUP_FORMAT_VERSION", JSONObject().put("t", "i").put("v", 1))
+        // Format 1 readers already ignore extra fields on the version entry.
+        val source = JSONObject()
+            .put("appVersionName", BuildConfig.VERSION_NAME)
+            .put("appVersionCode", BuildConfig.VERSION_CODE)
+            .put("buildType", BuildConfig.BUILD_TYPE)
+            .put("androidSdk", Build.VERSION.SDK_INT)
+            .put("manufacturer", Build.MANUFACTURER)
+            .put("model", Build.MODEL)
+            .put("exportedAtEpochMillis", System.currentTimeMillis())
+        val format = JSONObject().put("t", "i").put("v", 1).put("source", source)
+        val root = JSONObject().put("BACKUP_FORMAT_VERSION", format)
         for ((key, value) in prefs.all) {
             val entry = JSONObject()
             when (value) {

@@ -14,6 +14,7 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 import app.olauncher.ui.HomeWallpaperContrast
+import app.olauncher.helper.getColorFromAttr
 import app.olauncher.helper.scrimColor
 import app.olauncher.helper.themedSurfaceOpacity
 import app.olauncher.ui.SettingsInsets
@@ -46,21 +47,17 @@ fun runWallpaperAndInsetsRegression(context: Context) {
         val home = LayoutInflater.from(themed).inflate(R.layout.fragment_home, null)
         val reorder = home.findViewById<TextView>(R.id.reorderDone)
         val reorderColor = reorder.currentTextColor
-        for (background in listOf(Color.BLACK, Color.WHITE, Color.GRAY)) {
-            for (opacity in listOf(0, 13, 128, 255)) {
-                val channel = if (night) 0 else 255
-                val scrim = Color.argb(opacity, channel, channel, channel)
-                val color = HomeWallpaperContrast.foreground(listOf(background), scrim, Color.MAGENTA)
-                val composite = ColorUtils.compositeColors(scrim, background)
-                check(ColorUtils.calculateContrast(color, composite) >= 4.5) {
-                    "Unreadable home foreground: night=$night background=$background opacity=$opacity"
-                }
-                HomeWallpaperContrast.apply(home, color, scrim, true)
-                check(home.findViewById<TextView>(R.id.clock).currentTextColor == color)
-                check(home.findViewById<TextView>(R.id.homeApp1).hintTextColors.defaultColor == ColorUtils.setAlphaComponent(color, 204))
-                check(home.findViewById<ImageView>(R.id.ivShortcut1).imageTintList!!.defaultColor == color)
-                check(reorder.currentTextColor == reorderColor) { "Do not recolor an opaque themed button" }
-            }
+        val color = themed.getColorFromAttr(R.attr.primaryColor)
+        check(color == themedForeground)
+        // Leave Home fully transparent again after cycling the opacity slider.
+        for (opacity in listOf(0, 128, 255, 0)) {
+            val scrim = themed.scrimColor(opacity)
+            HomeWallpaperContrast.apply(home, color, scrim, true)
+            check(home.findViewById<TextView>(R.id.clock).currentTextColor == color)
+            check(home.findViewById<TextView>(R.id.homeApp1).currentTextColor == color)
+            check(home.findViewById<TextView>(R.id.homeApp1).hintTextColors.defaultColor == ColorUtils.setAlphaComponent(color, 204))
+            check(home.findViewById<ImageView>(R.id.ivShortcut1).imageTintList!!.defaultColor == color)
+            check(reorder.currentTextColor == reorderColor) { "Do not recolor an opaque themed button" }
         }
         val clock = home.findViewById<TextView>(R.id.clock)
         val label = home.findViewById<TextView>(R.id.homeApp1)
@@ -72,7 +69,6 @@ fun runWallpaperAndInsetsRegression(context: Context) {
         check(Color.alpha(clock.shadowColor) == 0 && Color.alpha(label.shadowColor) == 0)
         check(shortcut.background == null && shortcut.foreground != null)
         check(clock.currentTextColor == themedForeground)
-        check(HomeWallpaperContrast.foreground(emptyList(), Color.TRANSPARENT, Color.MAGENTA) == Color.MAGENTA)
     }
     for (landscape in listOf(false, true)) {
         val configuration = Configuration(context.resources.configuration).apply {

@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.app.TimePickerDialog
-import android.app.WallpaperManager
 import android.app.admin.DevicePolicyManager
 import android.appwidget.AppWidgetHost
 import android.appwidget.AppWidgetManager
@@ -934,21 +933,12 @@ class SettingsFragment : Fragment(), View.OnClickListener, View.OnLongClickListe
         binding.wallpaperHole.attachTo(binding.opacityPreview, 16.dpToPx().toFloat(), binding.scrollView)
 
         val context = requireContext()
-        val wallpaperSamples = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            val manager = WallpaperManager.getInstance(context)
-            HomeWallpaperContrast.samples(runCatching { manager.getWallpaperColors(WallpaperManager.FLAG_SYSTEM) }.getOrNull())
-        } else {
-            emptyList()
-        }
         fun updatePreview(progress: Int, label: Int) {
             val isHome = label == R.string.opacity_home
             val opacity = progress.toFloat() / OPACITY_STEPS
             val effectiveOpacity = if (isHome) opacity else context.themedSurfaceOpacity(opacity)
             val scrim = context.scrimColor((effectiveOpacity * 255).toInt())
-            val themeForeground = context.getColorFromAttr(R.attr.primaryColor)
-            val foreground = if (isHome) {
-                HomeWallpaperContrast.foreground(wallpaperSamples, scrim, themeForeground)
-            } else themeForeground
+            val foreground = context.getColorFromAttr(R.attr.primaryColor)
             binding.wallpaperHole.setPreviewColors(scrim, foreground, isHome && prefs.homeContrastProtection)
             val percent = java.text.NumberFormat.getPercentInstance().format(effectiveOpacity.toDouble())
             binding.opacityPreviewCaption.text = getString(R.string.opacity_preview_caption, getString(label), percent)
