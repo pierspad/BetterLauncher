@@ -1,3 +1,9 @@
+## [1.10.2](https://github.com/pierspad/BetterLauncher/compare/v1.10.1...v1.10.2) (2026-11-20)
+
+### Bug Fixes
+
+* keep Home text readable across wallpaper changes ([127fa6e](https://github.com/pierspad/BetterLauncher/commit/127fa6efafa4bb5b0d3f9e4d1a45a16a755251aa))
+
 ## [1.10.1](https://github.com/pierspad/BetterLauncher/compare/v1.10.0...v1.10.1) (2026-11-19)
 
 ### Bug Fixes
