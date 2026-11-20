@@ -1,5 +1,8 @@
 # <img src="docs/images/icon.png" alt="" height="36"> BetterLauncher
 
+[![Get it on Google Play](https://img.shields.io/badge/Google%20Play-Install-01875f?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=com.pierspad.betterlauncher)
+[![Get it on F-Droid](https://img.shields.io/badge/F--Droid-Install-1976d2?logo=fdroid&logoColor=white)](https://f-droid.org/packages/com.pierspad.betterlauncher/)
+
 [![Release](https://img.shields.io/badge/GitHub-Download%20APK-24292f?logo=github)](https://github.com/pierspad/BetterLauncher/releases/latest)
 [![CI](https://github.com/pierspad/BetterLauncher/actions/workflows/release.yml/badge.svg)](https://github.com/pierspad/BetterLauncher/actions/workflows/release.yml)
 [![License](https://img.shields.io/github/license/pierspad/BetterLauncher)](LICENSE)
