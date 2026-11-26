@@ -506,7 +506,9 @@ class MainActivity : AppCompatActivity() {
             isAppearanceLightNavigationBars = lightSurface
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            window.isNavigationBarContrastEnforced = isHome
+            // Keep the wallpaper visible behind three-button navigation as well.
+            // System-bar insets still reserve space for the navigation controls.
+            window.isNavigationBarContrastEnforced = false
         }
         android.util.Log.d("BetterLauncher", "updateGlobalOpacityScrim: dest=$destinationId, opacity=$opacity, current=$currentOpacity, animate=$animate")
 

@@ -105,7 +105,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginHorizontal="74dp"
         android:visibility="gone" />
 
     <!-- Home apps-->

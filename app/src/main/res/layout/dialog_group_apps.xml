@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rounded_dialog_surface"
@@ -21,13 +22,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:background="@drawable/group_name_field"
+        android:drawablePadding="12dp"
         android:hint="@string/search"
         android:inputType="text"
         android:minHeight="48dp"
         android:paddingHorizontal="12dp"
         android:shadowRadius="0"
         android:singleLine="true"
-        android:textColorHint="?attr/primaryColorTrans80" />
+        android:textColorHint="?attr/primaryColorTrans80"
+        app:drawableStartCompat="@drawable/ic_sc_search" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/groupAppsList"

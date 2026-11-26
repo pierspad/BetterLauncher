@@ -45,7 +45,7 @@
             app:iconifiedByDefault="false"
             app:queryBackground="@null"
             app:queryHint="___"
-            app:searchIcon="@null"
+            app:searchIcon="@drawable/ic_sc_search"
             app:theme="@style/AppSearchText" />
 
         <ImageView
