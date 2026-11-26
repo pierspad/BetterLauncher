@@ -1,3 +1,9 @@
+## [1.10.3](https://github.com/pierspad/BetterLauncher/compare/v1.10.2...v1.10.3) (2026-11-26)
+
+### Bug Fixes
+
+* improve search icons and Home widget layout ([66e7f83](https://github.com/pierspad/BetterLauncher/commit/66e7f832456c65f3bcac33f11d20b8566f55da6c))
+
 ## [1.10.2](https://github.com/pierspad/BetterLauncher/compare/v1.10.1...v1.10.2) (2026-11-20)
 
 ### Bug Fixes
